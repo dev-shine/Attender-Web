@@ -38,14 +38,6 @@
 }
 
 
-.bg-default {
-  background-image: url('.././assets/backgrounds/setup-bg.jpg');
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
 .bg {
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -57,6 +49,16 @@
   min-width: 100%;
   min-height: 100%;
 }
+
+
+.bg-default {
+  background-image: url('.././assets/backgrounds/setup-bg.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 
 .bg-ss {
   background-image: url('.././assets/backgrounds/signup-success-bg.png');

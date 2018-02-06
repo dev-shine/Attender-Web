@@ -18,6 +18,7 @@ import Calendar from './venue/calendar'
 import Registration from './auth/registration'
 import Settings from './settings/index'
 
+
 class App extends Component {
   render () {
     return (

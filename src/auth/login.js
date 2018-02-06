@@ -24,10 +24,10 @@ class Login extends Component {
     super(props);
     this.state = {
       title: 'Attender',
-      email: 'jelo+5@zendcreative.com',
-      password: 'password',
+      email: '',
+      password: '',
       isLoading: false,
-      error: false,
+      error: false
     }
   }
 
@@ -76,7 +76,7 @@ class Login extends Component {
         <Row className="row-container">
           <Col sm={6} className="col-container-left" >
 
-            <div className="">
+            <div>
               <header className="app-header">
                 <Row>
                   <Col sm={2} className="align-center">
