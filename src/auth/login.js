@@ -1,12 +1,20 @@
-import React, { Component } from 'react';
-import '.././styles/style.css';
-import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
-import { push } from 'react-router-redux'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader'
+import React, { Component } from "react"
+import ".././styles/style.css"
+import {
+  Button,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock,
+  Row,
+  Col
+} from "react-bootstrap"
+import { push } from "react-router-redux"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import OverlayLoader from "react-loading-indicator-overlay/lib/OverlayLoader"
 
-import API from '.././services/api';
+import API from ".././services/api"
 
 const FieldGroup = ({ id, label, help, ...props }) => {
   return (
@@ -15,56 +23,58 @@ const FieldGroup = ({ id, label, help, ...props }) => {
       <FormControl {...props} />
       {help && <HelpBlock>{help}</HelpBlock>}
     </FormGroup>
-  );
+  )
 }
 
 class Login extends Component {
-
-  constructor (props) {
-    super(props);
+  constructor(props) {
+    super(props)
     this.state = {
-      title: 'Attender',
-      email: '',
-      password: '',
+      title: "Attender",
+      email: "",
+      password: "",
       isLoading: false,
       error: false
     }
   }
 
   onLogin = async () => {
-    this.setState({isLoading: true});
-    let response = await API.post('auth/login', {email: this.state.email, password: this.state.password});
+    this.setState({ isLoading: true })
+    let response = await API.post("auth/login", {
+      email: this.state.email,
+      password: this.state.password
+    })
     if (response.status) {
       API.setToken(response.token)
-      this.setState({isLoading: true})
+      this.setState({ isLoading: true })
       this.props.goMain()
     } else {
-      this.setState({isLoading: false, error: true, password: ''})
+      this.setState({ isLoading: false, error: true, password: "" })
     }
   }
 
-  onChangeInput = (e) => {
+  onChangeInput = e => {
     this.setState({
-      [e.target.name] : e.target.value
+      [e.target.name]: e.target.value
     })
   }
 
   renderLoader = () => (
     <div className="loader-position">
       <OverlayLoader
-              color={'#47C1DD'} // default is white
-              loader="RingLoader" // check below for more loaders
-              text=""
-              active={this.state.isLoading}
-              backgroundColor={'black'} // default is black
-              opacity=".9" // default is .9
-              />
+        color={"#47C1DD"} // default is white
+        loader="RingLoader" // check below for more loaders
+        text=""
+        active={this.state.isLoading}
+        backgroundColor={"black"} // default is black
+        opacity=".9" // default is .9
+      />
     </div>
   )
 
   renderError = () => {
     return (
-      <div className={(this.state.error) ? 'error show' : 'error'}>
+      <div className={this.state.error ? "error show" : "error"}>
         <span>Invalid Credentials</span>
       </div>
     )
@@ -74,13 +84,16 @@ class Login extends Component {
     return (
       <div>
         <Row className="row-container">
-          <Col sm={6} className="col-container-left" >
-
+          <Col sm={6} className="col-container-left">
             <div>
               <header className="app-header">
                 <Row>
                   <Col sm={2} className="align-center">
-                    <img src={require('.././assets/logo.png')} className="header-logo"/>
+                    <img
+                      alt=""
+                      src={require(".././assets/logo.png")}
+                      className="header-logo"
+                    />
                   </Col>
                   <Col>
                     <h1 className="app-title pull-left">{this.state.title}</h1>
@@ -111,59 +124,80 @@ class Login extends Component {
                         value={this.state.password}
                         onChange={this.onChangeInput}
                       />
-                      <Button className="pull-right" onClick={this.onLogin}>Login</Button>
+                      <Button className="pull-right" onClick={this.onLogin}>
+                        Login
+                      </Button>
                     </form>
                   </div>
                 </Col>
 
                 <Col smOffset={2} sm={8} className="social-container">
                   <div>
-                    <Button className="facebook-button" onClick={this.onLogin}>Login with Facebook</Button>
-                    <Button className="google-button pull-right" onClick={this.onLogin}>Sign in with Google+</Button>
+                    <Button className="facebook-button" onClick={this.onLogin}>
+                      Login with Facebook
+                    </Button>
+                    <Button
+                      className="google-button pull-right"
+                      onClick={this.onLogin}
+                    >
+                      Sign in with Google+
+                    </Button>
                   </div>
                   <div className="social-container">
-                    <h4 className="text-align"><a onClick={()=> this.props.goRegister()} >Sign up</a>{` here if you don't have an account`}</h4>
+                    <h4 className="text-align">
+                      <a onClick={() => this.props.goRegister()}>Sign up</a>
+                      {` here if you don't have an account`}
+                    </h4>
                   </div>
                 </Col>
               </Row>
             </div>
           </Col>
           <Col sm={6} className="col-container-right">
-
             <div>
               <div className="label-title-style">
                 <h1>Attender</h1>
                 <h4>Hospitality work made very simple</h4>
               </div>
-              <img src={require('.././assets/half-logo.png')} className="half-logo" />
+              <img
+                alt=""
+                src={require(".././assets/half-logo.png")}
+                className="half-logo"
+              />
 
               <div className="social-button-position">
-                <img src={require('.././assets/fb-logo.png')} className="logo-spacer"/>
-                <img src={require('.././assets/ig-logo.png')} className="logo-spacer"/>
-                <img src={require('.././assets/twitter.png')}/>
-                <h5 className="pull-right credit-style">© {(new Date()).getFullYear()} Attender Pty Ltd. Terms and Conditions | Privacy Policy</h5>
+                <img
+                  alt=""
+                  src={require(".././assets/fb-logo.png")}
+                  className="logo-spacer"
+                />
+                <img
+                  alt=""
+                  src={require(".././assets/ig-logo.png")}
+                  className="logo-spacer"
+                />
+                <img alt="" src={require(".././assets/twitter.png")} />
+                <h5 className="pull-right credit-style">
+                  © {new Date().getFullYear()} Attender Pty Ltd. Terms and
+                  Conditions | Privacy Policy
+                </h5>
               </div>
             </div>
-
           </Col>
         </Row>
         {this.state.isLoading ? this.renderLoader() : null}
       </div>
-
-    );
+    )
   }
 }
 
-const mapStateToProps = state => ({
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      goMain: () => push("/"),
+      goRegister: () => push("/register")
+    },
+    dispatch
+  )
 
-})
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  goMain: () => push('/'),
-  goRegister: () => push('/register'),
-}, dispatch)
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)
+export default connect(null, mapDispatchToProps)(Login)
