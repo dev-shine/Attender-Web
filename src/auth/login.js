@@ -144,10 +144,15 @@ class Login extends Component {
                     </Button>
                   </div>
                   <div className="social-container">
-                    <h4 className="text-align">
-                      <a onClick={() => this.props.goRegister()}>Sign up</a>
+                    <h5 className="text-align">
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => this.props.goRegister()}
+                      >
+                        Sign up
+                      </a>
                       {` here if you don't have an account`}
-                    </h4>
+                    </h5>
                   </div>
                 </Col>
               </Row>

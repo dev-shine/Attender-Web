@@ -95,14 +95,14 @@ class NavBar extends Component {
   }
 
   renderNavBar = () => {
-    let img =
-      "http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
+    let img = "http://via.placeholder.com/150x150"
     let name = this.state.profile.fullname || "Attender User"
     if (this.state.profile.isEmployer) {
       img = this.state.profile.employer.image || img
       name = this.state.profile.employer.name || name
     } else if (this.state.profile.isStaff) {
-      img = this.state.profile.staffId.avatar || img
+      const { avatar } = this.state.profile.staffId
+      img = avatar.includes("undefined") ? img : avatar
       name = this.state.profile.staffId.fullname || name
     }
     return (

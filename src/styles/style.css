@@ -1,4 +1,3 @@
-
 .right-align {
   position: absolute;
   left: 0px;
@@ -40,7 +39,7 @@
 
 .app-title {
   font-size: 40px;
-  color: #ACACAC;
+  color: #acacac;
   font-family: "Avenir Next";
 }
 
@@ -58,11 +57,11 @@
 }
 
 .col-inner-container-left {
-  margin-top: 20%;
+  margin: 20% auto 0 auto;
 }
 
 .col-container-right {
-  background-color: #5151A1;
+  background-color: #5151a1;
   height: 100%;
 }
 
@@ -76,7 +75,7 @@
   color: black;
   font-weight: 250;
   font-size: 13px;
-  font-family: 'Avenir Next'
+  font-family: "Avenir Next";
 }
 
 .form-control {
@@ -84,16 +83,16 @@
   border-bottom: 1px solid #000;
   box-shadow: none;
   border-radius: 0;
-  color: #5151A1;
-  font-family: 'Avenir Next';
+  color: #5151a1;
+  font-family: "Avenir Next";
   font-weight: 500;
   font-size: 18px;
-  padding-left: 0px
+  padding-left: 0px;
 }
 
 .form-control:focus {
   box-shadow: none;
-  border-color: #5151A1
+  border-color: #5151a1;
 }
 
 .half-logo {
@@ -111,13 +110,13 @@
 }
 
 .btn:hover {
-  background-color: #5151A1;
+  background-color: #5151a1;
   color: white;
   border-color: transparent;
 }
 
 .btn:focus {
-  background-color: #5151A1;
+  background-color: #5151a1;
   color: white;
   border-color: transparent;
   outline: 0 !important;
@@ -128,7 +127,7 @@
   left: 50px;
   bottom: 45%;
   color: white;
-  font-family: 'Avenir Next'
+  /* font-family: "Avenir Next"; */
 }
 
 .facebook-button {
@@ -136,11 +135,12 @@
   width: 40%;
   font-weight: 500;
   border-width: 0px;
-  background-color: #335BBC;
+  background-color: #335bbc;
   color: white;
 }
 
-.facebook-button:focus, .facebook-button:hover {
+.facebook-button:focus,
+.facebook-button:hover {
   background-color: #21469e !important;
   color: white !important;
 }
@@ -150,17 +150,18 @@
   width: 40%;
   font-weight: 500;
   border-width: 0px;
-  background-color: #C93A2C;
+  background-color: #c93a2c;
   color: white;
 }
 
-.google-button:focus, .google-button:hover {
+.google-button:focus,
+.google-button:hover {
   background-color: #99271d !important;
   color: white !important;
 }
 
 .social-container {
-  margin-top: 50px
+  margin: 50px auto 0 auto;
 }
 
 .social-button-position {
@@ -177,7 +178,7 @@
 .credit-style {
   color: white;
   font-size: 13px;
-  margin-right: 100px
+  margin-right: 100px;
 }
 
 .example-appear {
@@ -186,7 +187,7 @@
 
 .example-appear.example-appear-active {
   opacity: 1;
-  transition: opacity .2s ease-in;
+  transition: opacity 0.2s ease-in;
 }
 
 .loader-position {
