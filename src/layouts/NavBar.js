@@ -108,7 +108,11 @@ class NavBar extends Component {
     return (
       <div className="nav nav-default">
         <div className="nav-header">
-          <a className="nav-brand" onClick={() => this.openSideNav()}>
+          <a
+            href="javascript:void(0)"
+            className="nav-brand"
+            onClick={() => this.openSideNav()}
+          >
             <img alt="" src={require(".././assets/logo.png")} />&nbsp;&nbsp;Attender
           </a>
           <ul className="nav-menu list-inline">

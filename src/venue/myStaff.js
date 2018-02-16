@@ -36,7 +36,7 @@ class MyStaff extends Component {
         <img
           alt=""
           className="profile-thumb-md my-staff-img"
-          src="http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
+          src="http://via.placeholder.com/150x150"
         />
         <p>Staff {active}</p>
         <small>Part Time</small>

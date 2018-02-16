@@ -266,8 +266,7 @@ class ProfileSetup extends Component {
       availability = JSON.stringify(this.state.availability),
       licenses = this.state.licenses.join(),
       languages = this.state.languages.join(),
-      avatar =
-        "http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
+      avatar = "http://via.placeholder.com/150x150g"
 
     if (
       description[0] === "" &&
