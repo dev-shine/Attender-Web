@@ -33,6 +33,7 @@ class ProfileSetup extends Component {
       defaultLang: "",
       languages: [],
       description: ["", "", ""],
+      profilePicture: "https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg",
       descriptions: {
         nightowl: false,
         mixologist: false,
@@ -345,6 +346,33 @@ class ProfileSetup extends Component {
     this.setState({ step: value })
   }
 
+  onOpenUploader = event => {
+    const uploader = this.refs.uploader
+    uploader.click()
+  }
+
+  onUploadImage = event => {
+    const reader = new FileReader()
+    const imageData = event.target.files[0]
+    const uploader = this.refs.uploader
+
+    reader.onloadend = () => {
+      const imageBase64 = reader.result
+
+      this.setState({
+        profilePicture: imageBase64
+      })
+    }
+    reader.readAsDataURL(imageData)
+    uploader.value = ""
+  }
+
+  onRemovePhoto = evennt => {
+    this.setState({
+      profilePicture: "http://via.placeholder.com/150x150"
+    })
+  }
+
   // ============== //
   // RENDER METHODS //
   // ============== //
@@ -397,11 +425,18 @@ class ProfileSetup extends Component {
                 <div className="pp-holder">
                   <img
                     alt=""
-                    src="https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg"
+                    src={this.state.profilePicture}
+                    onClick={this.onOpenUploader}
+                  />
+                  <input
+                    type="file"
+                    ref="uploader"
+                    onChange={this.onUploadImage}
+                    hidden
                   />
                 </div>
                 <div className="pp-action">
-                  <a>
+                  <a href="javascript:void(0)" onClick={this.onRemovePhoto}>
                     <p>Remove Photo</p>
                   </a>
                   <div className="pp-slider">

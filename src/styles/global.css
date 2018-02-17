@@ -1363,7 +1363,6 @@ textarea {
 
 .slider {
   -webkit-appearance: none;
-  appearance: none;
   height: 2px;
   background: #cfcfcf;
   outline: none;
