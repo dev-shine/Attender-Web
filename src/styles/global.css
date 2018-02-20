@@ -1082,6 +1082,14 @@ textarea {
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.3);
 }
 
+.a-input-outline > input {
+  background-color: #fafafa;
+  outline: none;
+  border: 0px solid;
+  padding: 1em;
+  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
 .a-btn {
   background-color: #fafafa;
   outline: none;

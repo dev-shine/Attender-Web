@@ -10,6 +10,10 @@ import { connect } from "react-redux"
 import API from ".././services/api"
 import AvatarEditor from "react-avatar-editor"
 import Slider from "rc-slider"
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  geocodeByPlaceId
+} from "react-places-autocomplete"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -181,7 +185,8 @@ class ProfileSetup extends Component {
       profilePicture: "https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg",
       zoom: 1,
       hourlyValue: 0,
-      distance: 5
+      distance: 5,
+      address: ""
     }
   }
 
@@ -317,7 +322,6 @@ class ProfileSetup extends Component {
     })
 
     this.setState({ isLoading: false })
-    console.log(response)
     if (response.status) {
       this.props.goMain()
     } else {
@@ -391,6 +395,10 @@ class ProfileSetup extends Component {
 
   handleChangeDistance = event => {
     this.setState({ distance: event.target.value * 1 / 10 })
+  }
+
+  handleLocationSelect = address => {
+    this.setState({ address })
   }
 
   // ============== //
@@ -560,6 +568,12 @@ class ProfileSetup extends Component {
   }
 
   renderSecondStep = () => {
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.handleLocationSelect,
+      name: "preferedLocation",
+      type: "text"
+    }
     return (
       <div className="container xem">
         <div className="content-header">
@@ -736,12 +750,9 @@ class ProfileSetup extends Component {
               <div className="form-group xm">
                 <p>Prefered Location</p>
                 <div className="pp-location">
-                  <input
-                    type="text"
-                    className="a-input-outline"
-                    name="preferedLocation"
-                    onChange={this.onChangeInput}
-                    value={this.state.preferedLocation}
+                  <PlacesAutocomplete
+                    classNames={{ input: "a-input-outline" }}
+                    inputProps={inputProps}
                   />
                   <i className="fa fa-map-marker" />
                 </div>
