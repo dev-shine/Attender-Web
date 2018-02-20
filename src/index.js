@@ -7,6 +7,7 @@ import App from "./App"
 
 import "sanitize.css/sanitize.css"
 import "./index.css"
+import "rc-slider/assets/index.css"
 
 const target = document.querySelector("#root")
 

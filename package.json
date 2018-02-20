@@ -12,7 +12,9 @@
     "moment": "^2.20.1",
     "npm": "^5.6.0",
     "prettier": "^1.10.2",
+    "rc-slider": "^8.6.0",
     "react": "^16.2.0",
+    "react-avatar-editor": "^10.3.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
@@ -28,7 +30,10 @@
     "sanitize.css": "^5.0.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": ["prettier --no-semi --write", "git add"]
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --no-semi --write",
+      "git add"
+    ]
   },
   "scripts": {
     "precommit": "lint-staged",

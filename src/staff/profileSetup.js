@@ -8,6 +8,8 @@ import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from ".././services/api"
+import AvatarEditor from "react-avatar-editor"
+import Slider from "rc-slider"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -33,7 +35,6 @@ class ProfileSetup extends Component {
       defaultLang: "",
       languages: [],
       description: ["", "", ""],
-      profilePicture: "https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg",
       descriptions: {
         nightowl: false,
         mixologist: false,
@@ -174,7 +175,13 @@ class ProfileSetup extends Component {
           afternoon: false,
           evening: false
         }
-      }
+      },
+
+      // Utility States
+      profilePicture: "https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg",
+      zoom: 1,
+      hourlyValue: 0,
+      distance: 5
     }
   }
 
@@ -369,8 +376,21 @@ class ProfileSetup extends Component {
 
   onRemovePhoto = evennt => {
     this.setState({
-      profilePicture: "http://via.placeholder.com/150x150"
+      profilePicture: "http://via.placeholder.com/150x150",
+      zoom: 1
     })
+  }
+
+  onImageZoomChange = scale => {
+    this.setState({ zoom: scale })
+  }
+
+  handleHourlyRateChange = event => {
+    this.setState({ hourlyValue: event.target.value * 1 })
+  }
+
+  handleChangeDistance = event => {
+    this.setState({ distance: event.target.value * 1 / 10 })
   }
 
   // ============== //
@@ -422,11 +442,13 @@ class ProfileSetup extends Component {
                 <div className="pp-header">
                   Click on the box to upload Profile Picture
                 </div>
-                <div className="pp-holder">
-                  <img
-                    alt=""
-                    src={this.state.profilePicture}
-                    onClick={this.onOpenUploader}
+                <div className="pp-holder" onClick={this.onOpenUploader}>
+                  <AvatarEditor
+                    image={this.state.profilePicture}
+                    width={250}
+                    height={250}
+                    color={[255, 255, 255, 0.6]} // RGBA
+                    scale={this.state.zoom}
                   />
                   <input
                     type="file"
@@ -440,12 +462,12 @@ class ProfileSetup extends Component {
                     <p>Remove Photo</p>
                   </a>
                   <div className="pp-slider">
-                    <input
-                      type="range"
-                      min="1"
-                      max="100"
-                      value="50"
-                      className="slider"
+                    <Slider
+                      min={1.0}
+                      max={10.0}
+                      step={0.1}
+                      value={this.state.zoom}
+                      onChange={this.onImageZoomChange}
                     />
                   </div>
                 </div>
@@ -638,15 +660,17 @@ class ProfileSetup extends Component {
               <div className="form-group xm">
                 <p>
                   Hourly Rate &nbsp;&nbsp;<span className="dark-text">
-                    ${this.state.startRate}/hr - ${this.state.endRate}/hr
+                    ${this.state.startRate + this.state.hourlyValue}/hr - ${this
+                      .state.endRate + this.state.hourlyValue}/hr
                   </span>
                 </p>
                 <input
                   type="range"
-                  min="1"
-                  max="100"
-                  value="50"
+                  min="0"
+                  max="130"
+                  defaultValue={0}
                   className="a-slider"
+                  onChange={this.handleHourlyRateChange}
                 />
               </div>
               <div className="form-group xm">
@@ -725,15 +749,16 @@ class ProfileSetup extends Component {
               <div className="form-group xm">
                 <p>
                   Distance &nbsp;&nbsp;<span className="dark-text">
-                    {this.state.preferedDistance}
+                    {`${this.state.distance}km`}
                   </span>
                 </p>
                 <input
                   type="range"
                   min="1"
                   max="100"
-                  value="50"
+                  defaultValue={50}
                   className="a-slider"
+                  onChange={this.handleChangeDistance}
                 />
               </div>
             </Col>
