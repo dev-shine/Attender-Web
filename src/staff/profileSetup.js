@@ -10,10 +10,8 @@ import { connect } from "react-redux"
 import API from ".././services/api"
 import AvatarEditor from "react-avatar-editor"
 import Slider from "rc-slider"
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  geocodeByPlaceId
-} from "react-places-autocomplete"
+import PlacesAutocomplete from "react-places-autocomplete"
+import defaultAvatar from "../assets/150x150.png"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -182,9 +180,8 @@ class ProfileSetup extends Component {
       },
 
       // Utility States
-      profilePicture: "https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg",
+      avatar: defaultAvatar,
       zoom: 1,
-      hourlyValue: 0,
       distance: 5,
       address: ""
     }
@@ -279,7 +276,9 @@ class ProfileSetup extends Component {
       availability = JSON.stringify(this.state.availability),
       licenses = this.state.licenses.join(),
       languages = this.state.languages.join(),
-      avatar = "http://via.placeholder.com/150x150g"
+      avatar = this.state.avatar,
+      preferredLocation = this.state.address,
+      preferredDistance = this.state.distance
 
     if (
       description[0] === "" &&
@@ -318,7 +317,9 @@ class ProfileSetup extends Component {
       experiences: JSON.stringify(experiences),
       avatar,
       position: position.join(),
-      description: description.join()
+      description: description.join(),
+      preferredLocation,
+      preferredDistance
     })
 
     this.setState({ isLoading: false })
@@ -355,6 +356,11 @@ class ProfileSetup extends Component {
 
   onStep = value => {
     this.setState({ step: value })
+
+    if (this.editor && value === 2) {
+      const canvas = this.editor.getImageScaledToCanvas()
+      this.setState({ avatar: canvas.toDataURL() })
+    }
   }
 
   onOpenUploader = event => {
@@ -371,7 +377,7 @@ class ProfileSetup extends Component {
       const imageBase64 = reader.result
 
       this.setState({
-        profilePicture: imageBase64
+        avatar: imageBase64
       })
     }
     reader.readAsDataURL(imageData)
@@ -380,7 +386,7 @@ class ProfileSetup extends Component {
 
   onRemovePhoto = evennt => {
     this.setState({
-      profilePicture: "http://via.placeholder.com/150x150",
+      avatar: defaultAvatar,
       zoom: 1
     })
   }
@@ -390,7 +396,12 @@ class ProfileSetup extends Component {
   }
 
   handleHourlyRateChange = event => {
-    this.setState({ hourlyValue: event.target.value * 1 })
+    const value = event.target.value * 1
+
+    this.setState({
+      startRate: 8 + value,
+      endRate: 20 + value
+    })
   }
 
   handleChangeDistance = event => {
@@ -400,6 +411,8 @@ class ProfileSetup extends Component {
   handleLocationSelect = address => {
     this.setState({ address })
   }
+
+  setEditorRef = editor => (this.editor = editor)
 
   // ============== //
   // RENDER METHODS //
@@ -452,11 +465,13 @@ class ProfileSetup extends Component {
                 </div>
                 <div className="pp-holder" onClick={this.onOpenUploader}>
                   <AvatarEditor
-                    image={this.state.profilePicture}
+                    ref={this.setEditorRef}
+                    image={this.state.avatar}
                     width={250}
                     height={250}
                     color={[255, 255, 255, 0.6]} // RGBA
                     scale={this.state.zoom}
+                    crossOrigin="anonymous"
                   />
                   <input
                     type="file"
@@ -674,8 +689,7 @@ class ProfileSetup extends Component {
               <div className="form-group xm">
                 <p>
                   Hourly Rate &nbsp;&nbsp;<span className="dark-text">
-                    ${this.state.startRate + this.state.hourlyValue}/hr - ${this
-                      .state.endRate + this.state.hourlyValue}/hr
+                    ${this.state.startRate}/hr - ${this.state.endRate}/hr
                   </span>
                 </p>
                 <input
