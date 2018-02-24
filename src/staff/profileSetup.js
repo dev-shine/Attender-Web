@@ -12,6 +12,7 @@ import AvatarEditor from "react-avatar-editor"
 import Slider from "rc-slider"
 import PlacesAutocomplete from "react-places-autocomplete"
 import defaultAvatar from "../assets/150x150.png"
+import { cloudinary } from "../services/api"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -301,6 +302,13 @@ class ProfileSetup extends Component {
 
     API.initRequest()
 
+    const image = await cloudinary.uploadFile({
+      cloudName: "dnjfb0e8d",
+      resourceType: "image",
+      file: avatar,
+      preset: "aepowkth"
+    })
+
     let response = await API.post("user/profile/staff", {
       fullname,
       bio,
@@ -315,7 +323,7 @@ class ProfileSetup extends Component {
       languages,
       birthdate,
       experiences: JSON.stringify(experiences),
-      avatar,
+      avatar: image,
       position: position.join(),
       description: description.join(),
       preferredLocation,
@@ -373,9 +381,8 @@ class ProfileSetup extends Component {
     const imageData = event.target.files[0]
     const uploader = this.refs.uploader
 
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
       const imageBase64 = reader.result
-
       this.setState({
         avatar: imageBase64
       })

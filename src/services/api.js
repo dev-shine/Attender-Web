@@ -4,6 +4,72 @@
 
 import constant from "../configs/constant"
 import helper from "../helper/ZHelper"
+const sha1 = require("js-sha1")
+
+const CLOUDINARY_API = "466431498761285"
+
+export const cloudinary = {
+  uploadFile(payload) {
+    return new Promise((resolve, reject) => {
+      var url = `https://api.cloudinary.com/v1_1/${payload.cloudName}/upload`
+      var xhr = new XMLHttpRequest()
+      var fd = new FormData()
+      xhr.open("POST", url, true)
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+
+      xhr.onreadystatechange = function(e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // File uploaded successfully
+          var response = JSON.parse(xhr.responseText)
+
+          // https://res.cloudinary.com/cloudName/image/upload/v1483481128/public_id.jpg
+          var url = response.secure_url
+          resolve(url)
+          // Create a thumbnail of the uploaded image, with 150px width
+          // var tokens = url.split("/")
+          // tokens.splice(-2, 0, "w_150,c_scale")
+          // var img = new Image() // HTML5 Constructor
+          // img.src = tokens.join("/")
+          // img.alt = response.public_id
+        }
+      }
+
+      fd.append("upload_preset", payload.preset)
+      fd.append("file", payload.file)
+      xhr.onerror = () => reject(xhr.statusText)
+      xhr.send(fd)
+    })
+  },
+
+  async upload(payload) {
+    const url = `https://api.cloudinary.com/v1_1/${payload.cloudName}/upload`
+    const timestamp = Math.round(new Date().getTime() / 1000)
+
+    try {
+      let response = await fetch(url, {
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        method: "POST",
+        body: {
+          // api_key: CLOUDINARY_API,
+          // timestamp,
+          // signature: sha1(timestamp),
+          upload_preset: "aepowkth",
+          file: payload.file
+        }
+      })
+
+      try {
+        return await response.json()
+      } catch (err) {
+        throw new Error(err)
+      }
+    } catch (err) {
+      throw new Error(err)
+    }
+  }
+}
 
 var API = {
   REQUEST_TOKEN: "",
