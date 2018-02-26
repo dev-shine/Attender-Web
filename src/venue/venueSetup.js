@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
+import PlacesAutocomplete from "react-places-autocomplete"
 
 import ".././styles/global.css"
 import ".././styles/style.css"
@@ -250,11 +251,22 @@ class VenueSetup extends Component {
     this.setState(prevState => ({ socialMedia }))
   }
 
+  handleLocationChange = locationName => {
+    this.setState({ locationName })
+  }
+
   // =============== //
   // Render Methods  //
   // ============== //
 
   renderFirstStep = () => {
+    const inputProps = {
+      value: this.state.locationName,
+      onChange: this.handleLocationChange,
+      name: "locationName",
+      type: "text",
+      placeholder: "Location"
+    }
     return (
       <div className="container xxem">
         <div className="content-header">
@@ -324,12 +336,9 @@ class VenueSetup extends Component {
               <div className="form-group">
                 <div className="vs-location">
                   <i className="fa fa-map-marker" />
-                  <input
-                    type="text"
-                    className="a-input"
-                    name="locationName"
-                    placeholder="Location"
-                    onChange={this.onChangeInput}
+                  <PlacesAutocomplete
+                    classNames={{ input: "a-input" }}
+                    inputProps={inputProps}
                   />
                 </div>
               </div>
