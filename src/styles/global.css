@@ -822,7 +822,7 @@ select::-ms-expand {
   width: 35em;
   margin-left: auto;
   margin-right: auto;
-  padding: 1em;
+  padding: 3em;
 }
 
 .content-sm-footer {
@@ -830,7 +830,7 @@ select::-ms-expand {
   margin-left: auto;
   margin-bottom: 50px;
   width: 37em;
-  padding: 1em;
+  padding: 1em 1em 3em 1em;
 }
 
 .content-vs {
@@ -848,7 +848,7 @@ select::-ms-expand {
   margin-left: auto;
   margin-right: auto;
   width: 32em;
-  padding: 1em;
+  padding: 1em 1em 3em 1em;
   margin-bottom: 50px;
 }
 

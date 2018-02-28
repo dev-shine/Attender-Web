@@ -8,7 +8,7 @@ import ".././styles/style.css"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from ".././services/api"
+import API, { cloudinary } from ".././services/api"
 
 class VenueSetup extends Component {
   constructor(props) {
@@ -52,7 +52,9 @@ class VenueSetup extends Component {
         facebook: false,
         google: false,
         instagram: false
-      }
+      },
+      venueImages: [],
+      selectedImage: ""
     }
   }
 
@@ -214,10 +216,18 @@ class VenueSetup extends Component {
       }
     })
 
+    const image = await cloudinary.uploadFile({
+      cloudName: "dnjfb0e8d",
+      resourceType: "image",
+      file: this.state.selectedImage,
+      preset: "aepowkth"
+    })
+
     API.initRequest()
     let response = await API.post("user/profile/venue", {
       name,
       managerName,
+      image,
       locationName,
       openingHours,
       numberEmployees,
@@ -251,8 +261,45 @@ class VenueSetup extends Component {
     this.setState(prevState => ({ socialMedia }))
   }
 
+  onOpenUploader = event => {
+    const uploader = this.refs.uploader
+    uploader.click()
+  }
+
+  onUploadImage = event => {
+    const images = event.target.files
+    const uploader = this.refs.uploader
+
+    Object.values(images).forEach((image, index) => {
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        const imageBase64 = reader.result
+        if (index === 0) {
+          this.setState({ selectedImage: imageBase64 })
+        }
+        this.setState(prev => ({
+          venueImages: prev.venueImages.concat(imageBase64)
+        }))
+      }
+      reader.readAsDataURL(image)
+    })
+    uploader.value = ""
+  }
+
   handleLocationChange = locationName => {
     this.setState({ locationName })
+  }
+
+  handleImageSelect = event => {
+    const src = event.target.src
+    const name = event.target.name
+    this.setState(prev => {
+      let payload = { selectedImage: src }
+      if (name === "defaultImage") {
+        payload.venueImages = prev.venueImages.concat(src)
+      }
+      return payload
+    })
   }
 
   // =============== //
@@ -512,6 +559,17 @@ class VenueSetup extends Component {
   }
 
   renderSecondStep = () => {
+    const thumbnails = this.state.venueImages.map((image, index) => (
+      <div key={index} className="vs-p-photo">
+        <img
+          src={image}
+          width="80"
+          height="80"
+          hidden={!(this.state.venueImages.length > 1)}
+          onClick={this.handleImageSelect}
+        />
+      </div>
+    ))
     return (
       <div className="container xxem">
         <div className="content-header">
@@ -526,24 +584,78 @@ class VenueSetup extends Component {
               Click on the upload icon to select photo
             </p>
           </div>
-          <div className="vs-p-container xm">
-            <span>Upload</span>
+          <div className="vs-p-container xm" onClick={this.onOpenUploader}>
+            <span hidden={!!this.state.selectedImage}>Upload</span>
+            <img
+              src={this.state.selectedImage}
+              width="400"
+              height="288"
+              hidden={!this.state.selectedImage}
+              style={{ margin: "auto" }}
+            />
           </div>
+
+          <input
+            type="file"
+            ref="uploader"
+            onChange={this.onUploadImage}
+            multiple
+            hidden
+          />
           <div className="vs-p-uploads-container xxm">
             <span>Uploaded Photos</span>
-            <div className="vs-p-uploads xxm">
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
+            <div className="vs-p-uploads xxm" style={{ overflow: "auto" }}>
+              {this.state.venueImages.length > 0 ? (
+                thumbnails
+              ) : (
+                <div>
+                  <div className="vs-p-photo" />
+                  <div className="vs-p-photo" />
+                  <div className="vs-p-photo" />
+                  <div className="vs-p-photo" />
+                </div>
+              )}
             </div>
           </div>
           <div className="vs-p-uploads-container xxm">
             <span>Or select some few photos for selection below</span>
             <div className="vs-p-uploads xxm">
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=42"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=78"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=192"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=263"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
             </div>
           </div>
         </div>
