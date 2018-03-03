@@ -3,13 +3,72 @@ import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
+const staffs = {
+  bartender: { on: false, num: 0 },
+  manager: { on: false, num: 0 },
+  waiter: { on: false, num: 0 },
+  chef: { on: false, num: 0 },
+  barback: { on: false, num: 0 },
+  kitchen: { on: false, num: 0 },
+  host: { on: false, num: 0 }
+}
+const frequency = [
+  {
+    name: "Full Time",
+    on: false
+  },
+  {
+    name: "Part Time",
+    on: false
+  },
+  {
+    name: "Casual",
+    on: false
+  },
+  {
+    name: "Event",
+    on: false
+  }
+]
+
 class FindStaff extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isLoading: false,
-      staffs: [1, 2, 3, 4]
+      staffs,
+      frequency
     }
+  }
+
+  onChangeStaffs = (key, action) => {
+    let staffs = this.state.staffs
+    if (staffs[key].on) {
+      if (action === "add") {
+        staffs[key].num += 1
+      } else {
+        if (staffs[key].num > 0) {
+          staffs[key].num -= 1
+        }
+      }
+    }
+    this.setState(prevState => ({ staffs }))
+  }
+
+  onSelectOption = (key, obj) => {
+    let _obj = this.state[obj]
+    if (obj === "staffs") {
+      _obj[key].on = !_obj[key].on
+    } else {
+      _obj[key] = !_obj[key]
+    }
+    this.setState(prevState => ({ [obj]: _obj }))
+  }
+
+  onChangeFrequency = index => {
+    let frequency = this.state.frequency
+    frequency[index].on = !frequency[index].on
+    this.setState(prevState => ({ frequency }))
   }
 
   renderContent = () => {
@@ -25,90 +84,100 @@ class FindStaff extends Component {
               </p>
               <div className="fs-soi-content">
                 <h4>STAFF OF INTEREST</h4>
-                <div className="a-icon-container-sm xxm">
-                  <div className="a-icon-item-sm">
-                    <a className="a-icon-action-sm">
-                      <i className="fa fa-glass" aria-hidden="true" />
-                    </a>
-                    <p className="xxm">Alcohol</p>
-                  </div>
-                  <div className="a-icon-item-active-sm">
-                    <a className="a-icon-action-sm">
-                      <i className="fa fa-times-rectangle" aria-hidden="true" />
-                    </a>
-                    <p className="xxm">Drinks</p>
-                  </div>
-                  <div className="a-icon-item-sm">
-                    <a className="a-icon-action-sm">
-                      <i className="fa fa-glass" aria-hidden="true" />
-                    </a>
-                    <p className="xxm">Alcohol</p>
-                  </div>
-                  <div className="a-icon-item-sm">
-                    <a className="a-icon-action-sm">
-                      <i className="fa fa-glass" aria-hidden="true" />
-                    </a>
-                    <p className="xxm">Alcohol</p>
-                  </div>
-                  <div className="a-icon-item-sm">
-                    <a className="a-icon-action-sm">
-                      <i className="fa fa-glass" aria-hidden="true" />
-                    </a>
-                    <p className="xxm">Alcohol</p>
-                  </div>
-                  <div className="a-icon-item-sm">
-                    <a className="a-icon-action-sm">
-                      <i className="fa fa-glass" aria-hidden="true" />
-                    </a>
-                    <p className="xxm">Alcohol</p>
-                  </div>
+                <div className="a-icon-container-sm xxm scroll h-scroll">
+                  {Object.keys(this.state.staffs).map((key, index) => {
+                    if (this.state.staffs[key].on) {
+                      return (
+                        <div
+                          className="vs-service-item-active"
+                          key={index}
+                          onClick={() => this.onSelectOption(key, "staffs")}
+                        >
+                          <a className="vs-service-action">
+                            <img
+                              alt=""
+                              src={require(`.././assets/icons/staff/white/${key}.png`)}
+                            />
+                          </a>
+                          <p className="xxm">{key.capitalize()}</p>
+                        </div>
+                      )
+                    } else {
+                      return (
+                        <div
+                          className="vs-service-item"
+                          key={index}
+                          onClick={() => this.onSelectOption(key, "staffs")}
+                        >
+                          <a className="vs-service-action">
+                            <img
+                              alt=""
+                              src={require(`.././assets/icons/staff/default/${key}.png`)}
+                            />
+                          </a>
+                          <p className="xxm">{key.capitalize()}</p>
+                        </div>
+                      )
+                    }
+                  })}
                 </div>
-                <div className="row xxm">
-                  <div className="col-sm-6">
-                    <p className="vs-title">Bartender</p>
-                    <div className="noe-container">
-                      <a href="#" className="noe-action">
-                        <strong>–</strong>
-                      </a>
-                      <div className="noe-num">25</div>
-                      <a href="#" className="noe-action">
-                        <strong>+</strong>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="col-sm-6">
-                    <p className="vs-title">Chef</p>
-                    <div className="noe-container">
-                      <a href="#" className="noe-action">
-                        <strong>–</strong>
-                      </a>
-                      <div className="noe-num">25</div>
-                      <a href="#" className="noe-action">
-                        <strong>+</strong>
-                      </a>
-                    </div>
-                  </div>
+                <div className="row xsm scroll v-scroll">
+                  {Object.keys(this.state.staffs).map((key, index) => {
+                    if (this.state.staffs[key].on) {
+                      return (
+                        <div className="col-sm-6" key={index}>
+                          <p className="vs-title">{key.capitalize()}</p>
+                          <div className="noe-container">
+                            <a
+                              className="noe-action"
+                              onClick={() => this.onChangeStaffs(key, "sub")}
+                            >
+                              <strong>–</strong>
+                            </a>
+                            <div className="noe-num">
+                              {this.state.staffs[key].num}
+                            </div>
+                            <a
+                              className="noe-action"
+                              onClick={() => this.onChangeStaffs(key, "add")}
+                            >
+                              <strong>+</strong>
+                            </a>
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
                 </div>
-                <div className="vs-freq xxm">
-                  <div className="row">
-                    <div className="vs-freq-items col-sm-3">
-                      <a className="a-checkbox active" />
-                      <span>Full Time</span>
-                    </div>
-                    <div className="vs-freq-items col-sm-3">
-                      <a className="a-checkbox" />
-                      <span>Part Time</span>
-                    </div>
-                    <div className="vs-freq-items col-sm-3">
-                      <a className="a-checkbox" />
-                      <span>Casual</span>
-                    </div>
-                    <div className="vs-freq-items col-sm-3">
-                      <a className="a-checkbox" />
-                      <span>Event</span>
-                    </div>
-                  </div>
+                <div className="vs-freq xxm row">
+                  {this.state.frequency.map((freq, index) => {
+                    if (freq.on) {
+                      return (
+                        <div
+                          key={index}
+                          className="vs-freq-items col-sm-3"
+                          onClick={() => this.onChangeFrequency(index)}
+                        >
+                          {/* TODO Must understand logic on the lines below */}
+                          <span>{freq.name}</span>
+                          <a className="a-checkbox active" />
+                        </div>
+                      )
+                    } else {
+                      return (
+                        <div
+                          key={index}
+                          className="vs-freq-items col-sm-3"
+                          onClick={() => this.onChangeFrequency(index)}
+                        >
+                          {/* TODO Must understand logic on the lines below */}
+                          <a className="a-checkbox" />
+                          <span style={{ fontSize: "12px" }}>{freq.name}</span>
+                        </div>
+                      )
+                    }
+                  })}
                 </div>
                 <div className="fs-soi-action xdm">
                   <button className="a-btn btn-dark btn-round pull-right">
@@ -174,7 +243,7 @@ class FindStaff extends Component {
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
-                  {this.state.staffs.map((staff, index) => {
+                  {Object.keys(this.state.staffs).map((staff, index) => {
                     return (
                       <div key={index} className="fs-staff-box">
                         <div className="fs-staff-img ">

@@ -61,6 +61,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  height: 100%;
 }
 
 .bg-ss {
@@ -1213,7 +1214,7 @@ textarea {
 }
 
 .xxem {
-  margin-top: 5.5em;
+  margin-top: 10.5em;
 }
 
 .sem {

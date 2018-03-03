@@ -50,33 +50,33 @@ class Registration extends Component {
     return (
       <div className="reg-form">
         <form onSubmit={this.handleFormSubmit}>
-          <label class="label-style control-label">Full Name</label>
+          <label className="label-style control-label">Full Name</label>
           <input
             onChange={this.onChangeInput}
             type="text"
             name="name"
-            class="form-control"
+            className="form-control"
           />
-          <label class="label-style control-label">Email</label>
+          <label className="label-style control-label">Email</label>
           <input
             onChange={this.onChangeInput}
             type="email"
             name="email"
-            class="form-control"
+            className="form-control"
           />
-          <label class="label-style control-label">Mobile</label>
+          <label className="label-style control-label">Mobile</label>
           <input
             onChange={this.onChangeInput}
             type="text"
             name="mobile"
-            class="form-control"
+            className="form-control"
           />
-          <label class="label-style control-label">Password</label>
+          <label className="label-style control-label">Password</label>
           <input
             onChange={this.onChangeInput}
             type="password"
             name="password"
-            class="form-control"
+            className="form-control"
             autoComplete="new-password"
           />
         </form>
