@@ -4,9 +4,6 @@
 
 import constant from "../configs/constant"
 import helper from "../helper/ZHelper"
-const sha1 = require("js-sha1")
-
-const CLOUDINARY_API = "466431498761285"
 
 export const cloudinary = {
   uploadFile(payload) {
@@ -43,7 +40,8 @@ export const cloudinary = {
 
   async upload(payload) {
     const url = `https://api.cloudinary.com/v1_1/${payload.cloudName}/upload`
-    const timestamp = Math.round(new Date().getTime() / 1000)
+    const preset = "aepowkth"
+    // const timestamp = Math.round(new Date().getTime() / 1000)
 
     try {
       let response = await fetch(url, {
@@ -52,10 +50,7 @@ export const cloudinary = {
         },
         method: "POST",
         body: {
-          // api_key: CLOUDINARY_API,
-          // timestamp,
-          // signature: sha1(timestamp),
-          upload_preset: "aepowkth",
+          upload_preset: preset,
           file: payload.file
         }
       })

@@ -3,6 +3,8 @@ import NavBar from "../layouts/NavBar"
 
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import classNames from "classnames"
+import API from "../services/api"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -11,8 +13,76 @@ class SearchVenues extends Component {
     super(props)
     this.state = {
       step: 1,
-      isLoading: false
+      isLoading: false,
+      venues: [],
+      venueTypeFilters: [
+        { name: "all", active: false },
+        { name: "cafe", active: true },
+        { name: "bar", active: false },
+        { name: "club", active: false },
+        { name: "pub", active: false },
+        { name: "restaurant", active: false }
+      ],
+      loading: true
     }
+  }
+
+  componentWillMount = async () => {
+    const results = await API.get("/venues")
+    console.log("results", results)
+    this.setState({ venues: results.venues, loading: false })
+  }
+
+  handleVenueTypeClick = event => {
+    const { name } = event.target
+    this.setState(prev => {
+      const types = [...prev.venueTypeFilters]
+      const newTypeValues = types.map((type, index) => {
+        if (name === type.name) return { ...type, active: !type.active }
+        return { ...type }
+      })
+      return { venueTypeFilters: newTypeValues }
+    })
+  }
+
+  handleVenueTypeAllClick = event => {
+    const { name } = event.target
+    this.setState(prev => {
+      const types = [...prev.venueTypeFilters]
+      let newTypeValues = types.map((type, index) => {
+        if (name === "all") return { ...type, active: !type.active }
+        return { ...type }
+      })
+      return { venueTypeFilters: newTypeValues }
+    })
+  }
+
+  renderVenueLists = () => {
+    if (this.state.loading) {
+      return <div>Loading...</div>
+    }
+    return this.state.venues.map((venue, index) => (
+      <div key={index} className="venue-box row">
+        <div className="col-sm-3 venue-img">
+          <img alt="" src={venue.image} />
+        </div>
+        <div className="col-sm-6 venue-info">
+          <p className="venue-name">
+            <b>{venue.name}</b>
+          </p>
+          <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
+          <p>Monday - Friday: 10AM - 11PM</p>
+          <p>Saturday - Sunday: 10AM - 11PM</p>
+          <p>Services: </p>
+        </div>
+        <div className="col-sm-3 venue-action">
+          <p>
+            <FontAwesome name="map-marker" />&nbsp;&nbsp;Sydney, CBD
+          </p>
+          <button className="btn-round btn-dark">Interested</button>
+        </div>
+      </div>
+    ))
   }
 
   render() {
@@ -35,121 +105,33 @@ class SearchVenues extends Component {
                   </button>
                 </div>
                 <div className="xxm mini-container">
-                  <button className="a-btn btn-round wide-sm btn-passive">
-                    All
-                  </button>
-                  <button className="a-btn btn-round wide-sm btn-active">
-                    Cafe
-                  </button>
-                  <button className="a-btn btn-round wide-sm btn-passive">
-                    Bar
-                  </button>
-                  <button className="a-btn btn-round wide-sm btn-passive">
-                    Club
-                  </button>
-                  <button className="a-btn btn-round wide-sm btn-passive">
-                    Pub
-                  </button>
-                  <button className="a-btn btn-round wide-md btn-passive">
-                    Restaurant
-                  </button>
+                  {this.state.venueTypeFilters.map((venue, index) => {
+                    const wide =
+                      venue.name === "restaurant" ? "wide-md" : "wide-sm"
+                    const active = venue.active ? "btn-active" : "btn-passive"
+                    return (
+                      <button
+                        key={index}
+                        active={venue.active}
+                        name={venue.name}
+                        wide-md
+                        className={`a-btn btn-round ${wide} ${active}`}
+                        style={{ fontSize: "14px" }}
+                        onClick={
+                          venue.name === "all"
+                            ? this.handleVenueTypeAllClick
+                            : this.handleVenueTypeClick
+                        }
+                      >
+                        {venue.name.capitalize()}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             </div>
             <div className="card-content scroll v-scroll xxm">
-              <div className="venue-box row">
-                <div className="col-sm-3 venue-img">
-                  <img
-                    alt=""
-                    src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                  />
-                </div>
-                <div className="col-sm-6 venue-info">
-                  <p className="venue-name">Lumi Bar</p>
-                  <p>Bar / Restaurant</p>
-                  <p>Monday - Friday: 10AM - 11PM</p>
-                  <p>Saturday - Sunday: 10AM - 11PM</p>
-                  <p>Services: </p>
-                </div>
-                <div className="col-sm-3 venue-action">
-                  <p>
-                    <FontAwesome name="map-marker" />&nbsp;&nbsp;Sydney, CBD
-                  </p>
-                  <button className="btn-round btn-dark">Interested</button>
-                </div>
-              </div>
-
-              <div className="venue-box row">
-                <div className="col-sm-3 venue-img">
-                  <img
-                    alt=""
-                    src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                  />
-                </div>
-                <div className="col-sm-6 venue-info">
-                  <p className="venue-name">Lumi Bar</p>
-                  <p>Bar / Restaurant</p>
-                  <p>Monday - Friday: 10AM - 11PM</p>
-                  <p>Saturday - Sunday: 10AM - 11PM</p>
-                  <p>Services: </p>
-                </div>
-                <div className="col-sm-3 venue-action">
-                  <p>
-                    <FontAwesome name="map-marker" />&nbsp;&nbsp;Sydney, CBD
-                  </p>
-                  <button className="btn-round btn-dark-outline">
-                    Im Interested
-                  </button>
-                </div>
-              </div>
-
-              <div className="venue-box row">
-                <div className="col-sm-3 venue-img">
-                  <img
-                    alt=""
-                    src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                  />
-                </div>
-                <div className="col-sm-6 venue-info">
-                  <p className="venue-name">Lumi Bar</p>
-                  <p>Bar / Restaurant</p>
-                  <p>Monday - Friday: 10AM - 11PM</p>
-                  <p>Saturday - Sunday: 10AM - 11PM</p>
-                  <p>Services: </p>
-                </div>
-                <div className="col-sm-3 venue-action">
-                  <p>
-                    <FontAwesome name="map-marker" />&nbsp;&nbsp;Sydney, CBD
-                  </p>
-                  <button className="btn-round btn-dark-outline">
-                    Im Interested
-                  </button>
-                </div>
-              </div>
-
-              <div className="venue-box row">
-                <div className="col-sm-3 venue-img">
-                  <img
-                    alt=""
-                    src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                  />
-                </div>
-                <div className="col-sm-6 venue-info">
-                  <p className="venue-name">Lumi Bar</p>
-                  <p>Bar / Restaurant</p>
-                  <p>Monday - Friday: 10AM - 11PM</p>
-                  <p>Saturday - Sunday: 10AM - 11PM</p>
-                  <p>Services: </p>
-                </div>
-                <div className="col-sm-3 venue-action">
-                  <p>
-                    <FontAwesome name="map-marker" />&nbsp;&nbsp;Sydney, CBD
-                  </p>
-                  <button className="btn-round btn-dark-outline">
-                    Im Interested
-                  </button>
-                </div>
-              </div>
+              {this.renderVenueLists()}
             </div>
           </div>
 
