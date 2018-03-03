@@ -25,7 +25,7 @@ class SignSuccess extends Component {
             <p className="ss-title">SIGN UP SUCCESS</p>
             <p className="ss-body">
               We have sent the confirmation link to your email. Please check
-              your inbox (or span) and click the link to confirm your account.
+              your inbox (or spam) and click the link to confirm your account.
             </p>
             <p className="ss-foot">
               Couldn't find your confirmation email in your inbox or spam/junk?
