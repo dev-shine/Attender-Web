@@ -9,7 +9,7 @@
   }
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
   .seven-cols .col-lg-1 {
@@ -41,7 +41,7 @@
     background: none\9;
     padding: 5px\9;
   }
-}
+} */
 
 .bg {
   -webkit-background-size: cover;
@@ -1487,13 +1487,13 @@ textarea {
 
 .card-content {
   width: 100%;
-  height: 25em;
+  /* height: 25em; */
   padding: 1.5em;
 }
 
 .card-content-np {
   width: 100%;
-  height: 25em;
+  /* height: 25em; */
 }
 
 .card-header h4 {
