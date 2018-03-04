@@ -15,14 +15,14 @@ class SearchVenues extends Component {
       step: 1,
       isLoading: false,
       venues: [],
-      venueTypeFilters: [
-        { name: "all", active: false },
-        { name: "cafe", active: true },
-        { name: "bar", active: false },
-        { name: "club", active: false },
-        { name: "pub", active: false },
-        { name: "restaurant", active: false }
-      ],
+      venueTypeFilters: {
+        all: true,
+        cafe: false,
+        bar: false,
+        club: false,
+        pub: false,
+        restaurant: false
+      },
       loading: true
     }
   }
@@ -30,30 +30,41 @@ class SearchVenues extends Component {
   componentWillMount = async () => {
     const results = await API.get("/venues")
     console.log("results", results)
-    this.setState({ venues: results.venues, loading: false })
+    this.setState({
+      defaultVenues: results.venues,
+      venues: results.venues,
+      loading: false
+    })
   }
 
   handleVenueTypeClick = event => {
     const { name } = event.target
     this.setState(prev => {
-      const types = [...prev.venueTypeFilters]
-      const newTypeValues = types.map((type, index) => {
-        if (name === type.name) return { ...type, active: !type.active }
-        return { ...type }
-      })
-      return { venueTypeFilters: newTypeValues }
-    })
-  }
+      let filters = prev.venueTypeFilters
+      if (name === "all") {
+        filters["all"] = !filters["all"]
+        Object.keys(prev.venueTypeFilters).forEach(filter => {
+          if (filter !== "all") {
+            filters[filter] = filters["all"]
+          }
+        })
+      } else {
+        filters[name] = !filters[name]
+        filters["all"] = false
+      }
 
-  handleVenueTypeAllClick = event => {
-    const { name } = event.target
-    this.setState(prev => {
-      const types = [...prev.venueTypeFilters]
-      let newTypeValues = types.map((type, index) => {
-        if (name === "all") return { ...type, active: !type.active }
-        return { ...type }
+      const venues = prev.defaultVenues.filter(venue => {
+        const filtersArray = Object.keys(filters).filter(type => filters[type])
+        let isFiltered = false
+        venue.type.forEach(type => {
+          if (filtersArray.includes(type)) {
+            isFiltered = true
+          }
+        })
+        return isFiltered
       })
-      return { venueTypeFilters: newTypeValues }
+
+      return { venueTypeFilters: filters, venues }
     })
   }
 
@@ -105,28 +116,27 @@ class SearchVenues extends Component {
                   </button>
                 </div>
                 <div className="xxm mini-container">
-                  {this.state.venueTypeFilters.map((venue, index) => {
-                    const wide =
-                      venue.name === "restaurant" ? "wide-md" : "wide-sm"
-                    const active = venue.active ? "btn-active" : "btn-passive"
-                    return (
-                      <button
-                        key={index}
-                        active={venue.active}
-                        name={venue.name}
-                        wide-md
-                        className={`a-btn btn-round ${wide} ${active}`}
-                        style={{ fontSize: "14px" }}
-                        onClick={
-                          venue.name === "all"
-                            ? this.handleVenueTypeAllClick
-                            : this.handleVenueTypeClick
-                        }
-                      >
-                        {venue.name.capitalize()}
-                      </button>
-                    )
-                  })}
+                  {Object.keys(this.state.venueTypeFilters).map(
+                    (venue, index) => {
+                      const wide =
+                        venue === "restaurant" ? "wide-md" : "wide-sm"
+                      const active = this.state.venueTypeFilters[venue]
+                        ? "btn-active"
+                        : "btn-passive"
+                      return (
+                        <button
+                          key={index}
+                          active={venue.active}
+                          name={venue}
+                          className={`a-btn btn-round ${wide} ${active}`}
+                          style={{ fontSize: "14px" }}
+                          onClick={this.handleVenueTypeClick}
+                        >
+                          {venue.capitalize()}
+                        </button>
+                      )
+                    }
+                  )}
                 </div>
               </div>
             </div>
