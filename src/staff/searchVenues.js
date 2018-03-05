@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Grid, Row, Col, Image } from "react-bootstrap"
 import API from "../services/api"
+import moment from "moment"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -27,6 +28,10 @@ class SearchVenues extends Component {
         venue: true,
         service: false
       },
+      filterEvents: {
+        near: true,
+        upcoming: false
+      },
       services: {
         all: true,
         alcohol: false,
@@ -37,18 +42,37 @@ class SearchVenues extends Component {
         lunch: false,
         dinner: false
       },
+      eventTypes: {
+        all: true,
+        wedding: false,
+        birthday: false,
+        conference: false,
+        musicFestival: false,
+        familyEvent: false
+      },
+      events: [],
+      profile: {},
       loading: true
     }
   }
 
   componentWillMount = async () => {
-    const results = await API.get("/venues")
-    console.log("results", results)
+    API.initRequest()
+    const resultVenues = await API.get("/venues")
+    const resultEvents = await API.get("/events")
     this.setState({
-      defaultVenues: results.venues,
-      venues: results.venues,
+      defaultVenues: resultVenues.venues,
+      venues: resultVenues.venues,
+      defaultEvents: resultEvents.events,
+      events: resultEvents.events,
       loading: false
     })
+  }
+
+  componentDidMount = () => {
+    this.setState(prev => ({
+      profile: JSON.parse(localStorage.getItem("com.attender.pty.ltd.profile"))
+    }))
   }
 
   handleVenueTypeClick = event => {
@@ -115,6 +139,37 @@ class SearchVenues extends Component {
     })
   }
 
+  handleEventsClick = event => {
+    // const { name } = event.target
+    // this.setState(prev => {
+    //   let events = prev.eventTypes
+    //   if (name === "all") {
+    //     events["all"] = !events["all"]
+    //     Object.keys(prev.eventTypes).forEach(filter => {
+    //       if (filter !== "all") {
+    //         events[filter] = events["all"]
+    //       }
+    //     })
+    //   } else {
+    //     events[name] = !events[name]
+    //     events["all"] = false
+    //   }
+    //   const events = prev.defaultEvents.filter(event => {
+    //     const eventsArray = Object.keys(events).filter(
+    //       type => events[type]
+    //     )
+    //     let isFiltered = false
+    //     event.services.forEach(type => {
+    //       if (servicesArray.includes(type)) {
+    //         isFiltered = true
+    //       }
+    //     })
+    //     return isFiltered
+    //   })
+    //   return { services, venues }
+    // })
+  }
+
   handleFilterBy = event => {
     this.setState(prev => {
       const filters = prev.filterTypes
@@ -123,6 +178,11 @@ class SearchVenues extends Component {
       })
       return { filterTypes: filters }
     })
+  }
+
+  handleInterestedClick = async (id, event) => {
+    const url = `/venue/${id}/interest`
+    const result = await API.post(url, { venue_id: id })
   }
 
   renderVenueLists = () => {
@@ -139,9 +199,13 @@ class SearchVenues extends Component {
             <b>{venue.name}</b>
           </p>
           <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
-          <p>Monday - Friday: 10AM - 11PM</p>
-          <p>Saturday - Sunday: 10AM - 11PM</p>
-
+          {Object.keys(venue.openingHours).map((day, index) => (
+            <p key={index}>{`${day.capitalize()}: ${moment(
+              venue.openingHours[day].start
+            ).format("h:m A")} - ${moment(venue.openingHours[day].end).format(
+              "h:m A"
+            )}`}</p>
+          ))}
           <Grid>
             <Row>
               Services:
@@ -170,7 +234,17 @@ class SearchVenues extends Component {
           <p>
             <FontAwesome name="map-marker" />&nbsp;&nbsp;{venue.locationName}
           </p>
-          <button className="btn-round btn-passive">Interested</button>
+          <button
+            className={`btn-round ${
+              venue.interested &&
+              Object.keys(venue.interested).includes(this.state.profile._id)
+                ? "btn-dark"
+                : "btn-passive"
+            } `}
+            onClick={e => this.handleInterestedClick(venue._id, e)}
+          >
+            Interested
+          </button>
         </div>
       </div>
     ))
@@ -270,156 +344,78 @@ class SearchVenues extends Component {
                   </button>
                 </div>
                 <div className="xxm card-filter">
-                  <button
-                    className="a-btn btn-round wide-sm btn-passive"
-                    style={{ fontSize: "14px" }}
-                  >
-                    All
-                  </button>
-                  <button
-                    className="a-btn btn-round wide-sm btn-active"
-                    style={{ fontSize: "14px" }}
-                  >
-                    Wedding
-                  </button>
-                  <button
-                    className="a-btn btn-round wide-sm btn-passive"
-                    style={{ fontSize: "14px" }}
-                  >
-                    Birthday
-                  </button>
-                  <button
-                    className="a-btn btn-round wide-md btn-passive"
-                    style={{ fontSize: "14px" }}
-                  >
-                    Conference
-                  </button>
-                  <button
-                    className="a-btn btn-round wide-md btn-passive"
-                    style={{ fontSize: "14px" }}
-                  >
-                    Music Festival
-                  </button>
-                  <button
-                    className="a-btn btn-round wide-md btn-passive"
-                    style={{ fontSize: "14px" }}
-                  >
-                    Family Events
-                  </button>
+                  {Object.keys(this.state.eventTypes).map((key, index) => {
+                    const active = this.state.eventTypes[key]
+                      ? "btn-active"
+                      : "btn-passive"
+                    return (
+                      <button
+                        key={index}
+                        className={`a-btn btn-round ${
+                          key.length > 8 ? "wide-md" : "wide-sm"
+                        } ${active}`}
+                        style={{ fontSize: "14px" }}
+                      >
+                        {key.capitalize()}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             </div>
             <div className="card-content-np scroll v-scroll xxm">
-              <div className="event-box row">
-                <div className="col-sm-3 event-date">
-                  <p className="e-day">21</p>
-                  <p className="e-month">August</p>
-                </div>
-                <div className="col-sm-9 event-data">
-                  <div className="col-sm-3 event-img">
-                    <img
-                      alt=""
-                      src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                    />
+              {this.state.events.map((evnt, index) => (
+                <div key={evnt._id} className="event-box row">
+                  <div className="col-sm-3 event-date">
+                    <p className="e-day">{moment(evnt.date).day()}</p>
+                    <p className="e-month">
+                      {moment(evnt.date).format("MMMM")}
+                    </p>
                   </div>
-                  <div className="col-sm-9">
-                    <p className="event-title">Wow Power</p>
-                    <p>
-                      <small>
-                        <FontAwesome name="clock-o" /> 10:00AM - 12:00PM
-                      </small>
-                    </p>
-                    <p>
-                      <small>Venue: Oasis Beach</small>
-                    </p>
-                    <p>
-                      <small>
-                        <FontAwesome name="map-marker" /> Sydney, CBC
-                      </small>
-                    </p>
-                    <div className="event-action">
-                      {/* TODO Identify correct logic on the lines below */}
-                      <a href="#">
-                        <FontAwesome name="ellipsis-v" size="2x" />
-                      </a>
+                  <div className="col-sm-9 event-data">
+                    <div className="col-sm-3 event-img">
+                      <img
+                        alt=""
+                        height={150}
+                        width={150}
+                        src={
+                          evnt.image !== "undefined"
+                            ? evnt.image
+                            : "https://dummyimage.com/150x150/000/fff"
+                        }
+                      />
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="event-title">{evnt.name}</p>
+                      <p>
+                        <small>
+                          <FontAwesome name="clock-o" />
+                          {`${moment(evnt.time.start).format(
+                            "h:m A"
+                          )} - ${moment(evnt.time.end).format("h:m A")}`}
+                        </small>
+                      </p>
+                      <p>
+                        <small>
+                          Venue: {evnt.employer && evnt.employer.name}
+                        </small>
+                      </p>
+                      <p>
+                        <small>
+                          <FontAwesome name="map-marker" />
+                          {evnt.employer && evnt.employer.locationName}
+                        </small>
+                      </p>
+                      <div className="event-action">
+                        {/* TODO Identify correct logic on the lines below */}
+                        <a href="#">
+                          <FontAwesome name="ellipsis-v" size="2x" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="event-box row">
-                <div className="col-sm-3 event-date">
-                  <p className="e-day">21</p>
-                  <p className="e-month">August</p>
-                </div>
-                <div className="col-sm-9 event-data">
-                  <div className="col-sm-3 event-img">
-                    <img
-                      alt=""
-                      src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                    />
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="event-title">Wow Power</p>
-                    <p>
-                      <small>
-                        <FontAwesome name="clock-o" /> 10:00AM - 12:00PM
-                      </small>
-                    </p>
-                    <p>
-                      <small>Venue: Oasis Beach</small>
-                    </p>
-                    <p>
-                      <small>
-                        <FontAwesome name="map-marker" /> Sydney, CBC
-                      </small>
-                    </p>
-                    <div className="event-action">
-                      {/* TODO Identify correct logic on the lines below */}
-                      <a href="#">
-                        <FontAwesome name="ellipsis-v" size="2x" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="event-box row">
-                <div className="col-sm-3 event-date">
-                  <p className="e-day">21</p>
-                  <p className="e-month">August</p>
-                </div>
-                <div className="col-sm-9 event-data">
-                  <div className="col-sm-3 event-img">
-                    <img
-                      alt=""
-                      src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                    />
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="event-title">Wow Power</p>
-                    <p>
-                      <small>
-                        <FontAwesome name="clock-o" /> 10:00AM - 12:00PM
-                      </small>
-                    </p>
-                    <p>
-                      <small>Venue: Oasis Beach</small>
-                    </p>
-                    <p>
-                      <small>
-                        <FontAwesome name="map-marker" /> Sydney, CBC
-                      </small>
-                    </p>
-                    <div className="event-action">
-                      {/* TODO Identify correct logic on the lines below */}
-                      <a href="#">
-                        <FontAwesome name="ellipsis-v" size="2x" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
