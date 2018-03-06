@@ -60,6 +60,7 @@ class SearchVenues extends Component {
     API.initRequest()
     const resultVenues = await API.get("/venues")
     const resultEvents = await API.get("/events")
+    console.log("events", resultEvents)
     this.setState({
       defaultVenues: resultVenues.venues,
       venues: resultVenues.venues,
@@ -182,7 +183,7 @@ class SearchVenues extends Component {
 
   handleInterestedClick = async (id, event) => {
     const url = `/venue/${id}/interest`
-    const result = await API.post(url, { venue_id: id })
+    await API.post(url, { venue_id: id })
   }
 
   renderVenueLists = () => {
