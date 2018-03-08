@@ -181,9 +181,12 @@ class SearchVenues extends Component {
     })
   }
 
-  handleInterestedClick = async (id, event) => {
+  handleInterestedClick = async (id, index, event) => {
     const url = `/venue/${id}/interest`
-    await API.post(url, { venue_id: id })
+    let response = await API.post(url, { venue_id: id })
+    if (response.status) {
+      this.state.venues[index] = response.venue
+    }
   }
 
   renderVenueLists = () => {
@@ -242,7 +245,7 @@ class SearchVenues extends Component {
                 ? "btn-dark"
                 : "btn-passive"
             } `}
-            onClick={e => this.handleInterestedClick(venue._id, e)}
+            onClick={e => this.handleInterestedClick(venue._id, index, e)}
           >
             Interested
           </button>
