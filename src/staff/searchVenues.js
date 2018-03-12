@@ -58,8 +58,8 @@ class SearchVenues extends Component {
 
   componentWillMount = async () => {
     API.initRequest()
-    const resultVenues = await API.get("/venues")
-    const resultEvents = await API.get("/events")
+    const resultVenues = await API.get("venues")
+    const resultEvents = await API.get("events")
     console.log("events", resultEvents)
     this.setState({
       defaultVenues: resultVenues.venues,
@@ -182,10 +182,11 @@ class SearchVenues extends Component {
   }
 
   handleInterestedClick = async (id, index, event) => {
-    const url = `/venue/${id}/interest`
+    const url = `venue/${id}/interest`
     let response = await API.post(url, { venue_id: id })
     if (response.status) {
       this.state.venues[index] = response.venue
+      this.forceUpdate()
     }
   }
 
