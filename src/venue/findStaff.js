@@ -33,14 +33,15 @@ const frequency = [
   }
 ]
 
+let positionQuery = [{}]
+
 class FindStaff extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isLoading: false,
       staffs,
-      frequency,
-      positionButtons: ["All"]
+      frequency
     }
   }
 
@@ -73,25 +74,22 @@ class FindStaff extends Component {
     frequency[index].on = !frequency[index].on
     this.setState(prevState => ({ frequency }))
   }
-  searchStaff = async () => {
-    var positionQuery = ""
-    for (var _key in staffs) {
-      if (staffs[_key].on) {
-        var positionButtons = this.state.positionButtons.slice()
-        positionButtons.push(_key)
-        this.setState({ positionButtons: positionButtons })
-      }
-    }
-    positionQuery = this.state.positionButtons.join(", ")
-    const url = `staffs`
-    var response = await API.get(url + "?positions=" + positionQuery)
-    for (var _key in this.state.positionButtons) {
-      if (_key in staffs) {
-        this.state.staffs[this.state.positionButtons[_key]].data =
-          response.staffs
-        this.forceUpdate()
-      }
-    }
+  getStaffsByPosition = async index => {
+    console.log("staffs?positions=" + index)
+    let response = await API.get("staffs?positions=" + index)
+    console.log(this.state.staffs[index])
+    this.state.staffs[index].data = response.staffs
+    // this.forceUpdate()
+  }
+  searchStaff = () => {
+    let positionQuery = Object.entries(this.state.staffs)
+      .filter(staff => staff[1].on)
+      .map(function(key, val) {
+        return key[0]
+      })
+    Object.entries(positionQuery).map((key, index) => {
+      this.getStaffsByPosition(key[1])
+    })
   }
   renderContent = () => {
     return (
