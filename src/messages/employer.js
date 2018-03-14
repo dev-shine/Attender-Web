@@ -17,6 +17,7 @@ class EmployerMessage extends Component {
     super(props)
     this.inputMessageRef = null
     this.messagesEnd = null
+    this.threadUrl = ""
     this.state = {
       inputMessage: "",
       renderContactsLoading: true,
@@ -33,7 +34,16 @@ class EmployerMessage extends Component {
 
     let profile = await API.getProfile()
     this.setState({ profile })
-    API.get("staff-messages").then(res => {
+
+    if (profile.isStaff) {
+      this.threadUrl = "staff-messages"
+    }
+
+    if (profile.isVenue || profile.isEmployer) {
+      this.threadUrl = "venue-messages"
+    }
+
+    API.get(this.threadUrl).then(res => {
       if (res.status) {
         this.setState(
           {
@@ -56,7 +66,7 @@ class EmployerMessage extends Component {
         renderContactsLoading: false
       },
       () => {
-        API.get("staff-messages").then(res => {
+        API.get(this.threadUrl).then(res => {
           if (res.status) {
             this.setState({
               threads: res.threads,
@@ -159,11 +169,15 @@ class EmployerMessage extends Component {
     var body = {
       receiver: thread.usid,
       message: this.state.inputMessage,
-      venue: thread.uselect,
       convo: this.state.thread._id
     }
 
-    API.post("new-venue-message", body).then(res => {
+    body[this.state.profile.isStaff ? "venue" : "staff"] = thread.uselect
+
+    API.post(
+      this.state.profile.isStaff ? "new-venue-message" : "new-staff-message",
+      body
+    ).then(res => {
       if (res.status) {
         self.setState({ inputMessage: "" }, function() {
           self.inputMessageRef.focus()
@@ -232,15 +246,10 @@ class EmployerMessage extends Component {
         <div className="m-contacts-menu-item-active">
           <span>CHAT</span>
         </div>
-        <div className="m-contacts-menu-item">
-          <span>CONTACTS</span>
-        </div>
-        <div className="m-contacts-menu-item">
-          <span>ONLINE</span>
-        </div>
+        {/* -- This is only visible for venue or event
         <div className="m-contacts-menu-item">
           <span>STAFF</span>
-        </div>
+        </div> */}
       </div>
     )
   }
