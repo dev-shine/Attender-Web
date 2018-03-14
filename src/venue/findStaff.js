@@ -41,7 +41,8 @@ class FindStaff extends Component {
     this.state = {
       isLoading: false,
       staffs,
-      frequency
+      frequency,
+      viewOnly: "all"
     }
   }
 
@@ -58,7 +59,9 @@ class FindStaff extends Component {
     }
     this.setState(prevState => ({ staffs }))
   }
-
+  viewOnly = position => {
+    this.setState({ viewOnly: position })
+  }
   onSelectOption = (key, obj) => {
     let _obj = this.state[obj]
     if (obj === "staffs") {
@@ -87,12 +90,43 @@ class FindStaff extends Component {
     let staffs = this.state.staffs
 
     let response = await API.get("staffs?positions=" + index)
-    console.log(this.state.staffs[index])
+    console.log(response)
     staffs[index].data = response.staffs
     this.setState(prevState => ({ staffs }))
   }
   Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+  invokeStaffs = (k, i) => {
+    return (
+      <div key={i} className="fs-staff-box">
+        <div className="fs-staff-img ">
+          <img className="profile-thumb-md" src={k[1].avatar} />
+        </div>
+        <div className="fs-staff-info">
+          <p>{k[1].fullname}</p>
+          <small>
+            {this.Capitalize(k[1].position.join(", "))} |{" "}
+            {this.Capitalize(k[1].rateType)}
+          </small>
+          <p>
+            <small>
+              <strong>{k[1].bio}</strong> | {k[1].position.join("/")}
+            </small>
+          </p>
+        </div>
+        <span className="pull-right">{k[1].rateBadge}</span>
+        <div className="fs-staff-skills">
+          <p>
+            <small className="pull-left">Skills: &nbsp;&nbsp;</small>
+            <span className="btn-skills pull-left" />
+            <span className="btn-skills pull-left" />
+            <span className="btn-skills pull-left" />
+            <span className="btn-exp pull-right">Experience</span>
+          </p>
+        </div>
+      </div>
+    )
   }
   renderContent = () => {
     return (
@@ -248,7 +282,15 @@ class FindStaff extends Component {
                     </button>
                   </div>
                   <div className="xdm mini-container">
-                    <button key="All" className="a-btn btn-round btn-passive">
+                    <button
+                      key="All"
+                      className={
+                        this.state.viewOnly == "all"
+                          ? "a-btn btn-round btn-dark"
+                          : "a-btn btn-round btn-passive"
+                      }
+                      onClick={() => this.viewOnly("all")}
+                    >
                       All
                     </button>
                     {Object.keys(this.state.staffs).map((key, index) => {
@@ -256,7 +298,12 @@ class FindStaff extends Component {
                         return (
                           <button
                             key={key}
-                            className="a-btn btn-round btn-passive"
+                            className={
+                              this.state.viewOnly == key
+                                ? "a-btn btn-round btn-dark"
+                                : "a-btn btn-round btn-passive"
+                            }
+                            onClick={() => this.viewOnly(key)}
                           >
                             {key.replace(/\b[a-z]/g, function(letter) {
                               return letter.toUpperCase()
@@ -269,52 +316,20 @@ class FindStaff extends Component {
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
                   {Object.keys(this.state.staffs).map((key, index) => {
-                    if (this.state.staffs[key].on) {
-                      return Object.entries(this.state.staffs[key].data).map(
-                        (k, i) => {
-                          console.log(k, i)
-                          return (
-                            <div key={i} className="fs-staff-box">
-                              <div className="fs-staff-img ">
-                                <img
-                                  className="profile-thumb-md"
-                                  src={k[1].avatar}
-                                />
-                              </div>
-                              <div className="fs-staff-info">
-                                <p>{k[1].fullname}</p>
-                                <small>
-                                  {this.Capitalize(k[1].position.join(", "))} |{" "}
-                                  {this.Capitalize(k[1].rateType)}
-                                </small>
-                                <p>
-                                  <small>
-                                    <strong>{k[1].bio}</strong> |{" "}
-                                    {k[1].position.join("/")}
-                                  </small>
-                                </p>
-                              </div>
-                              <span className="pull-right">
-                                {k[1].rateBadge}
-                              </span>
-                              <div className="fs-staff-skills">
-                                <p>
-                                  <small className="pull-left">
-                                    Skills: &nbsp;&nbsp;
-                                  </small>
-                                  <span className="btn-skills pull-left" />
-                                  <span className="btn-skills pull-left" />
-                                  <span className="btn-skills pull-left" />
-                                  <span className="btn-exp pull-right">
-                                    Experience
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          )
-                          // }
-                        }
-                      )
+                    if (this.state.viewOnly !== "all") {
+                      return Object.entries(
+                        this.state.staffs[this.state.viewOnly].data
+                      ).map((k, i) => {
+                        return this.invokeStaffs(k, i)
+                      })
+                    } else {
+                      if (this.state.staffs[key].on) {
+                        return Object.entries(this.state.staffs[key].data).map(
+                          (k, i) => {
+                            return this.invokeStaffs(k, i)
+                          }
+                        )
+                      }
                     }
                   })}
                 </div>
