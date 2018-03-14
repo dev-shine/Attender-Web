@@ -39,7 +39,8 @@ class FindStaff extends Component {
     this.state = {
       isLoading: false,
       staffs,
-      frequency
+      frequency,
+      positionButtons: ["All"]
     }
   }
 
@@ -72,24 +73,25 @@ class FindStaff extends Component {
     frequency[index].on = !frequency[index].on
     this.setState(prevState => ({ frequency }))
   }
-
   searchStaff = async () => {
     var positionQuery = ""
     for (var _key in staffs) {
       if (staffs[_key].on) {
-        positionQuery += _key + ","
+        var positionButtons = this.state.positionButtons.slice()
+        positionButtons.push(_key)
+        this.setState({ positionButtons: positionButtons })
       }
     }
-    positionQuery = positionQuery.slice(0, -1)
+    positionQuery = this.state.positionButtons.join(", ")
     const url = `staffs`
     var response = await API.get(url + "?positions=" + positionQuery)
-    for (var _key in staffs) {
-      if (staffs[_key].on) {
-        this.state.staffs[_key].data = response.staffs
+    for (var _key in this.state.positionButtons) {
+      if (_key in staffs) {
+        this.state.staffs[this.state.positionButtons[_key]].data =
+          response.staffs
         this.forceUpdate()
       }
     }
-    console.log(this.state.staffs)
   }
   renderContent = () => {
     return (
@@ -245,24 +247,15 @@ class FindStaff extends Component {
                     </button>
                   </div>
                   <div className="xdm mini-container">
-                    <button className="a-btn btn-round wide-sm btn-passive">
-                      All
-                    </button>
-                    <button className="a-btn btn-round btn-active">
-                      Bartender
-                    </button>
-                    <button className="a-btn btn-round wide-md btn-passive">
-                      Waiter/Waitress
-                    </button>
-                    <button className="a-btn btn-round wide-md btn-passive">
-                      Chef/Kitchen Hand
-                    </button>
-                    <button className="a-btn btn-round wide-sm btn-passive">
-                      Host
-                    </button>
-                    <button className="a-btn btn-round wide-md btn-passive">
-                      Barback/Floor Staff
-                    </button>
+                    {this.state.positionButtons.map(i => {
+                      return (
+                        <button key={i} className="a-btn btn-round btn-passive">
+                          {i.replace(/\b[a-z]/g, function(letter) {
+                            return letter.toUpperCase()
+                          })}
+                        </button>
+                      )
+                    })}
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
