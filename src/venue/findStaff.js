@@ -247,14 +247,22 @@ class FindStaff extends Component {
                     </button>
                   </div>
                   <div className="xdm mini-container">
-                    {this.state.positionButtons.map(i => {
-                      return (
-                        <button key={i} className="a-btn btn-round btn-passive">
-                          {i.replace(/\b[a-z]/g, function(letter) {
-                            return letter.toUpperCase()
-                          })}
-                        </button>
-                      )
+                    <button key="All" className="a-btn btn-round btn-passive">
+                      All
+                    </button>
+                    {Object.keys(this.state.staffs).map((key, index) => {
+                      if (this.state.staffs[key].on) {
+                        return (
+                          <button
+                            key={key}
+                            className="a-btn btn-round btn-passive"
+                          >
+                            {key.replace(/\b[a-z]/g, function(letter) {
+                              return letter.toUpperCase()
+                            })}
+                          </button>
+                        )
+                      }
                     })}
                   </div>
                 </div>
