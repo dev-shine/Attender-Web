@@ -85,9 +85,9 @@ class EmployerMessage extends Component {
   }
 
   handleThreadClick = thread => {
-    if (this.state.thread._id) {
-      this.leaveSocketRoom(this.state.thread._id)
-    }
+    // if (this.state.thread._id) {
+    //   this.leaveSocketRoom(this.state.thread._id)
+    // }
 
     this.setState({ thread, renderMessagesLoading: true }, function() {
       this.getConversation()
@@ -135,10 +135,12 @@ class EmployerMessage extends Component {
 
   connectSocket = () => {
     var self = this
-    var threadId = this.state.thread._id
+    // var threadId = this.state.thread._id
 
-    client.joinRoom(threadId, {}, (err, message) => {
-      console.log("join room", err, message)
+    this.state.threads.forEach(thread => {
+      client.joinRoom(thread._id, {}, (err, message) => {
+        console.log("join room", err, message)
+      })
     })
 
     client.on("message", function(room, message) {
