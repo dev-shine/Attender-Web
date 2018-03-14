@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import API from "../services/api"
 
 const staffs = {
   bartender: { on: false, num: 0 },
@@ -12,6 +13,7 @@ const staffs = {
   kitchen: { on: false, num: 0 },
   host: { on: false, num: 0 }
 }
+
 const frequency = [
   {
     name: "Full Time",
@@ -71,6 +73,24 @@ class FindStaff extends Component {
     this.setState(prevState => ({ frequency }))
   }
 
+  searchStaff = async () => {
+    var positionQuery = ""
+    for (var _key in staffs) {
+      if (staffs[_key].on) {
+        positionQuery += _key + ","
+      }
+    }
+    positionQuery = positionQuery.slice(0, -1)
+    const url = `staffs`
+    var response = await API.get(url + "?positions=" + positionQuery)
+    for (var _key in staffs) {
+      if (staffs[_key].on) {
+        this.state.staffs[_key].data = response.staffs
+        this.forceUpdate()
+      }
+    }
+    console.log(this.state.staffs)
+  }
   renderContent = () => {
     return (
       <div className="container xem">
@@ -180,7 +200,10 @@ class FindStaff extends Component {
                   })}
                 </div>
                 <div className="fs-soi-action xdm">
-                  <button className="a-btn btn-dark btn-round pull-right">
+                  <button
+                    className="a-btn btn-dark btn-round pull-right"
+                    onClick={() => this.searchStaff()}
+                  >
                     Search
                   </button>
                   <button className="a-btn btn-active btn-round pull-right">
