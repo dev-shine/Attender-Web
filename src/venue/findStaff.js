@@ -5,13 +5,13 @@ import { connect } from "react-redux"
 import API from "../services/api"
 
 const staffs = {
-  bartender: { on: false, num: 0 },
-  manager: { on: false, num: 0 },
-  waiter: { on: false, num: 0 },
-  chef: { on: false, num: 0 },
-  barback: { on: false, num: 0 },
-  kitchen: { on: false, num: 0 },
-  host: { on: false, num: 0 }
+  bartender: { on: false, num: 0, data: [] },
+  manager: { on: false, num: 0, data: [] },
+  waiter: { on: false, num: 0, data: [] },
+  chef: { on: false, num: 0, data: [] },
+  barback: { on: false, num: 0, data: [] },
+  kitchen: { on: false, num: 0, data: [] },
+  host: { on: false, num: 0, data: [] }
 }
 
 const frequency = [
@@ -67,21 +67,7 @@ class FindStaff extends Component {
       _obj[key] = !_obj[key]
     }
     this.setState(prevState => ({ [obj]: _obj }))
-  }
 
-  onChangeFrequency = index => {
-    let frequency = this.state.frequency
-    frequency[index].on = !frequency[index].on
-    this.setState(prevState => ({ frequency }))
-  }
-  getStaffsByPosition = async index => {
-    console.log("staffs?positions=" + index)
-    let response = await API.get("staffs?positions=" + index)
-    console.log(this.state.staffs[index])
-    this.state.staffs[index].data = response.staffs
-    // this.forceUpdate()
-  }
-  searchStaff = () => {
     let positionQuery = Object.entries(this.state.staffs)
       .filter(staff => staff[1].on)
       .map(function(key, val) {
@@ -90,6 +76,23 @@ class FindStaff extends Component {
     Object.entries(positionQuery).map((key, index) => {
       this.getStaffsByPosition(key[1])
     })
+  }
+
+  onChangeFrequency = index => {
+    let frequency = this.state.frequency
+    frequency[index].on = !frequency[index].on
+    this.setState(prevState => ({ frequency }))
+  }
+  getStaffsByPosition = async index => {
+    let staffs = this.state.staffs
+
+    let response = await API.get("staffs?positions=" + index)
+    console.log(this.state.staffs[index])
+    staffs[index].data = response.staffs
+    this.setState(prevState => ({ staffs }))
+  }
+  Capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
   }
   renderContent = () => {
     return (
@@ -265,40 +268,54 @@ class FindStaff extends Component {
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
-                  {Object.keys(this.state.staffs).map((staff, index) => {
-                    return (
-                      <div key={index} className="fs-staff-box">
-                        <div className="fs-staff-img ">
-                          <img
-                            className="profile-thumb-md"
-                            src="http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
-                          />
-                        </div>
-                        <div className="fs-staff-info">
-                          <p>Derrick Soto </p>
-                          <small>Bartender|Partime</small>
-                          <p>
-                            <small>
-                              <strong>RSA</strong> | Mixology/Night Owl/Cofee
-                            </small>
-                          </p>
-                        </div>
-                        <span className="pull-right">$20 - $25/H</span>
-                        <div className="fs-staff-skills">
-                          <p>
-                            <small className="pull-left">
-                              Skills: &nbsp;&nbsp;
-                            </small>
-                            <span className="btn-skills pull-left" />
-                            <span className="btn-skills pull-left" />
-                            <span className="btn-skills pull-left" />
-                            <span className="btn-exp pull-right">
-                              Experience
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    )
+                  {Object.keys(this.state.staffs).map((key, index) => {
+                    if (this.state.staffs[key].on) {
+                      return Object.entries(this.state.staffs[key].data).map(
+                        (k, i) => {
+                          console.log(k, i)
+                          return (
+                            <div key={i} className="fs-staff-box">
+                              <div className="fs-staff-img ">
+                                <img
+                                  className="profile-thumb-md"
+                                  src={k[1].avatar}
+                                />
+                              </div>
+                              <div className="fs-staff-info">
+                                <p>{k[1].fullname}</p>
+                                <small>
+                                  {this.Capitalize(k[1].position.join(", "))} |{" "}
+                                  {this.Capitalize(k[1].rateType)}
+                                </small>
+                                <p>
+                                  <small>
+                                    <strong>{k[1].bio}</strong> |{" "}
+                                    {k[1].position.join("/")}
+                                  </small>
+                                </p>
+                              </div>
+                              <span className="pull-right">
+                                {k[1].rateBadge}
+                              </span>
+                              <div className="fs-staff-skills">
+                                <p>
+                                  <small className="pull-left">
+                                    Skills: &nbsp;&nbsp;
+                                  </small>
+                                  <span className="btn-skills pull-left" />
+                                  <span className="btn-skills pull-left" />
+                                  <span className="btn-skills pull-left" />
+                                  <span className="btn-exp pull-right">
+                                    Experience
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          )
+                          // }
+                        }
+                      )
+                    }
                   })}
                 </div>
               </div>
