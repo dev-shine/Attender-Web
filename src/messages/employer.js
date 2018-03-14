@@ -25,7 +25,8 @@ class EmployerMessage extends Component {
       loading: true,
       thread: {},
       threads: [],
-      conversation: []
+      conversation: [],
+      tab: "chat"
     }
   }
 
@@ -85,13 +86,15 @@ class EmployerMessage extends Component {
   }
 
   handleThreadClick = thread => {
-    // if (this.state.thread._id) {
-    //   this.leaveSocketRoom(this.state.thread._id)
-    // }
-
     this.setState({ thread, renderMessagesLoading: true }, function() {
       this.getConversation()
-      this.connectSocket()
+    })
+  }
+
+  handleTabClick = tab => {
+    this.setState({ tab }, () => {
+      // do something - probably api calls
+      console.log("tabcal", tab)
     })
   }
 
@@ -135,16 +138,15 @@ class EmployerMessage extends Component {
 
   connectSocket = () => {
     var self = this
-    // var threadId = this.state.thread._id
 
     this.state.threads.forEach(thread => {
       client.joinRoom(thread._id, {}, (err, message) => {
-        console.log("join room", err, message)
+        // console.log("join room", err, message)
       })
     })
 
     client.on("message", function(room, message) {
-      console.log("room", room, "message", message)
+      // console.log("room", room, "message", message)
       if (message == "refresh-messages") {
         self.getConversation()
         self.getStaffMessages()
@@ -243,17 +245,34 @@ class EmployerMessage extends Component {
   }
 
   renderContactMenu = () => {
-    return (
-      <div className="m-contacts-menu">
-        <div className="m-contacts-menu-item-active">
-          <span>CHAT</span>
+    if (this.state.profile) {
+      return (
+        <div className="m-contacts-menu">
+          <div
+            className={
+              this.state.tab === "chat"
+                ? "m-contacts-menu-item-active"
+                : "m-contacts-menu-item"
+            }
+            onClick={this.handleTabClick.bind(this, "chat")}
+          >
+            <span>CHAT</span>
+          </div>
+          {this.state.profile.isEmployer || this.state.profile.isVenue ? (
+            <div
+              className={
+                this.state.tab === "staff"
+                  ? "m-contacts-menu-item-active"
+                  : "m-contacts-menu-item"
+              }
+              onClick={this.handleTabClick.bind(this, "staff")}
+            >
+              <span>STAFF</span>
+            </div>
+          ) : null}
         </div>
-        {/* -- This is only visible for venue or event
-        <div className="m-contacts-menu-item">
-          <span>STAFF</span>
-        </div> */}
-      </div>
-    )
+      )
+    }
   }
 
   renderContacts = () => {
@@ -297,6 +316,16 @@ class EmployerMessage extends Component {
         })}
       </div>
     )
+  }
+
+  renderStaff = () => {
+    // if (this.state.renderContactsLoading) {
+    return (
+      <div className="container xem center navigator">
+        <img alt="" src={require("./../assets/icons/loading.svg")} />
+      </div>
+    )
+    // }
   }
 
   renderComposer = () => {
@@ -356,7 +385,8 @@ class EmployerMessage extends Component {
               <div className="row">
                 <div className="col-sm-4 m-contacts">
                   {this.renderContactMenu()}
-                  {this.renderContacts()}
+                  {this.state.tab === "chat" ? this.renderContacts() : null}
+                  {this.state.tab === "staff" ? this.renderStaff() : null}
                 </div>
 
                 <div className="col-sm-8 m-messages">
