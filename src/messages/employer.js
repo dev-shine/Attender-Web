@@ -23,11 +23,13 @@ class EmployerMessage extends Component {
       inputMessage: "",
       renderContactsLoading: true,
       renderMessagesLoading: true,
+      renderStaffsLoading: true,
       loading: true,
       thread: {},
       threads: [],
       conversation: [],
       tab: "staff",
+      myStaffs: [],
       staffs: {
         bartender: { on: false, num: 0 },
         manager: { on: false, num: 0 },
@@ -45,6 +47,7 @@ class EmployerMessage extends Component {
 
     let profile = await API.getProfile()
     this.setState({ profile })
+    console.log("profile", profile)
 
     if (profile.isStaff) {
       this.threadUrl = "staff-messages"
@@ -52,6 +55,7 @@ class EmployerMessage extends Component {
 
     if (profile.isVenue || profile.isEmployer) {
       this.threadUrl = "venue-messages"
+      this.getMyStaffs()
     }
 
     API.get(this.threadUrl).then(res => {
@@ -103,8 +107,19 @@ class EmployerMessage extends Component {
 
   handleTabClick = tab => {
     this.setState({ tab }, () => {
-      // do something - probably api calls
-      console.log("staffs", this.state.staffs)
+      this.getMyStaffs()
+    })
+  }
+
+  getMyStaffs = () => {
+    API.get("my-staffs").then(res => {
+      if (res.status) {
+        console.log("resstaffs", res.staffs.bartender)
+        this.setState({
+          myStaffs: res.staffs.bartender,
+          renderStaffsLoading: false
+        })
+      }
     })
   }
 
@@ -339,13 +354,13 @@ class EmployerMessage extends Component {
   }
 
   renderStaff = () => {
-    // if (this.state.renderContactsLoading) {
-    // return (
-    //   <div className="container xem center navigator">
-    //     <img alt="" src={require("./../assets/icons/loading.svg")} />
-    //   </div>
-    // )
-    // }
+    if (this.state.renderStaffsLoading) {
+      return (
+        <div className="container xem center navigator">
+          <img alt="" src={require("./../assets/icons/loading.svg")} />
+        </div>
+      )
+    }
 
     return (
       <div className="a-icon-container-sm xxm scroll h-scroll">
@@ -383,6 +398,43 @@ class EmployerMessage extends Component {
               </div>
             )
           }
+        })}
+      </div>
+    )
+  }
+
+  renderMyStaff = () => {
+    if (this.state.renderStaffsLoading) {
+      return (
+        <div className="container xem center navigator">
+          <img alt="" src={require("./../assets/icons/loading.svg")} />
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        {this.state.myStaffs.map((staff, index) => {
+          return (
+            <div
+              key={index}
+              className="m-thread"
+              onClick={this.handleThreadClick.bind(this, staff)}
+            >
+              <div className="row">
+                <div className="col-sm-3">
+                  <img
+                    alt=""
+                    className="profile-thumb"
+                    src={staff.staff.avatar}
+                  />
+                </div>
+                <div className="col-sm-9">
+                  <span>{staff.staff.fullname}</span>
+                </div>
+              </div>
+            </div>
+          )
         })}
       </div>
     )
@@ -447,6 +499,7 @@ class EmployerMessage extends Component {
                   {this.renderContactMenu()}
                   {this.state.tab === "chat" ? this.renderContacts() : null}
                   {this.state.tab === "staff" ? this.renderStaff() : null}
+                  {this.state.tab === "staff" ? this.renderMyStaff() : null}
                 </div>
 
                 <div className="col-sm-8 m-messages">
