@@ -11,6 +11,7 @@ var moment = require("moment")
 const ws = require("adonis-websocket-client")
 const io = ws("http://localhost:3333")
 const client = io.channel("chat").connect()
+const FontAwesome = require("react-fontawesome")
 
 class EmployerMessage extends Component {
   constructor(props) {
@@ -26,7 +27,16 @@ class EmployerMessage extends Component {
       thread: {},
       threads: [],
       conversation: [],
-      tab: "chat"
+      tab: "staff",
+      staffs: {
+        bartender: { on: false, num: 0 },
+        manager: { on: false, num: 0 },
+        waiter: { on: false, num: 0 },
+        chef: { on: false, num: 0 },
+        barback: { on: false, num: 0 },
+        kitchen: { on: false, num: 0 },
+        host: { on: false, num: 0 }
+      }
     }
   }
 
@@ -94,7 +104,7 @@ class EmployerMessage extends Component {
   handleTabClick = tab => {
     this.setState({ tab }, () => {
       // do something - probably api calls
-      console.log("tabcal", tab)
+      console.log("staffs", this.state.staffs)
     })
   }
 
@@ -318,14 +328,64 @@ class EmployerMessage extends Component {
     )
   }
 
+  onSelectOption = (key, obj) => {
+    let _obj = this.state[obj]
+    if (obj === "staffs") {
+      _obj[key].on = !_obj[key].on
+    } else {
+      _obj[key] = !_obj[key]
+    }
+    this.setState(prevState => ({ [obj]: _obj }))
+  }
+
   renderStaff = () => {
     // if (this.state.renderContactsLoading) {
+    // return (
+    //   <div className="container xem center navigator">
+    //     <img alt="" src={require("./../assets/icons/loading.svg")} />
+    //   </div>
+    // )
+    // }
+
     return (
-      <div className="container xem center navigator">
-        <img alt="" src={require("./../assets/icons/loading.svg")} />
+      <div className="a-icon-container-sm xxm scroll h-scroll">
+        {Object.keys(this.state.staffs).map((key, index) => {
+          if (this.state.staffs[key].on) {
+            return (
+              <div
+                className="vs-service-item-active"
+                key={index}
+                onClick={() => this.onSelectOption(key, "staffs")}
+              >
+                <a className="vs-service-action">
+                  <img
+                    alt=""
+                    src={require(`.././assets/icons/staff/white/${key}.png`)}
+                  />
+                </a>
+                <p className="xxm">{key.capitalize()}</p>
+              </div>
+            )
+          } else {
+            return (
+              <div
+                className="vs-service-item"
+                key={index}
+                onClick={() => this.onSelectOption(key, "staffs")}
+              >
+                <a className="vs-service-action">
+                  <img
+                    alt=""
+                    src={require(`.././assets/icons/staff/default/${key}.png`)}
+                  />
+                </a>
+                <p className="xxm">{key.capitalize()}</p>
+              </div>
+            )
+          }
+        })}
       </div>
     )
-    // }
   }
 
   renderComposer = () => {
