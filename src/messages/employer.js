@@ -119,7 +119,12 @@ class EmployerMessage extends Component {
         const allStaff = []
         Object.keys(res.staffs).forEach(staff => {
           res.staffs[staff].forEach(as => {
-            allStaff.push(as)
+            if (
+              allStaff.length === 0 ||
+              !allStaff.find(asf => asf.staff._id === as.staff._id)
+            ) {
+              allStaff.push(as)
+            }
           })
         })
         this.setState({
