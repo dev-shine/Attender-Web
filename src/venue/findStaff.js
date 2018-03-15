@@ -49,7 +49,8 @@ class FindStaff extends Component {
         { lbl: "Price/h", selected: false },
         { lbl: "Availability", selected: false },
         { lbl: "Last Active", selected: false }
-      ]
+      ],
+      results: []
     }
   }
 
@@ -98,7 +99,6 @@ class FindStaff extends Component {
     let staffs = this.state.staffs
 
     let response = await API.get("staffs?positions=" + index)
-    console.log(response)
     staffs[index].data = response.staffs
     this.setState(prevState => ({ staffs }))
     this.updateLookingfor()
@@ -112,20 +112,52 @@ class FindStaff extends Component {
     })
     lookingforTxt = lookingforTxt.slice(0, -2)
     this.setState({ lookingforTxt: lookingforTxt })
-    console.log(this.state.lookingforTxt)
   }
   Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
   setSortBy = sortby => {
-    let sortBtns = this.state.sortBtns
+    let sortBtns = [...this.state.sortBtns],
+      results = [...this.state.results]
+
     Object.values(sortBtns).map((val, key) => {
       sortBtns[key].selected = false
       if (sortBtns[key].lbl == sortby) {
         sortBtns[key].selected = true
+
+        if (sortby == "Position") {
+          results.sort((a, b) => {
+            if (a.position[0] < b.position[0]) return -1
+            if (a.position[0] > b.position[0]) return 1
+            return 0
+          })
+        } else if (sortby == "Price/h") {
+          results.sort((a, b) => {
+            if (a.startRate < b.startRate) return -1
+            if (a.startRate > b.startRate) return 1
+            return 0
+          })
+        } else if (sortby == "Availability") {
+          // results.sort((a,b) => {
+          //   Object.values(a.availability)
+          //   if(a.position[0] < b.position[0]) return -1;
+          //   if(a.position[0] > b.position[0]) return 1;
+          //   return 0;
+          // })
+        } else if (sortby == "Last Active") {
+        }
       }
       this.setState({ sortBtns: sortBtns })
     })
+  }
+  searchStaff = () => {
+    let results = []
+    Object.values(this.state.staffs).map((val, key) => {
+      if (val.on) {
+        results = results.concat(val.data)
+      }
+    })
+    this.setState({ results: results })
   }
   invokeStaffs = (k, i) => {
     return (
@@ -349,7 +381,7 @@ class FindStaff extends Component {
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
-                  {Object.keys(this.state.staffs).map((key, index) => {
+                  {Object.keys(this.state.results).map((key, index) => {
                     if (this.state.viewOnly !== "all") {
                       return Object.entries(
                         this.state.staffs[this.state.viewOnly].data
@@ -357,13 +389,9 @@ class FindStaff extends Component {
                         return this.invokeStaffs(k, i)
                       })
                     } else {
-                      if (this.state.staffs[key].on) {
-                        return Object.entries(this.state.staffs[key].data).map(
-                          (k, i) => {
-                            return this.invokeStaffs(k, i)
-                          }
-                        )
-                      }
+                      return Object.entries(this.state.results).map((k, i) => {
+                        return this.invokeStaffs(k, i)
+                      })
                     }
                   })}
                 </div>
