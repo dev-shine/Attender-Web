@@ -42,7 +42,8 @@ class FindStaff extends Component {
       isLoading: false,
       staffs,
       frequency,
-      viewOnly: "all"
+      viewOnly: "all",
+      lookingforTxt: ""
     }
   }
 
@@ -58,6 +59,7 @@ class FindStaff extends Component {
       }
     }
     this.setState(prevState => ({ staffs }))
+    this.updateLookingfor()
   }
   viewOnly = position => {
     this.setState({ viewOnly: position })
@@ -93,6 +95,18 @@ class FindStaff extends Component {
     console.log(response)
     staffs[index].data = response.staffs
     this.setState(prevState => ({ staffs }))
+    this.updateLookingfor()
+  }
+  updateLookingfor = () => {
+    let lookingforTxt = ""
+    Object.entries(this.state.staffs).map((key, index) => {
+      if (key[1].on) {
+        lookingforTxt += key[1].num + " " + key[0] + ", "
+      }
+    })
+    lookingforTxt = lookingforTxt.slice(0, -2)
+    this.setState({ lookingforTxt: lookingforTxt })
+    console.log(this.state.lookingforTxt)
   }
   Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
@@ -263,7 +277,7 @@ class FindStaff extends Component {
                   <p>
                     Looking for:{" "}
                     <span className="light-text">
-                      3 bartenders, 5 Waiter/Waitress
+                      {this.state.lookingforTxt}
                     </span>
                   </p>
                   <div className="xxm">
