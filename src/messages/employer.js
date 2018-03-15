@@ -31,15 +31,16 @@ class EmployerMessage extends Component {
       tab: "staff",
       myStaffs: [],
       staffs: {
-        all: { on: false, num: 0 },
-        bartender: { on: false, num: 0 },
-        manager: { on: false, num: 0 },
-        waiter: { on: false, num: 0 },
-        chef: { on: false, num: 0 },
-        barback: { on: false, num: 0 },
-        kitchen: { on: false, num: 0 },
-        host: { on: false, num: 0 }
-      }
+        all: { on: false },
+        bartender: { on: false },
+        manager: { on: false },
+        waiter: { on: false },
+        chef: { on: false },
+        barback: { on: false },
+        kitchen: { on: false },
+        host: { on: false }
+      },
+      staffFilters: []
     }
   }
 
@@ -351,12 +352,41 @@ class EmployerMessage extends Component {
 
   onSelectOption = (key, obj) => {
     let _obj = this.state[obj]
-    if (obj === "staffs") {
-      _obj[key].on = !_obj[key].on
-    } else {
-      _obj[key] = !_obj[key]
+    _obj[key].on = !_obj[key].on
+
+    if (key === "all") {
+      const staffs = { ...this.state.staffs }
+      const newVal = Object.keys(staffs).map(i => {
+        if (i !== "all") {
+          staffs[i].on = false
+        }
+
+        if (i === "all") {
+          staffs[i].on = true
+        }
+
+        const tmp = {}
+        tmp[i] = staffs[i]
+
+        return tmp
+      })
+
+      this.setState({ staffs })
     }
+
+    if (key !== "all") {
+      const staffs = { ...this.state.staffs }
+      staffs.all.on = false
+      this.setState({ staffs })
+    }
+
     this.setState(prevState => ({ [obj]: _obj }))
+
+    this.setState({
+      staffFilters: Object.keys(this.state.staffs).filter(
+        i => this.state.staffs[i].on
+      )
+    })
   }
 
   renderStaff = () => {
