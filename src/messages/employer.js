@@ -356,21 +356,9 @@ class EmployerMessage extends Component {
 
     if (key === "all") {
       const staffs = { ...this.state.staffs }
-      const newVal = Object.keys(staffs).map(i => {
-        if (i !== "all") {
-          staffs[i].on = false
-        }
-
-        if (i === "all") {
-          staffs[i].on = true
-        }
-
-        const tmp = {}
-        tmp[i] = staffs[i]
-
-        return tmp
-      })
-
+      Object.keys(staffs).forEach(
+        i => (i !== "all" ? (staffs[i].on = false) : (staffs[i].on = true))
+      )
       this.setState({ staffs })
     }
 
