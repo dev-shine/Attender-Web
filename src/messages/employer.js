@@ -114,9 +114,14 @@ class EmployerMessage extends Component {
   getMyStaffs = () => {
     API.get("my-staffs").then(res => {
       if (res.status) {
-        console.log("resstaffs", res.staffs.bartender)
+        const allStaff = []
+        Object.keys(res.staffs).forEach(staff => {
+          res.staffs[staff].forEach(as => {
+            allStaff.push(as)
+          })
+        })
         this.setState({
-          myStaffs: res.staffs.bartender,
+          myStaffs: allStaff,
           renderStaffsLoading: false
         })
       }
