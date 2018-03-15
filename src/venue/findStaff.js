@@ -43,7 +43,13 @@ class FindStaff extends Component {
       staffs,
       frequency,
       viewOnly: "all",
-      lookingforTxt: ""
+      lookingforTxt: "",
+      sortBtns: [
+        { lbl: "Position", selected: true },
+        { lbl: "Price/h", selected: false },
+        { lbl: "Availability", selected: false },
+        { lbl: "Last Active", selected: false }
+      ]
     }
   }
 
@@ -110,6 +116,16 @@ class FindStaff extends Component {
   }
   Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+  setSortBy = sortby => {
+    let sortBtns = this.state.sortBtns
+    Object.values(sortBtns).map((val, key) => {
+      sortBtns[key].selected = false
+      if (sortBtns[key].lbl == sortby) {
+        sortBtns[key].selected = true
+      }
+      this.setState({ sortBtns: sortBtns })
+    })
   }
   invokeStaffs = (k, i) => {
     return (
@@ -282,18 +298,22 @@ class FindStaff extends Component {
                   </p>
                   <div className="xxm">
                     <span>Filtered by:&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <button className="a-btn btn-round btn-dark xs">
-                      Position
-                    </button>
-                    <button className="a-btn btn-round btn-passive xs">
-                      Price/h
-                    </button>
-                    <button className="a-btn btn-round btn-passive">
-                      Availability
-                    </button>
-                    <button className="a-btn btn-round btn-passive">
-                      Last Active
-                    </button>
+
+                    {Object.values(this.state.sortBtns).map((key, index) => {
+                      return (
+                        <button
+                          onClick={() => this.setSortBy(key.lbl)}
+                          key={index}
+                          className={
+                            key.selected
+                              ? "a-btn btn-round btn-dark xs"
+                              : "a-btn btn-round btn-passive xs"
+                          }
+                        >
+                          {key.lbl}
+                        </button>
+                      )
+                    })}
                   </div>
                   <div className="xdm mini-container">
                     <button
