@@ -138,12 +138,29 @@ class FindStaff extends Component {
             return 0
           })
         } else if (sortby == "Availability") {
-          // results.sort((a,b) => {
-          //   Object.values(a.availability)
-          //   if(a.position[0] < b.position[0]) return -1;
-          //   if(a.position[0] > b.position[0]) return 1;
-          //   return 0;
-          // })
+          res.sort((a, b) => {
+            let atrueCounter = 0
+            let ax = Object.values(a.availability).map((key, val) => {
+              Object.values(key).map((k, v) => {
+                if (k) {
+                  atrueCounter++
+                }
+              })
+            })
+
+            let btrueCounter = 0
+            let bx = Object.values(b.availability).map((key, val) => {
+              Object.values(key).map((k, v) => {
+                if (k) {
+                  btrueCounter++
+                }
+              })
+            })
+
+            if (atrueCounter < btrueCounter) return -1
+            if (atrueCounter > btrueCounter) return 1
+            return 0
+          })
         } else if (sortby == "Last Active") {
         }
       }
