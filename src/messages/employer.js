@@ -28,7 +28,7 @@ class EmployerMessage extends Component {
       thread: {},
       threads: [],
       conversation: [],
-      tab: "staff",
+      tab: "chat",
       myStaffs: [],
       staffs: {
         all: { on: true },
