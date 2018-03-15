@@ -11,6 +11,7 @@ var moment = require("moment")
 const ws = require("adonis-websocket-client")
 const io = ws("http://localhost:3333")
 const client = io.channel("chat").connect()
+const FontAwesome = require("react-fontawesome")
 
 class EmployerMessage extends Component {
   constructor(props) {
@@ -22,10 +23,25 @@ class EmployerMessage extends Component {
       inputMessage: "",
       renderContactsLoading: true,
       renderMessagesLoading: true,
+      renderStaffsLoading: true,
       loading: true,
       thread: {},
       threads: [],
-      conversation: []
+      conversation: [],
+      tab: "chat",
+      myStaffs: [],
+      staffs: {
+        all: { on: true },
+        bartender: { on: false },
+        manager: { on: false },
+        waiter: { on: false },
+        chef: { on: false },
+        barback: { on: false },
+        kitchen: { on: false },
+        host: { on: false }
+      },
+      staffFilters: [],
+      selectedStaff: {}
     }
   }
 
@@ -34,6 +50,7 @@ class EmployerMessage extends Component {
 
     let profile = await API.getProfile()
     this.setState({ profile })
+    console.log("profile", profile)
 
     if (profile.isStaff) {
       this.threadUrl = "staff-messages"
@@ -41,6 +58,7 @@ class EmployerMessage extends Component {
 
     if (profile.isVenue || profile.isEmployer) {
       this.threadUrl = "venue-messages"
+      this.getMyStaffs()
     }
 
     API.get(this.threadUrl).then(res => {
@@ -84,14 +102,44 @@ class EmployerMessage extends Component {
     })
   }
 
-  handleThreadClick = thread => {
-    // if (this.state.thread._id) {
-    //   this.leaveSocketRoom(this.state.thread._id)
-    // }
+  handleThreadClick = (thread, staff) => {
+    if (thread) {
+      this.setState({ thread, renderMessagesLoading: true }, () => {
+        this.getConversation()
+      })
+    }
 
-    this.setState({ thread, renderMessagesLoading: true }, function() {
-      this.getConversation()
-      this.connectSocket()
+    if (!thread) {
+      this.setState({ thread: null })
+      this.setState({ selectedStaff: staff })
+    }
+  }
+
+  handleTabClick = tab => {
+    this.setState({ tab }, () => {
+      this.getMyStaffs()
+    })
+  }
+
+  getMyStaffs = () => {
+    API.get("my-staffs").then(res => {
+      if (res.status) {
+        const allStaff = []
+        Object.keys(res.staffs).forEach(staff => {
+          res.staffs[staff].forEach(as => {
+            if (
+              allStaff.length === 0 ||
+              !allStaff.find(asf => asf.staff._id === as.staff._id)
+            ) {
+              allStaff.push(as)
+            }
+          })
+        })
+        this.setState({
+          myStaffs: allStaff,
+          renderStaffsLoading: false
+        })
+      }
     })
   }
 
@@ -135,16 +183,15 @@ class EmployerMessage extends Component {
 
   connectSocket = () => {
     var self = this
-    // var threadId = this.state.thread._id
 
     this.state.threads.forEach(thread => {
       client.joinRoom(thread._id, {}, (err, message) => {
-        console.log("join room", err, message)
+        // console.log("join room", err, message)
       })
     })
 
     client.on("message", function(room, message) {
-      console.log("room", room, "message", message)
+      // console.log("room", room, "message", message)
       if (message == "refresh-messages") {
         self.getConversation()
         self.getStaffMessages()
@@ -169,19 +216,41 @@ class EmployerMessage extends Component {
     var thread = this.state.thread
 
     var body = {
-      receiver: thread.usid,
-      message: this.state.inputMessage,
-      convo: this.state.thread._id
+      receiver: thread ? thread.usid : this.state.selectedStaff.user,
+      message: this.state.inputMessage
     }
 
-    body[this.state.profile.isStaff ? "venue" : "staff"] = thread.uselect
+    thread && (body.convo = this.state.thread._id)
+    body[this.state.profile.isStaff ? "venue" : "staff"] = thread
+      ? thread.uselect
+      : this.state.selectedStaff._id
 
     API.post(
-      this.state.profile.isStaff ? "new-venue-message" : "new-staff-message",
+      this.state.profile.isStaff
+        ? "new-venue-message"
+        : thread ? "new-staff-message" : "new-initial-message",
       body
     ).then(res => {
       if (res.status) {
         self.setState({ inputMessage: "" }, function() {
+          if (res.thread) {
+            self.setState({ renderMessagesLoading: true }, () => {
+              const thread = res.thread
+              client.joinRoom(thread._id, {}, (err, message) => {
+                self.setState(
+                  {
+                    threads: [...self.state.threads, thread],
+                    thread,
+                    renderMessagesLoading: false
+                  },
+                  () => {
+                    console.log("newthreads", this.state.threads)
+                    self.getConversation()
+                  }
+                )
+              })
+            })
+          }
           self.inputMessageRef.focus()
         })
       }
@@ -199,39 +268,48 @@ class EmployerMessage extends Component {
 
     return (
       <div className="m-content">
-        {this.state.conversation
-          .slice(0)
-          .reverse()
-          .map((message, index) => {
-            return (
-              <div key={index}>
-                {message.setDateBar ? (
-                  <div className="m-line">
-                    <div className="a-line" />
-                    <div className="m-today">{message.setDateBar}</div>
+        {!this.state.thread ? (
+          <div className="container xem center navigator">
+            <a href="javascript:void(0)" className="nav-brand">
+              <FontAwesome name="comments" size="2x" />&nbsp;&nbsp;Start
+              Conversation
+            </a>
+          </div>
+        ) : (
+          this.state.conversation
+            .slice(0)
+            .reverse()
+            .map((message, index) => {
+              return (
+                <div key={index}>
+                  {message.setDateBar ? (
+                    <div className="m-line">
+                      <div className="a-line" />
+                      <div className="m-today">{message.setDateBar}</div>
+                    </div>
+                  ) : null}
+                  <div
+                    className={
+                      this.state.profile._id === message.user._id
+                        ? "m-message-right"
+                        : "m-message-left"
+                    }
+                  >
+                    {message.text}
                   </div>
-                ) : null}
-                <div
-                  className={
-                    this.state.profile._id === message.user._id
-                      ? "m-message-right"
-                      : "m-message-left"
-                  }
-                >
-                  {message.text}
+                  <div
+                    className={
+                      this.state.profile._id === message.user._id
+                        ? "m-time-right"
+                        : "m-time-left"
+                    }
+                  >
+                    {message.createdAt}
+                  </div>
                 </div>
-                <div
-                  className={
-                    this.state.profile._id === message.user._id
-                      ? "m-time-right"
-                      : "m-time-left"
-                  }
-                >
-                  {message.createdAt}
-                </div>
-              </div>
-            )
-          })}
+              )
+            })
+        )}
         <div
           style={{ float: "left", clear: "both" }}
           ref={el => {
@@ -243,17 +321,34 @@ class EmployerMessage extends Component {
   }
 
   renderContactMenu = () => {
-    return (
-      <div className="m-contacts-menu">
-        <div className="m-contacts-menu-item-active">
-          <span>CHAT</span>
+    if (this.state.profile) {
+      return (
+        <div className="m-contacts-menu">
+          <div
+            className={
+              this.state.tab === "chat"
+                ? "m-contacts-menu-item-active"
+                : "m-contacts-menu-item"
+            }
+            onClick={this.handleTabClick.bind(this, "chat")}
+          >
+            <span>CHAT</span>
+          </div>
+          {this.state.profile.isEmployer || this.state.profile.isVenue ? (
+            <div
+              className={
+                this.state.tab === "staff"
+                  ? "m-contacts-menu-item-active"
+                  : "m-contacts-menu-item"
+              }
+              onClick={this.handleTabClick.bind(this, "staff")}
+            >
+              <span>STAFF</span>
+            </div>
+          ) : null}
         </div>
-        {/* -- This is only visible for venue or event
-        <div className="m-contacts-menu-item">
-          <span>STAFF</span>
-        </div> */}
-      </div>
-    )
+      )
+    }
   }
 
   renderContacts = () => {
@@ -295,6 +390,136 @@ class EmployerMessage extends Component {
             </div>
           )
         })}
+      </div>
+    )
+  }
+
+  onSelectOption = (key, obj) => {
+    let _obj = this.state[obj]
+    _obj[key].on = !_obj[key].on
+
+    if (key === "all") {
+      const staffs = { ...this.state.staffs }
+      Object.keys(staffs).forEach(
+        i => (i !== "all" ? (staffs[i].on = false) : (staffs[i].on = true))
+      )
+      this.setState({ staffs })
+    }
+
+    if (key !== "all") {
+      const staffs = { ...this.state.staffs }
+      staffs.all.on = false
+      this.setState({ staffs })
+    }
+
+    this.setState(prevState => ({ [obj]: _obj }))
+
+    this.setState({
+      staffFilters: Object.keys(this.state.staffs).filter(
+        i => this.state.staffs[i].on
+      )
+    })
+  }
+
+  renderStaff = () => {
+    if (this.state.renderStaffsLoading) {
+      return (
+        <div className="container xem center navigator">
+          <img alt="" src={require("./../assets/icons/loading.svg")} />
+        </div>
+      )
+    }
+
+    return (
+      <div className="a-icon-container-sm xxm scroll h-scroll">
+        {Object.keys(this.state.staffs).map((key, index) => {
+          if (this.state.staffs[key].on) {
+            return (
+              <div
+                className="vs-service-item-active"
+                key={index}
+                onClick={() => this.onSelectOption(key, "staffs")}
+              >
+                <a className="vs-service-action">
+                  <img
+                    alt=""
+                    src={require(`.././assets/icons/staff/white/${key}.png`)}
+                  />
+                </a>
+                <p className="xxm">{key.capitalize()}</p>
+              </div>
+            )
+          } else {
+            return (
+              <div
+                className="vs-service-item"
+                key={index}
+                onClick={() => this.onSelectOption(key, "staffs")}
+              >
+                <a className="vs-service-action">
+                  <img
+                    alt=""
+                    src={require(`.././assets/icons/staff/default/${key}.png`)}
+                  />
+                </a>
+                <p className="xxm">{key.capitalize()}</p>
+              </div>
+            )
+          }
+        })}
+      </div>
+    )
+  }
+
+  renderMyStaff = () => {
+    if (this.state.renderStaffsLoading) {
+      return (
+        <div className="container xem center navigator">
+          <img alt="" src={require("./../assets/icons/loading.svg")} />
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        {this.state.myStaffs
+          .filter(
+            m =>
+              this.state.staffs.all.on
+                ? m
+                : m.staff.position.some(
+                    p =>
+                      Object.keys(this.state.staffs)
+                        .filter(i => this.state.staffs[i].on)
+                        .indexOf(p) >= 0
+                  )
+          )
+          .map((staff, index) => {
+            return (
+              <div
+                key={index}
+                className="m-thread"
+                onClick={this.handleThreadClick.bind(
+                  this,
+                  this.state.threads.find(t => t.uselect === staff.staff._id),
+                  staff.staff
+                )}
+              >
+                <div className="row">
+                  <div className="col-sm-3">
+                    <img
+                      alt=""
+                      className="profile-thumb"
+                      src={staff.staff.avatar}
+                    />
+                  </div>
+                  <div className="col-sm-9">
+                    <span>{staff.staff.fullname}</span>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
       </div>
     )
   }
@@ -356,7 +581,9 @@ class EmployerMessage extends Component {
               <div className="row">
                 <div className="col-sm-4 m-contacts">
                   {this.renderContactMenu()}
-                  {this.renderContacts()}
+                  {this.state.tab === "chat" ? this.renderContacts() : null}
+                  {this.state.tab === "staff" ? this.renderStaff() : null}
+                  {this.state.tab === "staff" ? this.renderMyStaff() : null}
                 </div>
 
                 <div className="col-sm-8 m-messages">
