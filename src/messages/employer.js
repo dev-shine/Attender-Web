@@ -102,9 +102,15 @@ class EmployerMessage extends Component {
   }
 
   handleThreadClick = thread => {
-    this.setState({ thread, renderMessagesLoading: true }, function() {
-      this.getConversation()
-    })
+    if (thread) {
+      this.setState({ thread, renderMessagesLoading: true }, function() {
+        this.getConversation()
+      })
+    }
+
+    if (!thread) {
+      this.setState({ thread: null })
+    }
   }
 
   handleTabClick = tab => {
@@ -238,39 +244,48 @@ class EmployerMessage extends Component {
 
     return (
       <div className="m-content">
-        {this.state.conversation
-          .slice(0)
-          .reverse()
-          .map((message, index) => {
-            return (
-              <div key={index}>
-                {message.setDateBar ? (
-                  <div className="m-line">
-                    <div className="a-line" />
-                    <div className="m-today">{message.setDateBar}</div>
+        {!this.state.thread ? (
+          <div className="container xem center navigator">
+            <a href="javascript:void(0)" className="nav-brand">
+              <FontAwesome name="comments" size="2x" />&nbsp;&nbsp;Start
+              Conversation
+            </a>
+          </div>
+        ) : (
+          this.state.conversation
+            .slice(0)
+            .reverse()
+            .map((message, index) => {
+              return (
+                <div key={index}>
+                  {message.setDateBar ? (
+                    <div className="m-line">
+                      <div className="a-line" />
+                      <div className="m-today">{message.setDateBar}</div>
+                    </div>
+                  ) : null}
+                  <div
+                    className={
+                      this.state.profile._id === message.user._id
+                        ? "m-message-right"
+                        : "m-message-left"
+                    }
+                  >
+                    {message.text}
                   </div>
-                ) : null}
-                <div
-                  className={
-                    this.state.profile._id === message.user._id
-                      ? "m-message-right"
-                      : "m-message-left"
-                  }
-                >
-                  {message.text}
+                  <div
+                    className={
+                      this.state.profile._id === message.user._id
+                        ? "m-time-right"
+                        : "m-time-left"
+                    }
+                  >
+                    {message.createdAt}
+                  </div>
                 </div>
-                <div
-                  className={
-                    this.state.profile._id === message.user._id
-                      ? "m-time-right"
-                      : "m-time-left"
-                  }
-                >
-                  {message.createdAt}
-                </div>
-              </div>
-            )
-          })}
+              )
+            })
+        )}
         <div
           style={{ float: "left", clear: "both" }}
           ref={el => {
@@ -460,7 +475,10 @@ class EmployerMessage extends Component {
               <div
                 key={index}
                 className="m-thread"
-                onClick={this.handleThreadClick.bind(this, staff)}
+                onClick={this.handleThreadClick.bind(
+                  this,
+                  this.state.threads.find(t => t.uselect === staff.staff._id)
+                )}
               >
                 <div className="row">
                   <div className="col-sm-3">
