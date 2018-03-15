@@ -31,6 +31,7 @@ class EmployerMessage extends Component {
       tab: "staff",
       myStaffs: [],
       staffs: {
+        all: { on: false, num: 0 },
         bartender: { on: false, num: 0 },
         manager: { on: false, num: 0 },
         waiter: { on: false, num: 0 },
