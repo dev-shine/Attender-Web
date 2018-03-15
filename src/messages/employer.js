@@ -31,7 +31,7 @@ class EmployerMessage extends Component {
       tab: "staff",
       myStaffs: [],
       staffs: {
-        all: { on: false },
+        all: { on: true },
         bartender: { on: false },
         manager: { on: false },
         waiter: { on: false },
@@ -438,28 +438,40 @@ class EmployerMessage extends Component {
 
     return (
       <div>
-        {this.state.myStaffs.map((staff, index) => {
-          return (
-            <div
-              key={index}
-              className="m-thread"
-              onClick={this.handleThreadClick.bind(this, staff)}
-            >
-              <div className="row">
-                <div className="col-sm-3">
-                  <img
-                    alt=""
-                    className="profile-thumb"
-                    src={staff.staff.avatar}
-                  />
-                </div>
-                <div className="col-sm-9">
-                  <span>{staff.staff.fullname}</span>
+        {this.state.myStaffs
+          .filter(
+            m =>
+              this.state.staffs.all.on
+                ? m
+                : m.staff.position.some(
+                    p =>
+                      Object.keys(this.state.staffs)
+                        .filter(i => this.state.staffs[i].on)
+                        .indexOf(p) >= 0
+                  )
+          )
+          .map((staff, index) => {
+            return (
+              <div
+                key={index}
+                className="m-thread"
+                onClick={this.handleThreadClick.bind(this, staff)}
+              >
+                <div className="row">
+                  <div className="col-sm-3">
+                    <img
+                      alt=""
+                      className="profile-thumb"
+                      src={staff.staff.avatar}
+                    />
+                  </div>
+                  <div className="col-sm-9">
+                    <span>{staff.staff.fullname}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
       </div>
     )
   }
