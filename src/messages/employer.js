@@ -104,7 +104,7 @@ class EmployerMessage extends Component {
 
   handleThreadClick = (thread, staff) => {
     if (thread) {
-      this.setState({ thread, renderMessagesLoading: true }, function() {
+      this.setState({ thread, renderMessagesLoading: true }, () => {
         this.getConversation()
       })
     }
@@ -226,11 +226,31 @@ class EmployerMessage extends Component {
       : this.state.selectedStaff._id
 
     API.post(
-      this.state.profile.isStaff ? "new-venue-message" : "new-staff-message",
+      this.state.profile.isStaff
+        ? "new-venue-message"
+        : thread ? "new-staff-message" : "new-initial-message",
       body
     ).then(res => {
       if (res.status) {
         self.setState({ inputMessage: "" }, function() {
+          if (res.thread) {
+            self.setState({ renderMessagesLoading: true }, () => {
+              const thread = res.thread
+              client.joinRoom(thread._id, {}, (err, message) => {
+                self.setState(
+                  {
+                    threads: [...self.state.threads, thread],
+                    thread,
+                    renderMessagesLoading: false
+                  },
+                  () => {
+                    console.log("newthreads", this.state.threads)
+                    self.getConversation()
+                  }
+                )
+              })
+            })
+          }
           self.inputMessageRef.focus()
         })
       }
