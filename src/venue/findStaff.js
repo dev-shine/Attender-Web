@@ -118,7 +118,7 @@ class FindStaff extends Component {
   }
   setSortBy = sortby => {
     let sortBtns = [...this.state.sortBtns],
-      results = [...this.state.results]
+      res = [].concat(this.state.results)
 
     Object.values(sortBtns).map((val, key) => {
       sortBtns[key].selected = false
@@ -126,13 +126,13 @@ class FindStaff extends Component {
         sortBtns[key].selected = true
 
         if (sortby == "Position") {
-          results.sort((a, b) => {
+          res.sort((a, b) => {
             if (a.position[0] < b.position[0]) return -1
             if (a.position[0] > b.position[0]) return 1
             return 0
           })
         } else if (sortby == "Price/h") {
-          results.sort((a, b) => {
+          res.sort((a, b) => {
             if (a.startRate < b.startRate) return -1
             if (a.startRate > b.startRate) return 1
             return 0
@@ -147,6 +147,7 @@ class FindStaff extends Component {
         } else if (sortby == "Last Active") {
         }
       }
+      this.setState({ results: res })
       this.setState({ sortBtns: sortBtns })
     })
   }
