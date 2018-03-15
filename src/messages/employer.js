@@ -40,7 +40,8 @@ class EmployerMessage extends Component {
         kitchen: { on: false },
         host: { on: false }
       },
-      staffFilters: []
+      staffFilters: [],
+      selectedStaff: {}
     }
   }
 
@@ -101,7 +102,7 @@ class EmployerMessage extends Component {
     })
   }
 
-  handleThreadClick = thread => {
+  handleThreadClick = (thread, staff) => {
     if (thread) {
       this.setState({ thread, renderMessagesLoading: true }, function() {
         this.getConversation()
@@ -110,6 +111,7 @@ class EmployerMessage extends Component {
 
     if (!thread) {
       this.setState({ thread: null })
+      this.setState({ selectedStaff: staff })
     }
   }
 
@@ -214,12 +216,14 @@ class EmployerMessage extends Component {
     var thread = this.state.thread
 
     var body = {
-      receiver: thread.usid,
-      message: this.state.inputMessage,
-      convo: this.state.thread._id
+      receiver: thread ? thread.usid : this.state.selectedStaff.user,
+      message: this.state.inputMessage
     }
 
-    body[this.state.profile.isStaff ? "venue" : "staff"] = thread.uselect
+    thread && (body.convo = this.state.thread._id)
+    body[this.state.profile.isStaff ? "venue" : "staff"] = thread
+      ? thread.uselect
+      : this.state.selectedStaff._id
 
     API.post(
       this.state.profile.isStaff ? "new-venue-message" : "new-staff-message",
@@ -477,7 +481,8 @@ class EmployerMessage extends Component {
                 className="m-thread"
                 onClick={this.handleThreadClick.bind(
                   this,
-                  this.state.threads.find(t => t.uselect === staff.staff._id)
+                  this.state.threads.find(t => t.uselect === staff.staff._id),
+                  staff.staff
                 )}
               >
                 <div className="row">
