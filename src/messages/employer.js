@@ -9,7 +9,7 @@ import API from "./../services/api"
 import constant from "./../configs/constant"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
-const io = ws("http://localhost:3333")
+const io = ws(constant.API_URL.replace("/api/", ""))
 const client = io.channel("chat").connect()
 const FontAwesome = require("react-fontawesome")
 
