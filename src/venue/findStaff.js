@@ -3,6 +3,7 @@ import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "../services/api"
+import "./findStaff.css"
 
 const staffs = {
   bartender: { on: false, num: 0, data: [] },
@@ -177,33 +178,130 @@ class FindStaff extends Component {
     })
     this.setState({ results: results })
   }
+  invokeStaffs_dom = () => {
+    let k = [
+      {},
+      {
+        _id: "5a9d4f555498b303e98d9355",
+        user: {
+          _id: "5a9a5cfa905abc693ef9f03e",
+          mobile: "07700 900112",
+          fullname: "Sturdy 5",
+          email: "sturdy5@yopmail.com",
+          staffId: "5a9d4f555498b303e98d9355"
+        },
+        email: "sturdy5@yopmail.com",
+        fullname: "Sturdy Maturdy",
+        bio: "test test test",
+        gender: "male",
+        birthdate: "2018-03-03T00:00:00.000Z",
+        preferredLocation: "London, UK",
+        preferredDistance: "8.5",
+        frequency: "Full Time",
+        createdAt: "2018-03-05T14:08:21.342Z",
+        avatar:
+          "https://res.cloudinary.com/dnjfb0e8d/image/upload/v1520258900/mqxhctjf4gypc8xhcnz2.png",
+        videos: [],
+        licenses: ["Driver's License"],
+        certificates: [],
+        experiences: [
+          {
+            companyValue: "something company",
+            positionValue: "developer",
+            locationValue: "london",
+            startDuration: "8",
+            endDuration: "5",
+            additionalValue: "test test"
+          }
+        ],
+        skills: [""],
+        qualifications: [""],
+        availability: {
+          monday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          },
+          tuesday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          },
+          wednesday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          },
+          thursday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          },
+          friday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          },
+          saturday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          },
+          sunday: {
+            morning: true,
+            afternoon: false,
+            evening: false
+          }
+        },
+        ratings: [],
+        rateType: "hourly",
+        endRate: 87,
+        startRate: 75,
+        position: ["bartender", "waiter", "barback", "host"],
+        languages: ["English"],
+        description: ["productive", "professional", "outgoing"],
+        rateBadge: "$75/hr - $87/hr",
+        id: "5a9d4f555498b303e98d9355"
+      }
+    ]
+    return this.invokeStaffs(k, 0)
+  }
   invokeStaffs = (k, i) => {
+    console.log(k)
     return (
       <div key={i} className="fs-staff-box">
         <div className="fs-staff-img ">
           <img className="profile-thumb-md" src={k[1].avatar} />
         </div>
-        <div className="fs-staff-info">
-          <p>{k[1].fullname}</p>
-          <small>
-            {this.Capitalize(k[1].position.join(", "))} |{" "}
-            {this.Capitalize(k[1].rateType)}
-          </small>
-          <p>
+        <div className="fs-staff-data">
+          <div className="fs-staff-info">
+            <p>{k[1].fullname}</p>
             <small>
-              <strong>{k[1].bio}</strong> | {k[1].position.join("/")}
+              {this.Capitalize(k[1].position.join(", "))} |{" "}
+              {this.Capitalize(k[1].rateType)}
             </small>
-          </p>
-        </div>
-        <span className="pull-right">{k[1].rateBadge}</span>
-        <div className="fs-staff-skills">
-          <p>
-            <small className="pull-left">Skills: &nbsp;&nbsp;</small>
-            <span className="btn-skills pull-left" />
-            <span className="btn-skills pull-left" />
-            <span className="btn-skills pull-left" />
-            <span className="btn-exp pull-right">Experience</span>
-          </p>
+            <p>
+              <small>
+                <strong>{k[1].bio}</strong> | {k[1].position.join("/")}
+              </small>
+            </p>
+          </div>
+          <span className="fs-staff-rateBadge">{k[1].rateBadge}</span>
+          <div className="fs-staff-skills">
+            <p>
+              <small className="pull-left">Skills: &nbsp;&nbsp;</small>
+              <span className="btn-skills pull-left">
+                <img src={require(".././venue/img/uk-flag.gif")} />
+              </span>
+              <span className="btn-skills pull-left">
+                <img src={require(".././venue/img/contact-icon.gif")} />
+              </span>
+              <span className="btn-skills pull-left">
+                <img src={require(".././venue/img/list-icon.gif")} />
+              </span>
+              <span className="btn-exp pull-right">Experience</span>
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -399,6 +497,7 @@ class FindStaff extends Component {
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
+                  {this.invokeStaffs_dom()}
                   {Object.keys(this.state.results).map((key, index) => {
                     if (this.state.viewOnly !== "all") {
                       return Object.entries(

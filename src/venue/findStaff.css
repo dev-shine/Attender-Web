@@ -1,0 +1,50 @@
+.fs-staff-img {
+  position: relative;
+  overflow: hidden;
+  height: 6em;
+  display: inline-block;
+  float: left;
+}
+.fs-staff-skills {
+  display: block;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+  padding-top: 0.5em;
+  margin-top: 10px;
+}
+.fs-staff-info {
+}
+.fs-staff-rateBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.fs-staff-info p {
+  margin-bottom: -5px;
+}
+.fs-staff-data {
+  float: left;
+  width: calc(100% - 90px);
+  margin-left: 10px;
+}
+.btn-skills {
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+  line-height: 16px;
+  margin-left: 5px;
+  border: 1px solid #e0e0e2;
+  background-color: white;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-skills img {
+  position: relative;
+  display: block;
+}
