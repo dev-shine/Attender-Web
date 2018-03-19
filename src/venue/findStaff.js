@@ -3,6 +3,8 @@ import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "../services/api"
+import "./findStaff.css"
+import _ from "lodash/core"
 
 const staffs = {
   bartender: { on: false, num: 0, data: [] },
@@ -177,33 +179,114 @@ class FindStaff extends Component {
     })
     this.setState({ results: results })
   }
+  toggleShowStaffDetails = (isShow, i) => {
+    let results = [...this.state.results]
+    if (isShow) {
+      results[i].openMeta = true
+    } else {
+      results[i].openMeta = false
+    }
+    this.setState({ results: results })
+  }
   invokeStaffs = (k, i) => {
+    console.log(k)
     return (
       <div key={i} className="fs-staff-box">
-        <div className="fs-staff-img ">
-          <img className="profile-thumb-md" src={k[1].avatar} />
+        <div className="fs-staff-block clearfix">
+          <div className="fs-staff-img ">
+            <img className="profile-thumb-md" src={k[1].avatar} />
+          </div>
+          <div className="fs-staff-data">
+            <div className="fs-staff-info">
+              <p>{k[1].fullname}</p>
+              <small>
+                {this.Capitalize(k[1].position.join(", "))} |{" "}
+                {this.Capitalize(k[1].rateType)}
+              </small>
+              <p>
+                <small>
+                  <strong>{k[1].bio}</strong> | {k[1].position.join("/")}
+                </small>
+              </p>
+            </div>
+            <span className="fs-staff-rateBadge">{k[1].rateBadge}</span>
+            <div className="fs-staff-skills">
+              <p>
+                <small className="pull-left">Skills: &nbsp;&nbsp;</small>
+                <span className="btn-skills pull-left">
+                  <img src={require(".././venue/img/uk-flag.gif")} />
+                </span>
+                <span className="btn-skills pull-left">
+                  <img src={require(".././venue/img/contact-icon.gif")} />
+                </span>
+                <span className="btn-skills pull-left">
+                  <img src={require(".././venue/img/list-icon.gif")} />
+                </span>
+                {(() => {
+                  if (k[1].openMeta) {
+                    return (
+                      <button
+                        className="a-btn btn-round btn-active pull-right"
+                        onClick={() => this.toggleShowStaffDetails(true, i)}
+                      >
+                        Message
+                      </button>
+                    )
+                  } else {
+                    return (
+                      <button
+                        className="btn-exp pull-right"
+                        onClick={() => this.toggleShowStaffDetails(true, i)}
+                      >
+                        Experience
+                      </button>
+                    )
+                  }
+                })()}
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="fs-staff-info">
-          <p>{k[1].fullname}</p>
-          <small>
-            {this.Capitalize(k[1].position.join(", "))} |{" "}
-            {this.Capitalize(k[1].rateType)}
-          </small>
-          <p>
-            <small>
-              <strong>{k[1].bio}</strong> | {k[1].position.join("/")}
-            </small>
-          </p>
-        </div>
-        <span className="pull-right">{k[1].rateBadge}</span>
-        <div className="fs-staff-skills">
-          <p>
-            <small className="pull-left">Skills: &nbsp;&nbsp;</small>
-            <span className="btn-skills pull-left" />
-            <span className="btn-skills pull-left" />
-            <span className="btn-skills pull-left" />
-            <span className="btn-exp pull-right">Experience</span>
-          </p>
+        <br className="clearfix" />
+        <div className={"fs-staff-meta" + (k[1].openMeta ? " open" : "")}>
+          <p>Age : 25</p>
+          <p className="bio">{k[1].bio}</p>
+          <button key="Languages" className="a-btn btn-round btn-passive">
+            Languages
+          </button>
+          <button key="License" className="a-btn btn-round btn-passive">
+            License
+          </button>
+          <button key="Certificates" className="a-btn btn-round btn-passive">
+            Certificates
+          </button>
+          <div className="fs-staff-experiences clearfix">
+            {Object.keys(k[1].experiences).map((key, index) => {
+              return (
+                <div key={key} className="fs-staff-experience clearfix">
+                  <img src={require(".././venue/img/image-placeholder.jpg")} />
+                  <ul>
+                    <li>
+                      <strong>Bar: </strong>
+                      {k[1].experiences[key].companyValue}
+                    </li>
+                    <li>
+                      <strong>Duration: </strong>
+                      {k[1].experiences[key].startDuration} years
+                    </li>
+                    <li>
+                      <strong>Position: </strong>
+                      {k[1].experiences[key].positionValue}
+                    </li>
+                  </ul>
+                </div>
+              )
+            })}
+          </div>
+          <span
+            className="fs-arrow-up pull-right"
+            onClick={() => this.toggleShowStaffDetails(false, i)}
+          />
         </div>
       </div>
     )
@@ -399,19 +482,23 @@ class FindStaff extends Component {
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
-                  {Object.keys(this.state.results).map((key, index) => {
-                    if (this.state.viewOnly !== "all") {
-                      return Object.entries(
-                        this.state.staffs[this.state.viewOnly].data
-                      ).map((k, i) => {
-                        return this.invokeStaffs(k, i)
-                      })
-                    } else {
-                      return Object.entries(this.state.results).map((k, i) => {
-                        return this.invokeStaffs(k, i)
-                      })
+                  {(() => {
+                    if (!_.isEmpty(Object.entries(this.state.results))) {
+                      if (this.state.viewOnly !== "all") {
+                        return Object.entries(
+                          this.state.staffs[this.state.viewOnly].data
+                        ).map((k, i) => {
+                          return this.invokeStaffs(k, i)
+                        })
+                      } else {
+                        return Object.entries(this.state.results).map(
+                          (key, index) => {
+                            return this.invokeStaffs(key, index)
+                          }
+                        )
+                      }
                     }
-                  })}
+                  })()}
                 </div>
               </div>
             </div>

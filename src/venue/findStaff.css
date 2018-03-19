@@ -1,0 +1,101 @@
+.fs-staff-box {
+  border: 2.5px solid #f5f5f5;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  position: relative;
+  padding: 0.75em;
+  font-size: 13px;
+}
+
+.fs-staff-img {
+  position: relative;
+  overflow: hidden;
+  height: 6em;
+  display: inline-block;
+  float: left;
+}
+.fs-staff-skills {
+  display: block;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+  padding-top: 0.5em;
+  margin-top: 10px;
+}
+.fs-staff-info {
+}
+.fs-staff-rateBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.fs-staff-info p {
+  margin-bottom: -5px;
+}
+.fs-staff-data {
+  float: left;
+  width: calc(100% - 90px);
+  margin-left: 10px;
+}
+.btn-skills {
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+  line-height: 16px;
+  margin-left: 5px;
+  border: 1px solid #e0e0e2;
+  background-color: white;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-skills img {
+  position: relative;
+  display: block;
+}
+
+.fs-staff-meta {
+  height: 0;
+  transition: all 0.5s linear;
+  overflow: hidden;
+}
+.fs-staff-meta.open {
+  height: 200px;
+}
+.fs-staff-experiences {
+  margin-top: 15px;
+}
+.fs-staff-experience {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 8px;
+  width: 215px;
+  height: 70px;
+  float: left;
+  margin-right: 10px;
+}
+.fs-staff-experience img {
+  float: left;
+}
+.fs-staff-experience ul {
+  margin-bottom: 0;
+  float: left;
+  list-style: none;
+  padding-left: 10px;
+  font-size: 11px;
+}
+.fs-arrow-up {
+  background: url("./img/arrow-up.jpg") no-repeat;
+  width: 10px;
+  height: 13px;
+  cursor: pointer;
+  display: inline-block;
+  bottom: 10px;
+  position: relative;
+  float: right;
+}
