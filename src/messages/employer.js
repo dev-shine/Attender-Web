@@ -535,6 +535,18 @@ class EmployerMessage extends Component {
     })
   }
 
+  onPressStartTrial = () => {
+    API.post(`trial/${this.props.match.params.staff}`, {}).then(res => {
+      console.log("trial success", res)
+    })
+  }
+
+  onPressSkipTrial = () => {
+    API.post(`direct-hire/${this.props.match.params.staff}`, {}).then(res => {
+      console.log("direct hire success", res)
+    })
+  }
+
   renderEventModal = () => {
     return (
       <div
@@ -551,12 +563,12 @@ class EmployerMessage extends Component {
               <div className="container xem center navigator">
                 <div className="m-composer">
                   <div>
-                    <button onClick={this.onSend}>OK</button>
+                    <button onClick={this.onPressStartTrial}>OK</button>
                     Start Trial
                   </div>
                   or
                   <div>
-                    <button onClick={this.onSend}>
+                    <button onClick={this.onPressSkipTrial}>
                       <i className="fa fa-arrow-right" />
                     </button>
                     Skip Trial
