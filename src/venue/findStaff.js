@@ -222,12 +222,27 @@ class FindStaff extends Component {
                 <span className="btn-skills pull-left">
                   <img src={require(".././venue/img/list-icon.gif")} />
                 </span>
-                <button
-                  className="btn-exp pull-right"
-                  onClick={() => this.toggleShowStaffDetails(true, i)}
-                >
-                  Experience
-                </button>
+                {(() => {
+                  if (k[1].openMeta) {
+                    return (
+                      <button
+                        className="a-btn btn-round btn-active pull-right"
+                        onClick={() => this.toggleShowStaffDetails(true, i)}
+                      >
+                        Message
+                      </button>
+                    )
+                  } else {
+                    return (
+                      <button
+                        className="btn-exp pull-right"
+                        onClick={() => this.toggleShowStaffDetails(true, i)}
+                      >
+                        Experience
+                      </button>
+                    )
+                  }
+                })()}
               </p>
             </div>
           </div>
