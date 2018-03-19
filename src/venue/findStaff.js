@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "../services/api"
 import "./findStaff.css"
+import _ from "lodash/core"
 
 const staffs = {
   bartender: { on: false, num: 0, data: [] },
@@ -45,7 +46,6 @@ class FindStaff extends Component {
       frequency,
       viewOnly: "all",
       lookingforTxt: "",
-      openMeta: false,
       sortBtns: [
         { lbl: "Position", selected: true },
         { lbl: "Price/h", selected: false },
@@ -179,108 +179,14 @@ class FindStaff extends Component {
     })
     this.setState({ results: results })
   }
-  invokeStaffs_dom = () => {
-    let k = [
-      {},
-      {
-        _id: "5a9d4f555498b303e98d9355",
-        user: {
-          _id: "5a9a5cfa905abc693ef9f03e",
-          mobile: "07700 900112",
-          fullname: "Sturdy 5",
-          email: "sturdy5@yopmail.com",
-          staffId: "5a9d4f555498b303e98d9355"
-        },
-        email: "sturdy5@yopmail.com",
-        fullname: "Sturdy Maturdy",
-        bio: "test test test",
-        gender: "male",
-        birthdate: "2018-03-03T00:00:00.000Z",
-        preferredLocation: "London, UK",
-        preferredDistance: "8.5",
-        frequency: "Full Time",
-        createdAt: "2018-03-05T14:08:21.342Z",
-        avatar:
-          "https://res.cloudinary.com/dnjfb0e8d/image/upload/v1520258900/mqxhctjf4gypc8xhcnz2.png",
-        videos: [],
-        licenses: ["Driver's License"],
-        certificates: [],
-        experiences: [
-          {
-            companyValue: "something company",
-            positionValue: "developer",
-            locationValue: "london",
-            startDuration: "8",
-            endDuration: "5",
-            additionalValue: "test test"
-          },
-          {
-            companyValue: "something company",
-            positionValue: "developer",
-            locationValue: "london",
-            startDuration: "8",
-            endDuration: "5",
-            additionalValue: "test test"
-          }
-        ],
-        skills: [""],
-        qualifications: [""],
-        availability: {
-          monday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          },
-          tuesday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          },
-          wednesday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          },
-          thursday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          },
-          friday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          },
-          saturday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          },
-          sunday: {
-            morning: true,
-            afternoon: false,
-            evening: false
-          }
-        },
-        ratings: [],
-        rateType: "hourly",
-        endRate: 87,
-        startRate: 75,
-        position: ["bartender", "waiter", "barback", "host"],
-        languages: ["English"],
-        description: ["productive", "professional", "outgoing"],
-        rateBadge: "$75/hr - $87/hr",
-        id: "5a9d4f555498b303e98d9355"
-      }
-    ]
-    return this.invokeStaffs(k, 0)
-  }
-  toggleShowStaffDetails = isShow => {
+  toggleShowStaffDetails = (isShow, i) => {
+    let results = [...this.state.results]
     if (isShow) {
-      this.setState({ openMeta: true })
+      results[i].openMeta = true
     } else {
-      this.setState({ openMeta: false })
+      results[i].openMeta = false
     }
+    this.setState({ results: results })
   }
   invokeStaffs = (k, i) => {
     console.log(k)
@@ -318,7 +224,7 @@ class FindStaff extends Component {
                 </span>
                 <button
                   className="btn-exp pull-right"
-                  onClick={() => this.toggleShowStaffDetails(true)}
+                  onClick={() => this.toggleShowStaffDetails(true, i)}
                 >
                   Experience
                 </button>
@@ -327,7 +233,7 @@ class FindStaff extends Component {
           </div>
         </div>
         <br className="clearfix" />
-        <div className={"fs-staff-meta" + (this.state.openMeta ? " open" : "")}>
+        <div className={"fs-staff-meta" + (k[1].openMeta ? " open" : "")}>
           <p>Age : 25</p>
           <p className="bio">{k[1].bio}</p>
           <button key="Languages" className="a-btn btn-round btn-passive">
@@ -364,7 +270,7 @@ class FindStaff extends Component {
           </div>
           <span
             className="fs-arrow-up pull-right"
-            onClick={() => this.toggleShowStaffDetails(false)}
+            onClick={() => this.toggleShowStaffDetails(false, i)}
           />
         </div>
       </div>
@@ -561,20 +467,23 @@ class FindStaff extends Component {
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
-                  {this.invokeStaffs_dom()}
-                  {Object.keys(this.state.results).map((key, index) => {
-                    if (this.state.viewOnly !== "all") {
-                      return Object.entries(
-                        this.state.staffs[this.state.viewOnly].data
-                      ).map((k, i) => {
-                        return this.invokeStaffs(k, i)
-                      })
-                    } else {
-                      return Object.entries(this.state.results).map((k, i) => {
-                        return this.invokeStaffs(k, i)
-                      })
+                  {(() => {
+                    if (!_.isEmpty(Object.entries(this.state.results))) {
+                      if (this.state.viewOnly !== "all") {
+                        return Object.entries(
+                          this.state.staffs[this.state.viewOnly].data
+                        ).map((k, i) => {
+                          return this.invokeStaffs(k, i)
+                        })
+                      } else {
+                        return Object.entries(this.state.results).map(
+                          (key, index) => {
+                            return this.invokeStaffs(key, index)
+                          }
+                        )
+                      }
                     }
-                  })}
+                  })()}
                 </div>
               </div>
             </div>
