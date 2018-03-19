@@ -537,7 +537,7 @@ class EmployerMessage extends Component {
 
   onPressStartTrial = () => {
     API.post(`trial/${this.props.match.params.staff}`, {}).then(res => {
-      console.log("trial success", res)
+      // Might want to add a loading here - through setting the renderMystaffloading to true.
       this.getMyStaffs()
     })
   }
@@ -684,8 +684,8 @@ class EmployerMessage extends Component {
                 </div>
 
                 <div className="col-sm-8 m-messages">
-                  {/* {this.renderMessages()} */}
-                  {this.renderNewMessage()}
+                  {this.renderEventModal()}
+                  {this.renderMessages()}
                   {this.renderComposer()}
                 </div>
               </div>
