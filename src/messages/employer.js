@@ -21,6 +21,7 @@ class EmployerMessage extends Component {
     this.threadUrl = ""
     this.state = {
       eventDropdown: "init",
+      openHiringOptionsModal: false,
       inputMessage: "",
       renderContactsLoading: true,
       renderMessagesLoading: true,
@@ -525,7 +526,48 @@ class EmployerMessage extends Component {
   }
 
   handleViewProfileClick = () => {
-    window.open("profile", "_blank")
+    window.open("find-staff", "_blank")
+  }
+
+  handleOpenModal = () => {
+    this.setState({
+      openHiringOptionsModal: !this.state.openHiringOptionsModal
+    })
+  }
+
+  renderEventModal = () => {
+    return (
+      <div
+        className={
+          this.state.openHiringOptionsModal ? "a-modal show" : "a-modal"
+        }
+      >
+        <div className="a-modal-content">
+          <span onClick={() => this.handleOpenModal()} className="a-close">
+            &times;
+          </span>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="container xem center navigator">
+                <div className="m-composer">
+                  <div>
+                    <button onClick={this.onSend}>OK</button>
+                    Start Trial
+                  </div>
+                  or
+                  <div>
+                    <button onClick={this.onSend}>
+                      <i className="fa fa-arrow-right" />
+                    </button>
+                    Skip Trial
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   renderComposer = () => {
@@ -565,7 +607,12 @@ class EmployerMessage extends Component {
   }
 
   renderNewMessage = () => {
-    return <div className="m-content">To: Recipient</div>
+    return (
+      <div className="m-content">
+        To: Recipient
+        {this.renderEventModal()}
+      </div>
+    )
   }
 
   render() {
@@ -607,7 +654,7 @@ class EmployerMessage extends Component {
                         <p onClick={this.handleViewProfileClick}>
                           View Profile
                         </p>
-                        <p>Hiring Options</p>
+                        <p onClick={this.handleOpenModal}>Hiring Options</p>
                       </div>
                     </div>
                   </div>
