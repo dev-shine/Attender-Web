@@ -45,6 +45,7 @@ class FindStaff extends Component {
       frequency,
       viewOnly: "all",
       lookingforTxt: "",
+      openMeta: false,
       sortBtns: [
         { lbl: "Position", selected: true },
         { lbl: "Price/h", selected: false },
@@ -274,6 +275,13 @@ class FindStaff extends Component {
     ]
     return this.invokeStaffs(k, 0)
   }
+  toggleShowStaffDetails = isShow => {
+    if (isShow) {
+      this.setState({ openMeta: true })
+    } else {
+      this.setState({ openMeta: false })
+    }
+  }
   invokeStaffs = (k, i) => {
     console.log(k)
     return (
@@ -308,13 +316,18 @@ class FindStaff extends Component {
                 <span className="btn-skills pull-left">
                   <img src={require(".././venue/img/list-icon.gif")} />
                 </span>
-                <span className="btn-exp pull-right">Experience</span>
+                <button
+                  className="btn-exp pull-right"
+                  onClick={() => this.toggleShowStaffDetails(true)}
+                >
+                  Experience
+                </button>
               </p>
             </div>
           </div>
         </div>
         <br className="clearfix" />
-        <div className="fs-staff-meta">
+        <div className={"fs-staff-meta" + (this.state.openMeta ? " open" : "")}>
           <p>Age : 25</p>
           <p className="bio">{k[1].bio}</p>
           <button key="Languages" className="a-btn btn-round btn-passive">
@@ -349,7 +362,10 @@ class FindStaff extends Component {
               )
             })}
           </div>
-          <span className="fs-arrow-up pull-right" />
+          <span
+            className="fs-arrow-up pull-right"
+            onClick={() => this.toggleShowStaffDetails(false)}
+          />
         </div>
       </div>
     )
