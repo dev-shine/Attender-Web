@@ -123,7 +123,7 @@ class EmployerMessage extends Component {
   }
 
   getMyStaffs = () => {
-    API.get("my-staffs").then(res => {
+    API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
         const allStaff = []
         Object.keys(res.staffs).forEach(staff => {
@@ -538,6 +538,7 @@ class EmployerMessage extends Component {
   onPressStartTrial = () => {
     API.post(`trial/${this.props.match.params.staff}`, {}).then(res => {
       console.log("trial success", res)
+      this.getMyStaffs()
     })
   }
 
