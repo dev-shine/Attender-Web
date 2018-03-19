@@ -32,7 +32,6 @@ class App extends Component {
           <Route exact path="/venue-setup" component={VenueSetup} />
           <Route exact path="/employer" component={employerSetup} />
           <Route exact path="/organiser-setup" component={OrganiserSetup} />
-          <Route exact path="/messages" component={EmployerMessage} />
           <Route exact path="/find-staff" component={FindStaff} />
           <Route exact path="/staffs" component={MyStaff} />
           <Route exact path="/success" component={SignSuccess} />
@@ -44,6 +43,7 @@ class App extends Component {
           <Route exact path="/settings" component={Settings} />
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
+          <Route exact path="/messages/:staff?" component={EmployerMessage} />
         </main>
       </div>
     )
