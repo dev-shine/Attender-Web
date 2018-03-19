@@ -1,3 +1,13 @@
+.fs-staff-box {
+  border: 2.5px solid #f5f5f5;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  position: relative;
+  padding: 0.75em;
+  font-size: 13px;
+}
+
 .fs-staff-img {
   position: relative;
   overflow: hidden;
@@ -47,4 +57,41 @@
 .btn-skills img {
   position: relative;
   display: block;
+}
+
+.fs-staff-meta {
+  height: 0;
+  overflow: hidden;
+}
+.fs-staff-experiences {
+  margin-top: 15px;
+}
+.fs-staff-experience {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 8px;
+  width: 215px;
+  height: 70px;
+  float: left;
+  margin-right: 10px;
+}
+.fs-staff-experience img {
+  float: left;
+}
+.fs-staff-experience ul {
+  margin-bottom: 0;
+  float: left;
+  list-style: none;
+  padding-left: 10px;
+  font-size: 11px;
+}
+.fs-arrow-up {
+  background: url("./img/arrow-up.jpg") no-repeat;
+  width: 10px;
+  height: 13px;
+  cursor: pointer;
+  display: inline-block;
+  bottom: 10px;
+  position: relative;
+  float: right;
 }

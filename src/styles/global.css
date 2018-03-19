@@ -2330,16 +2330,6 @@ textarea {
   padding-top: 0;
 }
 
-.fs-staff-box {
-  height: 7.7em;
-  border: 2.5px solid #f5f5f5;
-  border-radius: 3px;
-  margin-bottom: 5px;
-  white-space: nowrap;
-  position: relative;
-  padding: 0.75em;
-}
-
 .btn-exp {
   border: 1px solid #5d5bbc;
   border-radius: 8px;
