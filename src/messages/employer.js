@@ -20,6 +20,7 @@ class EmployerMessage extends Component {
     this.messagesEnd = null
     this.threadUrl = ""
     this.state = {
+      eventDropdown: "init",
       inputMessage: "",
       renderContactsLoading: true,
       renderMessagesLoading: true,
@@ -50,7 +51,6 @@ class EmployerMessage extends Component {
 
     let profile = await API.getProfile()
     this.setState({ profile })
-    console.log("profile", profile)
 
     if (profile.isStaff) {
       this.threadUrl = "staff-messages"
@@ -206,7 +206,7 @@ class EmployerMessage extends Component {
   }
 
   scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView()
+    this.messagesEnd && this.messagesEnd.scrollIntoView()
   }
 
   onSend = event => {
@@ -524,6 +524,10 @@ class EmployerMessage extends Component {
     )
   }
 
+  handleViewProfileClick = () => {
+    window.open("profile", "_blank")
+  }
+
   renderComposer = () => {
     return (
       <div className="m-composer">
@@ -552,6 +556,18 @@ class EmployerMessage extends Component {
     )
   }
 
+  openDropdown = index => {
+    if (this.state.eventDropdown === index) {
+      this.setState({ eventDropdown: "init" })
+    } else {
+      this.setState({ eventDropdown: index })
+    }
+  }
+
+  renderNewMessage = () => {
+    return <div className="m-content">To: Recipient</div>
+  }
+
   render() {
     return (
       <div>
@@ -574,6 +590,27 @@ class EmployerMessage extends Component {
                       src={require(".././assets/icons/messages/edit.png")}
                     />
                   </a>
+                  <div className="drop-menu">
+                    <img
+                      alt=""
+                      src={require(".././assets/icons/messages/gear.png")}
+                      onClick={() => this.openDropdown("e-1")}
+                    />
+                    <div
+                      className="e-dropdown"
+                      style={{
+                        display:
+                          this.state.eventDropdown === "e-1" ? "block" : "none"
+                      }}
+                    >
+                      <div className="e-dropdown-content">
+                        <p onClick={this.handleViewProfileClick}>
+                          View Profile
+                        </p>
+                        <p>Hiring Options</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -587,7 +624,8 @@ class EmployerMessage extends Component {
                 </div>
 
                 <div className="col-sm-8 m-messages">
-                  {this.renderMessages()}
+                  {/* {this.renderMessages()} */}
+                  {this.renderNewMessage()}
                   {this.renderComposer()}
                 </div>
               </div>
