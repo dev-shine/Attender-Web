@@ -7,6 +7,7 @@ import { connect } from "react-redux"
 import TextTruncate from "react-text-truncate"
 import API from "./../services/api"
 import constant from "./../configs/constant"
+import { push } from "react-router-redux"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
 const io = ws(constant.API_URL.replace("/api/", ""))
@@ -526,7 +527,7 @@ class EmployerMessage extends Component {
   }
 
   handleViewProfileClick = () => {
-    window.open("find-staff", "_blank")
+    this.props.goToStaff(this.props.match.params.staff)
   }
 
   handleOpenModal = () => {
@@ -699,6 +700,12 @@ class EmployerMessage extends Component {
 
 const mapStateToProps = state => ({})
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      goToStaff: staffId => push(`/find-staff/${staffId}`)
+    },
+    dispatch
+  )
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployerMessage)
