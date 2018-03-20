@@ -560,14 +560,19 @@ class EmployerMessage extends Component {
 
   onPressStartTrial = () => {
     API.post(`trial/${this.props.match.params.staff}`, {}).then(res => {
-      // Might want to add a loading here - through setting the renderMystaffloading to true.
-      this.getMyStaffs()
+      this.setState({ renderStaffsLoading: true, tab: "staff" }, () => {
+        this.getMyStaffs()
+        this.handleOpenModal()
+      })
     })
   }
 
   onPressSkipTrial = () => {
     API.post(`direct-hire/${this.props.match.params.staff}`, {}).then(res => {
-      console.log("direct hire success", res)
+      this.setState({ renderStaffsLoading: true }, () => {
+        this.getMyStaffs()
+        this.handleOpenModal()
+      })
     })
   }
 
