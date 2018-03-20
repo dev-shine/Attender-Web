@@ -72,8 +72,10 @@ class EmployerMessage extends Component {
             thread: res.threads[0]
           },
           () => {
-            this.getConversation()
-            this.connectSocket()
+            if (res.threads.length > 1) {
+              this.getConversation()
+              this.connectSocket()
+            }
           }
         )
       }
