@@ -14,9 +14,13 @@ class Settings extends Component {
       step: 1,
       isLoading: false,
       isChangingEmail: false,
+      isChangingPassword: false,
       emailChangeMessage: "",
+      passwordChangeMessage: "",
       oldEmail: "",
-      newEmail: ""
+      newEmail: "",
+      newPassword: "",
+      newPasswordConfirm: ""
     }
   }
 
@@ -52,8 +56,33 @@ class Settings extends Component {
     })
   }
 
+  onSavePasswordChange = event => {
+    event.preventDefault()
+
+    const body = {
+      newPassword: this.state.newPassword,
+      newPasswordConfirm: this.state.newPasswordConfirm
+    }
+
+    console.log("the body", body)
+
+    API.post("user/profile/change-password", body).then(res => {
+      if (!res.status) {
+        this.setState({ passwordChangeMessage: res.message })
+      }
+
+      if (res.status) {
+        this.setState({ passwordChangeMessage: res.message })
+      }
+    })
+  }
+
   handleChangeEmailClick = () => {
     this.setState({ isChangingEmail: !this.state.isChangingEmail })
+  }
+
+  handleChangePasswordClick = () => {
+    this.setState({ isChangingPassword: !this.state.isChangingPassword })
   }
 
   renderGeneral = () => {
@@ -81,19 +110,18 @@ class Settings extends Component {
                 className={`col-sm-9 accordion ${this.state.isChangingEmail &&
                   "open"}`}
               >
-                You can change your email address to new one
                 <form onSubmit={this.onSaveEmailChange}>
                   <label className="label-style control-label">Old Email</label>
                   <input
                     onChange={this.onChangeInput}
-                    type="oldEmail"
+                    type="email"
                     name="oldEmail"
                     className="form-control"
                   />
                   <label className="label-style control-label">New Email</label>
                   <input
                     onChange={this.onChangeInput}
-                    type="newEmail"
+                    type="email"
                     name="newEmail"
                     className="form-control"
                   />
@@ -114,7 +142,48 @@ class Settings extends Component {
           <div className="setting-menu-item">
             <div className="row">
               <div className="col-sm-3">Change Password</div>
-              <div className="col-sm-9">Change your login password</div>
+              {!this.state.isChangingPassword && (
+                <div className="col-sm-9">
+                  <button onClick={this.handleChangePasswordClick.bind(this)}>
+                    Edit
+                  </button>
+                </div>
+              )}
+              <div
+                className={`col-sm-9 accordion ${this.state
+                  .isChangingPassword && "open"}`}
+              >
+                <form onSubmit={this.onSavePasswordChange}>
+                  <label className="label-style control-label">
+                    New Password
+                  </label>
+                  <input
+                    onChange={this.onChangeInput}
+                    type="password"
+                    name="newPassword"
+                    className="form-control"
+                  />
+                  <label className="label-style control-label">
+                    Confirm New Password
+                  </label>
+                  <input
+                    onChange={this.onChangeInput}
+                    type="password"
+                    name="newPasswordConfirm"
+                    className="form-control"
+                  />
+                  <p>{this.state.passwordChangeMessage}</p>
+                  <button type="submit" onClick={this.onSavePasswordChange}>
+                    Save Changes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={this.handleChangePasswordClick.bind(this)}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
