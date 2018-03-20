@@ -123,6 +123,20 @@ class EmployerMessage extends Component {
     })
   }
 
+  handleDeleteConversation = thread => {
+    API.post(`conversation/${thread._id}/delete`, {}).then(res => {
+      if (res.status) {
+        this.setState(
+          { renderContactsLoading: true, renderMessagesLoading: true },
+          () => {
+            this.getStaffMessages()
+            this.getConversation()
+          }
+        )
+      }
+    })
+  }
+
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
@@ -377,6 +391,12 @@ class EmployerMessage extends Component {
                 </div>
                 <div className="col-sm-9">
                   <span>{thread.uname}</span>
+                  <span className="pull-right">
+                    <FontAwesome
+                      name="trash"
+                      onClick={this.handleDeleteConversation.bind(this, thread)}
+                    />
+                  </span>
                   <div className="m-thread-msg">
                     {!thread.seen ? (
                       <span className="a-badge pull-right" />
