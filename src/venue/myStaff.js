@@ -9,7 +9,6 @@ class MyStaff extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      tasks: [],
       suggestions: [],
       myStaffs: [],
       currentTab: "active"
@@ -50,17 +49,19 @@ class MyStaff extends Component {
       }
     })
   }
-  renderItem = item => {
-    console.log(item)
+  renderTasks = tasks => {
+    return tasks.map(task => {
+      return this.renderItem(task)
+    })
+  }
+  renderItem = task => {
     return (
-      <div key={item} className="my-staff-ss-item">
+      <div key={task._id} className="my-staff-ss-item">
         <div className="my-staff-ss-check">
           <img alt="" src={require(".././assets/icons/venue/check-item.png")} />
         </div>
         <div className="my-staff-ss-desc">
-          <p>
-            Prepare {item} exotic cocktails and serve the to {item} customers
-          </p>
+          <p>{task.description}</p>
         </div>
         <a className="a-btn-circle">—</a>
       </div>
@@ -153,7 +154,6 @@ class MyStaff extends Component {
     )
   }
   renderSelectedStaffBox = staff => {
-    console.log(staff)
     return (
       <div className="a-gradient my-staff-staff-box">
         <div className="row">
@@ -281,14 +281,16 @@ class MyStaff extends Component {
             <div className="my-staff-ss v-scroll scroll">
               <div className="row">
                 <div className="my-staff-ss-task col-sm-6">
-                  {this.state.tasks.map(task => {
-                    return this.renderItem(task)
+                  {this.state.myStaffs.map(staff => {
+                    if (staff.active && staff.assignments.tasks !== null) {
+                      return this.renderTasks(staff.assignments.tasks)
+                    }
                   })}
                 </div>
                 <div className="my-staff-ss-sugg col-sm-6">
-                  {this.state.suggestions.map(suggestion => {
+                  {/*this.state.myStaffs.map(suggestion => {
                     return this.renderItem(suggestion)
-                  })}
+                  })*/}
                 </div>
               </div>
             </div>
