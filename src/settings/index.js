@@ -34,14 +34,22 @@ class Settings extends Component {
         eventType: "",
         organizerImage: ""
       },
-      eventTypes: [
-        "wedding",
-        "birthday",
-        "conference",
-        "music",
-        "familyevent",
-        "other"
-      ]
+      eventTypes: {
+        birthday: { on: false, name: "Birthday", image: "birthday.png" },
+        wedding: { on: false, name: "Wedding", image: "wedding.png" },
+        conference: { on: false, name: "Conference", image: "conference.png" },
+        conference: { on: false, name: "Conference", image: "conference.png" },
+        music: {
+          on: false,
+          name: "Music Festival",
+          image: "music-festival.png"
+        },
+        familyevent: {
+          on: false,
+          name: "Family Event",
+          image: "family-events.png"
+        }
+      }
     }
   }
 
@@ -67,6 +75,12 @@ class Settings extends Component {
   onSaveEditProfile = event => {
     event.preventDefault()
     console.log("state?", this.state.eventEditProfileForm)
+  }
+
+  onSelectOption = (key, obj) => {
+    let _obj = this.state[obj]
+    _obj[key].on = !_obj[key].on
+    this.setState(prevState => ({ [obj]: _obj }))
   }
 
   onSaveEmailChange = event => {
@@ -315,51 +329,45 @@ class Settings extends Component {
   renderEventTypes = () => {
     return (
       <div className="a-icon-container-sm xxm scroll h-scroll">
-        <div className="vs-service-item">
-          <a className="vs-service-action">
-            <img
-              alt=""
-              src={require(`.././assets/icons/organiser/event-type/default/birthday.png`)}
-            />
-          </a>
-          <p className="xxm">Birthday</p>
-        </div>
-        <div className="vs-service-item">
-          <a className="vs-service-action">
-            <img
-              alt=""
-              src={require(`.././assets/icons/organiser/event-type/default/wedding.png`)}
-            />
-          </a>
-          <p className="xxm">Wedding</p>
-        </div>
-        <div className="vs-service-item">
-          <a className="vs-service-action">
-            <img
-              alt=""
-              src={require(`.././assets/icons/organiser/event-type/default/conference.png`)}
-            />
-          </a>
-          <p className="xxm">Conference</p>
-        </div>
-        <div className="vs-service-item">
-          <a className="vs-service-action">
-            <img
-              alt=""
-              src={require(`.././assets/icons/organiser/event-type/default/music-festival.png`)}
-            />
-          </a>
-          <p className="xxm">Music Festival</p>
-        </div>
-        <div className="vs-service-item">
-          <a className="vs-service-action">
-            <img
-              alt=""
-              src={require(`.././assets/icons/organiser/event-type/default/family-events.png`)}
-            />
-          </a>
-          <p className="xxm">Family Events</p>
-        </div>
+        {Object.keys(this.state.eventTypes).map((key, index) => {
+          if (this.state.eventTypes[key].on) {
+            return (
+              <div
+                className="vs-service-item-active"
+                key={index}
+                onClick={() => this.onSelectOption(key, "eventTypes")}
+              >
+                <a className="vs-service-action">
+                  <img
+                    alt={this.state.eventTypes[key].name}
+                    src={require(`.././assets/icons/organiser/event-type/white/${
+                      this.state.eventTypes[key].image
+                    }`)}
+                  />
+                </a>
+                <p className="xxm">{this.state.eventTypes[key].name}</p>
+              </div>
+            )
+          } else {
+            return (
+              <div
+                className="vs-service-item"
+                key={index}
+                onClick={() => this.onSelectOption(key, "eventTypes")}
+              >
+                <a className="vs-service-action">
+                  <img
+                    alt={this.state.eventTypes[key].name}
+                    src={require(`.././assets/icons/organiser/event-type/default/${
+                      this.state.eventTypes[key].image
+                    }`)}
+                  />
+                </a>
+                <p className="xxm">{this.state.eventTypes[key].name}</p>
+              </div>
+            )
+          }
+        })}
       </div>
     )
   }
@@ -409,7 +417,12 @@ class Settings extends Component {
                   </div>
                   <div className="form-group">
                     <p>About</p>
-                    <textarea rows="5" cols="50" className="a-input">
+                    <textarea
+                      rows="5"
+                      cols="50"
+                      className="a-input"
+                      onChange={this.onChangeEventEditProfileForm}
+                    >
                       {" "}
                     </textarea>
                   </div>
