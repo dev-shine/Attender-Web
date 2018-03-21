@@ -13,9 +13,7 @@ class MyStaff extends Component {
       trial: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       tasks: [9, 6, 4, 7, 3, 6],
       suggestions: [1, 2, 3, 4],
-      myStaffs: [],
-      activeStaffs: [],
-      trialStaffs: []
+      myStaffs: []
     }
   }
   componentWillMount = async () => {
@@ -29,8 +27,6 @@ class MyStaff extends Component {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
         const allStaff = []
-        const activeStaff = []
-        const trialStaff = []
 
         Object.keys(res.staffs).forEach(staff => {
           res.staffs[staff].forEach(as => {
@@ -39,36 +35,11 @@ class MyStaff extends Component {
               !allStaff.find(asf => asf.staff._id === as.staff._id)
             ) {
               allStaff.push(as)
-              console.log(
-                as,
-                as.active,
-                !activeStaff.find(asf => asf.staff._id === as.staff._id)
-              )
-              if (
-                !activeStaff.find(asf => asf.staff._id === as.staff._id) &&
-                as.active
-              ) {
-                activeStaff.push(as)
-              }
-              if (
-                !trialStaff.find(asf => asf.staff._id === as.staff._id) &&
-                as.trial
-              ) {
-                trialStaff.push(as)
-              }
             }
           })
         })
         this.setState({
           myStaffs: allStaff,
-          renderStaffsLoading: false
-        })
-        this.setState({
-          activeStaffs: activeStaff,
-          renderStaffsLoading: false
-        })
-        this.setState({
-          trialStaffs: trialStaff,
           renderStaffsLoading: false
         })
       }
@@ -89,17 +60,22 @@ class MyStaff extends Component {
       </div>
     )
   }
-  renderStaffBox = (closable, col, active) => {
+  renderStaffBox = (data, col, active) => {
+    if (data.trial) {
+      col += " trial"
+    } else if (data.active) {
+      col += " active"
+    }
+    const avatar =
+      data.staff.avatar !== "undefined"
+        ? data.staff.avatar
+        : "http://via.placeholder.com/150x150"
     return (
-      <div className={"my-staff " + col}>
-        <img
-          alt=""
-          className="profile-thumb-md my-staff-img"
-          src="http://via.placeholder.com/150x150"
-        />
-        <p>Staff {active}</p>
-        <small>Part Time</small>
-        <small>$20 - $23 /hour</small>
+      <div key={data._id} className={"my-staff " + col}>
+        <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
+        <p>{data.staff.fullname}</p>
+        <small>{data.staff.rateType}</small>
+        <small>{data.staff.rateBadge}</small>
         <button className="a-btn btn-dark btn-round">
           <small>Send Message</small>
         </button>
@@ -128,8 +104,12 @@ class MyStaff extends Component {
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
-            {this.state.active.map(active => {
-              return this.renderStaffBox(false, "col-sm-2", active)
+            {this.state.myStaffs.map(staff => {
+              if (staff.trial) {
+                return this.renderStaffBox(staff, "col-sm-2", false)
+              } else if (staff.active) {
+                return this.renderStaffBox(staff, "col-sm-2", true)
+              }
             })}
           </div>
         </div>
@@ -191,9 +171,9 @@ class MyStaff extends Component {
             </div>
             <div className="my-staff-list v-scroll scroll">
               <div className="row">
-                {this.state.active.map(active => {
+                {/*this.state.active.map(active => {
                   return this.renderStaffBox(true, "col-sm-3", active)
-                })}
+                })*/}
               </div>
             </div>
           </div>
