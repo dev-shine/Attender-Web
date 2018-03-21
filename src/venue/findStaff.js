@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import API from "../services/api"
 import "./findStaff.css"
 import _ from "lodash/core"
+import { Link } from "react-router-dom"
 
 const staffs = {
   bartender: { on: false, num: 0, data: [] },
@@ -225,12 +226,12 @@ class FindStaff extends Component {
                 {(() => {
                   if (k[1].openMeta) {
                     return (
-                      <button
+                      <Link
+                        to={`./messages/${k[1].user.staffId}`}
                         className="a-btn btn-round btn-active pull-right"
-                        onClick={() => this.toggleShowStaffDetails(true, i)}
                       >
                         Message
-                      </button>
+                      </Link>
                     )
                   } else {
                     return (
