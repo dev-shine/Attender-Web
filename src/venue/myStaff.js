@@ -13,7 +13,9 @@ class MyStaff extends Component {
       trial: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       tasks: [9, 6, 4, 7, 3, 6],
       suggestions: [1, 2, 3, 4],
-      myStaffs: []
+      myStaffs: [],
+      activeStaffs: [],
+      trialStaffs: []
     }
   }
   componentWillMount = async () => {
@@ -27,6 +29,9 @@ class MyStaff extends Component {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
         const allStaff = []
+        const activeStaff = []
+        const trialStaff = []
+
         Object.keys(res.staffs).forEach(staff => {
           res.staffs[staff].forEach(as => {
             if (
@@ -34,11 +39,36 @@ class MyStaff extends Component {
               !allStaff.find(asf => asf.staff._id === as.staff._id)
             ) {
               allStaff.push(as)
+              console.log(
+                as,
+                as.active,
+                !activeStaff.find(asf => asf.staff._id === as.staff._id)
+              )
+              if (
+                !activeStaff.find(asf => asf.staff._id === as.staff._id) &&
+                as.active
+              ) {
+                activeStaff.push(as)
+              }
+              if (
+                !trialStaff.find(asf => asf.staff._id === as.staff._id) &&
+                as.trial
+              ) {
+                trialStaff.push(as)
+              }
             }
           })
         })
         this.setState({
           myStaffs: allStaff,
+          renderStaffsLoading: false
+        })
+        this.setState({
+          activeStaffs: activeStaff,
+          renderStaffsLoading: false
+        })
+        this.setState({
+          trialStaffs: trialStaff,
           renderStaffsLoading: false
         })
       }
