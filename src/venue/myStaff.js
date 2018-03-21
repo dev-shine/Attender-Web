@@ -9,8 +9,8 @@ class MyStaff extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      tasks: [9, 6, 4, 7, 3, 6],
-      suggestions: [1, 2, 3, 4],
+      tasks: [],
+      suggestions: [],
       myStaffs: [],
       currentTab: "active"
     }
@@ -45,8 +45,9 @@ class MyStaff extends Component {
     })
   }
   renderItem = item => {
+    console.log(item)
     return (
-      <div className="my-staff-ss-item">
+      <div key={item} className="my-staff-ss-item">
         <div className="my-staff-ss-check">
           <img alt="" src={require(".././assets/icons/venue/check-item.png")} />
         </div>
@@ -60,6 +61,7 @@ class MyStaff extends Component {
     )
   }
   renderStaffBox = (data, col, active) => {
+    console.log("renderStaffBox")
     if (data.trial) {
       col += " trial"
     } else if (data.active) {
@@ -69,6 +71,7 @@ class MyStaff extends Component {
       data.staff.avatar !== "undefined"
         ? data.staff.avatar
         : "http://via.placeholder.com/150x150"
+    console.log(avatar)
     return (
       <div key={data._id} className={"my-staff " + col}>
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
@@ -85,7 +88,19 @@ class MyStaff extends Component {
   switchTab = tabname => {
     this.setState({ currentTab: tabname })
   }
+  renderNoData = (trialC, activeC) => {
+    if (
+      (this.state.currentTab === "trial" && trialC == 0) ||
+      (this.state.currentTab === "trial" && trialC == 0)
+    ) {
+      return "Sorry no data here."
+    }
+  }
   renderMyStaffs = () => {
+    let activeC = 0,
+      trialC = 0,
+      noDataMessage = ""
+
     return (
       <div className="card my-staff-container">
         <div className="my-staff-header">
@@ -118,12 +133,15 @@ class MyStaff extends Component {
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
             {this.state.myStaffs.map(staff => {
-              if (staff.trial) {
+              if (this.state.currentTab === "trial" && staff.trial) {
+                trialC++
                 return this.renderStaffBox(staff, "col-sm-2", false)
-              } else if (staff.active) {
+              } else if (this.state.currentTab === "active" && staff.active) {
+                activeC++
                 return this.renderStaffBox(staff, "col-sm-2", true)
               }
             })}
+            {this.renderNoData(trialC, activeC)}
           </div>
         </div>
       </div>
