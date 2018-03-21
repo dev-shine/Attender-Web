@@ -56,7 +56,9 @@ class FindStaff extends Component {
       results: []
     }
   }
-
+  componentWillMount = () => {
+    console.log(this.props.match.params.staff)
+  }
   onChangeStaffs = (key, action) => {
     let staffs = this.state.staffs
     if (staffs[key].on) {

@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import API from "./../services/api"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -11,10 +12,38 @@ class MyStaff extends Component {
       active: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       trial: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       tasks: [9, 6, 4, 7, 3, 6],
-      suggestions: [1, 2, 3, 4]
+      suggestions: [1, 2, 3, 4],
+      myStaffs: []
     }
   }
-
+  componentWillMount = async () => {
+    API.initRequest()
+    let profile = await API.getProfile()
+    if (profile.isVenue || profile.isEmployer) {
+      this.getMyStaffs()
+    }
+  }
+  getMyStaffs = () => {
+    API.get("my-staffs?withTrial=true").then(res => {
+      if (res.status) {
+        const allStaff = []
+        Object.keys(res.staffs).forEach(staff => {
+          res.staffs[staff].forEach(as => {
+            if (
+              allStaff.length === 0 ||
+              !allStaff.find(asf => asf.staff._id === as.staff._id)
+            ) {
+              allStaff.push(as)
+            }
+          })
+        })
+        this.setState({
+          myStaffs: allStaff,
+          renderStaffsLoading: false
+        })
+      }
+    })
+  }
   renderItem = item => {
     return (
       <div className="my-staff-ss-item">
