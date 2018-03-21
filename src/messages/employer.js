@@ -47,10 +47,8 @@ class EmployerMessage extends Component {
       selectedStaff: {}
     }
   }
-
   componentWillMount = async () => {
     API.initRequest()
-
     let profile = await API.getProfile()
     this.setState({ profile })
 

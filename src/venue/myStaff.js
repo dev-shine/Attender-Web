@@ -2,19 +2,48 @@ import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import API from "./../services/api"
 
 class MyStaff extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isLoading: false,
-      active: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-      trial: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       tasks: [9, 6, 4, 7, 3, 6],
-      suggestions: [1, 2, 3, 4]
+      suggestions: [1, 2, 3, 4],
+      myStaffs: [],
+      currentTab: "active"
     }
   }
+  componentWillMount = async () => {
+    API.initRequest()
+    let profile = await API.getProfile()
+    if (profile.isVenue || profile.isEmployer) {
+      this.getMyStaffs()
+    }
+  }
+  getMyStaffs = () => {
+    API.get("my-staffs?withTrial=true").then(res => {
+      if (res.status) {
+        const allStaff = []
 
+        Object.keys(res.staffs).forEach(staff => {
+          res.staffs[staff].forEach(as => {
+            if (
+              allStaff.length === 0 ||
+              !allStaff.find(asf => asf.staff._id === as.staff._id)
+            ) {
+              allStaff.push(as)
+            }
+          })
+        })
+        this.setState({
+          myStaffs: allStaff,
+          renderStaffsLoading: false
+        })
+      }
+    })
+  }
   renderItem = item => {
     return (
       <div className="my-staff-ss-item">
@@ -30,17 +59,22 @@ class MyStaff extends Component {
       </div>
     )
   }
-  renderStaffBox = (closable, col, active) => {
+  renderStaffBox = (data, col, active) => {
+    if (data.trial) {
+      col += " trial"
+    } else if (data.active) {
+      col += " active"
+    }
+    const avatar =
+      data.staff.avatar !== "undefined"
+        ? data.staff.avatar
+        : "http://via.placeholder.com/150x150"
     return (
-      <div className={"my-staff " + col}>
-        <img
-          alt=""
-          className="profile-thumb-md my-staff-img"
-          src="http://via.placeholder.com/150x150"
-        />
-        <p>Staff {active}</p>
-        <small>Part Time</small>
-        <small>$20 - $23 /hour</small>
+      <div key={data._id} className={"my-staff " + col}>
+        <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
+        <p>{data.staff.fullname}</p>
+        <small>{data.staff.rateType}</small>
+        <small>{data.staff.rateBadge}</small>
         <button className="a-btn btn-dark btn-round">
           <small>Send Message</small>
         </button>
@@ -48,16 +82,30 @@ class MyStaff extends Component {
       </div>
     )
   }
-
+  switchTab = tabname => {
+    this.setState({ currentTab: tabname })
+  }
   renderMyStaffs = () => {
     return (
       <div className="card my-staff-container">
         <div className="my-staff-header">
           <div className="my-staff-menu">
-            <div className="my-staff-header-menu-active">
+            <div
+              className={
+                "my-staff-header-menu" +
+                (this.state.currentTab === "active" ? "-active" : "")
+              }
+              onClick={() => this.switchTab("active")}
+            >
               <span>ACTIVE STAFF</span>
             </div>
-            <div className="my-staff-header-menu">
+            <div
+              className={
+                "my-staff-header-menu" +
+                (this.state.currentTab === "trial" ? "-active" : "")
+              }
+              onClick={() => this.switchTab("trial")}
+            >
               <span>TRIAL PERIOD</span>
             </div>
           </div>
@@ -69,8 +117,12 @@ class MyStaff extends Component {
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
-            {this.state.active.map(active => {
-              return this.renderStaffBox(false, "col-sm-2", active)
+            {this.state.myStaffs.map(staff => {
+              if (staff.trial) {
+                return this.renderStaffBox(staff, "col-sm-2", false)
+              } else if (staff.active) {
+                return this.renderStaffBox(staff, "col-sm-2", true)
+              }
             })}
           </div>
         </div>
@@ -132,9 +184,9 @@ class MyStaff extends Component {
             </div>
             <div className="my-staff-list v-scroll scroll">
               <div className="row">
-                {this.state.active.map(active => {
+                {/*this.state.active.map(active => {
                   return this.renderStaffBox(true, "col-sm-3", active)
-                })}
+                })*/}
               </div>
             </div>
           </div>
