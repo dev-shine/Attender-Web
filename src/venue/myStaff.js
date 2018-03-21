@@ -9,11 +9,10 @@ class MyStaff extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      active: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-      trial: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       tasks: [9, 6, 4, 7, 3, 6],
       suggestions: [1, 2, 3, 4],
-      myStaffs: []
+      myStaffs: [],
+      currentTab: "active"
     }
   }
   componentWillMount = async () => {
@@ -83,16 +82,30 @@ class MyStaff extends Component {
       </div>
     )
   }
-
+  switchTab = tabname => {
+    this.setState({ currentTab: tabname })
+  }
   renderMyStaffs = () => {
     return (
       <div className="card my-staff-container">
         <div className="my-staff-header">
           <div className="my-staff-menu">
-            <div className="my-staff-header-menu-active">
+            <div
+              className={
+                "my-staff-header-menu" +
+                (this.state.currentTab === "active" ? "-active" : "")
+              }
+              onClick={() => this.switchTab("active")}
+            >
               <span>ACTIVE STAFF</span>
             </div>
-            <div className="my-staff-header-menu">
+            <div
+              className={
+                "my-staff-header-menu" +
+                (this.state.currentTab === "trial" ? "-active" : "")
+              }
+              onClick={() => this.switchTab("trial")}
+            >
               <span>TRIAL PERIOD</span>
             </div>
           </div>
