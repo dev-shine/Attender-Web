@@ -22,6 +22,11 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
+  selectStaff = () => {
+    let myStaffs = this.state.myStaffs
+    myStaffs[0].selected = true
+    this.setState({ myStaffs: myStaffs })
+  }
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
@@ -41,6 +46,7 @@ class MyStaff extends Component {
           myStaffs: allStaff,
           renderStaffsLoading: false
         })
+        this.selectStaff()
       }
     })
   }
@@ -61,7 +67,6 @@ class MyStaff extends Component {
     )
   }
   renderStaffBox = (data, col, active) => {
-    console.log("renderStaffBox")
     if (data.trial) {
       col += " trial"
     } else if (data.active) {
@@ -147,7 +152,32 @@ class MyStaff extends Component {
       </div>
     )
   }
-
+  renderSelectedStaffBox = staff => {
+    console.log(staff)
+    return (
+      <div className="a-gradient my-staff-staff-box">
+        <div className="row">
+          <div className="col-sm-4">
+            <img alt="" className="profile-thumb-md" src={staff.staff.avatar} />
+          </div>
+          <div className="col-sm-8">
+            <p>{staff.staff.fullname}</p>
+            <p>
+              <small>
+                {staff.staff.position} | {staff.staff.rateType}
+              </small>
+            </p>
+            <p>
+              <small>
+                {staff.staff.bio} | {staff.staff.description.join("/")}
+              </small>
+            </p>
+          </div>
+        </div>
+        <a>&times;</a>
+      </div>
+    )
+  }
   renderEventAssignment = () => {
     return (
       <div className="card my-staff-container">
@@ -226,27 +256,9 @@ class MyStaff extends Component {
             />
             <div className="sem">
               <p>Selected Staff</p>
-              <div className="a-gradient my-staff-staff-box">
-                <div className="row">
-                  <div className="col-sm-4">
-                    <img
-                      alt=""
-                      className="profile-thumb-md"
-                      src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                    />
-                  </div>
-                  <div className="col-sm-8">
-                    <p>Vhong Navarow</p>
-                    <p>
-                      <small>Bartender | Fulltime</small>
-                    </p>
-                    <p>
-                      <small>RSA | Mixology / Night Owl / Coffee</small>
-                    </p>
-                  </div>
-                </div>
-                <a>&times;</a>
-              </div>
+              {this.state.myStaffs.map(staff => {
+                if (staff.selected) return this.renderSelectedStaffBox(staff)
+              })}
             </div>
           </div>
           <div className="my-staff-ts col-sm-7">
