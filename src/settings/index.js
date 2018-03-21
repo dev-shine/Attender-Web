@@ -23,7 +23,25 @@ class Settings extends Component {
       newEmail: "",
       newPassword: "",
       newPasswordConfirm: "",
-      passwordVerification: ""
+      passwordVerification: "",
+      eventEditProfileForm: {
+        picture: "",
+        organizerName: "",
+        company: "no",
+        companyName: "",
+        location: "",
+        about: "",
+        eventType: "",
+        organizerImage: ""
+      },
+      eventTypes: [
+        "wedding",
+        "birthday",
+        "conference",
+        "music",
+        "familyevent",
+        "other"
+      ]
     }
   }
 
@@ -31,10 +49,24 @@ class Settings extends Component {
     API.initRequest()
   }
 
+  onChangeEventEditProfileForm = e => {
+    let eventEditProfileForm = Object.assign(
+      {},
+      this.state.eventEditProfileForm
+    )
+    eventEditProfileForm[e.target.name] = e.target.value
+    this.setState({ eventEditProfileForm })
+  }
+
   onChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+
+  onSaveEditProfile = event => {
+    event.preventDefault()
+    console.log("state?", this.state.eventEditProfileForm)
   }
 
   onSaveEmailChange = event => {
@@ -280,6 +312,123 @@ class Settings extends Component {
     )
   }
 
+  renderEventTypes = () => {
+    return (
+      <div className="a-icon-container-sm xxm scroll h-scroll">
+        <div className="vs-service-item">
+          <a className="vs-service-action">
+            <img
+              alt=""
+              src={require(`.././assets/icons/organiser/event-type/default/birthday.png`)}
+            />
+          </a>
+          <p className="xxm">Birthday</p>
+        </div>
+        <div className="vs-service-item">
+          <a className="vs-service-action">
+            <img
+              alt=""
+              src={require(`.././assets/icons/organiser/event-type/default/wedding.png`)}
+            />
+          </a>
+          <p className="xxm">Wedding</p>
+        </div>
+        <div className="vs-service-item">
+          <a className="vs-service-action">
+            <img
+              alt=""
+              src={require(`.././assets/icons/organiser/event-type/default/conference.png`)}
+            />
+          </a>
+          <p className="xxm">Conference</p>
+        </div>
+        <div className="vs-service-item">
+          <a className="vs-service-action">
+            <img
+              alt=""
+              src={require(`.././assets/icons/organiser/event-type/default/music-festival.png`)}
+            />
+          </a>
+          <p className="xxm">Music Festival</p>
+        </div>
+        <div className="vs-service-item">
+          <a className="vs-service-action">
+            <img
+              alt=""
+              src={require(`.././assets/icons/organiser/event-type/default/family-events.png`)}
+            />
+          </a>
+          <p className="xxm">Family Events</p>
+        </div>
+      </div>
+    )
+  }
+
+  renderEditProfile = () => {
+    return (
+      <div className="settings-container">
+        <div className="setting-head">General Settings</div>
+        <div className="setting-menu">
+          <div className="setting-menu-item">
+            <div className="row">
+              <div className="col-sm-3">Edit Profile</div>
+              <div className="col-sm-9">
+                <form onSubmit={this.onSaveEditProfile}>
+                  <div className="form-group">
+                    <p>Picture</p>
+                    <div className="upload-box">
+                      <a>Upload</a>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <p>Organizer Name</p>
+                    <input
+                      onChange={this.onChangeEventEditProfileForm}
+                      type="text"
+                      name="organizerName"
+                      className="a-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <p>Company Name</p>
+                    <input
+                      onChange={this.onChangeEventEditProfileForm}
+                      type="text"
+                      name="companyName"
+                      className="a-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <p>Location</p>
+                    <input
+                      onChange={this.onChangeEventEditProfileForm}
+                      type="text"
+                      name="location"
+                      className="a-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <p>About</p>
+                    <textarea rows="5" cols="50" className="a-input">
+                      {" "}
+                    </textarea>
+                  </div>
+                  {this.renderEventTypes()}
+                  <div className="form-group">
+                    <p>Organiser Image</p>
+                    <div className="upload-box">
+                      <a>Upload</a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -290,6 +439,7 @@ class Settings extends Component {
           {this.renderPayment()}
           {this.renderAccount()}
           {this.renderPrivacyTaC()}
+          {this.renderEditProfile()}
         </div>
       </div>
     )
