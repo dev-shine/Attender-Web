@@ -15,12 +15,15 @@ class Settings extends Component {
       isLoading: false,
       isChangingEmail: false,
       isChangingPassword: false,
+      isDeletingAccount: false,
       emailChangeMessage: "",
       passwordChangeMessage: "",
+      deleteAccountMessage: "",
       oldEmail: "",
       newEmail: "",
       newPassword: "",
-      newPasswordConfirm: ""
+      newPasswordConfirm: "",
+      passwordVerification: ""
     }
   }
 
@@ -77,12 +80,28 @@ class Settings extends Component {
     })
   }
 
+  onDeleteAccount = event => {
+    event.preventDefault()
+
+    const body = {
+      password: this.state.passwordVerification
+    }
+
+    API.post("user/profile/deactivate-user", body).then(res => {
+      this.setState({ deleteAccountMessage: res.message })
+    })
+  }
+
   handleChangeEmailClick = () => {
     this.setState({ isChangingEmail: !this.state.isChangingEmail })
   }
 
   handleChangePasswordClick = () => {
     this.setState({ isChangingPassword: !this.state.isChangingPassword })
+  }
+
+  handleDeleteAccount = () => {
+    this.setState({ isDeletingAccount: !this.state.isDeletingAccount })
   }
 
   renderGeneral = () => {
@@ -224,13 +243,28 @@ class Settings extends Component {
         <div className="setting-head">Account Settings</div>
         <div className="setting-menu">
           <div className="setting-menu-item">
-            <span>Delete Account</span>
+            <span onClick={this.handleDeleteAccount}>Delete Account</span>
           </div>
           <div className="row">
-            <div className="col-sm-12">
+            <div
+              className={`col-sm-12 accordion ${this.state.isDeletingAccount &&
+                "open"}`}
+            >
+              <form onSubmit={this.onDeleteAccount}>
+                <label className="label-style control-label">Password</label>
+                <input
+                  onChange={this.onChangeInput}
+                  type="password"
+                  name="passwordVerification"
+                  className="form-control"
+                />
+                <p>{this.state.deleteAccountMessage}</p>
+              </form>
+            </div>
+            {/* <div className="col-sm-12">
               Delete your account will disable your profile and remove your
               listed events and hired staff
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
