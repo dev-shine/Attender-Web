@@ -1,28 +1,29 @@
 import React, { Component } from "react"
 
-class newTaskForm extends Component {
+class NewSuggestionField extends Component {
   constructor() {
     super()
     this.state = {
-      description: ""
+      form: "newSuggestionFieldForm",
+      placeholder: "Enter Suggestion"
     }
-    this.saveTask = this.saveTask.bind(this)
+    this.save = this.save.bind(this)
   }
   handleDescChange(e) {
     console.log(e)
     this.setState({ description: e.target.value })
   }
-  saveTask(event) {
+  save(event) {
     event.preventDefault()
-    this.props.saveTask(this.state)
+    this.props.save(this.state)
     event.target.reset()
   }
   render() {
     return (
       <form
-        name="newTaskFieldForm"
-        id="newTaskFieldForm"
-        onSubmit={e => this.saveTask(e)}
+        name={this.state.form}
+        id={this.state.form}
+        onSubmit={e => this.save(e)}
       >
         <div className="my-staff-ss-item">
           <div className="my-staff-ss-check">
@@ -37,10 +38,10 @@ class newTaskForm extends Component {
                 className="taskName"
                 type="text"
                 name="description"
-                placeholder="Enter task here"
+                placeholder={this.state.placeholder}
                 onChange={e => this.handleDescChange(e)}
               />
-              <button>Save 🤘</button>
+              <button>Save</button>
             </p>
           </div>
           <a className="a-btn-circle">—</a>
@@ -49,4 +50,4 @@ class newTaskForm extends Component {
     )
   }
 }
-export default newTaskForm
+export default NewSuggestionField
