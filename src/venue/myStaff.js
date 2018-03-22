@@ -65,7 +65,7 @@ class MyStaff extends Component {
     // })
   }
   renderTasks = tasks => {
-    return tasks.map(task => {
+    return tasks.reverse().map(task => {
       return this.renderItem(task)
     })
   }
