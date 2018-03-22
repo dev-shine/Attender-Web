@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
-import VenueSetup from "./profile/venueSetup"
+import VenueEdit from "./profile/venueEdit"
+import StaffEdit from "./profile/staffEdit"
 import ".././styles/global.css"
 import ".././styles/style.css"
 import { bindActionCreators } from "redux"
@@ -597,7 +598,8 @@ class Settings extends Component {
         <NavBar />
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
-          <VenueSetup />
+          <StaffEdit />
+          <VenueEdit />
           {this.renderGeneral()}
           {this.renderPayment()}
           {this.renderAccount()}
