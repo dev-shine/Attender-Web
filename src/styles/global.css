@@ -2854,24 +2854,6 @@ textarea {
   height: 20em;
 }
 
-.my-staff-ss-item {
-  height: 4em;
-  width: 20em;
-  border: 0.3px solid rgb(226, 226, 226);
-  margin: 1em;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  display: flex;
-}
-
-.my-staff-ss-item a {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #5d5bbc !important;
-}
-
 .my-staff-ss-check {
   flex-grow: 1;
   width: 20%;
