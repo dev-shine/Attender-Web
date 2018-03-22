@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API, { cloudinary } from "../.././services/api"
 
-class VenueSetup extends Component {
+class VenueEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -833,4 +833,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(null, mapDispatchToProps)(VenueSetup)
+export default connect(null, mapDispatchToProps)(VenueEdit)
