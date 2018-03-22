@@ -410,6 +410,15 @@ class Settings extends Component {
     this.setState({ zoom: scale })
   }
 
+  changeCompanyOption = option => {
+    let eventEditProfileForm = Object.assign(
+      {},
+      this.state.eventEditProfileForm
+    )
+    eventEditProfileForm.company = option
+    this.setState({ eventEditProfileForm })
+  }
+
   setEditorRef = editor => (this.editor = editor)
 
   renderEditProfile = () => {
@@ -479,6 +488,32 @@ class Settings extends Component {
                     />
                   </div>
                   <div className="form-group">
+                    <p>Company</p>
+                    <button
+                      onClick={() => this.changeCompanyOption("yes")}
+                      className={
+                        this.state.eventEditProfileForm.company === "yes"
+                          ? "a-btn btn-active"
+                          : "a-btn"
+                      }
+                    >
+                      Yes
+                    </button>
+                    <button
+                      onClick={() => this.changeCompanyOption("no")}
+                      className={
+                        this.state.eventEditProfileForm.company === "no"
+                          ? "a-btn btn-active"
+                          : "a-btn"
+                      }
+                    >
+                      No
+                    </button>
+                  </div>
+                  <div
+                    className={`form-group accordion ${this.state
+                      .eventEditProfileForm.company === "yes" && "open"}`}
+                  >
                     <p>Company Name</p>
                     <input
                       onChange={this.onChangeEventEditProfileForm}
