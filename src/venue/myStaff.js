@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./../services/api"
 import "./myStaff.css"
-import NewTaskField from "./newTaskField"
+import NewTaskField from "./newTaskForm"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -14,8 +14,10 @@ class MyStaff extends Component {
       suggestions: [],
       myStaffs: [],
       currentTab: "active",
-      showNewTaskField: false
+      showNewTaskField: false,
+      selectedStaff: []
     }
+    this.saveTask = this.saveTask.bind(this)
   }
   componentWillMount = async () => {
     API.initRequest()
@@ -28,6 +30,7 @@ class MyStaff extends Component {
     let myStaffs = this.state.myStaffs
     myStaffs[0].selected = true
     this.setState({ myStaffs: myStaffs })
+    this.setState({ selectedStaff: myStaffs[0] })
   }
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
@@ -167,7 +170,7 @@ class MyStaff extends Component {
   }
   renderSelectedStaffBox = staff => {
     return (
-      <div className="a-gradient my-staff-staff-box">
+      <div key={staff._id} className="a-gradient my-staff-staff-box">
         <div className="row">
           <div className="col-sm-4">
             <img alt="" className="profile-thumb-md" src={staff.staff.avatar} />
@@ -254,7 +257,28 @@ class MyStaff extends Component {
       </div>
     )
   }
+  saveTask = async newTask => {
+    // this.setState({ isLoading: true })
+    // API.initRequest()
+    let task = this.state.selectedStaff.assignments.tasks
+    task.push(newTask)
+    console.log(newTask, this.state.selectedStaff._id)
 
+    var $assignments = {
+      assignments: JSON.stringify({
+        tasks: task,
+        suggestions: this.state.selectedStaff.assignments.suggestions
+      })
+    }
+
+    API.post(
+      "save-staff-assignment/" + this.state.selectedStaff._id,
+      $assignments
+    ).then(res => {
+      console.log(res)
+    })
+    this.setState({ isLoading: false })
+  }
   renderStaffManagement = () => {
     return (
       <div className="card my-staff-container">
@@ -296,7 +320,9 @@ class MyStaff extends Component {
             <div className="my-staff-ss v-scroll scroll">
               <div className="row">
                 <div className="my-staff-ss-task col-sm-6">
-                  {this.state.showNewTaskField ? <NewTaskField /> : null}
+                  {this.state.showNewTaskField ? (
+                    <NewTaskField saveTask={this.saveTask} />
+                  ) : null}
                   {this.state.myStaffs.map(staff => {
                     if (staff.active && staff.assignments.tasks !== null) {
                       return this.renderTasks(staff.assignments.tasks)
