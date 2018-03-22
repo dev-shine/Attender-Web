@@ -48,7 +48,7 @@ class Settings extends Component {
         },
         familyevent: {
           on: false,
-          name: "Family Event",
+          name: "Family Events",
           image: "family-events.png"
         },
         other: { on: false, name: "Other", image: "note.png" }
@@ -79,9 +79,38 @@ class Settings extends Component {
     })
   }
 
-  onSaveEditProfile = event => {
-    event.preventDefault()
-    console.log("state?", this.state.eventEditProfileForm)
+  onSaveEditProfile = async () => {
+    this.setState({ isLoading: true })
+    let name = this.state.eventEditProfileForm.name,
+      isCompany = this.state.eventEditProfileForm.company === "yes" ? "1" : "0",
+      companyName = this.state.eventEditProfileForm.companyName,
+      locationName = this.state.eventEditProfileForm.location,
+      bio = this.state.eventEditProfileForm.about,
+      eventType = [],
+      location = this.state.location
+
+    Object.keys(this.state.eventTypes).forEach(key => {
+      if (this.state.eventTypes[key].on) {
+        eventType.push(this.state.eventTypes[key].name)
+      }
+    })
+
+    API.initRequest()
+    let response = await API.post("user/profile/organizer", {
+      name,
+      isCompany,
+      companyName,
+      locationName,
+      location: [0, 0].join(),
+      bio,
+      eventType: eventType.join()
+    })
+    this.setState({ isLoading: false })
+    if (response.status) {
+      alert("success")
+    } else {
+      alert("Something Went Wrong")
+    }
   }
 
   onSelectOption = (key, obj) => {
@@ -430,120 +459,122 @@ class Settings extends Component {
             <div className="row">
               <div className="col-sm-3">Edit Profile</div>
               <div className="col-sm-9">
-                <form onSubmit={this.onSaveEditProfile}>
-                  <div className="form-group">
-                    <p>Picture</p>
-                    <div>
-                      <div className="pp-container">
-                        <div className="pp-header">
-                          Click on the box to upload Profile Picture
-                        </div>
-                        <div
-                          className="pp-holder"
-                          onClick={this.onOpenUploader}
+                <div className="form-group">
+                  <p>Picture</p>
+                  <div>
+                    <div className="pp-container">
+                      <div className="pp-header">
+                        Click on the box to upload Profile Picture
+                      </div>
+                      <div className="pp-holder" onClick={this.onOpenUploader}>
+                        <AvatarEditor
+                          ref={this.setEditorRef}
+                          image={this.state.avatar}
+                          width={250}
+                          height={250}
+                          color={[255, 255, 255, 0.6]} // RGBA
+                          scale={this.state.zoom}
+                          crossOrigin="anonymous"
+                        />
+                        <input
+                          type="file"
+                          ref="uploader"
+                          onChange={this.onUploadImage}
+                          hidden
+                        />
+                      </div>
+                      <div className="pp-action">
+                        <a
+                          href="javascript:void(0)"
+                          onClick={this.onRemovePhoto}
                         >
-                          <AvatarEditor
-                            ref={this.setEditorRef}
-                            image={this.state.avatar}
-                            width={250}
-                            height={250}
-                            color={[255, 255, 255, 0.6]} // RGBA
-                            scale={this.state.zoom}
-                            crossOrigin="anonymous"
+                          <p>Remove Photo</p>
+                        </a>
+                        <div className="pp-slider">
+                          <Slider
+                            min={1.0}
+                            max={10.0}
+                            step={0.1}
+                            value={this.state.zoom}
+                            onChange={this.onImageZoomChange}
                           />
-                          <input
-                            type="file"
-                            ref="uploader"
-                            onChange={this.onUploadImage}
-                            hidden
-                          />
-                        </div>
-                        <div className="pp-action">
-                          <a
-                            href="javascript:void(0)"
-                            onClick={this.onRemovePhoto}
-                          >
-                            <p>Remove Photo</p>
-                          </a>
-                          <div className="pp-slider">
-                            <Slider
-                              min={1.0}
-                              max={10.0}
-                              step={0.1}
-                              value={this.state.zoom}
-                              onChange={this.onImageZoomChange}
-                            />
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="form-group">
-                    <p>Organizer Name</p>
-                    <input
-                      onChange={this.onChangeEventEditProfileForm}
-                      type="text"
-                      name="organizerName"
-                      className="a-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <p>Company</p>
-                    <button
-                      onClick={() => this.changeCompanyOption("yes")}
-                      className={
-                        this.state.eventEditProfileForm.company === "yes"
-                          ? "a-btn btn-active"
-                          : "a-btn"
-                      }
-                    >
-                      Yes
-                    </button>
-                    <button
-                      onClick={() => this.changeCompanyOption("no")}
-                      className={
-                        this.state.eventEditProfileForm.company === "no"
-                          ? "a-btn btn-active"
-                          : "a-btn"
-                      }
-                    >
-                      No
-                    </button>
-                  </div>
-                  <div
-                    className={`form-group accordion ${this.state
-                      .eventEditProfileForm.company === "yes" && "open"}`}
+                </div>
+                <div className="form-group">
+                  <p>Organizer Name</p>
+                  <input
+                    onChange={this.onChangeEventEditProfileForm}
+                    type="text"
+                    name="organizerName"
+                    className="a-input"
+                  />
+                </div>
+                <div className="form-group">
+                  <p>Company</p>
+                  <button
+                    onClick={() => this.changeCompanyOption("yes")}
+                    className={
+                      this.state.eventEditProfileForm.company === "yes"
+                        ? "a-btn btn-active"
+                        : "a-btn"
+                    }
                   >
-                    <p>Company Name</p>
-                    <input
-                      onChange={this.onChangeEventEditProfileForm}
-                      type="text"
-                      name="companyName"
-                      className="a-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <p>Location</p>
-                    <input
-                      onChange={this.onChangeEventEditProfileForm}
-                      type="text"
-                      name="location"
-                      className="a-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <p>About</p>
-                    <textarea
-                      rows="5"
-                      cols="50"
-                      className="a-input"
-                      onChange={this.onChangeEventEditProfileForm}
-                    >
-                      {" "}
-                    </textarea>
-                  </div>
-                  {this.renderEventTypes()}
-                </form>
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => this.changeCompanyOption("no")}
+                    className={
+                      this.state.eventEditProfileForm.company === "no"
+                        ? "a-btn btn-active"
+                        : "a-btn"
+                    }
+                  >
+                    No
+                  </button>
+                </div>
+                <div
+                  className={`form-group accordion ${this.state
+                    .eventEditProfileForm.company === "yes" && "open"}`}
+                >
+                  <p>Company Name</p>
+                  <input
+                    onChange={this.onChangeEventEditProfileForm}
+                    type="text"
+                    name="companyName"
+                    className="a-input"
+                  />
+                </div>
+                <div className="form-group">
+                  <p>Location</p>
+                  <input
+                    onChange={this.onChangeEventEditProfileForm}
+                    type="text"
+                    name="location"
+                    className="a-input"
+                  />
+                </div>
+                <div className="form-group">
+                  <p>About</p>
+                  <textarea
+                    rows="5"
+                    cols="50"
+                    className="a-input"
+                    onChange={this.onChangeEventEditProfileForm}
+                  >
+                    {" "}
+                  </textarea>
+                </div>
+                {this.renderEventTypes()}
+                <button
+                  type="submit"
+                  className="pull-right a-btn btn-round btn-dark"
+                  onClick={() => this.onSaveEditProfile()}
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>
