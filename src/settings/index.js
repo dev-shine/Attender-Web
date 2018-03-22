@@ -5,6 +5,9 @@ import ".././styles/style.css"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./../services/api"
+import AvatarEditor from "react-avatar-editor"
+import Slider from "rc-slider"
+import defaultAvatar from ".././assets/150x150.png"
 import "./settings.css"
 
 class Settings extends Component {
@@ -38,7 +41,6 @@ class Settings extends Component {
         birthday: { on: false, name: "Birthday", image: "birthday.png" },
         wedding: { on: false, name: "Wedding", image: "wedding.png" },
         conference: { on: false, name: "Conference", image: "conference.png" },
-        conference: { on: false, name: "Conference", image: "conference.png" },
         music: {
           on: false,
           name: "Music Festival",
@@ -48,8 +50,13 @@ class Settings extends Component {
           on: false,
           name: "Family Event",
           image: "family-events.png"
-        }
-      }
+        },
+        other: { on: false, name: "Other", image: "note.png" }
+      },
+
+      // Utility States
+      avatar: defaultAvatar,
+      zoom: 1
     }
   }
 
@@ -372,6 +379,39 @@ class Settings extends Component {
     )
   }
 
+  onOpenUploader = event => {
+    const uploader = this.refs.uploader
+    uploader.click()
+  }
+
+  onUploadImage = event => {
+    const reader = new FileReader()
+    const imageData = event.target.files[0]
+    const uploader = this.refs.uploader
+
+    reader.onloadend = async () => {
+      const imageBase64 = reader.result
+      this.setState({
+        avatar: imageBase64
+      })
+    }
+    reader.readAsDataURL(imageData)
+    uploader.value = ""
+  }
+
+  onRemovePhoto = event => {
+    this.setState({
+      avatar: defaultAvatar,
+      zoom: 1
+    })
+  }
+
+  onImageZoomChange = scale => {
+    this.setState({ zoom: scale })
+  }
+
+  setEditorRef = editor => (this.editor = editor)
+
   renderEditProfile = () => {
     return (
       <div className="settings-container">
@@ -384,8 +424,49 @@ class Settings extends Component {
                 <form onSubmit={this.onSaveEditProfile}>
                   <div className="form-group">
                     <p>Picture</p>
-                    <div className="upload-box">
-                      <a>Upload</a>
+                    <div>
+                      <div className="pp-container">
+                        <div className="pp-header">
+                          Click on the box to upload Profile Picture
+                        </div>
+                        <div
+                          className="pp-holder"
+                          onClick={this.onOpenUploader}
+                        >
+                          <AvatarEditor
+                            ref={this.setEditorRef}
+                            image={this.state.avatar}
+                            width={250}
+                            height={250}
+                            color={[255, 255, 255, 0.6]} // RGBA
+                            scale={this.state.zoom}
+                            crossOrigin="anonymous"
+                          />
+                          <input
+                            type="file"
+                            ref="uploader"
+                            onChange={this.onUploadImage}
+                            hidden
+                          />
+                        </div>
+                        <div className="pp-action">
+                          <a
+                            href="javascript:void(0)"
+                            onClick={this.onRemovePhoto}
+                          >
+                            <p>Remove Photo</p>
+                          </a>
+                          <div className="pp-slider">
+                            <Slider
+                              min={1.0}
+                              max={10.0}
+                              step={0.1}
+                              value={this.state.zoom}
+                              onChange={this.onImageZoomChange}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className="form-group">
@@ -427,12 +508,6 @@ class Settings extends Component {
                     </textarea>
                   </div>
                   {this.renderEventTypes()}
-                  <div className="form-group">
-                    <p>Organiser Image</p>
-                    <div className="upload-box">
-                      <a>Upload</a>
-                    </div>
-                  </div>
                 </form>
               </div>
             </div>
