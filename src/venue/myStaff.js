@@ -55,15 +55,6 @@ class MyStaff extends Component {
       }
     })
   }
-  addTask = () => {
-    // this.state.myStaffs.map(staff => {
-    //   if (staff.active && staff.assignments.tasks !== null) {
-    //     let t = staff.assignments.tasks
-    //     t = t.push({
-    //     })
-    //   }
-    // })
-  }
   renderTasks = tasks => {
     return tasks.reverse().map(task => {
       return this.renderItem(task)
@@ -258,19 +249,15 @@ class MyStaff extends Component {
     )
   }
   saveTask = async newTask => {
-    // this.setState({ isLoading: true })
-    // API.initRequest()
+    this.setState({ isLoading: true })
     let task = this.state.selectedStaff.assignments.tasks
     task.push(newTask)
-    console.log(newTask, this.state.selectedStaff._id)
-
     var $assignments = {
       assignments: JSON.stringify({
         tasks: task,
         suggestions: this.state.selectedStaff.assignments.suggestions
       })
     }
-
     API.post(
       "save-staff-assignment/" + this.state.selectedStaff._id,
       $assignments
