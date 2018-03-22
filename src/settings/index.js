@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
+import VenueSetup from "./profile/venueSetup"
 import ".././styles/global.css"
 import ".././styles/style.css"
 import { bindActionCreators } from "redux"
@@ -76,6 +77,13 @@ class Settings extends Component {
   onChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
+    })
+  }
+
+  getImageUrl = data => {
+    API.uploadImage(data, "avatars", res => {
+      console.log("image url", res)
+      this.setState({ photo: { uri: res.secure_url }, isLoading: false })
     })
   }
 
@@ -589,6 +597,7 @@ class Settings extends Component {
         <NavBar />
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
+          <VenueSetup />
           {this.renderGeneral()}
           {this.renderPayment()}
           {this.renderAccount()}
