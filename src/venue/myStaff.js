@@ -4,7 +4,8 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./../services/api"
 import "./myStaff.css"
-import NewTaskField from "./newTaskForm"
+import NewTaskField from "./NewTaskField"
+import NewSuggestionField from "./NewSuggestionField"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -15,9 +16,11 @@ class MyStaff extends Component {
       myStaffs: [],
       currentTab: "active",
       showNewTaskField: false,
+      showNewSuggestionField: false,
       selectedStaff: []
     }
     this.saveTask = this.saveTask.bind(this)
+    this.saveSuggestion = this.saveSuggestion.bind(this)
   }
   componentWillMount = async () => {
     API.initRequest()
@@ -266,6 +269,24 @@ class MyStaff extends Component {
     })
     this.setState({ isLoading: false })
   }
+  saveSuggestion = async newSuggestion => {
+    this.setState({ isLoading: true })
+    let suggestion = this.state.selectedStaff.assignments.suggestions
+    suggestion.push(newSuggestion)
+    var $assignments = {
+      assignments: JSON.stringify({
+        tasks: this.state.selectedStaff.assignments.tasks,
+        suggestions: suggestion
+      })
+    }
+    API.post(
+      "save-staff-assignment/" + this.state.selectedStaff._id,
+      $assignments
+    ).then(res => {
+      console.log(res)
+    })
+    this.setState({ isLoading: false })
+  }
   renderStaffManagement = () => {
     return (
       <div className="card my-staff-container">
@@ -297,7 +318,12 @@ class MyStaff extends Component {
               </div>
               <div className="col-sm-6">
                 <p>SUGGESTION</p>
-                <span className="pull-right">
+                <span
+                  className="pull-right"
+                  onClick={() =>
+                    this.setState({ showNewSuggestionField: true })
+                  }
+                >
                   Add Suggestion&nbsp;&nbsp;&nbsp;<a className="a-btn-circle">
                     +
                   </a>
@@ -308,7 +334,7 @@ class MyStaff extends Component {
               <div className="row">
                 <div className="my-staff-ss-task col-sm-6">
                   {this.state.showNewTaskField ? (
-                    <NewTaskField saveTask={this.saveTask} />
+                    <NewTaskField save={this.saveTask} />
                   ) : null}
                   {this.state.myStaffs.map(staff => {
                     if (staff.active && staff.assignments.tasks !== null) {
@@ -317,9 +343,17 @@ class MyStaff extends Component {
                   })}
                 </div>
                 <div className="my-staff-ss-sugg col-sm-6">
-                  {/*this.state.myStaffs.map(suggestion => {
-                    return this.renderItem(suggestion)
-                  })*/}
+                  {this.state.showNewSuggestionField ? (
+                    <NewSuggestionField save={this.saveSuggestion} />
+                  ) : null}
+                  {this.state.myStaffs.map(staff => {
+                    if (
+                      staff.active &&
+                      staff.assignments.suggestions !== null
+                    ) {
+                      return this.renderTasks(staff.assignments.suggestions)
+                    }
+                  })}
                 </div>
               </div>
             </div>
