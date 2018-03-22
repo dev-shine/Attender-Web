@@ -3,6 +3,8 @@ import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./../services/api"
+import "./myStaff.css"
+import NewTaskField from "./newTaskField"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -11,7 +13,8 @@ class MyStaff extends Component {
       isLoading: false,
       suggestions: [],
       myStaffs: [],
-      currentTab: "active"
+      currentTab: "active",
+      showNewTaskField: false
     }
   }
   componentWillMount = async () => {
@@ -48,6 +51,15 @@ class MyStaff extends Component {
         this.selectStaff()
       }
     })
+  }
+  addTask = () => {
+    // this.state.myStaffs.map(staff => {
+    //   if (staff.active && staff.assignments.tasks !== null) {
+    //     let t = staff.assignments.tasks
+    //     t = t.push({
+    //     })
+    //   }
+    // })
   }
   renderTasks = tasks => {
     return tasks.map(task => {
@@ -265,7 +277,10 @@ class MyStaff extends Component {
             <div className="row">
               <div className="col-sm-6">
                 <p>TODAY'S TASK</p>
-                <span className="pull-right">
+                <span
+                  className="pull-right"
+                  onClick={() => this.setState({ showNewTaskField: true })}
+                >
                   Add Task&nbsp;&nbsp;&nbsp;<a className="a-btn-circle">+</a>
                 </span>
               </div>
@@ -281,6 +296,7 @@ class MyStaff extends Component {
             <div className="my-staff-ss v-scroll scroll">
               <div className="row">
                 <div className="my-staff-ss-task col-sm-6">
+                  {this.state.showNewTaskField ? <NewTaskField /> : null}
                   {this.state.myStaffs.map(staff => {
                     if (staff.active && staff.assignments.tasks !== null) {
                       return this.renderTasks(staff.assignments.tasks)
