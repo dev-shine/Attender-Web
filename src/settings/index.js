@@ -62,8 +62,10 @@ class Settings extends Component {
     }
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     API.initRequest()
+    let profile = await API.getProfile()
+    this.setState({ profile })
   }
 
   onChangeEventEditProfileForm = e => {
@@ -598,12 +600,21 @@ class Settings extends Component {
         <NavBar />
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
-          <StaffEdit />
-          <VenueEdit />
+          {/* {() => {
+            if (this.state.profile.isStaff) {
+              return <StaffEdit />
+            } else if(this.state.profile.isVenue) {
+              return <VenueEdit />
+            } else if(this.state.profile.isEmployer) {
+              return this.renderEditProfile()
+            } 
+          }} */}
           {this.renderGeneral()}
           {this.renderPayment()}
           {this.renderAccount()}
           {this.renderPrivacyTaC()}
+          <StaffEdit />
+          <VenueEdit />
           {this.renderEditProfile()}
         </div>
       </div>
