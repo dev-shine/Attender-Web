@@ -315,9 +315,6 @@ class VenueEdit extends Component {
     }
     return (
       <div className="container xxem">
-        <div className="content-header">
-          <p className="help-text">Lets setup a few things</p>
-        </div>
         <div className="content-wide">
           <div className="row">
             <div className="col-sm-5 vs-info">
@@ -820,7 +817,7 @@ class VenueEdit extends Component {
   }
 
   render() {
-    return <div className="bg-default">{this.renderContent()}</div>
+    return <div>{this.renderContent()}</div>
   }
 }
 
