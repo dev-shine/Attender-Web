@@ -331,7 +331,7 @@ class StaffEdit extends Component {
 
     this.setState({ isLoading: false })
     if (response.status) {
-      this.props.goMain()
+      alert("Success!")
     } else {
       alert("Something Went Wrong")
     }
@@ -574,12 +574,6 @@ class StaffEdit extends Component {
           >
             Next
           </button>
-          <button
-            className="pull-left a-btn btn-round btn-outline xs"
-            onClick={() => this.props.goBack()}
-          >
-            Back
-          </button>
         </div>
       </div>
     )
@@ -797,7 +791,7 @@ class StaffEdit extends Component {
             Next
           </button>
           <button
-            className="pull-left a-btn btn-round btn-outline xs"
+            className="pull-left a-btn btn-round btn-dark xs"
             onClick={() => this.onStep(1)}
           >
             Back
@@ -1200,7 +1194,7 @@ class StaffEdit extends Component {
             Save
           </button>
           <button
-            className="pull-left a-btn btn-round btn-outline xs"
+            className="pull-left a-btn btn-round btn-dark xs"
             onClick={() => this.onStep(2)}
           >
             Back
@@ -1229,14 +1223,6 @@ class StaffEdit extends Component {
 
 const mapStateToProps = state => ({})
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      goVenueEvents: () => push("/search-venues"),
-      goBack: () => push("/looking-for"),
-      goMain: () => push("/")
-    },
-    dispatch
-  )
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(StaffEdit)
