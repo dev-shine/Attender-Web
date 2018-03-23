@@ -238,7 +238,7 @@ class VenueEdit extends Component {
     })
     this.setState({ isLoading: false })
     if (response.status) {
-      this.props.goMain()
+      alert("Success!")
     } else {
       alert("Something Went Wrong")
     }
@@ -540,15 +540,6 @@ class VenueEdit extends Component {
           >
             Next
           </button>
-          <button className="pull-right a-btn btn-round btn-outline xs">
-            Skip
-          </button>
-          <button
-            className="pull-left a-btn btn-round btn-dark xs"
-            onClick={() => this.props.goEmployerSetup()}
-          >
-            Back
-          </button>
         </div>
       </div>
     )
@@ -658,142 +649,12 @@ class VenueEdit extends Component {
         <div className="content-vs-footer">
           <button
             className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onNextStep()}
-          >
-            Next
-          </button>
-          <button className="pull-right a-btn btn-round btn-outline xs">
-            Skip
-          </button>
-          <button
-            className="pull-left a-btn btn-round btn-outline xs"
-            onClick={() => this.onBack()}
-          >
-            Back
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  renderThirdStep = () => {
-    return (
-      <div className="container xxem">
-        <div className="content-sm">
-          <div className="vs-p-title xm">
-            <h3>STAFF OF INTEREST</h3>
-          </div>
-          <div className="vs-s-container xm">
-            {Object.keys(this.state.staffs).map((key, index) => {
-              if (this.state.staffs[key].on) {
-                return (
-                  <div
-                    className="vs-service-item-active"
-                    key={index}
-                    onClick={() => this.onSelectOption(key, "staffs")}
-                  >
-                    <a className="vs-service-action">
-                      <img
-                        alt=""
-                        src={require(`../.././assets/icons/staff/white/${key}.png`)}
-                      />
-                    </a>
-                    <p className="xxm">{key.capitalize()}</p>
-                  </div>
-                )
-              } else {
-                return (
-                  <div
-                    className="vs-service-item"
-                    key={index}
-                    onClick={() => this.onSelectOption(key, "staffs")}
-                  >
-                    <a className="vs-service-action">
-                      <img
-                        alt=""
-                        src={require(`../.././assets/icons/staff/default/${key}.png`)}
-                      />
-                    </a>
-                    <p className="xxm">{key.capitalize()}</p>
-                  </div>
-                )
-              }
-            })}
-            <div className="row xsm scroll v-scroll">
-              {Object.keys(this.state.staffs).map((key, index) => {
-                if (this.state.staffs[key].on) {
-                  return (
-                    <div className="col-sm-6" key={index}>
-                      <p className="vs-title">{key.capitalize()}</p>
-                      <div className="noe-container">
-                        <a
-                          className="noe-action"
-                          onClick={() => this.onChangeStaffs(key, "sub")}
-                        >
-                          <strong>–</strong>
-                        </a>
-                        <div className="noe-num">
-                          {this.state.staffs[key].num}
-                        </div>
-                        <a
-                          className="noe-action"
-                          onClick={() => this.onChangeStaffs(key, "add")}
-                        >
-                          <strong>+</strong>
-                        </a>
-                      </div>
-                    </div>
-                  )
-                }
-                return null
-              })}
-            </div>
-            <div className="vs-freq xxm row">
-              {this.state.frequency.map((freq, index) => {
-                if (freq.on) {
-                  return (
-                    <div
-                      key={index}
-                      className="vs-freq-items col-sm-3"
-                      onClick={() => this.onChangeFrequency(index)}
-                    >
-                      {/* TODO Must understand logic on the lines below */}
-                      <a className="a-checkbox active" />
-                      <span>{freq.name}</span>
-                    </div>
-                  )
-                } else {
-                  return (
-                    <div
-                      key={index}
-                      className="vs-freq-items col-sm-3"
-                      onClick={() => this.onChangeFrequency(index)}
-                    >
-                      {/* TODO Must understand logic on the lines below */}
-                      <a className="a-checkbox" />
-                      <span>{freq.name}</span>
-                    </div>
-                  )
-                }
-              })}
-            </div>
-          </div>
-        </div>
-        <div className="content-sm-footer">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
             onClick={() => this.onSave()}
           >
-            Search
+            Save
           </button>
           <button
-            className="pull-right a-btn btn-round btn-outline xs"
-            onClick={() => this.clearAll()}
-          >
-            Clear All
-          </button>
-          <button
-            className="pull-left a-btn btn-round btn-outline xs"
+            className="pull-left a-btn btn-round btn-dark xs"
             onClick={() => this.onBack()}
           >
             Back
@@ -809,8 +670,6 @@ class VenueEdit extends Component {
         return this.renderFirstStep()
       case 2:
         return this.renderSecondStep()
-      case 3:
-        return this.renderThirdStep()
       default:
         return this.renderFirstStep()
     }
@@ -821,13 +680,6 @@ class VenueEdit extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      goEmployerSetup: () => push("/employer"),
-      goMain: () => push("/")
-    },
-    dispatch
-  )
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
 export default connect(null, mapDispatchToProps)(VenueEdit)
