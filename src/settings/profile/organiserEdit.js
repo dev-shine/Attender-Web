@@ -48,14 +48,19 @@ class OrganiserEdit extends Component {
     }
   }
 
-  // async componentWillMount() {
-  //   let profile = await API.getProfile()
-  //   if (profile) {
-  //     if (profile.hasProfile) {
-  //       this.props.goMain()
-  //     }
-  //   }
-  // }
+  componentDidMount() {
+    if (this.props.profile) {
+      this.setState({ ...this.props.profile }, () => {
+        this.state.eventType.forEach(type => {
+          const types = this.state.types
+          types.forEach(t => t.label == type && (t.on = true))
+          this.setState({ types }, () => {
+            console.log("theprofile destructured", this.state)
+          })
+        })
+      })
+    }
+  }
 
   onChangeCompany = bool => {
     // TODO Understand the logic here
@@ -85,7 +90,7 @@ class OrganiserEdit extends Component {
       isCompany = this.state.isCompany ? "1" : "0",
       companyName = this.state.companyName,
       locationName = this.state.locationName,
-      bio = this.state.bio,
+      about = this.state.about,
       eventType = [],
       location = this.state.location
 
@@ -102,12 +107,22 @@ class OrganiserEdit extends Component {
       companyName,
       locationName,
       location: location.join(),
-      bio,
+      about,
       eventType: eventType.join()
     })
     this.setState({ isLoading: false })
     if (response.status) {
-      alert("Success!")
+      // Update the local storage
+      let profile = await API.get("auth/current")
+      if (profile) {
+        if (profile.status) {
+          localStorage.setItem(
+            "com.attender.pty.ltd.profile",
+            JSON.stringify(profile.data)
+          )
+        }
+      }
+      alert("Saved!")
     } else {
       alert("Something Went Wrong")
     }
@@ -154,29 +169,31 @@ class OrganiserEdit extends Component {
                     No
                   </button>
                 </div>
-                <div className="form-group">
-                  <p>Company Name</p>
-                  {this.state.isCompany ? (
-                    <input
-                      type="text"
-                      className="a-input"
-                      placeholder="(Optional)"
-                      name="companyName"
-                      onChange={this.onChangeInput}
-                      value={this.state.companyName}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      className="a-input"
-                      placeholder=""
-                      name="companyName"
-                      onChange={this.onChangeInput}
-                      value={this.state.companyName}
-                      readOnly
-                    />
-                  )}
-                </div>
+                {this.state.isCompany && (
+                  <div className="form-group">
+                    <p>Company Name</p>
+                    {this.state.isCompany ? (
+                      <input
+                        type="text"
+                        className="a-input"
+                        placeholder="(Optional)"
+                        name="companyName"
+                        onChange={this.onChangeInput}
+                        value={this.state.companyName}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        className="a-input"
+                        placeholder=""
+                        name="companyName"
+                        onChange={this.onChangeInput}
+                        value={this.state.companyName}
+                        readOnly
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="form-group">
                   <p>Location</p>
                   <div className="pp-location">
@@ -204,7 +221,7 @@ class OrganiserEdit extends Component {
                     maxLength="200"
                     name="about"
                     onChange={this.onChangeInput}
-                    value={this.state.bio}
+                    value={this.state.about}
                   />
                   <span className="help-text pull-right">
                     {this.state.about.length}/200
@@ -257,9 +274,9 @@ class OrganiserEdit extends Component {
         <div className="content-footer">
           <button
             className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onStep(2)}
+            onClick={() => this.onSave()}
           >
-            Continue
+            Save
           </button>
         </div>
       </div>

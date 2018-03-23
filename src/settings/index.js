@@ -31,7 +31,9 @@ class Settings extends Component {
   componentDidMount = async () => {
     API.initRequest()
     let profile = await API.getProfile()
-    this.setState({ profile })
+    this.setState({ profile }, () => {
+      console.log("profile", this.state.profile)
+    })
   }
 
   onChangeInput = e => {
@@ -264,10 +266,6 @@ class Settings extends Component {
                 <p>{this.state.deleteAccountMessage}</p>
               </form>
             </div>
-            {/* <div className="col-sm-12">
-              Delete your account will disable your profile and remove your
-              listed events and hired staff
-            </div> */}
           </div>
         </div>
       </div>
@@ -293,7 +291,9 @@ class Settings extends Component {
           {this.state.profile && this.state.profile.isStaff && <StaffEdit />}
           {this.state.profile && this.state.profile.isVenue && <VenueEdit />}
           {this.state.profile &&
-            this.state.profile.isOrganizer && <OrganiserEdit />}
+            this.state.profile.isOrganizer && (
+              <OrganiserEdit profile={this.state.profile.employer} />
+            )}
           {this.renderPayment()}
           {this.renderAccount()}
           {this.renderPrivacyTaC()}
