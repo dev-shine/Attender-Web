@@ -457,10 +457,7 @@ class StaffEdit extends Component {
     return (
       <div className="container xem">
         <div className="content-header">
-          <h1>PROFILE SETUP</h1>
-          <p className="help-text">
-            We need just a few details to get you started
-          </p>
+          <h1>Profile Information</h1>
         </div>
         <div className="content">
           <Row>
@@ -599,9 +596,6 @@ class StaffEdit extends Component {
       <div className="container xem">
         <div className="content-header">
           <h1>Job Description</h1>
-          <p className="help-text">
-            We need just a few details to get you started
-          </p>
         </div>
         <div className="content-wide">
           <Row>
@@ -818,9 +812,6 @@ class StaffEdit extends Component {
       <div className="container xem">
         <div className="content-header">
           <h1>Job Description</h1>
-          <p className="help-text">
-            We need just a few details to get you started
-          </p>
         </div>
         <div className="content-md">
           <Row>
@@ -1232,7 +1223,7 @@ class StaffEdit extends Component {
   }
 
   render() {
-    return <div className="bg-default">{this.renderContent()}</div>
+    return <div>{this.renderContent()}</div>
   }
 }
 
