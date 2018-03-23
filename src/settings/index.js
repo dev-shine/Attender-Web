@@ -120,12 +120,6 @@ class Settings extends Component {
         <div className="setting-menu">
           <div className="setting-menu-item">
             <div className="row">
-              <div className="col-sm-3">Edit Profile</div>
-              <div className="col-sm-9">Edit Profile Information</div>
-            </div>
-          </div>
-          <div className="setting-menu-item">
-            <div className="row">
               <div className="col-sm-3">Change Email</div>
               {!this.state.isChangingEmail && (
                 <div className="col-sm-9">
@@ -295,22 +289,14 @@ class Settings extends Component {
         <NavBar />
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
-          {/* {() => {
-            if (this.state.profile.isStaff) {
-              return <StaffEdit />
-            } else if(this.state.profile.isVenue) {
-              return <VenueEdit />
-            } else if(this.state.profile.isEmployer) {
-              return this.renderEditProfile()
-            } 
-          }} */}
           {this.renderGeneral()}
+          {this.state.profile && this.state.profile.isStaff && <StaffEdit />}
+          {this.state.profile && this.state.profile.isVenue && <VenueEdit />}
+          {this.state.profile &&
+            this.state.profile.isOrganizer && <OrganiserEdit />}
           {this.renderPayment()}
           {this.renderAccount()}
           {this.renderPrivacyTaC()}
-          <StaffEdit />
-          <VenueEdit />
-          <OrganiserEdit />
         </div>
       </div>
     )

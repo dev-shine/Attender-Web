@@ -117,7 +117,7 @@ class OrganiserEdit extends Component {
     return (
       <div className="container xem">
         <div className="content-header">
-          <h1>Create Event Organiser</h1>
+          <h1>Event Organiser Information</h1>
         </div>
         <div className="content">
           <div className="row">
