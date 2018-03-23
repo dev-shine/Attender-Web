@@ -107,7 +107,7 @@ class OrganiserEdit extends Component {
     })
     this.setState({ isLoading: false })
     if (response.status) {
-      this.props.goMain()
+      alert("Success!")
     } else {
       alert("Something Went Wrong")
     }
@@ -261,12 +261,6 @@ class OrganiserEdit extends Component {
           >
             Continue
           </button>
-          <button
-            className="pull-left a-btn btn-round btn-outline xs"
-            onClick={() => this.props.goEmployerSetup()}
-          >
-            Back
-          </button>
         </div>
       </div>
     )
@@ -315,11 +309,8 @@ class OrganiserEdit extends Component {
           >
             Save
           </button>
-          <button className="pull-right a-btn btn-round btn-outline xs">
-            Skip
-          </button>
           <button
-            className="pull-left a-btn btn-round btn-outline xs"
+            className="pull-left a-btn btn-round btn-dark xs"
             onClick={() => this.onStep(1)}
           >
             Back
@@ -346,13 +337,6 @@ class OrganiserEdit extends Component {
 
 const mapStateToProps = state => ({})
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      goEmployerSetup: () => push("/employer"),
-      goMain: () => push("/")
-    },
-    dispatch
-  )
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrganiserEdit)
