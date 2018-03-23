@@ -2,22 +2,18 @@ import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import VenueEdit from "./profile/venueEdit"
 import StaffEdit from "./profile/staffEdit"
+import OrganiserEdit from "./profile/organiserEdit"
 import ".././styles/global.css"
 import ".././styles/style.css"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./../services/api"
-import AvatarEditor from "react-avatar-editor"
-import Slider from "rc-slider"
-import defaultAvatar from ".././assets/150x150.png"
 import "./settings.css"
 
 class Settings extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 1,
-      isLoading: false,
       isChangingEmail: false,
       isChangingPassword: false,
       isDeletingAccount: false,
@@ -28,37 +24,7 @@ class Settings extends Component {
       newEmail: "",
       newPassword: "",
       newPasswordConfirm: "",
-      passwordVerification: "",
-      eventEditProfileForm: {
-        picture: "",
-        organizerName: "",
-        company: "no",
-        companyName: "",
-        location: "",
-        about: "",
-        eventType: "",
-        organizerImage: ""
-      },
-      eventTypes: {
-        birthday: { on: false, name: "Birthday", image: "birthday.png" },
-        wedding: { on: false, name: "Wedding", image: "wedding.png" },
-        conference: { on: false, name: "Conference", image: "conference.png" },
-        music: {
-          on: false,
-          name: "Music Festival",
-          image: "music-festival.png"
-        },
-        familyevent: {
-          on: false,
-          name: "Family Events",
-          image: "family-events.png"
-        },
-        other: { on: false, name: "Other", image: "note.png" }
-      },
-
-      // Utility States
-      avatar: defaultAvatar,
-      zoom: 1
+      passwordVerification: ""
     }
   }
 
@@ -68,60 +34,10 @@ class Settings extends Component {
     this.setState({ profile })
   }
 
-  onChangeEventEditProfileForm = e => {
-    let eventEditProfileForm = Object.assign(
-      {},
-      this.state.eventEditProfileForm
-    )
-    eventEditProfileForm[e.target.name] = e.target.value
-    this.setState({ eventEditProfileForm })
-  }
-
   onChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
-
-  getImageUrl = data => {
-    API.uploadImage(data, "avatars", res => {
-      console.log("image url", res)
-      this.setState({ photo: { uri: res.secure_url }, isLoading: false })
-    })
-  }
-
-  onSaveEditProfile = async () => {
-    this.setState({ isLoading: true })
-    let name = this.state.eventEditProfileForm.name,
-      isCompany = this.state.eventEditProfileForm.company === "yes" ? "1" : "0",
-      companyName = this.state.eventEditProfileForm.companyName,
-      locationName = this.state.eventEditProfileForm.location,
-      bio = this.state.eventEditProfileForm.about,
-      eventType = [],
-      location = this.state.location
-
-    Object.keys(this.state.eventTypes).forEach(key => {
-      if (this.state.eventTypes[key].on) {
-        eventType.push(this.state.eventTypes[key].name)
-      }
-    })
-
-    API.initRequest()
-    let response = await API.post("user/profile/organizer", {
-      name,
-      isCompany,
-      companyName,
-      locationName,
-      location: [0, 0].join(),
-      bio,
-      eventType: eventType.join()
-    })
-    this.setState({ isLoading: false })
-    if (response.status) {
-      alert("success")
-    } else {
-      alert("Something Went Wrong")
-    }
   }
 
   onSelectOption = (key, obj) => {
@@ -373,227 +289,6 @@ class Settings extends Component {
     )
   }
 
-  renderEventTypes = () => {
-    return (
-      <div className="a-icon-container-sm xxm scroll h-scroll">
-        {Object.keys(this.state.eventTypes).map((key, index) => {
-          if (this.state.eventTypes[key].on) {
-            return (
-              <div
-                className="vs-service-item-active"
-                key={index}
-                onClick={() => this.onSelectOption(key, "eventTypes")}
-              >
-                <a className="vs-service-action">
-                  <img
-                    alt={this.state.eventTypes[key].name}
-                    src={require(`.././assets/icons/organiser/event-type/white/${
-                      this.state.eventTypes[key].image
-                    }`)}
-                  />
-                </a>
-                <p className="xxm">{this.state.eventTypes[key].name}</p>
-              </div>
-            )
-          } else {
-            return (
-              <div
-                className="vs-service-item"
-                key={index}
-                onClick={() => this.onSelectOption(key, "eventTypes")}
-              >
-                <a className="vs-service-action">
-                  <img
-                    alt={this.state.eventTypes[key].name}
-                    src={require(`.././assets/icons/organiser/event-type/default/${
-                      this.state.eventTypes[key].image
-                    }`)}
-                  />
-                </a>
-                <p className="xxm">{this.state.eventTypes[key].name}</p>
-              </div>
-            )
-          }
-        })}
-      </div>
-    )
-  }
-
-  onOpenUploader = event => {
-    const uploader = this.refs.uploader
-    uploader.click()
-  }
-
-  onUploadImage = event => {
-    const reader = new FileReader()
-    const imageData = event.target.files[0]
-    const uploader = this.refs.uploader
-
-    reader.onloadend = async () => {
-      const imageBase64 = reader.result
-      this.setState({
-        avatar: imageBase64
-      })
-    }
-    reader.readAsDataURL(imageData)
-    uploader.value = ""
-  }
-
-  onRemovePhoto = event => {
-    this.setState({
-      avatar: defaultAvatar,
-      zoom: 1
-    })
-  }
-
-  onImageZoomChange = scale => {
-    this.setState({ zoom: scale })
-  }
-
-  changeCompanyOption = option => {
-    let eventEditProfileForm = Object.assign(
-      {},
-      this.state.eventEditProfileForm
-    )
-    eventEditProfileForm.company = option
-    this.setState({ eventEditProfileForm })
-  }
-
-  setEditorRef = editor => (this.editor = editor)
-
-  renderEditProfile = () => {
-    return (
-      <div className="settings-container">
-        <div className="setting-head">General Settings</div>
-        <div className="setting-menu">
-          <div className="setting-menu-item">
-            <div className="row">
-              <div className="col-sm-3">Edit Profile</div>
-              <div className="col-sm-9">
-                <div className="form-group">
-                  <p>Picture</p>
-                  <div>
-                    <div className="pp-container">
-                      <div className="pp-header">
-                        Click on the box to upload Profile Picture
-                      </div>
-                      <div className="pp-holder" onClick={this.onOpenUploader}>
-                        <AvatarEditor
-                          ref={this.setEditorRef}
-                          image={this.state.avatar}
-                          width={250}
-                          height={250}
-                          color={[255, 255, 255, 0.6]} // RGBA
-                          scale={this.state.zoom}
-                          crossOrigin="anonymous"
-                        />
-                        <input
-                          type="file"
-                          ref="uploader"
-                          onChange={this.onUploadImage}
-                          hidden
-                        />
-                      </div>
-                      <div className="pp-action">
-                        <a
-                          href="javascript:void(0)"
-                          onClick={this.onRemovePhoto}
-                        >
-                          <p>Remove Photo</p>
-                        </a>
-                        <div className="pp-slider">
-                          <Slider
-                            min={1.0}
-                            max={10.0}
-                            step={0.1}
-                            value={this.state.zoom}
-                            onChange={this.onImageZoomChange}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <p>Organizer Name</p>
-                  <input
-                    onChange={this.onChangeEventEditProfileForm}
-                    type="text"
-                    name="organizerName"
-                    className="a-input"
-                  />
-                </div>
-                <div className="form-group">
-                  <p>Company</p>
-                  <button
-                    onClick={() => this.changeCompanyOption("yes")}
-                    className={
-                      this.state.eventEditProfileForm.company === "yes"
-                        ? "a-btn btn-active"
-                        : "a-btn"
-                    }
-                  >
-                    Yes
-                  </button>
-                  <button
-                    onClick={() => this.changeCompanyOption("no")}
-                    className={
-                      this.state.eventEditProfileForm.company === "no"
-                        ? "a-btn btn-active"
-                        : "a-btn"
-                    }
-                  >
-                    No
-                  </button>
-                </div>
-                <div
-                  className={`form-group accordion ${this.state
-                    .eventEditProfileForm.company === "yes" && "open"}`}
-                >
-                  <p>Company Name</p>
-                  <input
-                    onChange={this.onChangeEventEditProfileForm}
-                    type="text"
-                    name="companyName"
-                    className="a-input"
-                  />
-                </div>
-                <div className="form-group">
-                  <p>Location</p>
-                  <input
-                    onChange={this.onChangeEventEditProfileForm}
-                    type="text"
-                    name="location"
-                    className="a-input"
-                  />
-                </div>
-                <div className="form-group">
-                  <p>About</p>
-                  <textarea
-                    rows="5"
-                    cols="50"
-                    className="a-input"
-                    onChange={this.onChangeEventEditProfileForm}
-                  >
-                    {" "}
-                  </textarea>
-                </div>
-                {this.renderEventTypes()}
-                <button
-                  type="submit"
-                  className="pull-right a-btn btn-round btn-dark"
-                  onClick={() => this.onSaveEditProfile()}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   render() {
     return (
       <div>
@@ -615,7 +310,7 @@ class Settings extends Component {
           {this.renderPrivacyTaC()}
           <StaffEdit />
           <VenueEdit />
-          {this.renderEditProfile()}
+          <OrganiserEdit />
         </div>
       </div>
     )
