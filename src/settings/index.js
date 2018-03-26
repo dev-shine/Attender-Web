@@ -3,6 +3,7 @@ import NavBar from "../layouts/NavBar"
 import VenueEdit from "./profile/venueEdit"
 import StaffEdit from "./profile/staffEdit"
 import OrganiserEdit from "./profile/organiserEdit"
+import AddBankAccount from "./payment/addBankAccount"
 import ".././styles/global.css"
 import ".././styles/style.css"
 import { bindActionCreators } from "redux"
@@ -258,65 +259,6 @@ class Settings extends Component {
     )
   }
 
-  renderAddBankAccount = () => {
-    return (
-      <div className="form-container">
-        <div className="form-group">
-          <p>Account Name</p>
-          <input
-            type="text"
-            className="a-input"
-            name="accountName"
-            placeholder="John Snow"
-            onChange={this.onChangeInput}
-          />
-        </div>
-        <div className="form-group">
-          <p>Bank Name</p>
-          <input
-            type="text"
-            className="a-input"
-            name="bankName"
-            placeholder="Bank of Australia"
-            onChange={this.onChangeInput}
-          />
-        </div>
-        <div className="form-group">
-          <div className="row">
-            <div className="col-sm-12 col-md-6">
-              <p>BSB</p>
-              <input
-                type="text"
-                className="a-input"
-                name="bankBSB"
-                placeholder="123456"
-                onChange={this.onChangeInput}
-              />
-            </div>
-            <div className="col-sm-12 col-md-6">
-              <p>Account Number</p>
-              <input
-                type="text"
-                className="a-input"
-                name="bankAccount"
-                placeholder="001234567"
-                onChange={this.onChangeInput}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onAddAccount()}
-          >
-            Add Account
-          </button>
-        </div>
-      </div>
-    )
-  }
-
   renderBanks = () => {
     return this.state.bankArray.map(bank => (
       <div className="col-sm-12">{`${bank.bankMeta.bank_name} - ${
@@ -333,7 +275,9 @@ class Settings extends Component {
           <div className="setting-menu-item">
             <div className="setting-menu">Add Bank Accounts</div>
             <div className="row">
-              <div className="col-sm-9">{this.renderAddBankAccount()}</div>
+              <div className="col-sm-9">
+                <AddBankAccount />
+              </div>
             </div>
             <div className="row">{this.renderBanks()}</div>
           </div>
