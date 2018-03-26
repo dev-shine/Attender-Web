@@ -4,6 +4,7 @@ import VenueEdit from "./profile/venueEdit"
 import StaffEdit from "./profile/staffEdit"
 import OrganiserEdit from "./profile/organiserEdit"
 import AddBankAccount from "./payment/addBankAccount"
+import AddCard from "./payment/addCard"
 import ".././styles/global.css"
 import ".././styles/style.css"
 import { bindActionCreators } from "redux"
@@ -27,6 +28,8 @@ class Settings extends Component {
       newPasswordConfirm: "",
       passwordVerification: "",
 
+      cardArray: [],
+
       // Bank Account
       bankArray: [],
       accountName: "",
@@ -46,6 +49,25 @@ class Settings extends Component {
           bankName: "",
           bankBSB: "",
           bankAccount: "",
+          isBankLoading: false
+        })
+      } else {
+        alert("Something went wrong")
+        this.setState({ isBankLoading: false })
+      }
+    })
+  }
+
+  getAllCards = () => {
+    API.get("cards").then(res => {
+      console.log(res)
+      if (res.status) {
+        this.setState({
+          cardArray: res.cards,
+          cardName: "",
+          cardNumber: "",
+          cardDate: "",
+          cardCV: "",
           isBankLoading: false
         })
       } else {
@@ -276,6 +298,7 @@ class Settings extends Component {
             <div className="setting-menu">Add Bank Accounts</div>
             <div className="row">
               <div className="col-sm-9">
+                <AddCard />
                 <AddBankAccount />
               </div>
             </div>
