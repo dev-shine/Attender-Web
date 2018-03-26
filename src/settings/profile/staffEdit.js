@@ -12,6 +12,7 @@ import Slider from "rc-slider"
 import PlacesAutocomplete from "react-places-autocomplete"
 import defaultAvatar from "../../assets/150x150.png"
 import { cloudinary } from "../../services/api"
+import moment from "moment"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -187,14 +188,22 @@ class StaffEdit extends Component {
     }
   }
 
-  // async componentDidMount() {
-  //   let profile = await API.getProfile()
-  //   if (profile) {
-  //     if (profile.hasProfile) {
-  //       this.props.goMain()
-  //     }
-  //   }
-  // }
+  componentDidMount() {
+    console.log("the props", this.props.profile)
+    if (this.props.profile) {
+      this.props.profile.birthdate = moment(
+        this.props.profile.birthdate
+      ).toDate()
+      const positions = this.state.positions
+      this.props.profile.position.forEach(key => {
+        positions[key] = true
+      })
+      this.props.profile.positions = positions
+      this.setState({ ...this.props.profile }, () => {
+        console.log("theprofile destructured", this.state)
+      })
+    }
+  }
 
   addExperience = () => {
     let experiences = this.state.experiences
@@ -1168,7 +1177,8 @@ class StaffEdit extends Component {
                           className="a-input full"
                         />
                         <span className="help-text pull-right">
-                          {experience.additionalValue.length}/200
+                          {experience.additionalValue &&
+                            experience.additionalValue.length}/200
                         </span>
                       </Col>
                     </div>

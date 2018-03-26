@@ -288,7 +288,10 @@ class Settings extends Component {
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
           {this.renderGeneral()}
-          {this.state.profile && this.state.profile.isStaff && <StaffEdit />}
+          {this.state.profile &&
+            this.state.profile.isStaff && (
+              <StaffEdit profile={this.state.profile.staffId} />
+            )}
           {this.state.profile &&
             this.state.profile.isVenue && (
               <VenueEdit profile={this.state.profile.employer} />
