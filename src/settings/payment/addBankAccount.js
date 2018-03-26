@@ -33,6 +33,12 @@ class AddBankAccount extends Component {
     })
   }
 
+  onChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   render() {
     return (
       <div className="form-container">
