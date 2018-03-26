@@ -27,18 +27,38 @@ class Settings extends Component {
       passwordVerification: "",
 
       // Bank Account
+      bankArray: [],
       accountName: "",
       bankName: "",
       bankBSB: "",
-      bankAccount: ""
+      bankAccount: "",
+      isBankLoading: true
     }
+  }
+
+  getAllBanks = () => {
+    API.get("banks").then(res => {
+      if (res.status) {
+        this.setState({
+          bankArray: res.banks,
+          accountName: "",
+          bankName: "",
+          bankBSB: "",
+          bankAccount: "",
+          isBankLoading: false
+        })
+      } else {
+        alert("Something went wrong")
+        this.setState({ isBankLoading: false })
+      }
+    })
   }
 
   componentDidMount = async () => {
     API.initRequest()
     let profile = await API.getProfile()
     this.setState({ profile }, () => {
-      console.log("profilepassed", this.state.profile)
+      this.getAllBanks()
     })
   }
 
@@ -50,15 +70,11 @@ class Settings extends Component {
       account_number: this.state.bankAccount
     }
 
-    // this.setState({isLoading: true});
-
     API.post("add-bank", accountDetails).then(res => {
-      console.log("status", res)
       if (res.status) {
-        alert("res", res)
+        this.getAllBanks()
       } else {
         alert("Invalid Input")
-        // this.setState({isLoading: false});
       }
     })
   }
@@ -301,6 +317,14 @@ class Settings extends Component {
     )
   }
 
+  renderBanks = () => {
+    return this.state.bankArray.map(bank => (
+      <div className="col-sm-12">{`${bank.bankMeta.bank_name} - ${
+        bank.bankMeta.account_number
+      }`}</div>
+    ))
+  }
+
   renderPayment = () => {
     return (
       <div className="settings-container xem">
@@ -311,6 +335,7 @@ class Settings extends Component {
             <div className="row">
               <div className="col-sm-9">{this.renderAddBankAccount()}</div>
             </div>
+            <div className="row">{this.renderBanks()}</div>
           </div>
         </div>
       </div>
@@ -377,7 +402,7 @@ class Settings extends Component {
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
           {this.renderGeneral()}
-          {/* {this.renderEditProfile()} */}
+          {this.renderEditProfile()}
           {this.renderAccount()}
           {this.renderPrivacyTaC()}
           {this.renderPayment()}
