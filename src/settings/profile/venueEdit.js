@@ -57,45 +57,23 @@ class VenueEdit extends Component {
     }
   }
 
-  // async componentWillMount() {
-  //   let profile = await API.getProfile()
-  //   if (profile) {
-  //     if (profile.hasProfile) {
-  //       this.props.goMain()
-  //     }
-  //   }
-  //   this.clearAll()
-  // }
-
-  clearAll = () => {
-    let staffs = {
-      bartender: { on: false, num: 0 },
-      manager: { on: false, num: 0 },
-      waiter: { on: false, num: 0 },
-      chef: { on: false, num: 0 },
-      barback: { on: false, num: 0 },
-      kitchen: { on: false, num: 0 },
-      host: { on: false, num: 0 }
+  componentDidMount() {
+    console.log("the props", this.props.profile)
+    if (this.props.profile) {
+      const services = this.state.services
+      this.props.profile.services.forEach(key => {
+        services[key] = true
+      })
+      this.props.profile.services = services
+      const types = this.state.types
+      this.props.profile.type.forEach(key => {
+        types[key] = true
+      })
+      this.props.profile.types = types
+      this.setState({ ...this.props.profile }, () => {
+        console.log("theprofile destructured", this.state)
+      })
     }
-    let frequency = [
-      {
-        name: "Full Time",
-        on: false
-      },
-      {
-        name: "Part Time",
-        on: false
-      },
-      {
-        name: "Casual",
-        on: false
-      },
-      {
-        name: "Event",
-        on: false
-      }
-    ]
-    this.setState({ frequency, staffs })
   }
 
   onBack = () => {
@@ -326,6 +304,7 @@ class VenueEdit extends Component {
                   name="name"
                   placeholder="Venue name"
                   onChange={this.onChangeInput}
+                  value={this.state.name}
                 />
               </div>
               <div className="form-group">
@@ -335,6 +314,7 @@ class VenueEdit extends Component {
                   name="managerName"
                   placeholder="Manager name"
                   onChange={this.onChangeInput}
+                  value={this.state.managerName}
                 />
               </div>
               <p className="vs-title">TYPE OF VENUE</p>

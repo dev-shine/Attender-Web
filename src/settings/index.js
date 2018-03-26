@@ -32,7 +32,7 @@ class Settings extends Component {
     API.initRequest()
     let profile = await API.getProfile()
     this.setState({ profile }, () => {
-      console.log("profile", this.state.profile)
+      console.log("profilepassed", this.state.profile)
     })
   }
 
@@ -289,7 +289,10 @@ class Settings extends Component {
           <p className="settings-title">SETTINGS</p>
           {this.renderGeneral()}
           {this.state.profile && this.state.profile.isStaff && <StaffEdit />}
-          {this.state.profile && this.state.profile.isVenue && <VenueEdit />}
+          {this.state.profile &&
+            this.state.profile.isVenue && (
+              <VenueEdit profile={this.state.profile.employer} />
+            )}
           {this.state.profile &&
             this.state.profile.isOrganizer && (
               <OrganiserEdit profile={this.state.profile.employer} />
