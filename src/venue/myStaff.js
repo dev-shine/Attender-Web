@@ -7,6 +7,8 @@ import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
 
+import SchedulePopOver from "./SchedulePopOver"
+
 class MyStaff extends Component {
   constructor(props) {
     super(props)
@@ -17,7 +19,8 @@ class MyStaff extends Component {
       currentTab: "active",
       showNewTaskField: false,
       showNewSuggestionField: false,
-      selectedStaff: []
+      selectedStaff: [],
+      staffMetas: {}
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -29,6 +32,7 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
+
   selectStaff = () => {
     let myStaffs = this.state.myStaffs
     myStaffs[0].selected = true
@@ -39,20 +43,22 @@ class MyStaff extends Component {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
         const allStaff = []
-
-        Object.keys(res.staffs).forEach(staff => {
-          res.staffs[staff].forEach(as => {
+        let staffMetas = {}
+        Object.keys(res.staffs).forEach(position => {
+          res.staffs[position].forEach(as => {
             if (
               allStaff.length === 0 ||
               !allStaff.find(asf => asf.staff._id === as.staff._id)
             ) {
               allStaff.push(as)
+              staffMetas[`staff-${as._id}`] = as
             }
           })
         })
         this.setState({
           myStaffs: allStaff,
-          renderStaffsLoading: false
+          renderStaffsLoading: false,
+          staffMetas: staffMetas
         })
         this.selectStaff()
       }
@@ -76,7 +82,16 @@ class MyStaff extends Component {
       </div>
     )
   }
-  renderStaffBox = (data, col, active) => {
+  toggleSchedulePopOver = key => {
+    const staffMetas = { ...this.state.staffMetas }
+    staffMetas[`staff-${key}`].showSchedulePopOver =
+      typeof staffMetas[`staff-${key}`].showSchedulePopOver !== "undefined"
+        ? !staffMetas[`staff-${key}`].showSchedulePopOver
+        : true
+    console.log(staffMetas[`staff-${key}`])
+    this.setState({ staffMetas })
+  }
+  renderStaffBox = (data, index, col, active) => {
     if (data.trial) {
       col += " trial"
     } else if (data.active) {
@@ -86,12 +101,17 @@ class MyStaff extends Component {
       data.staff.avatar !== "undefined"
         ? data.staff.avatar
         : "http://via.placeholder.com/150x150"
-    console.log(avatar)
     return (
       <div key={data._id} className={"my-staff " + col}>
-        <span class="icon-calendar" />
-        <span class="icon-breafcase" />
-        <span class="icon-time" />
+        <span className="icon-calendar" />
+        <span className="icon-breafcase" />
+        <span
+          className="icon-time"
+          onClick={() => {
+            this.toggleSchedulePopOver(data._id)
+          }}
+        />
+        {data.showSchedulePopOver ? <SchedulePopOver /> : null}
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
         <p>{data.staff.fullname}</p>
         <small>{data.staff.rateType}</small>
@@ -150,13 +170,13 @@ class MyStaff extends Component {
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
-            {this.state.myStaffs.map(staff => {
+            {this.state.myStaffs.map((staff, index) => {
               if (this.state.currentTab === "trial" && staff.trial) {
                 trialC++
-                return this.renderStaffBox(staff, "col-sm-2", false)
+                return this.renderStaffBox(staff, index, "col-sm-2", false)
               } else if (this.state.currentTab === "active" && staff.active) {
                 activeC++
-                return this.renderStaffBox(staff, "col-sm-2", true)
+                return this.renderStaffBox(staff, index, "col-sm-2", true)
               }
             })}
             {this.renderNoData(trialC, activeC)}
