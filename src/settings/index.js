@@ -82,6 +82,7 @@ class Settings extends Component {
     let profile = await API.getProfile()
     this.setState({ profile }, () => {
       this.getAllBanks()
+      this.getAllCards()
     })
   }
 
@@ -289,19 +290,35 @@ class Settings extends Component {
     ))
   }
 
+  renderCards = () => {
+    return this.state.cardArray.map(card => (
+      <div className="col-sm-12">{`${card.cardMeta.type} - ${
+        card.cardMeta.number
+      }`}</div>
+    ))
+  }
+
   renderPayment = () => {
     return (
       <div className="settings-container xem">
         <div className="setting-head">Payment Settings</div>
         <div className="setting-menu">
           <div className="setting-menu-item">
-            <div className="setting-menu">Add Bank Accounts</div>
+            <div className="setting-menu">Add Card</div>
             <div className="row">
               <div className="col-sm-9">
                 <AddCard getAllCards={this.getAllCards} />
+              </div>
+            </div>
+            <div className="setting-menu">Add Bank Account</div>
+            <div className="row">
+              <div className="col-sm-9">
                 <AddBankAccount getAllBanks={this.getAllBanks} />
               </div>
             </div>
+            <div className="row">Cards</div>
+            <div className="row">{this.renderCards()}</div>
+            <div className="row">Bank Accounts</div>
             <div className="row">{this.renderBanks()}</div>
           </div>
         </div>
