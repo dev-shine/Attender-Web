@@ -304,20 +304,30 @@ class Settings extends Component {
         <div className="setting-head">Payment Settings</div>
         <div className="setting-menu">
           <div className="setting-menu-item">
-            <div className="setting-menu">Add Card</div>
-            <div className="row">
-              <div className="col-sm-9">
-                <AddCard getAllCards={this.getAllCards} />
-              </div>
-            </div>
+            {this.state.profile &&
+              !this.state.profile.isStaff && (
+                <div>
+                  <div className="setting-menu">Add Card</div>
+                  <div className="row">
+                    <div className="col-sm-9">
+                      <AddCard getAllCards={this.getAllCards} />
+                    </div>
+                  </div>
+                </div>
+              )}
             <div className="setting-menu">Add Bank Account</div>
             <div className="row">
               <div className="col-sm-9">
                 <AddBankAccount getAllBanks={this.getAllBanks} />
               </div>
             </div>
-            <div className="row">Cards</div>
-            <div className="row">{this.renderCards()}</div>
+            {this.state.profile &&
+              !this.state.profile.isStaff && (
+                <div>
+                  <div className="row">Cards</div>
+                  <div className="row">{this.renderCards()}</div>
+                </div>
+              )}
             <div className="row">Bank Accounts</div>
             <div className="row">{this.renderBanks()}</div>
           </div>
