@@ -24,7 +24,13 @@ class Settings extends Component {
       newEmail: "",
       newPassword: "",
       newPasswordConfirm: "",
-      passwordVerification: ""
+      passwordVerification: "",
+
+      // Bank Account
+      accountName: "",
+      bankName: "",
+      bankBSB: "",
+      bankAccount: ""
     }
   }
 
@@ -33,6 +39,27 @@ class Settings extends Component {
     let profile = await API.getProfile()
     this.setState({ profile }, () => {
       console.log("profilepassed", this.state.profile)
+    })
+  }
+
+  onAddAccount = () => {
+    var accountDetails = {
+      account_name: this.state.accountName,
+      bank_name: this.state.bankName,
+      routing_number: this.state.bankBSB,
+      account_number: this.state.bankAccount
+    }
+
+    // this.setState({isLoading: true});
+
+    API.post("add-bank", accountDetails).then(res => {
+      console.log("status", res)
+      if (res.status) {
+        alert("res", res)
+      } else {
+        alert("Invalid Input")
+        // this.setState({isLoading: false});
+      }
     })
   }
 
@@ -215,26 +242,74 @@ class Settings extends Component {
     )
   }
 
+  renderAddBankAccount = () => {
+    return (
+      <div className="form-container">
+        <div className="form-group">
+          <p>Account Name</p>
+          <input
+            type="text"
+            className="a-input"
+            name="accountName"
+            placeholder="John Snow"
+            onChange={this.onChangeInput}
+          />
+        </div>
+        <div className="form-group">
+          <p>Bank Name</p>
+          <input
+            type="text"
+            className="a-input"
+            name="bankName"
+            placeholder="Bank of Australia"
+            onChange={this.onChangeInput}
+          />
+        </div>
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-12 col-md-6">
+              <p>BSB</p>
+              <input
+                type="text"
+                className="a-input"
+                name="bankBSB"
+                placeholder="123456"
+                onChange={this.onChangeInput}
+              />
+            </div>
+            <div className="col-sm-12 col-md-6">
+              <p>Account Number</p>
+              <input
+                type="text"
+                className="a-input"
+                name="bankAccount"
+                placeholder="001234567"
+                onChange={this.onChangeInput}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <button
+            className="pull-right a-btn btn-round btn-dark"
+            onClick={() => this.onAddAccount()}
+          >
+            Add Account
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   renderPayment = () => {
     return (
       <div className="settings-container xem">
         <div className="setting-head">Payment Settings</div>
         <div className="setting-menu">
           <div className="setting-menu-item">
+            <div className="setting-menu">Add Bank Accounts</div>
             <div className="row">
-              <div className="col-sm-3">Add Bank Accounts</div>
-              <div className="col-sm-9">
-                You can add multiple bank by clicking add bank account.
-              </div>
-            </div>
-          </div>
-          <div className="setting-menu-item">
-            <div className="row">
-              <div className="col-sm-3">Payment Method</div>
-              <div className="col-sm-9">
-                You can select which primary bank account will be used when
-                paying staff.
-              </div>
+              <div className="col-sm-9">{this.renderAddBankAccount()}</div>
             </div>
           </div>
         </div>
@@ -244,7 +319,7 @@ class Settings extends Component {
 
   renderAccount = () => {
     return (
-      <div className="settings-container xxem">
+      <div className="settings-container xsem">
         <div className="setting-head">Account Settings</div>
         <div className="setting-menu">
           <div className="setting-menu-item">
@@ -281,6 +356,20 @@ class Settings extends Component {
     )
   }
 
+  renderEditProfile = () => {
+    if (this.state.profile && this.state.profile.isVenue) {
+      return <VenueEdit profile={this.state.profile.employer} />
+    }
+
+    if (this.state.profile && this.state.profile.isOrganizer) {
+      return <OrganiserEdit profile={this.state.profile.employer} />
+    }
+
+    if (this.state.profile && this.state.profile.isStaff) {
+      return <StaffEdit profile={this.state.profile.staffId} />
+    }
+  }
+
   render() {
     return (
       <div>
@@ -288,21 +377,10 @@ class Settings extends Component {
         <div className="container xem">
           <p className="settings-title">SETTINGS</p>
           {this.renderGeneral()}
-          {this.state.profile &&
-            this.state.profile.isStaff && (
-              <StaffEdit profile={this.state.profile.staffId} />
-            )}
-          {this.state.profile &&
-            this.state.profile.isVenue && (
-              <VenueEdit profile={this.state.profile.employer} />
-            )}
-          {this.state.profile &&
-            this.state.profile.isOrganizer && (
-              <OrganiserEdit profile={this.state.profile.employer} />
-            )}
-          {this.renderPayment()}
+          {/* {this.renderEditProfile()} */}
           {this.renderAccount()}
           {this.renderPrivacyTaC()}
+          {this.renderPayment()}
         </div>
       </div>
     )
