@@ -89,6 +89,9 @@ class MyStaff extends Component {
     console.log(avatar)
     return (
       <div key={data._id} className={"my-staff " + col}>
+        <span class="icon-calendar" />
+        <span class="icon-breafcase" />
+        <span class="icon-time" />
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
         <p>{data.staff.fullname}</p>
         <small>{data.staff.rateType}</small>
