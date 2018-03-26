@@ -298,8 +298,8 @@ class Settings extends Component {
             <div className="setting-menu">Add Bank Accounts</div>
             <div className="row">
               <div className="col-sm-9">
-                <AddCard />
-                <AddBankAccount />
+                <AddCard getAllCards={this.getAllCards} />
+                <AddBankAccount getAllBanks={this.getAllBanks} />
               </div>
             </div>
             <div className="row">{this.renderBanks()}</div>
