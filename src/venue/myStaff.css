@@ -17,3 +17,31 @@
   right: -8px;
   background-color: #5d5bbc !important;
 }
+
+.icon-calendar {
+  background: url("./img/calendar-icon.gif") no-repeat;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.icon-breafcase {
+  background: url("./img/breafcase-icon.gif") no-repeat;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  position: absolute;
+  top: 35px;
+  right: 10px;
+}
+.icon-time {
+  background: url("./img/time-icon.gif") no-repeat;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+}
