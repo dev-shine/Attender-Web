@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import "../.././styles/global.css"
-import API from "../.././services/api"
 
 const AddBankAccountPresentation = ({ onChangeInput, onClick }) => (
   <div className="form-container">
@@ -70,21 +69,13 @@ class AddBankAccountContainer extends Component {
     }
   }
 
-  onAddAccount = () => {
-    var accountDetails = {
+  getAccountDetails = () => {
+    return {
       account_name: this.state.accountName,
       bank_name: this.state.bankName,
       routing_number: this.state.bankBSB,
       account_number: this.state.bankAccount
     }
-
-    API.post("add-bank", accountDetails).then(res => {
-      if (res.status) {
-        this.props.getAllBanks()
-      } else {
-        alert("Invalid Input")
-      }
-    })
   }
 
   onChangeInput = e => {
@@ -96,7 +87,7 @@ class AddBankAccountContainer extends Component {
   render() {
     return (
       <AddBankAccountPresentation
-        onClick={this.onAddAccount}
+        onClick={this.props.onClick.bind(this, this.getAccountDetails())}
         onChangeInput={this.onChangeInput}
       />
     )

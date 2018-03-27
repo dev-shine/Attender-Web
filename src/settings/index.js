@@ -86,14 +86,7 @@ class Settings extends Component {
     })
   }
 
-  onAddAccount = () => {
-    var accountDetails = {
-      account_name: this.state.accountName,
-      bank_name: this.state.bankName,
-      routing_number: this.state.bankBSB,
-      account_number: this.state.bankAccount
-    }
-
+  onAddAccount = accountDetails => {
     API.post("add-bank", accountDetails).then(res => {
       if (res.status) {
         this.getAllBanks()
@@ -318,7 +311,10 @@ class Settings extends Component {
             <div className="setting-menu">Add Bank Account</div>
             <div className="row">
               <div className="col-sm-9">
-                <AddBankAccount getAllBanks={this.getAllBanks} />
+                <AddBankAccount
+                  getAllBanks={this.getAllBanks}
+                  onClick={this.onAddAccount}
+                />
               </div>
             </div>
             {this.state.profile &&
