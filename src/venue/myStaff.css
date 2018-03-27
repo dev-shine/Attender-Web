@@ -45,3 +45,62 @@
   top: 60px;
   right: 10px;
 }
+.schedulepopover {
+  background: #fff;
+  position: absolute;
+  right: -358px;
+  width: 325px;
+  padding: 10px 20px;
+  top: -5px;
+  box-shadow: #ccc 0px 0px 3px;
+  border-radius: 10px;
+}
+.schedulepopover:after,
+.schedulepopover:before {
+  right: 100%;
+  top: 15%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.schedulepopover:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-right-color: #fff;
+  border-width: 17px;
+  margin-top: -35px;
+}
+.schedulepopover:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-right-color: #ddd;
+  border-width: 18px;
+  margin-top: -36px;
+}
+.schedulepopover .header {
+  font-weight: normal;
+  font-size: 14px;
+  text-align: left;
+  color: #5ec6e6;
+}
+.schedulepopover .body {
+  font-size: 15px;
+  color: #888;
+  margin-top: 5px;
+}
+.schedulepopover .body table {
+  width: 100%;
+}
+.schedulepopover .body td {
+  padding: 5px 0;
+  width: calc(100% / 3);
+  text-align: left;
+}
+.schedulepopover .body td .time {
+  background: #f1f1f1;
+  font-size: 12px;
+  text-align: center;
+  padding: 5px 15px;
+}
