@@ -96,6 +96,17 @@ class Settings extends Component {
     })
   }
 
+  onAddCard = cardDetails => {
+    API.post("add-card", cardDetails).then(res => {
+      console.log("status", res)
+      if (res.status) {
+        this.getAllCards()
+      } else {
+        alert("Invalid Input")
+      }
+    })
+  }
+
   onChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -303,7 +314,7 @@ class Settings extends Component {
                   <div className="setting-menu">Add Card</div>
                   <div className="row">
                     <div className="col-sm-9">
-                      <AddCard getAllCards={this.getAllCards} />
+                      <AddCard onClick={this.onAddCard} />
                     </div>
                   </div>
                 </div>

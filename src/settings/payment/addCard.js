@@ -79,27 +79,16 @@ class AddCardContainer extends Component {
     }
   }
 
-  onAddCard = () => {
+  getCardDetails = () => {
     const cardResult = this.state.cardDate.split("/")
-    const cardDetails = {
+
+    return {
       account_name: this.state.cardName,
       account_number: this.state.cardNumber,
       expiry_month: cardResult[0],
       expiry_year: 20 + cardResult[1],
       cvv: this.state.cardCV
     }
-
-    console.log("yr", cardDetails)
-
-    this.setState({ isLoading: true })
-    API.post("add-card", cardDetails).then(res => {
-      console.log("status", res)
-      if (res.status) {
-        this.props.getAllCards()
-      } else {
-        alert("Invalid Input")
-      }
-    })
   }
 
   onChangeInput = e => {
@@ -112,7 +101,7 @@ class AddCardContainer extends Component {
     return (
       <AddCardPresentation
         onChangeInput={this.onChangeInput}
-        onClick={this.onAddCard}
+        onClick={this.props.onClick.bind(this, this.getCardDetails())}
       />
     )
   }
