@@ -46,7 +46,7 @@
   right: 10px;
 }
 .schedulepopover {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   position: absolute;
   right: -358px;
   width: 325px;
@@ -54,6 +54,7 @@
   top: -5px;
   box-shadow: #ccc 0px 0px 3px;
   border-radius: 10px;
+  z-index: 9;
 }
 .schedulepopover:after,
 .schedulepopover:before {
