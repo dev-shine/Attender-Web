@@ -82,16 +82,15 @@ class MyStaff extends Component {
       </div>
     )
   }
-  toggleSchedulePopOver = key => {
-    const staffMetas = { ...this.state.staffMetas }
+  toggleSchedulePopOver(key) {
+    const staffMetas = this.state.staffMetas
     staffMetas[`staff-${key}`].showSchedulePopOver =
       typeof staffMetas[`staff-${key}`].showSchedulePopOver !== "undefined"
         ? !staffMetas[`staff-${key}`].showSchedulePopOver
         : true
-    console.log(staffMetas[`staff-${key}`])
     this.setState({ staffMetas })
   }
-  renderStaffBox = (data, index, col, active) => {
+  renderStaffBox(data, index, col, active) {
     if (data.trial) {
       col += " trial"
     } else if (data.active) {
@@ -103,15 +102,17 @@ class MyStaff extends Component {
         : "http://via.placeholder.com/150x150"
     return (
       <div key={data._id} className={"my-staff " + col}>
-        <span className="icon-calendar" />
-        <span className="icon-breafcase" />
         <span
-          className="icon-time"
+          className="icon-calendar"
           onClick={() => {
             this.toggleSchedulePopOver(data._id)
           }}
         />
-        {data.showSchedulePopOver ? <SchedulePopOver /> : null}
+        <span className="icon-breafcase" />
+        <span className="icon-time" />
+        {data.showSchedulePopOver ? (
+          <SchedulePopOver schedules={data.schedules} />
+        ) : null}
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
         <p>{data.staff.fullname}</p>
         <small>{data.staff.rateType}</small>

@@ -105,3 +105,31 @@
   text-align: center;
   padding: 5px 15px;
 }
+.schedulepopover .edit {
+  float: right;
+  font-size: 11px;
+  text-transform: uppercase;
+  position: relative;
+  top: -6px;
+  right: -7px;
+  color: #5ec6e6;
+  cursor: pointer;
+}
+.schedulepopover .edit .icon-edit {
+  background: url("./img/edit-icon.gif") no-repeat;
+  height: 17px;
+  width: 17px;
+  display: inline-block;
+  top: 3px;
+  right: -3px;
+  position: relative;
+}
+.schedulepopover select {
+  padding: 0 3px;
+  width: auto;
+  height: auto;
+  border-radius: 2px;
+  margin: 0;
+  float: left;
+  font-size: 10px !important;
+}
