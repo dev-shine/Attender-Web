@@ -5,10 +5,20 @@ export default class SchedulePopOver extends Component {
     super(props)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleSave = this.handleSave.bind(this)
+
+    // fetch data from db
+    this.fetchSchedule()
   }
   state = {
     editMode: false
   }
+
+  fetchSchedule() {
+    if (typeof this.props.schedules === "undefined") {
+      // this.props.schedules = {}
+    }
+  }
+
   toggleEdit() {
     const editMode = !this.state.editMode
     this.setState({ editMode })
@@ -39,6 +49,59 @@ export default class SchedulePopOver extends Component {
       )
     }
   }
+  renderSchedule() {
+    // if(typeof this.props.schedules !== 'undefined') {
+    let days = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
+    // for(var day in days) {
+    //     <tr key={day}>
+    //       <td>{day}</td>
+    //       <td>
+    //         <span className="time">8AM-4PM</span>
+    //       </td>
+    //       <td>
+    //         <span className="time">8AM-4PM</span>
+    //       </td>
+    //     </tr>
+    // }
+    return Object.keys(days).map(key => {
+      let timeA, timeB
+      if (typeof this.props.schedules !== "undefined") {
+        if (days[key].toLowerCase() in this.props.schedules) {
+          timeA =
+            this.props.schedules[days[key].toLowerCase()][0].startTime +
+            "-" +
+            this.props.schedules[days[key].toLowerCase()][0].endTime
+          timeB =
+            this.props.schedules[days[key].toLowerCase()][1].startTime +
+            "-" +
+            this.props.schedules[days[key].toLowerCase()][1].endTime
+        }
+      }
+      return (
+        <tr key={key}>
+          <td>{days[key]}</td>
+          <td>
+            <span className="time">{timeA}</span>
+          </td>
+          <td>
+            <span className="time">{timeB}</span>
+          </td>
+        </tr>
+      )
+    })
+    // }
+    // else {
+    //   return null;
+    // }
+  }
   render() {
     return (
       <div className="schedulepopover">
@@ -48,71 +111,7 @@ export default class SchedulePopOver extends Component {
         </div>
         <div className="body">
           <table>
-            <tbody>
-              <tr>
-                <td>Monday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Tuesday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Wednesday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Monday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Monday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Monday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Monday</td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-                <td>
-                  <span className="time">8AM-4PM</span>
-                </td>
-              </tr>
-            </tbody>
+            <tbody>{this.renderSchedule()}</tbody>
           </table>
         </div>
       </div>
