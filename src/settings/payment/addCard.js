@@ -5,7 +5,64 @@ import "../.././styles/global.css"
 import API from "../.././services/api"
 import MaskedInput from "react-text-mask"
 
-class AddCard extends Component {
+const AddCardPresentation = ({ onChangeInput, onClick }) => (
+  <div className="form-container">
+    <div className="form-group">
+      <p>Add Credit Card</p>
+      <p>This connection is secure</p>
+      <p className="sem">Name of the Card</p>
+      <input
+        type="text"
+        className="a-input"
+        name="cardName"
+        placeholder="Name on the Card"
+        onChange={onChangeInput}
+      />
+    </div>
+    <div className="form-group">
+      <p>Credit/Debit Card Number</p>
+      <input
+        type="text"
+        className="a-input"
+        name="cardNumber"
+        placeholder="Credit/Debit Card Number"
+        onChange={onChangeInput}
+      />
+    </div>
+    <div className="form-group">
+      <div className="row">
+        <div className="col-sm-12 col-md-6">
+          <p>Month/Year</p>
+          <MaskedInput
+            mask={[/[0-1]/, /[1-9]/, "/", /[0-3]/, /[0-9]/]}
+            name="cardDate"
+            className="a-input"
+            placeholder="03/18"
+            guide={false}
+            onChange={onChangeInput}
+          />
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <p>CVV</p>
+          <input
+            type="text"
+            className="a-input"
+            name="cardCV"
+            placeholder="123"
+            onChange={onChangeInput}
+          />
+        </div>
+      </div>
+    </div>
+    <div className="form-group">
+      <button className="pull-right a-btn btn-round btn-dark" onClick={onClick}>
+        Add Card
+      </button>
+    </div>
+  </div>
+)
+
+class AddCardContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -53,63 +110,10 @@ class AddCard extends Component {
 
   render() {
     return (
-      <div className="form-container">
-        <div className="form-group">
-          <p>Add Credit Card</p>
-          <p>This connection is secure</p>
-          <p className="sem">Name of the Card</p>
-          <input
-            type="text"
-            className="a-input"
-            name="cardName"
-            placeholder="Name on the Card"
-            onChange={this.onChangeInput}
-          />
-        </div>
-        <div className="form-group">
-          <p>Credit/Debit Card Number</p>
-          <input
-            type="text"
-            className="a-input"
-            name="cardNumber"
-            placeholder="Credit/Debit Card Number"
-            onChange={this.onChangeInput}
-          />
-        </div>
-        <div className="form-group">
-          <div className="row">
-            <div className="col-sm-12 col-md-6">
-              <p>Month/Year</p>
-              <MaskedInput
-                mask={[/[0-1]/, /[1-9]/, "/", /[0-3]/, /[0-9]/]}
-                name="cardDate"
-                className="a-input"
-                placeholder="03/18"
-                guide={false}
-                onChange={this.onChangeInput}
-              />
-            </div>
-            <div className="col-sm-12 col-md-6">
-              <p>CVV</p>
-              <input
-                type="text"
-                className="a-input"
-                name="cardCV"
-                placeholder="123"
-                onChange={this.onChangeInput}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onAddCard()}
-          >
-            Add Card
-          </button>
-        </div>
-      </div>
+      <AddCardPresentation
+        onChangeInput={this.onChangeInput}
+        onClick={this.onAddCard}
+      />
     )
   }
 }
@@ -118,4 +122,4 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCard)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCardContainer)
