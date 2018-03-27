@@ -103,14 +103,14 @@ class MyStaff extends Component {
         : "http://via.placeholder.com/150x150"
     return (
       <div key={data._id} className={"my-staff " + col}>
-        <span className="icon-calendar" />
-        <span className="icon-breafcase" />
         <span
-          className="icon-time"
+          className="icon-calendar"
           onClick={() => {
             this.toggleSchedulePopOver(data._id)
           }}
         />
+        <span className="icon-breafcase" />
+        <span className="icon-time" />
         {data.showSchedulePopOver ? <SchedulePopOver /> : null}
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
         <p>{data.staff.fullname}</p>

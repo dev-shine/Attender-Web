@@ -113,12 +113,12 @@
   top: -6px;
   right: -7px;
   color: #5ec6e6;
+  cursor: pointer;
 }
 .schedulepopover .edit .icon-edit {
   background: url("./img/edit-icon.gif") no-repeat;
   height: 17px;
   width: 17px;
-  cursor: pointer;
   display: inline-block;
   top: 3px;
   right: -3px;
