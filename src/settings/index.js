@@ -16,6 +16,7 @@ class Settings extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isBankTransferModalOpen: false,
       isChangingEmail: false,
       isChangingPassword: false,
       isDeletingAccount: false,
@@ -36,7 +37,15 @@ class Settings extends Component {
       bankName: "",
       bankBSB: "",
       bankAccount: "",
-      isBankLoading: true
+      isBankLoading: true,
+
+      // Bank Account Transfer
+      transferTo: "",
+      amount: 0,
+      bankTransferName: "",
+      bankTransferBSB: "",
+      bankTransferAccountName: "",
+      bankTransferAccountNumbers: ""
     }
   }
 
@@ -104,6 +113,138 @@ class Settings extends Component {
       } else {
         alert("Invalid Input")
       }
+    })
+  }
+
+  handleOpenModal = () => {
+    // Might pass variables here from account info.
+    // For pre-filling the information they entered on the new modal form.
+    this.setState({
+      isBankTransferModalOpen: !this.state.isBankTransferModalOpen
+    })
+  }
+
+  renderBankTransferModal = () => {
+    return (
+      <div
+        className={
+          this.state.isBankTransferModalOpen ? "a-modal show" : "a-modal"
+        }
+      >
+        <div className="a-modal-content col-md-6">
+          <span onClick={() => this.handleOpenModal()} className="a-close">
+            &times;
+          </span>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="form-container">
+                <div className="form-group">
+                  <p>Amount</p>
+                  <input
+                    type="text"
+                    className="a-input"
+                    name="amount"
+                    onChange={this.onChangeInput}
+                  />
+                </div>
+                <div className="form-group">
+                  <p>Transfer to:</p>
+                  <input
+                    type="text"
+                    className="a-input"
+                    name="transferTo"
+                    onChange={this.onChangeInput}
+                  />
+                </div>
+                <div className="form-group">
+                  <p>Account Name</p>
+                  <input
+                    type="text"
+                    className="a-input"
+                    name="bankTransferAccountName"
+                    placeholder="John Snow"
+                    onChange={this.onChangeInput}
+                  />
+                </div>
+                <div className="form-group">
+                  <p>Bank Name</p>
+                  <input
+                    type="text"
+                    className="a-input"
+                    name="bankTransferName"
+                    placeholder="Bank of Australia"
+                    onChange={this.onChangeInput}
+                  />
+                </div>
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-6">
+                      <p>BSB</p>
+                      <input
+                        type="text"
+                        className="a-input"
+                        name="bankTransferBSB"
+                        placeholder="123456"
+                        onChange={this.onChangeInput}
+                      />
+                    </div>
+                    <div className="col-sm-12 col-md-6">
+                      <p>Account Number</p>
+                      <input
+                        type="text"
+                        className="a-input"
+                        name="bankTransferAccountNumbers"
+                        placeholder="001234567"
+                        onChange={this.onChangeInput}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <button
+                    className="pull-right a-btn btn-round btn-dark"
+                    onClick={this.onDirectTransfer.bind(this)}
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  onDirectTransfer = () => {
+    var accountDetails = {
+      account_name: this.state.bankTransferAccountName,
+      bank_name: this.state.bankTransferName,
+      routing_number: this.state.bankTransferBSB,
+      account_number: this.state.bankTransferAccountNumbers
+    }
+
+    API.post("add-bank", accountDetails).then(res => {
+      console.log("status", res)
+      if (res.status) {
+        API.post("transfer", {
+          account_id: res.bank.promiseId,
+          amount: this.state.amount,
+          to_user: this.state.transferToId,
+          from: "bank"
+        }).then(resPay => {
+          console.log("pay", resPay)
+          if (resPay.status) {
+            this.setState({ isLoadingPayment: false, modalVisible: false })
+            this.getAllBanks()
+            var self = this
+            setTimeout(() => {
+              self.setState({ isSuccessfulSentShow: true })
+            }, 500)
+          }
+        })
+      }
+      // this.getAllBanks();
     })
   }
 
@@ -325,6 +466,7 @@ class Settings extends Component {
                 <AddBankAccount
                   getAllBanks={this.getAllBanks}
                   onClick={this.onAddAccount}
+                  onOptionalClick={this.handleOpenModal}
                 />
               </div>
             </div>
@@ -337,6 +479,7 @@ class Settings extends Component {
               )}
             <div className="row">Bank Accounts</div>
             <div className="row">{this.renderBanks()}</div>
+            {this.renderBankTransferModal()}
           </div>
         </div>
       </div>
