@@ -4,7 +4,61 @@ import { connect } from "react-redux"
 import "../.././styles/global.css"
 import API from "../.././services/api"
 
-class AddBankAccount extends Component {
+const AddBankAccountPresentation = ({ onChangeInput, onClick }) => (
+  <div className="form-container">
+    <div className="form-group">
+      <p>Account Name</p>
+      <input
+        type="text"
+        className="a-input"
+        name="accountName"
+        placeholder="John Snow"
+        onChange={onChangeInput}
+      />
+    </div>
+    <div className="form-group">
+      <p>Bank Name</p>
+      <input
+        type="text"
+        className="a-input"
+        name="bankName"
+        placeholder="Bank of Australia"
+        onChange={onChangeInput}
+      />
+    </div>
+    <div className="form-group">
+      <div className="row">
+        <div className="col-sm-12 col-md-6">
+          <p>BSB</p>
+          <input
+            type="text"
+            className="a-input"
+            name="bankBSB"
+            placeholder="123456"
+            onChange={onChangeInput}
+          />
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <p>Account Number</p>
+          <input
+            type="text"
+            className="a-input"
+            name="bankAccount"
+            placeholder="001234567"
+            onChange={onChangeInput}
+          />
+        </div>
+      </div>
+    </div>
+    <div className="form-group">
+      <button className="pull-right a-btn btn-round btn-dark" onClick={onClick}>
+        Add Account
+      </button>
+    </div>
+  </div>
+)
+
+class AddBankAccountContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,60 +95,10 @@ class AddBankAccount extends Component {
 
   render() {
     return (
-      <div className="form-container">
-        <div className="form-group">
-          <p>Account Name</p>
-          <input
-            type="text"
-            className="a-input"
-            name="accountName"
-            placeholder="John Snow"
-            onChange={this.onChangeInput}
-          />
-        </div>
-        <div className="form-group">
-          <p>Bank Name</p>
-          <input
-            type="text"
-            className="a-input"
-            name="bankName"
-            placeholder="Bank of Australia"
-            onChange={this.onChangeInput}
-          />
-        </div>
-        <div className="form-group">
-          <div className="row">
-            <div className="col-sm-12 col-md-6">
-              <p>BSB</p>
-              <input
-                type="text"
-                className="a-input"
-                name="bankBSB"
-                placeholder="123456"
-                onChange={this.onChangeInput}
-              />
-            </div>
-            <div className="col-sm-12 col-md-6">
-              <p>Account Number</p>
-              <input
-                type="text"
-                className="a-input"
-                name="bankAccount"
-                placeholder="001234567"
-                onChange={this.onChangeInput}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onAddAccount()}
-          >
-            Add Account
-          </button>
-        </div>
-      </div>
+      <AddBankAccountPresentation
+        onClick={this.onAddAccount}
+        onChangeInput={this.onChangeInput}
+      />
     )
   }
 }
@@ -103,4 +107,6 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBankAccount)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  AddBankAccountContainer
+)
