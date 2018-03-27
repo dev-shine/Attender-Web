@@ -3,7 +3,11 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import "../.././styles/global.css"
 
-const AddBankAccountPresentation = ({ onChangeInput, onClick }) => (
+const AddBankAccountPresentation = ({
+  onChangeInput,
+  onClick,
+  onOptionalClick
+}) => (
   <div className="form-container">
     <div className="form-group">
       <p>Account Name</p>
@@ -53,6 +57,12 @@ const AddBankAccountPresentation = ({ onChangeInput, onClick }) => (
       <button className="pull-right a-btn btn-round btn-dark" onClick={onClick}>
         Add Account
       </button>
+      <button
+        className="pull-left a-btn btn-round btn-dark"
+        onClick={onOptionalClick}
+      >
+        Direct Transfer
+      </button>
     </div>
   </div>
 )
@@ -88,6 +98,7 @@ class AddBankAccountContainer extends Component {
     return (
       <AddBankAccountPresentation
         onClick={this.props.onClick.bind(this, this.getAccountDetails())}
+        onOptionalClick={this.props.onOptionalClick}
         onChangeInput={this.onChangeInput}
       />
     )
