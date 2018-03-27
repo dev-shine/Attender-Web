@@ -50,27 +50,45 @@ export default class SchedulePopOver extends Component {
     }
   }
   renderSchedule() {
-    // if(typeof this.props.schedules !== 'undefined') {
     let days = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ]
-    // for(var day in days) {
-    //     <tr key={day}>
-    //       <td>{day}</td>
-    //       <td>
-    //         <span className="time">8AM-4PM</span>
-    //       </td>
-    //       <td>
-    //         <span className="time">8AM-4PM</span>
-    //       </td>
-    //     </tr>
-    // }
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      time = [
+        "6AM",
+        "7AM",
+        "8AM",
+        "9AM",
+        "10AM",
+        "11AM",
+        "12NN",
+        "1PM",
+        "2PM",
+        "3PM",
+        "4PM",
+        "5PM",
+        "6PM",
+        "7PM",
+        "8PM",
+        "9PM",
+        "10PM",
+        "11PM",
+        "12MN",
+        "1AM",
+        "2AM",
+        "3AM",
+        "4AM",
+        "5AM",
+        "6AM"
+      ],
+      timeDom = Object.keys(time).map(key => {
+        return <option>{time[key]}</option>
+      })
     return Object.keys(days).map(key => {
       let timeA, timeB
       if (typeof this.props.schedules !== "undefined") {
@@ -85,22 +103,39 @@ export default class SchedulePopOver extends Component {
             this.props.schedules[days[key].toLowerCase()][1].endTime
         }
       }
+
+      let timeADom = <span className="time">{timeA}</span>,
+        timeBDom = <span className="time">{timeB}</span>
+      if (this.state.editMode) {
+        timeADom = (
+          <div>
+            <select>
+              <optgroup>{timeDom}</optgroup>
+            </select>
+            <select>
+              <optgroup>{timeDom}</optgroup>
+            </select>
+          </div>
+        )
+        timeBDom = (
+          <div>
+            <select>
+              <optgroup>{timeDom}</optgroup>
+            </select>
+            <select>
+              <optgroup>{timeDom}</optgroup>
+            </select>
+          </div>
+        )
+      }
       return (
         <tr key={key}>
           <td>{days[key]}</td>
-          <td>
-            <span className="time">{timeA}</span>
-          </td>
-          <td>
-            <span className="time">{timeB}</span>
-          </td>
+          <td>{timeADom}</td>
+          <td>{timeBDom}</td>
         </tr>
       )
     })
-    // }
-    // else {
-    //   return null;
-    // }
   }
   render() {
     return (
