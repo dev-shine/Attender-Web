@@ -84,16 +84,13 @@ class MyStaff extends Component {
   }
   toggleSchedulePopOver(key) {
     const staffMetas = this.state.staffMetas
-    console.log(staffMetas)
     staffMetas[`staff-${key}`].showSchedulePopOver =
       typeof staffMetas[`staff-${key}`].showSchedulePopOver !== "undefined"
         ? !staffMetas[`staff-${key}`].showSchedulePopOver
         : true
-    console.log(staffMetas[`staff-${key}`])
     this.setState({ staffMetas })
   }
   renderStaffBox(data, index, col, active) {
-    console.log(data)
     if (data.trial) {
       col += " trial"
     } else if (data.active) {
@@ -103,7 +100,6 @@ class MyStaff extends Component {
       data.staff.avatar !== "undefined"
         ? data.staff.avatar
         : "http://via.placeholder.com/150x150"
-    console.log(data)
     return (
       <div key={data._id} className={"my-staff " + col}>
         <span

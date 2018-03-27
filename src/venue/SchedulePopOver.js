@@ -49,80 +49,90 @@ export default class SchedulePopOver extends Component {
       )
     }
   }
+  renderTimeDom(selectedTime) {
+    const time = [
+      "[Select]",
+      "06 AM",
+      "07 AM",
+      "08 AM",
+      "09 AM",
+      "10 AM",
+      "11 AM",
+      "12 NN",
+      "01 PM",
+      "02 PM",
+      "03 PM",
+      "04 PM",
+      "05 PM",
+      "06 PM",
+      "07 PM",
+      "08 PM",
+      "09 PM",
+      "10 PM",
+      "11 PM",
+      "12 MN",
+      "01 AM",
+      "02 AM",
+      "03 AM",
+      "04 AM",
+      "05 AM"
+    ]
+    return Object.keys(time).map(key => {
+      // if(selectedTime == time[key]) {
+      //   console.log(time[key], selectedTime)
+      //   return <option selected>{time[key]}</option>
+      // }
+      // else {
+      // return <option key={key} >{time[key]}</option>
+      return <option key={key}>{time[key]}</option>
+      // }
+    })
+  }
   renderSchedule() {
-    let days = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ],
-      time = [
-        "06 AM",
-        "07 AM",
-        "08 AM",
-        "09 AM",
-        "10 AM",
-        "11 AM",
-        "12 NN",
-        "01 PM",
-        "02 PM",
-        "03 PM",
-        "04 PM",
-        "05 PM",
-        "06 PM",
-        "07 PM",
-        "08 PM",
-        "09 PM",
-        "10 PM",
-        "11 PM",
-        "12 MN",
-        "01 AM",
-        "02 AM",
-        "03 AM",
-        "04 AM",
-        "05 AM"
-      ],
-      timeDom = Object.keys(time).map(key => {
-        return <option>{time[key]}</option>
-      })
+    const days = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
     return Object.keys(days).map(key => {
-      let timeA, timeB
+      let timeAStart, timeAEnd, timeBStart, timeBEnd
       if (typeof this.props.schedules !== "undefined") {
         if (days[key].toLowerCase() in this.props.schedules) {
-          timeA =
-            this.props.schedules[days[key].toLowerCase()][0].startTime +
-            "-" +
-            this.props.schedules[days[key].toLowerCase()][0].endTime
-          timeB =
-            this.props.schedules[days[key].toLowerCase()][1].startTime +
-            "-" +
-            this.props.schedules[days[key].toLowerCase()][1].endTime
+          timeAStart = this.props.schedules[days[key].toLowerCase()][0]
+            .startTime
+          timeAEnd = this.props.schedules[days[key].toLowerCase()][0].endTime
+          timeBStart = this.props.schedules[days[key].toLowerCase()][1]
+            .startTime
+          timeBEnd = this.props.schedules[days[key].toLowerCase()][1].endTime
         }
       }
+      let timeADom = (
+          <span className="time">{timeAStart + " - " + timeAEnd}</span>
+        ),
+        timeBDom = <span className="time">{timeBStart + " - " + timeBEnd}</span>
 
-      let timeADom = <span className="time">{timeA}</span>,
-        timeBDom = <span className="time">{timeB}</span>
       if (this.state.editMode) {
         timeADom = (
           <div>
-            <select>
-              <optgroup>{timeDom}</optgroup>
+            <select defaultValue={timeAStart}>
+              <optgroup>{this.renderTimeDom(timeAStart)}</optgroup>
             </select>
-            <select>
-              <optgroup>{timeDom}</optgroup>
+            <select defaultValue={timeAEnd}>
+              <optgroup>{this.renderTimeDom(timeAEnd)}</optgroup>
             </select>
           </div>
         )
         timeBDom = (
           <div>
-            <select>
-              <optgroup>{timeDom}</optgroup>
+            <select defaultValue={timeBStart}>
+              <optgroup>{this.renderTimeDom(timeBStart)}</optgroup>
             </select>
-            <select>
-              <optgroup>{timeDom}</optgroup>
+            <select defaultValue={timeBEnd}>
+              <optgroup>{this.renderTimeDom(timeBEnd)}</optgroup>
             </select>
           </div>
         )
