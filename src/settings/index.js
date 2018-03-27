@@ -235,16 +235,11 @@ class Settings extends Component {
         }).then(resPay => {
           console.log("pay", resPay)
           if (resPay.status) {
-            this.setState({ isLoadingPayment: false, modalVisible: false })
+            this.handleOpenModal()
             this.getAllBanks()
-            var self = this
-            setTimeout(() => {
-              self.setState({ isSuccessfulSentShow: true })
-            }, 500)
           }
         })
       }
-      // this.getAllBanks();
     })
   }
 
