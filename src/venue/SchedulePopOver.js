@@ -3,47 +3,77 @@ import React, { Component } from "react"
 export default class SchedulePopOver extends Component {
   render() {
     return (
-      <div>
+      <div className="schedulepopover">
         <div className="header">
           <strong>SCHEDULE</strong>
         </div>
         <div className="body">
           <table>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
-            <tr>
-              <td>Monday</td>
-              <td>8AM-4PM</td>
-              <td>8AM-4PM</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+                <td>
+                  <span className="time">8AM-4PM</span>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
