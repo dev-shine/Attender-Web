@@ -6,6 +6,9 @@ export default class SchedulePopOver extends Component {
       <div className="schedulepopover">
         <div className="header">
           <strong>SCHEDULE</strong>
+          <div className="edit">
+            Edit <span class="icon-edit" />
+          </div>
         </div>
         <div className="body">
           <table>
