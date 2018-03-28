@@ -2,9 +2,12 @@ import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import "../.././styles/global.css"
-import API from "../.././services/api"
 
-const AddBankAccountPresentation = ({ onChangeInput, onClick }) => (
+const AddBankAccountPresentation = ({
+  onChangeInput,
+  onClick,
+  onOptionalClick
+}) => (
   <div className="form-container">
     <div className="form-group">
       <p>Account Name</p>
@@ -54,6 +57,12 @@ const AddBankAccountPresentation = ({ onChangeInput, onClick }) => (
       <button className="pull-right a-btn btn-round btn-dark" onClick={onClick}>
         Add Account
       </button>
+      <button
+        className="pull-left a-btn btn-round btn-dark"
+        onClick={onOptionalClick}
+      >
+        Direct Transfer
+      </button>
     </div>
   </div>
 )
@@ -70,21 +79,13 @@ class AddBankAccountContainer extends Component {
     }
   }
 
-  onAddAccount = () => {
-    var accountDetails = {
+  getAccountDetails = () => {
+    return {
       account_name: this.state.accountName,
       bank_name: this.state.bankName,
       routing_number: this.state.bankBSB,
       account_number: this.state.bankAccount
     }
-
-    API.post("add-bank", accountDetails).then(res => {
-      if (res.status) {
-        this.props.getAllBanks()
-      } else {
-        alert("Invalid Input")
-      }
-    })
   }
 
   onChangeInput = e => {
@@ -96,7 +97,8 @@ class AddBankAccountContainer extends Component {
   render() {
     return (
       <AddBankAccountPresentation
-        onClick={this.onAddAccount}
+        onClick={this.props.onClick.bind(this, this.getAccountDetails())}
+        onOptionalClick={this.props.onOptionalClick}
         onChangeInput={this.onChangeInput}
       />
     )

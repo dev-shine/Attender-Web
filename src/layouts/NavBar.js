@@ -48,25 +48,48 @@ class NavBar extends Component {
               <span>Messages</span>
             </Link>
           </li>
-          <li>
-            <Link to="/staffs">
-              <div>
-                <img alt="" src={require(".././assets/icons/nav/staff.png")} />
-              </div>
-              <span>Staffs</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/find-staff">
-              <div>
-                <img
-                  alt=""
-                  src={require(".././assets/icons/nav/browse-jobseeker.png")}
-                />
-              </div>
-              <span>Browse Jobseekers</span>
-            </Link>
-          </li>
+          {this.state.profile &&
+            this.state.profile.isStaff && (
+              <li>
+                <Link to="/search-venues">
+                  <div>
+                    <img
+                      alt=""
+                      src={require(".././assets/icons/nav/venuesEvents.png")}
+                    />
+                  </div>
+                  <span>Venues / Events</span>
+                </Link>
+              </li>
+            )}
+          {this.state.profile &&
+            !this.state.profile.isStaff && (
+              <li>
+                <Link to="/staffs">
+                  <div>
+                    <img
+                      alt=""
+                      src={require(".././assets/icons/nav/staff.png")}
+                    />
+                  </div>
+                  <span>Staffs</span>
+                </Link>
+              </li>
+            )}
+          {this.state.profile &&
+            !this.state.profile.isStaff && (
+              <li>
+                <Link to="/find-staff">
+                  <div>
+                    <img
+                      alt=""
+                      src={require(".././assets/icons/nav/browse-jobseeker.png")}
+                    />
+                  </div>
+                  <span>Browse Jobseekers</span>
+                </Link>
+              </li>
+            )}
           <li>
             <Link to="/calendar">
               <div>
