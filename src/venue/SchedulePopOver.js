@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import _ from "lodash/core"
 
 export default class SchedulePopOver extends Component {
   constructor(props) {
@@ -10,7 +11,17 @@ export default class SchedulePopOver extends Component {
     this.fetchSchedule()
   }
   state = {
-    editMode: false
+    editMode: false,
+    schedules: {}
+  }
+  _schedules = {
+    monday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    tuesday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    wednesday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    thursday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    friday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    saturday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    sunday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }]
   }
 
   fetchSchedule() {
@@ -25,6 +36,18 @@ export default class SchedulePopOver extends Component {
   }
   handleSave(event) {
     // save to db
+    // console.log(this._schedules)
+    let sched = this._schedules
+    Object.keys(sched).map(key => {
+      sched[key][`0`].startTime = this._schedules[key][`0`].startTime.value
+      sched[key][`0`].endTime = this._schedules[key][`0`].endTime.value
+
+      sched[key][`1`].startTime = this._schedules[key][`1`].startTime.value
+      sched[key][`1`].endTime = this._schedules[key][`1`].endTime.value
+    })
+    console.log(sched)
+    this.props.setSchedules(sched, this.props.staffid)
+    // console.log(this.props.schedules);
 
     this.toggleEdit()
   }
@@ -78,14 +101,15 @@ export default class SchedulePopOver extends Component {
       "05 AM"
     ]
     return Object.keys(time).map(key => {
-      // if(selectedTime == time[key]) {
-      //   console.log(time[key], selectedTime)
-      //   return <option selected>{time[key]}</option>
-      // }
-      // else {
-      // return <option key={key} >{time[key]}</option>
-      return <option key={key}>{time[key]}</option>
-      // }
+      if (time[key] == "[Select]") {
+        return (
+          <option key={key} value="">
+            {time[key]}
+          </option>
+        )
+      } else {
+        return <option key={key}>{time[key]}</option>
+      }
     })
   }
   renderSchedule() {
@@ -111,32 +135,69 @@ export default class SchedulePopOver extends Component {
         }
       }
       let timeADom = (
-          <span className="time">{timeAStart + " - " + timeAEnd}</span>
+          <div className="timeADom">
+            <span className={`time ${this.state.editMode ? " hide" : " show"}`}>
+              {timeAStart + " - " + timeAEnd}
+            </span>
+            <div className={this.state.editMode ? "show" : "hide"}>
+              <select
+                defaultValue={timeAStart}
+                ref={input =>
+                  (this._schedules[days[key].toLowerCase()][
+                    `0`
+                  ].startTime = input)
+                }
+              >
+                <optgroup>{this.renderTimeDom(timeAStart)}</optgroup>
+              </select>
+              <select
+                defaultValue={timeAEnd}
+                ref={input =>
+                  (this._schedules[days[key].toLowerCase()][
+                    `0`
+                  ].endTime = input)
+                }
+              >
+                <optgroup>{this.renderTimeDom(timeAEnd)}</optgroup>
+              </select>
+            </div>
+          </div>
         ),
-        timeBDom = <span className="time">{timeBStart + " - " + timeBEnd}</span>
-
-      if (this.state.editMode) {
-        timeADom = (
-          <div>
-            <select defaultValue={timeAStart}>
-              <optgroup>{this.renderTimeDom(timeAStart)}</optgroup>
-            </select>
-            <select defaultValue={timeAEnd}>
-              <optgroup>{this.renderTimeDom(timeAEnd)}</optgroup>
-            </select>
-          </div>
-        )
         timeBDom = (
-          <div>
-            <select defaultValue={timeBStart}>
-              <optgroup>{this.renderTimeDom(timeBStart)}</optgroup>
-            </select>
-            <select defaultValue={timeBEnd}>
-              <optgroup>{this.renderTimeDom(timeBEnd)}</optgroup>
-            </select>
+          <div className="timeBDom">
+            <span className={`time ${this.state.editMode ? " hide" : " show"}`}>
+              {timeBStart + " - " + timeBEnd}
+            </span>
+
+            <div className={this.state.editMode ? "show" : "hide"}>
+              <select
+                defaultValue={timeBStart}
+                ref={input =>
+                  (this._schedules[days[key].toLowerCase()][
+                    `1`
+                  ].startTime = input)
+                }
+              >
+                <optgroup>{this.renderTimeDom(timeBStart)}</optgroup>
+              </select>
+              <select
+                defaultValue={timeBEnd}
+                ref={input =>
+                  (this._schedules[days[key].toLowerCase()][
+                    `1`
+                  ].endTime = input)
+                }
+              >
+                <optgroup>{this.renderTimeDom(timeBEnd)}</optgroup>
+              </select>
+            </div>
           </div>
         )
+      let inputSchedSingle = {
+        timeA: { startTime: "", endTime: "" },
+        timeB: { startTime: "", endTime: "" }
       }
+
       return (
         <tr key={key}>
           <td>{days[key]}</td>

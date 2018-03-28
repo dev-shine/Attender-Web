@@ -6,6 +6,7 @@ import API from "./../services/api"
 import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
+import PropTypes from "prop-types"
 
 import SchedulePopOver from "./SchedulePopOver"
 
@@ -24,6 +25,7 @@ class MyStaff extends Component {
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
+    this.setSchedules = this.setSchedules.bind(this)
   }
   componentWillMount = async () => {
     API.initRequest()
@@ -32,7 +34,11 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
-
+  setSchedules(sched, staffid) {
+    let staffMetas = this.state.staffMetas
+    staffMetas[`staff-${staffid}`].schedules = sched
+    this.setState({ staffMetas })
+  }
   selectStaff = () => {
     let myStaffs = this.state.myStaffs
     myStaffs[0].selected = true
@@ -90,6 +96,7 @@ class MyStaff extends Component {
         : true
     this.setState({ staffMetas })
   }
+
   renderStaffBox(data, index, col, active) {
     if (data.trial) {
       col += " trial"
@@ -111,7 +118,11 @@ class MyStaff extends Component {
         <span className="icon-breafcase" />
         <span className="icon-time" />
         {data.showSchedulePopOver ? (
-          <SchedulePopOver schedules={data.schedules} />
+          <SchedulePopOver
+            staffid={data._id}
+            setSchedules={this.setSchedules}
+            schedules={data.schedules}
+          />
         ) : null}
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
         <p>{data.staff.fullname}</p>
@@ -386,7 +397,6 @@ class MyStaff extends Component {
       </div>
     )
   }
-
   render() {
     return (
       <div>
@@ -405,4 +415,7 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
+MyStaff.contextTypes = {
+  router: PropTypes.object
+}
 export default connect(mapStateToProps, mapDispatchToProps)(MyStaff)
