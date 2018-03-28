@@ -23,6 +23,15 @@ export default class SchedulePopOver extends Component {
     saturday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
     sunday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }]
   }
+  sched = {
+    monday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    tuesday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    wednesday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    thursday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    friday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    saturday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }],
+    sunday: [{ startTime: {}, endTime: {} }, { startTime: {}, endTime: {} }]
+  }
 
   fetchSchedule() {
     if (typeof this.props.schedules === "undefined") {
@@ -37,16 +46,14 @@ export default class SchedulePopOver extends Component {
   handleSave(event) {
     // save to db
     // console.log(this._schedules)
-    let sched = this._schedules
-    Object.keys(sched).map(key => {
-      sched[key][`0`].startTime = this._schedules[key][`0`].startTime.value
-      sched[key][`0`].endTime = this._schedules[key][`0`].endTime.value
+    Object.keys(this.sched).map(key => {
+      this.sched[key][`0`].startTime = this._schedules[key][`0`].startTime.value
+      this.sched[key][`0`].endTime = this._schedules[key][`0`].endTime.value
 
-      sched[key][`1`].startTime = this._schedules[key][`1`].startTime.value
-      sched[key][`1`].endTime = this._schedules[key][`1`].endTime.value
+      this.sched[key][`1`].startTime = this._schedules[key][`1`].startTime.value
+      this.sched[key][`1`].endTime = this._schedules[key][`1`].endTime.value
     })
-    console.log(sched)
-    this.props.setSchedules(sched, this.props.staffid)
+    this.props.setSchedules(this.sched, this.props.staffid)
     // console.log(this.props.schedules);
 
     this.toggleEdit()

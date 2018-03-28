@@ -38,6 +38,12 @@ class MyStaff extends Component {
     let staffMetas = this.state.staffMetas
     staffMetas[`staff-${staffid}`].schedules = sched
     this.setState({ staffMetas })
+    var staffSchedule = {
+      schedules: JSON.stringify(sched)
+    }
+    API.post("save-staff-sched/" + staffid, staffSchedule).then(res => {
+      console.log(res)
+    })
   }
   selectStaff = () => {
     let myStaffs = this.state.myStaffs
@@ -150,7 +156,6 @@ class MyStaff extends Component {
     let activeC = 0,
       trialC = 0,
       noDataMessage = ""
-
     return (
       <div className="card my-staff-container">
         <div className="my-staff-header">
@@ -182,13 +187,30 @@ class MyStaff extends Component {
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
-            {this.state.myStaffs.map((staff, index) => {
-              if (this.state.currentTab === "trial" && staff.trial) {
+            {Object.keys(this.state.myStaffs).map(index => {
+              if (
+                this.state.currentTab === "trial" &&
+                this.state.myStaffs[index].trial
+              ) {
                 trialC++
-                return this.renderStaffBox(staff, index, "col-sm-2", false)
-              } else if (this.state.currentTab === "active" && staff.active) {
+
+                return this.renderStaffBox(
+                  this.state.myStaffs[index],
+                  index,
+                  "col-sm-2",
+                  false
+                )
+              } else if (
+                this.state.currentTab === "active" &&
+                this.state.myStaffs[index].active
+              ) {
                 activeC++
-                return this.renderStaffBox(staff, index, "col-sm-2", true)
+                return this.renderStaffBox(
+                  this.state.myStaffs[index],
+                  index,
+                  "col-sm-2",
+                  true
+                )
               }
             })}
             {this.renderNoData(trialC, activeC)}
