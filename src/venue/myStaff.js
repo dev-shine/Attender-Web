@@ -72,7 +72,7 @@ class MyStaff extends Component {
           renderStaffsLoading: false,
           staffMetas: staffMetas
         })
-        this.selectStaff()
+        // this.selectStaff()
       }
     })
   }
