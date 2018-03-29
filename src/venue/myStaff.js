@@ -7,6 +7,7 @@ import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 import SchedulePopOver from "./SchedulePopOver"
 
@@ -134,9 +135,11 @@ class MyStaff extends Component {
         <p>{data.staff.fullname}</p>
         <small>{data.staff.rateType}</small>
         <small>{data.staff.rateBadge}</small>
-        <button className="a-btn btn-dark btn-round">
-          <small>Send Message</small>
-        </button>
+        <Link to={`./messages/${data.staff._id}`}>
+          <button className="a-btn btn-dark btn-round">
+            <small>Send Message</small>
+          </button>
+        </Link>
         <a>Add monthly review</a>
       </div>
     )
