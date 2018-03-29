@@ -133,3 +133,6 @@
   float: left;
   font-size: 10px !important;
 }
+.hide {
+  display: none;
+}

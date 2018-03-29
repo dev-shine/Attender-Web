@@ -6,6 +6,7 @@ import API from "./../services/api"
 import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
+import PropTypes from "prop-types"
 
 import SchedulePopOver from "./SchedulePopOver"
 
@@ -24,6 +25,7 @@ class MyStaff extends Component {
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
+    this.setSchedules = this.setSchedules.bind(this)
   }
   componentWillMount = async () => {
     API.initRequest()
@@ -32,7 +34,17 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
-
+  setSchedules(sched, staffid) {
+    let staffMetas = this.state.staffMetas
+    staffMetas[`staff-${staffid}`].schedules = sched
+    this.setState({ staffMetas })
+    var staffSchedule = {
+      schedules: JSON.stringify(sched)
+    }
+    API.post("save-staff-sched/" + staffid, staffSchedule).then(res => {
+      console.log(res)
+    })
+  }
   selectStaff = () => {
     let myStaffs = this.state.myStaffs
     myStaffs[0].selected = true
@@ -90,6 +102,7 @@ class MyStaff extends Component {
         : true
     this.setState({ staffMetas })
   }
+
   renderStaffBox(data, index, col, active) {
     if (data.trial) {
       col += " trial"
@@ -111,7 +124,11 @@ class MyStaff extends Component {
         <span className="icon-breafcase" />
         <span className="icon-time" />
         {data.showSchedulePopOver ? (
-          <SchedulePopOver schedules={data.schedules} />
+          <SchedulePopOver
+            staffid={data._id}
+            setSchedules={this.setSchedules}
+            schedules={data.schedules}
+          />
         ) : null}
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
         <p>{data.staff.fullname}</p>
@@ -139,7 +156,6 @@ class MyStaff extends Component {
     let activeC = 0,
       trialC = 0,
       noDataMessage = ""
-
     return (
       <div className="card my-staff-container">
         <div className="my-staff-header">
@@ -171,13 +187,30 @@ class MyStaff extends Component {
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
-            {this.state.myStaffs.map((staff, index) => {
-              if (this.state.currentTab === "trial" && staff.trial) {
+            {Object.keys(this.state.myStaffs).map(index => {
+              if (
+                this.state.currentTab === "trial" &&
+                this.state.myStaffs[index].trial
+              ) {
                 trialC++
-                return this.renderStaffBox(staff, index, "col-sm-2", false)
-              } else if (this.state.currentTab === "active" && staff.active) {
+
+                return this.renderStaffBox(
+                  this.state.myStaffs[index],
+                  index,
+                  "col-sm-2",
+                  false
+                )
+              } else if (
+                this.state.currentTab === "active" &&
+                this.state.myStaffs[index].active
+              ) {
                 activeC++
-                return this.renderStaffBox(staff, index, "col-sm-2", true)
+                return this.renderStaffBox(
+                  this.state.myStaffs[index],
+                  index,
+                  "col-sm-2",
+                  true
+                )
               }
             })}
             {this.renderNoData(trialC, activeC)}
@@ -386,7 +419,6 @@ class MyStaff extends Component {
       </div>
     )
   }
-
   render() {
     return (
       <div>
@@ -405,4 +437,7 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
+MyStaff.contextTypes = {
+  router: PropTypes.object
+}
 export default connect(mapStateToProps, mapDispatchToProps)(MyStaff)
