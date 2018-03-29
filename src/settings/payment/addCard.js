@@ -5,11 +5,38 @@ import "../.././styles/global.css"
 import API from "../.././services/api"
 import MaskedInput from "react-text-mask"
 
-const AddCardPresentation = ({ onChangeInput, onClick }) => (
+//#region Presentations
+const SelectCardPresentation = ({ cardTypes, onSelectCard }) => (
+  <div className="row">
+    {cardTypes.length > 0 &&
+      cardTypes.map(c => (
+        <div className="col-sm-4" onClick={onSelectCard.bind(this, c.name)}>
+          <img
+            src={require(`../.././assets/cardIcons/${c.image}`)}
+            style={cardIconStyle}
+          />
+          {c.on && (
+            <img
+              src={require(`../.././assets/checkIcon.png`)}
+              style={checkIconStyle}
+            />
+          )}
+        </div>
+      ))}
+  </div>
+)
+
+const AddCardPresentation = ({
+  onChangeInput,
+  onClick,
+  cardTypes,
+  onSelectCard
+}) => (
   <div className="form-container">
+    <p>Add Credit Card</p>
+    <p>This connection is secure</p>
+    <SelectCardPresentation cardTypes={cardTypes} onSelectCard={onSelectCard} />
     <div className="form-group">
-      <p>Add Credit Card</p>
-      <p>This connection is secure</p>
       <p className="sem">Name of the Card</p>
       <input
         type="text"
@@ -61,15 +88,19 @@ const AddCardPresentation = ({ onChangeInput, onClick }) => (
     </div>
   </div>
 )
+//#endregion
 
+//#region Containers
 class AddCardContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       selectedCard: "visa",
-      isVisa: false,
-      isMaster: false,
-      isExpress: false,
+      cardTypes: [
+        { name: "visa", image: "visa.png", on: true },
+        { name: "master", image: "master.png", on: false },
+        { name: "american_express", image: "express.png", on: false }
+      ],
 
       cardName: "",
       cardNumber: "",
@@ -77,6 +108,13 @@ class AddCardContainer extends Component {
       cardCV: "",
       isBankLoading: true
     }
+  }
+
+  onSelectCard = name => {
+    const cardTypes = this.state.cardTypes.map(
+      c => (c.name === name ? { ...c, on: true } : { ...c, on: false })
+    )
+    this.setState({ cardTypes })
   }
 
   getCardDetails = () => {
@@ -102,10 +140,26 @@ class AddCardContainer extends Component {
       <AddCardPresentation
         onChangeInput={this.onChangeInput}
         onClick={this.props.onClick.bind(this, this.getCardDetails())}
+        cardTypes={this.state.cardTypes}
+        onSelectCard={this.onSelectCard}
       />
     )
   }
 }
+//#endregion
+
+//#region Styles
+const cardIconStyle = {
+  width: 50,
+  height: 45
+}
+
+const checkIconStyle = {
+  width: 15,
+  height: 15,
+  float: "left"
+}
+//#endregion
 
 const mapStateToProps = state => ({})
 
