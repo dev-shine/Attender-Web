@@ -5,6 +5,10 @@ import { Button } from "react-bootstrap"
 export default class SubscribePopUp extends React.Component {
   constructor(props) {
     super(props)
+    this.Close = this.Close.bind(this)
+  }
+  Close() {
+    this.props.close()
   }
   render() {
     return (
@@ -27,7 +31,7 @@ export default class SubscribePopUp extends React.Component {
             <li>$49 per month (excl, GST) no lock in contract</li>
           </ul>
           <Button className="btn-primary">Subscribe now</Button>
-          <Button className="">No thanks</Button>
+          <Button onClick={this.Close}>No thanks</Button>
         </div>
       </div>
     )

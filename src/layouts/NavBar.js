@@ -13,10 +13,12 @@ class NavBar extends Component {
     this.state = {
       sideNavOpen: false,
       profile: {},
-      showQuickLinks: false
+      showQuickLinks: false,
+      showSubscribePopUp: true
     }
     this.closeQuickLinks = this.closeQuickLinks.bind(this)
     this.openQuickLinks = this.openQuickLinks.bind(this)
+    this.closeSubscribePopup = this.closeSubscribePopup.bind(this)
   }
   QLtimer
   async componentDidMount() {
@@ -24,6 +26,9 @@ class NavBar extends Component {
     this.setState({ profile })
   }
 
+  closeSubscribePopup() {
+    this.setState({ showSubscribePopUp: false })
+  }
   onLogout = () => {
     API.logout()
     this.props.goMain()
@@ -194,7 +199,9 @@ class NavBar extends Component {
       <div>
         {this.renderNavBar()}
         {this.renderSideMenu()}
-        <SubscribePopUp />
+        {this.state.showSubscribePopUp ? (
+          <SubscribePopUp close={this.closeSubscribePopup} />
+        ) : null}
       </div>
     )
   }
