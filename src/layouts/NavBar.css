@@ -1,0 +1,66 @@
+.nav-menu li {
+  position: relative;
+}
+.toggleQuickLinks {
+  position: relative;
+  background: #43bfe9;
+  margin-left: 20px;
+  bottom: 12px;
+  margin-right: 25px;
+}
+.toggleQuickLinks:after {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(136, 183, 213, 0);
+  border-top-color: #43bfe9;
+  border-width: 8px;
+  margin-left: -11px;
+}
+.QuickLinks {
+  width: 200px;
+  position: absolute;
+  left: -45px;
+  text-align: left;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #eee;
+  font-size: 12px;
+  border: 1px solid #eee;
+  margin-top: 15px;
+}
+.QuickLinks a {
+  display: block;
+  padding: 8px 15px 6px;
+}
+
+.QuickLinks:after,
+.QuickLinks:before {
+  bottom: 100%;
+  right: 35px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.QuickLinks:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #fff;
+  border-width: 15px;
+  margin-left: -15px;
+}
+.QuickLinks:before {
+  border-color: rgba(0, 245, 65, 0);
+  border-bottom-color: #aaa;
+  border-width: 15px;
+  margin-left: -15px;
+}
