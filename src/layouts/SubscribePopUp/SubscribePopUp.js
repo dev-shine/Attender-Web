@@ -26,7 +26,7 @@ export default class SubscribePopUp extends React.Component {
             </li>
             <li>$49 per month (excl, GST) no lock in contract</li>
           </ul>
-          <Button className="">Subscribe now</Button>
+          <Button className="btn-primary">Subscribe now</Button>
           <Button className="">No thanks</Button>
         </div>
       </div>

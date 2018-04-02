@@ -194,6 +194,7 @@ class NavBar extends Component {
       <div>
         {this.renderNavBar()}
         {this.renderSideMenu()}
+        <SubscribePopUp />
       </div>
     )
   }
