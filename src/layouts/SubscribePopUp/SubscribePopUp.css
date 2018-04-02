@@ -1,0 +1,24 @@
+.SubscribePopUp {
+  background: #684dbf;
+  border-radius: 10px;
+  height: 500px;
+  width: 945px;
+  position: absolute;
+  z-index: 9;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+}
+.leftside {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+.leftside * {
+  display: block;
+  margin: auto;
+}
+.title {
+}
+span {
+}

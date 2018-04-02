@@ -6,7 +6,7 @@ import { connect } from "react-redux"
 import API from ".././services/api"
 import QuickLinks from "./QuickLinks"
 import "./NavBar.css"
-
+import SubscribePopUp from "./SubscribePopUp/SubscribePopUp"
 class NavBar extends Component {
   constructor(props) {
     super(props)
