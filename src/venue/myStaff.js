@@ -11,7 +11,7 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
 import SchedulePopOver from "./SchedulePopOver"
-import PaymentModal from "./PaymentModal"
+// import PaymentModal from "./PaymentModal"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -26,7 +26,14 @@ class MyStaff extends Component {
       selectedStaff: [],
       staffMetas: {},
       isPaymentModalOpen: false,
-      selectedPaymentStaff: {}
+      selectedPaymentStaff: {},
+      timesheet: {
+        days: [],
+        banksArray: [],
+        isLoadingPayment: false
+      },
+      next: false,
+      prev: false
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -109,9 +116,30 @@ class MyStaff extends Component {
   }
 
   togglePaymentModal = staff => {
-    this.setState({
-      selectedPaymentStaff: staff,
-      isPaymentModalOpen: !this.state.isPaymentModalOpen
+    this.setState(
+      {
+        selectedPaymentStaff: staff,
+        isPaymentModalOpen: !this.state.isPaymentModalOpen
+      },
+      () => {
+        this.getStaffTimeSheet()
+      }
+    )
+  }
+
+  getStaffTimeSheet = () => {
+    API.get(
+      `management/${this.state.selectedPaymentStaff._id}/timesheet/current`
+    ).then(res => {
+      console.log("res staff ts", res)
+      if (res.status) {
+        this.setState({
+          timesheet: res.timesheet,
+          next: res.actions.next,
+          prev: res.actions.previous
+        })
+        // this.timeSheetToState(res.timesheet)
+      }
     })
   }
 
@@ -138,7 +166,6 @@ class MyStaff extends Component {
           className="icon-time"
           onClick={this.togglePaymentModal.bind(this, data)}
         />
-        {this.state.isPaymentModalOpen && <PaymentModal />}
         {data.showSchedulePopOver ? (
           <SchedulePopOver
             staffid={data._id}
@@ -437,6 +464,29 @@ class MyStaff extends Component {
       </div>
     )
   }
+
+  renderPaymentModal = () => {
+    return (
+      <div
+        className={this.state.isPaymentModalOpen ? "a-modal show" : "a-modal"}
+      >
+        <div className="a-modal-content">
+          <span
+            onClick={this.togglePaymentModal.bind(
+              this,
+              this.state.selectedPaymentStaff
+            )}
+            className="a-close"
+          >
+            &times;
+          </span>
+          {this.state.timesheet.days.length > 0 &&
+            this.state.timesheet.days.map((res, id) => <p>{id}</p>)}
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -445,6 +495,7 @@ class MyStaff extends Component {
           {this.renderMyStaffs()}
           {this.renderEventAssignment()}
           {this.renderStaffManagement()}
+          {this.renderPaymentModal()}
         </div>
       </div>
     )
