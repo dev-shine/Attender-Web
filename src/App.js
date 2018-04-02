@@ -17,8 +17,19 @@ import Schedule from "./venue/schedule"
 import Calendar from "./venue/calendar"
 import Registration from "./auth/registration"
 import Settings from "./settings/index"
+import SubscribePopUp from "./layouts/SubscribePopUp/SubscribePopUp"
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showSubscribePopUp: true
+    }
+    this.closeSubscribePopup = this.closeSubscribePopup.bind(this)
+  }
+  closeSubscribePopup() {
+    this.setState({ showSubscribePopUp: false })
+  }
   render() {
     return (
       <div>
@@ -44,6 +55,9 @@ class App extends Component {
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
+          {this.state.showSubscribePopUp ? (
+            <SubscribePopUp close={this.closeSubscribePopup} />
+          ) : null}
         </main>
       </div>
     )

@@ -6,28 +6,22 @@ import { connect } from "react-redux"
 import API from ".././services/api"
 import QuickLinks from "./QuickLinks"
 import "./NavBar.css"
-import SubscribePopUp from "./SubscribePopUp/SubscribePopUp"
+
 class NavBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
       sideNavOpen: false,
       profile: {},
-      showQuickLinks: false,
-      showSubscribePopUp: true
+      showQuickLinks: false
     }
     this.closeQuickLinks = this.closeQuickLinks.bind(this)
     this.openQuickLinks = this.openQuickLinks.bind(this)
-    this.closeSubscribePopup = this.closeSubscribePopup.bind(this)
   }
   QLtimer
   async componentDidMount() {
     let profile = await API.getProfile()
     this.setState({ profile })
-  }
-
-  closeSubscribePopup() {
-    this.setState({ showSubscribePopUp: false })
   }
   onLogout = () => {
     API.logout()
@@ -199,9 +193,6 @@ class NavBar extends Component {
       <div>
         {this.renderNavBar()}
         {this.renderSideMenu()}
-        {this.state.showSubscribePopUp ? (
-          <SubscribePopUp close={this.closeSubscribePopup} />
-        ) : null}
       </div>
     )
   }
