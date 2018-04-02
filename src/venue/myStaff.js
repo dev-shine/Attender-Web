@@ -8,7 +8,10 @@ import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
 import PropTypes from "prop-types"
 
+import { Link } from "react-router-dom"
+
 import SchedulePopOver from "./SchedulePopOver"
+import PaymentModal from "./PaymentModal"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -21,7 +24,9 @@ class MyStaff extends Component {
       showNewTaskField: false,
       showNewSuggestionField: false,
       selectedStaff: [],
-      staffMetas: {}
+      staffMetas: {},
+      isPaymentModalOpen: false,
+      selectedPaymentStaff: {}
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -72,7 +77,7 @@ class MyStaff extends Component {
           renderStaffsLoading: false,
           staffMetas: staffMetas
         })
-        this.selectStaff()
+        // this.selectStaff()
       }
     })
   }
@@ -103,6 +108,13 @@ class MyStaff extends Component {
     this.setState({ staffMetas })
   }
 
+  togglePaymentModal = staff => {
+    this.setState({
+      selectedPaymentStaff: staff,
+      isPaymentModalOpen: !this.state.isPaymentModalOpen
+    })
+  }
+
   renderStaffBox(data, index, col, active) {
     if (data.trial) {
       col += " trial"
@@ -122,7 +134,11 @@ class MyStaff extends Component {
           }}
         />
         <span className="icon-breafcase" />
-        <span className="icon-time" />
+        <span
+          className="icon-time"
+          onClick={this.togglePaymentModal.bind(this, data)}
+        />
+        {this.state.isPaymentModalOpen && <PaymentModal />}
         {data.showSchedulePopOver ? (
           <SchedulePopOver
             staffid={data._id}
@@ -134,9 +150,11 @@ class MyStaff extends Component {
         <p>{data.staff.fullname}</p>
         <small>{data.staff.rateType}</small>
         <small>{data.staff.rateBadge}</small>
-        <button className="a-btn btn-dark btn-round">
-          <small>Send Message</small>
-        </button>
+        <Link to={`./messages/${data.staff._id}`}>
+          <button className="a-btn btn-dark btn-round">
+            <small>Send Message</small>
+          </button>
+        </Link>
         <a>Add monthly review</a>
       </div>
     )
