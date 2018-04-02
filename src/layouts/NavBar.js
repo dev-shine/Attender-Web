@@ -12,10 +12,13 @@ class NavBar extends Component {
     super(props)
     this.state = {
       sideNavOpen: false,
-      profile: {}
+      profile: {},
+      showQuickLinks: false
     }
+    this.closeQuickLinks = this.closeQuickLinks.bind(this)
+    this.openQuickLinks = this.openQuickLinks.bind(this)
   }
-
+  QLtimer
   async componentDidMount() {
     let profile = await API.getProfile()
     this.setState({ profile })
@@ -30,6 +33,16 @@ class NavBar extends Component {
     if (this.state.profile.hasProfile) {
       this.setState(prevState => ({ sideNavOpen: !prevState.sideNavOpen }))
     }
+  }
+
+  closeQuickLinks() {
+    this.QLtimer = setTimeout(() => {
+      this.setState({ showQuickLinks: false })
+    }, 1000)
+  }
+  openQuickLinks() {
+    clearTimeout(this.QLtimer)
+    this.setState({ showQuickLinks: true })
   }
 
   renderSideMenu = () => {
@@ -148,8 +161,17 @@ class NavBar extends Component {
             </li>
             <li>
               <img alt="" className="profile-thumb" src={img} />
-              <span class="toggleQuickLinks" />
-              <QuickLinks />
+              <span
+                className="toggleQuickLinks fa fa-caret-down"
+                onMouseOver={this.openQuickLinks}
+                onMouseOut={this.closeQuickLinks}
+              />
+              {this.state.showQuickLinks ? (
+                <QuickLinks
+                  onMouseOver={this.openQuickLinks}
+                  onMouseOut={this.closeQuickLinks}
+                />
+              ) : null}
             </li>
             <li>
               <a>
