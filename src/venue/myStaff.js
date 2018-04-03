@@ -642,6 +642,8 @@ class MyStaff extends Component {
           ))}
         <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
         <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
+        <div>{`Total to be sent: AUD $${this.getTotalPayableHours() *
+          this.state.startRate}`}</div>
       </div>
     )
   }
