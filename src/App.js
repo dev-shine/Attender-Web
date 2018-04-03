@@ -18,7 +18,26 @@ import Calendar from "./venue/calendar"
 import Registration from "./auth/registration"
 import Settings from "./settings/index"
 import SubscribePopUp from "./layouts/SubscribePopUp/SubscribePopUp"
+import { combineReducers, createStore } from "redux"
 
+function reducer(state, action) {
+  if (action.type === "changeState") {
+    return action.payload.newState
+  }
+  console.log(action)
+  return "State"
+}
+const store = createStore(reducer)
+console.log(store.getState())
+
+const action = {
+  type: "changeState",
+  payload: {
+    newState: "New state"
+  }
+}
+store.dispatch(action)
+console.log(store.getState())
 class App extends Component {
   constructor(props) {
     super(props)
