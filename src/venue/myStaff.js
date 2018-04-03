@@ -35,7 +35,8 @@ class MyStaff extends Component {
       },
       next: false,
       prev: false,
-      additionalHours: 0
+      additionalHours: 0,
+      startRate: 0
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -137,6 +138,7 @@ class MyStaff extends Component {
       console.log("result ts", res)
       if (res.status) {
         this.setState({
+          startRate: this.state.selectedPaymentStaff.staff.startRate,
           timesheet: res.timesheet,
           next: res.actions.next,
           prev: res.actions.previous
@@ -638,7 +640,8 @@ class MyStaff extends Component {
               </p>
             </div>
           ))}
-        <div>{`Total Payable hours - ${this.getTotalPayableHours()}`}</div>
+        <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
+        <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
       </div>
     )
   }
