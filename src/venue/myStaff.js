@@ -34,7 +34,8 @@ class MyStaff extends Component {
         isLoadingPayment: false
       },
       next: false,
-      prev: false
+      prev: false,
+      additionalHours: 0
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -489,6 +490,127 @@ class MyStaff extends Component {
     })
   }
 
+  getPayableHours(startTime, endTime) {
+    let start = moment(startTime, ["hh:mm A", "hh A"])
+    let end = moment(endTime, ["hh:mm A", "hh A"])
+    let payableHours =
+      start.isValid() && end.isValid()
+        ? moment.duration(end.diff(start)).asHours()
+        : 0
+    payableHours = payableHours < 0 ? payableHours + 24 : payableHours
+    return payableHours
+  }
+
+  getTotalPayableHours() {
+    let totalPayableHours = 0
+    if (this.state.timesheet.days.length > 0) {
+      this.state.timesheet.days.map(res => {
+        switch (res.isoWeekPeriod) {
+          case "1":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["monstartTime" + (id + 1)])
+                  startTime = this.state["monstartTime" + (id + 1)]
+                if (this.state["monendTime" + (id + 1)])
+                  endTime = this.state["monendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "2":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["tuestartTime" + (id + 1)])
+                  startTime = this.state["tuestartTime" + (id + 1)]
+                if (this.state["tueendTime" + (id + 1)])
+                  endTime = this.state["tueendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "3":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["wedstartTime" + (id + 1)])
+                  startTime = this.state["wedstartTime" + (id + 1)]
+                if (this.state["wedendTime" + (id + 1)])
+                  endTime = this.state["wedendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "4":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["thustartTime" + (id + 1)])
+                  startTime = this.state["thustartTime" + (id + 1)]
+                if (this.state["thuendTime" + (id + 1)])
+                  endTime = this.state["thuendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "5":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["fristartTime" + (id + 1)])
+                  startTime = this.state["fristartTime" + (id + 1)]
+                if (this.state["friendTime" + (id + 1)])
+                  endTime = this.state["friendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "6":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["satstartTime" + (id + 1)])
+                  startTime = this.state["satstartTime" + (id + 1)]
+                if (this.state["satendTime" + (id + 1)])
+                  endTime = this.state["satendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "7":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["sunstartTime" + (id + 1)])
+                  startTime = this.state["sunstartTime" + (id + 1)]
+                if (this.state["sunendTime" + (id + 1)])
+                  endTime = this.state["sunendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          default:
+        }
+      })
+    }
+    return totalPayableHours
+  }
+
   renderTimeSheet = () => {
     return (
       <div>
@@ -516,6 +638,7 @@ class MyStaff extends Component {
               </p>
             </div>
           ))}
+        <div>{`Total Payable hours - ${this.getTotalPayableHours()}`}</div>
       </div>
     )
   }
