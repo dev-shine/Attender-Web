@@ -7,6 +7,7 @@ import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
 import PropTypes from "prop-types"
+import moment from "moment"
 
 import { Link } from "react-router-dom"
 
@@ -46,6 +47,7 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
+
   setSchedules(sched, staffid) {
     let staffMetas = this.state.staffMetas
     staffMetas[`staff-${staffid}`].schedules = sched
@@ -131,7 +133,7 @@ class MyStaff extends Component {
     API.get(
       `management/${this.state.selectedPaymentStaff._id}/timesheet/current`
     ).then(res => {
-      console.log("res staff ts", res)
+      console.log("result ts", res)
       if (res.status) {
         this.setState({
           timesheet: res.timesheet,
@@ -465,6 +467,59 @@ class MyStaff extends Component {
     )
   }
 
+  timeFormatter = time => {
+    if (time != "") {
+      return moment(time).format("hh A")
+    } else {
+      return time
+    }
+  }
+
+  getNextOrPreviousTimeSheet = id => {
+    API.get(`timesheet/${id}`).then(res => {
+      console.log("timesheet", res)
+      if (res.status) {
+        this.setState({
+          timesheet: res.timesheet,
+          next: res.actions.next,
+          prev: res.actions.previous,
+          isLoadingPayment: false
+        })
+      }
+    })
+  }
+
+  renderTimeSheet = () => {
+    return (
+      <div>
+        <div>
+          {this.state.next && (
+            <button
+              onClick={this.getNextOrPreviousTimeSheet.bind(
+                this,
+                this.state.next
+              )}
+            >
+              Previous
+            </button>
+          )}
+          {this.state.next && <button>Next</button>}
+        </div>
+        {this.state.timesheet.days.length > 0 &&
+          this.state.timesheet.days.map((res, id) => (
+            <div>
+              <p>{moment(res.date).format("MMM DD")}</p>
+              <p>
+                {res.schedules.map(s => (
+                  <p>{`${s.startTime} - ${s.endTime}`}</p>
+                ))}
+              </p>
+            </div>
+          ))}
+      </div>
+    )
+  }
+
   renderPaymentModal = () => {
     return (
       <div
@@ -480,8 +535,7 @@ class MyStaff extends Component {
           >
             &times;
           </span>
-          {this.state.timesheet.days.length > 0 &&
-            this.state.timesheet.days.map((res, id) => <p>{id}</p>)}
+          {this.renderTimeSheet()}
         </div>
       </div>
     )
