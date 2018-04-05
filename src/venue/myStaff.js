@@ -36,7 +36,10 @@ class MyStaff extends Component {
       next: false,
       prev: false,
       additionalHours: 0,
-      startRate: 0
+      startRate: 0,
+      isShowConfirmation: false,
+      accName: "",
+      accNumber: ""
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -67,6 +70,20 @@ class MyStaff extends Component {
     this.setState({ myStaffs: myStaffs })
     this.setState({ selectedStaff: myStaffs[0] })
   }
+
+  getAllBanks = () => {
+    API.get("banks").then(res => {
+      console.log(res)
+      if (res.status) {
+        this.setState({
+          banksArray: res.banks
+        })
+      } else {
+        alert("Something went wrong")
+      }
+    })
+  }
+
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
@@ -127,8 +144,56 @@ class MyStaff extends Component {
       },
       () => {
         this.getStaffTimeSheet()
+        this.getAllBanks()
       }
     )
+  }
+
+  onPressPayStaff = () => {
+    alert("I am pressing pay staff")
+    if (this.state.timesheet.status == "paid") {
+      alert("Staff already paid for this week")
+    } else {
+      if (this.state.banksArray.length > 0) {
+        this.setState({
+          accName: this.state.banksArray[0].bankMeta.account_name,
+          accNumber: this.state.banksArray[0].bankMeta.account_number
+        })
+      }
+      this.setState({ isShowConfirmation: true })
+    }
+  }
+
+  onPayStaff = () => {
+    // this.setState({isLoadingPayment: true});
+
+    if (this.state.banksArray.length > 0) {
+      // console.log(this.state.timesheet)
+      const totalPayableHours = this.getTotalPayableHours()
+      var totalAmount = totalPayableHours * this.state.startRate
+
+      var promiseId = this.state.banksArray[0].promiseId
+
+      // console.log("total amount", totalAmount)
+
+      API.post(`timesheet/${this.state.timesheet._id}/make_payment`, {
+        amount: totalAmount,
+        account_id: promiseId
+      }).then(res => {
+        if (res.status) {
+          alert("Payment Transferred.")
+          // this.setState({isLoadingPayment: false});
+          // this.props.navigation.goBack();
+        } else {
+          alert(`There is no total amount to be paid.`)
+          // this.setState({isLoadingPayment: false});
+        }
+        console.log("Pay staff", res)
+      })
+    } else {
+      alert("Please add atleast (1) bank account")
+      // this.setState({isLoadingPayment: false});
+    }
   }
 
   getStaffTimeSheet = () => {
@@ -645,7 +710,7 @@ class MyStaff extends Component {
         <div>{`Total to be sent: AUD $${this.getTotalPayableHours() *
           this.state.startRate}`}</div>
         <div>
-          <button>Pay Staff</button>
+          <button onClick={this.onPressPayStaff}>Pay Staff</button>
         </div>
       </div>
     )
@@ -666,7 +731,11 @@ class MyStaff extends Component {
           >
             &times;
           </span>
-          {this.renderTimeSheet()}
+          {!this.state.isShowConfirmation ? (
+            this.renderTimeSheet()
+          ) : (
+            <button onClick={this.onPayStaff}>confirm</button>
+          )}
         </div>
       </div>
     )
