@@ -38,6 +38,9 @@ class MyStaff extends Component {
       additionalHours: 0,
       startRate: 0,
       isShowConfirmation: false,
+      isShowEditButton: true,
+      isShowEditPayableHours: true,
+      isShowEditRate: true,
       accName: "",
       accNumber: ""
     }
@@ -169,7 +172,8 @@ class MyStaff extends Component {
 
     if (this.state.banksArray.length > 0) {
       // console.log(this.state.timesheet)
-      const totalPayableHours = this.getTotalPayableHours()
+      const totalPayableHours =
+        this.getTotalPayableHours() + this.state.additionalHours * 1
       var totalAmount = totalPayableHours * this.state.startRate
 
       var promiseId = this.state.banksArray[0].promiseId
@@ -706,8 +710,50 @@ class MyStaff extends Component {
             </div>
           ))}
         <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
-        <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
-        <div>{`Total to be sent: AUD $${this.getTotalPayableHours() *
+        <div>
+          <button
+            onClick={() =>
+              this.setState({
+                isShowEditPayableHours: !this.state.isShowEditPayableHours
+              })
+            }
+          >
+            Add Payable Hours
+          </button>
+          {this.state.isShowEditPayableHours ? (
+            <input
+              type="text"
+              className="a-plain-text"
+              placeholder="0"
+              onChange={hours =>
+                this.setState({ additionalHours: hours.target.value })
+              }
+            />
+          ) : (
+            0
+          )}
+        </div>
+        {this.state.isShowEditRate ? (
+          <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
+        ) : (
+          <input
+            type="text"
+            className="a-plain-text"
+            placeholder={this.state.startRate}
+            onChange={startRate =>
+              this.setState({ startRate: startRate.target.value })
+            }
+          />
+        )}
+        <button
+          onClick={() =>
+            this.setState({ isShowEditRate: !this.state.isShowEditRate })
+          }
+        >
+          Edit Rate
+        </button>
+        <div>{`Total to be sent: AUD $${(this.getTotalPayableHours() +
+          this.state.additionalHours * 1) *
           this.state.startRate}`}</div>
         <div>
           <button onClick={this.onPressPayStaff}>Pay Staff</button>
