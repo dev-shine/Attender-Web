@@ -18,36 +18,21 @@ import Calendar from "./venue/calendar"
 import Registration from "./auth/registration"
 import Settings from "./settings/index"
 import SubscribePopUp from "./layouts/SubscribePopUp/SubscribePopUp"
-import { combineReducers, createStore } from "redux"
 
-function reducer(state, action) {
-  if (action.type === "changeState") {
-    return action.payload.newState
-  }
-  console.log(action)
-  return "State"
-}
-const store = createStore(reducer)
-console.log(store.getState())
+import store from "./store"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 
-const action = {
-  type: "changeState",
-  payload: {
-    newState: "New state"
-  }
-}
-store.dispatch(action)
-console.log(store.getState())
+import { setSubscribePopUp } from "./actions/myProfile-actions"
+
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      showSubscribePopUp: true
-    }
+    this.props.onSetSubscribePopUp(true)
     this.closeSubscribePopup = this.closeSubscribePopup.bind(this)
   }
   closeSubscribePopup() {
-    this.setState({ showSubscribePopUp: false })
+    this.props.onSetSubscribePopUp(false)
   }
   render() {
     return (
@@ -74,7 +59,7 @@ class App extends Component {
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
-          {this.state.showSubscribePopUp ? (
+          {this.props.myProfile.showPopup ? (
             <SubscribePopUp close={this.closeSubscribePopup} />
           ) : null}
         </main>
@@ -87,4 +72,11 @@ String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1)
 }
 
-export default App
+const mapStateToProps = state => {
+  return state
+}
+const mapActionsToProps = {
+  onSetSubscribePopUp: setSubscribePopUp
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(App)
