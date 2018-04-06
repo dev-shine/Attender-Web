@@ -5,10 +5,22 @@
   width: 1095px;
   position: absolute;
   z-index: 9;
-  top: 10px;
-  left: 10px;
   color: #fff;
   font-weight: lighter;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  animation: fadein 1s;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .leftside {
   width: 450px;
