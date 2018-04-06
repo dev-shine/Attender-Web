@@ -8,6 +8,8 @@ import TextTruncate from "react-text-truncate"
 import API from "./../services/api"
 import constant from "./../configs/constant"
 import { push } from "react-router-redux"
+import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
+import { setSubscribePopUp } from ".././actions/myProfile-actions"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
 const io = ws(constant.API_URL.replace("/api/", ""))
@@ -46,6 +48,8 @@ class EmployerMessage extends Component {
       staffFilters: [],
       selectedStaff: {}
     }
+
+    this.props.onSetSubscribePopUp(true)
   }
   componentWillMount = async () => {
     API.initRequest()
@@ -655,8 +659,16 @@ class EmployerMessage extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
+        {this.props.myProfile.showPopup ? (
+          <SubscribePopUp
+            close={() => {
+              this.props.onSetSubscribePopUp(false)
+            }}
+          />
+        ) : null}
         <NavBar />
         <div className="container xxem">
           <div className="content-messages">
@@ -723,12 +735,15 @@ class EmployerMessage extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => {
+  return state
+}
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goToStaff: staffId => push(`/find-staff/${staffId}`)
+      goToStaff: staffId => push(`/find-staff/${staffId}`),
+      onSetSubscribePopUp: setSubscribePopUp
     },
     dispatch
   )

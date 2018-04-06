@@ -2,6 +2,9 @@ import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
+import { setSubscribePopUp } from ".././actions/myProfile-actions"
+
 const moment = require("moment")
 
 class Calendar extends Component {
@@ -21,6 +24,7 @@ class Calendar extends Component {
       eventDropdown: "init",
       event: {}
     }
+    this.props.onSetSubscribePopUp(true)
   }
 
   componentWillMount() {
@@ -654,6 +658,13 @@ class Calendar extends Component {
   render() {
     return (
       <div>
+        {this.props.myProfile.showPopup ? (
+          <SubscribePopUp
+            close={() => {
+              this.props.onSetSubscribePopUp(false)
+            }}
+          />
+        ) : null}
         <NavBar />
         {this.renderContent()}
       </div>
@@ -661,8 +672,14 @@ class Calendar extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => state
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onSetSubscribePopUp: setSubscribePopUp
+    },
+    dispatch
+  )
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

@@ -17,22 +17,14 @@ import Schedule from "./venue/schedule"
 import Calendar from "./venue/calendar"
 import Registration from "./auth/registration"
 import Settings from "./settings/index"
-import SubscribePopUp from "./layouts/SubscribePopUp/SubscribePopUp"
 
 import store from "./store"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 
-import { setSubscribePopUp } from "./actions/myProfile-actions"
-
 class App extends Component {
   constructor(props) {
     super(props)
-    this.props.onSetSubscribePopUp(true)
-    this.closeSubscribePopup = this.closeSubscribePopup.bind(this)
-  }
-  closeSubscribePopup() {
-    this.props.onSetSubscribePopUp(false)
   }
   render() {
     return (
@@ -59,9 +51,6 @@ class App extends Component {
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
-          {this.props.myProfile.showPopup ? (
-            <SubscribePopUp close={this.closeSubscribePopup} />
-          ) : null}
         </main>
       </div>
     )
@@ -72,11 +61,4 @@ String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1)
 }
 
-const mapStateToProps = state => {
-  return state
-}
-const mapActionsToProps = {
-  onSetSubscribePopUp: setSubscribePopUp
-}
-
-export default connect(mapStateToProps, mapActionsToProps)(App)
+export default App
