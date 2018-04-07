@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
 import { setSubscribePopUp } from ".././actions/myProfile-actions"
-
+import ViewEvent from "./viewEvent"
 const moment = require("moment")
 
 class Calendar extends Component {
@@ -21,6 +21,7 @@ class Calendar extends Component {
       selectedDate: moment(),
       openCreateEvent: false,
       openManageEvent: false,
+      openViewDetails: false,
       eventDropdown: "init",
       event: {}
     }
@@ -298,7 +299,15 @@ class Calendar extends Component {
                             }}
                           >
                             <p>Delete Event</p>
-                            <p>View Details</p>
+                            <p
+                              onClick={() =>
+                                this.setState({
+                                  openViewDetails: !this.state.openViewDetails
+                                })
+                              }
+                            >
+                              View Details
+                            </p>
                           </div>
                         </div>
                       </a>
@@ -658,13 +667,19 @@ class Calendar extends Component {
   render() {
     return (
       <div>
-        {this.props.myProfile.showPopup ? (
+        {!this.props.myProfile.showPopup ? (
           <SubscribePopUp
             close={() => {
               this.props.onSetSubscribePopUp(false)
             }}
           />
         ) : null}
+        <ViewEvent
+          openViewDetails={this.state.openViewDetails}
+          onToggleModal={() =>
+            this.setState({ openViewDetails: !this.state.openViewDetails })
+          }
+        />
         <NavBar />
         {this.renderContent()}
       </div>
