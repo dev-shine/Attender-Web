@@ -25,7 +25,8 @@ class Calendar extends Component {
       openViewDetails: false,
       eventDropdown: "init",
       event: {},
-      profile: {}
+      profile: {},
+      eventTypesTab: 1
     }
     this.props.onSetSubscribePopUp(true)
   }
@@ -331,10 +332,24 @@ class Calendar extends Component {
     return (
       <div className="calendar-events card">
         <div className="calendar-events-menu">
-          <div className="calendar-events-header-menu-active">
+          <div
+            className={
+              this.state.eventTypesTab === 1
+                ? "calendar-events-header-menu-active"
+                : "calendar-events-header-menu"
+            }
+            onClick={() => this.setState({ eventTypesTab: 1 })}
+          >
             <span>YOUR EVENTS</span>
           </div>
-          <div className="calendar-events-header-menu">
+          <div
+            className={
+              this.state.eventTypesTab === 2
+                ? "calendar-events-header-menu-active"
+                : "calendar-events-header-menu"
+            }
+            onClick={() => this.setState({ eventTypesTab: 2 })}
+          >
             <span>UPCOMING EVENTS</span>
           </div>
         </div>
