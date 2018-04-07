@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
 import { setSubscribePopUp } from ".././actions/myProfile-actions"
 import ViewEvent from "./viewEvent"
+import API from "./../services/api"
 const moment = require("moment")
 
 class Calendar extends Component {
@@ -23,12 +24,16 @@ class Calendar extends Component {
       openManageEvent: false,
       openViewDetails: false,
       eventDropdown: "init",
-      event: {}
+      event: {},
+      profile: {}
     }
     this.props.onSetSubscribePopUp(true)
   }
 
-  componentWillMount() {
+  componentDidMount = async () => {
+    API.initRequest()
+    let profile = await API.getProfile()
+    this.setState({ profile })
     this.loadCalendar(moment())
   }
 
@@ -385,14 +390,18 @@ class Calendar extends Component {
                             >
                               <div className="e-dropdown-content">
                                 <p>View Event</p>
-                                <p
-                                  onClick={() =>
-                                    this.onOpenEventManagement(index)
-                                  }
-                                >
-                                  Manage Event
-                                </p>
-                                <p>Delete Event</p>
+                                {!this.state.profile.isStaff && (
+                                  <p
+                                    onClick={() =>
+                                      this.onOpenEventManagement(index)
+                                    }
+                                  >
+                                    Manage Event
+                                  </p>
+                                )}
+                                {!this.state.profile.isStaff && (
+                                  <p>Delete Event</p>
+                                )}
                               </div>
                             </div>
                           </div>
