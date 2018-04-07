@@ -27,42 +27,55 @@ class ViewEvent extends Component {
           </span>
           <div className="row">
             <div className="col-sm-5">
-              <div className="header">
-                <p>MANAGE YOUR EVENT</p>
+              <div
+                className="header-event-detail-modal"
+                style={{
+                  backgroundImage: `url(${require(".././assets/Background1.png")})`,
+                  backgroundSize: "cover"
+                }}
+              >
+                <p style={{ fontSize: "20px", fontWeight: "bolder" }}>
+                  Staff Meeting for Lumi Bar
+                </p>
                 <p>
-                  EVENT FOR APRIL 5 ( <span>TODAY</span> )
+                  APRIL 5 ( <span>TODAY</span> )
                 </p>
                 <p>Event Starts at 06:30 PM </p>
               </div>
               <div className="sem">
-                <div className="form-group">
-                  <p>Event Name</p>
-                  <input type="text" className="a-input" />
-                </div>
-                <div className="form-group">
-                  <p>Event Description</p>
-                  <textarea rows="2" cols="50" className="a-input">
-                    {" "}
-                  </textarea>
+                <div>
+                  <p>
+                    The run will begin at 9:00 A.M. Participants must be
+                    registered by this point. We are expecting to have around
+                    100 participants. We will have sent registration
+                    applications out prior to the event, to smaller running
+                    clubs in the area. Registration fees are $20. The fees are
+                    to help cover park permit fees, park participant fees,
+                    parking fees, and refreshments. If a participant has
+                    registered early they will have a parking pass distributed
+                    by us and the East Bay Regional Parks will be reimbursed by
+                    the end of the event. If a participant has not registered
+                    early they will not have a parking pass and will have to pay
+                    for parking on their own. The run/walk will go 2 ½ miles in
+                    one direction then turn around and take the same route back.
+                    It will begin at the Macdonald Staging area. Participants
+                    will run from there to Bort Meadow Staging area and back. We
+                    will set up two water stations on the trail. One at Bort
+                    Meadow Staging area and one halfway in between Bort Meadow
+                    Staging area and Macdonald Staging area. Our water stations
+                    will be operated by volunteers. We will be requesting a
+                    vehicle access permit to set up the water station that will
+                    be between the two staging areas.
+                  </p>
                 </div>
                 <div className="row">
                   <div className="col-sm-6">
-                    <div className="form-group">
-                      <p>Date</p>
-                      <input type="text" className="a-input" />
-                    </div>
+                    <p>Date</p>
+                    <p style={{ fontWeight: "bolder" }}>April 5, 2016</p>
                   </div>
                   <div className="col-sm-6">
-                    <div className="form-group">
-                      <p>Time</p>
-                      <input type="text" className="a-input" />
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <span>UPLOAD PHOTOS</span>
-                  <div className="upload-box">
-                    <a>Upload</a>
+                    <p>Time</p>
+                    <p style={{ fontWeight: "bolder" }}>9:00 PM</p>
                   </div>
                 </div>
               </div>

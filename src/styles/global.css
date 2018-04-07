@@ -373,6 +373,12 @@ select::-ms-expand {
   font-size: 18px;
 }
 
+.header-event-detail-modal {
+  text-align: center;
+  font-size: 18px;
+  line-height: 50px;
+}
+
 .header p {
   margin: 0;
 }
