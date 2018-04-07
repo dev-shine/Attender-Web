@@ -3350,3 +3350,12 @@ textarea {
 .event .col-sm-9 .col-sm-8 p i.fa-map-marker {
   color: black;
 }
+
+.view-event-modal-description {
+  height: 16em;
+  white-space: normal;
+}
+
+.view-event-modal-description-staff-list {
+  height: 29em !important;
+}
