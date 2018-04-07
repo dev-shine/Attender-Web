@@ -4,7 +4,8 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
 import { setSubscribePopUp } from ".././actions/myProfile-actions"
-
+import ViewEvent from "./viewEvent"
+import API from "./../services/api"
 const moment = require("moment")
 
 class Calendar extends Component {
@@ -21,13 +22,19 @@ class Calendar extends Component {
       selectedDate: moment(),
       openCreateEvent: false,
       openManageEvent: false,
+      openViewDetails: false,
       eventDropdown: "init",
-      event: {}
+      event: {},
+      profile: {},
+      eventTypesTab: 1
     }
     this.props.onSetSubscribePopUp(true)
   }
 
-  componentWillMount() {
+  componentDidMount = async () => {
+    API.initRequest()
+    let profile = await API.getProfile()
+    this.setState({ profile })
     this.loadCalendar(moment())
   }
 
@@ -298,7 +305,15 @@ class Calendar extends Component {
                             }}
                           >
                             <p>Delete Event</p>
-                            <p>View Details</p>
+                            <p
+                              onClick={() =>
+                                this.setState({
+                                  openViewDetails: !this.state.openViewDetails
+                                })
+                              }
+                            >
+                              View Details
+                            </p>
                           </div>
                         </div>
                       </a>
@@ -317,10 +332,24 @@ class Calendar extends Component {
     return (
       <div className="calendar-events card">
         <div className="calendar-events-menu">
-          <div className="calendar-events-header-menu-active">
+          <div
+            className={
+              this.state.eventTypesTab === 1
+                ? "calendar-events-header-menu-active"
+                : "calendar-events-header-menu"
+            }
+            onClick={() => this.setState({ eventTypesTab: 1 })}
+          >
             <span>YOUR EVENTS</span>
           </div>
-          <div className="calendar-events-header-menu">
+          <div
+            className={
+              this.state.eventTypesTab === 2
+                ? "calendar-events-header-menu-active"
+                : "calendar-events-header-menu"
+            }
+            onClick={() => this.setState({ eventTypesTab: 2 })}
+          >
             <span>UPCOMING EVENTS</span>
           </div>
         </div>
@@ -376,14 +405,18 @@ class Calendar extends Component {
                             >
                               <div className="e-dropdown-content">
                                 <p>View Event</p>
-                                <p
-                                  onClick={() =>
-                                    this.onOpenEventManagement(index)
-                                  }
-                                >
-                                  Manage Event
-                                </p>
-                                <p>Delete Event</p>
+                                {!this.state.profile.isStaff && (
+                                  <p
+                                    onClick={() =>
+                                      this.onOpenEventManagement(index)
+                                    }
+                                  >
+                                    Manage Event
+                                  </p>
+                                )}
+                                {!this.state.profile.isStaff && (
+                                  <p>Delete Event</p>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -658,13 +691,19 @@ class Calendar extends Component {
   render() {
     return (
       <div>
-        {this.props.myProfile.showPopup ? (
+        {!this.props.myProfile.showPopup ? (
           <SubscribePopUp
             close={() => {
               this.props.onSetSubscribePopUp(false)
             }}
           />
         ) : null}
+        <ViewEvent
+          openViewDetails={this.state.openViewDetails}
+          onToggleModal={() =>
+            this.setState({ openViewDetails: !this.state.openViewDetails })
+          }
+        />
         <NavBar />
         {this.renderContent()}
       </div>

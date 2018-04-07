@@ -69,7 +69,7 @@
 }
 
 .bg-acc-confirmed {
-  background-image: url(".././assets/backgrounds/acc-confirmed-bg.png");
+  background-image: url(".././assets/backgrounds/acc-confirmed-bg.jpg");
 }
 
 .bg-employer-setup {
@@ -371,6 +371,12 @@ select::-ms-expand {
 .header {
   text-align: center;
   font-size: 18px;
+}
+
+.header-event-detail-modal {
+  text-align: center;
+  font-size: 18px;
+  line-height: 50px;
 }
 
 .header p {
@@ -3343,4 +3349,13 @@ textarea {
 
 .event .col-sm-9 .col-sm-8 p i.fa-map-marker {
   color: black;
+}
+
+.view-event-modal-description {
+  height: 16em;
+  white-space: normal;
+}
+
+.view-event-modal-description-staff-list {
+  height: 29em !important;
 }

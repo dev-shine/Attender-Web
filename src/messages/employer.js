@@ -677,10 +677,10 @@ class EmployerMessage extends Component {
                 <div className="col-sm-4 m-head">
                   <span>My Conversations</span>
                   <a className="m-icon pull-right">
-                    <img
+                    {/* <img
                       alt=""
                       src={require(".././assets/icons/messages/gear.png")}
-                    />
+                    /> */}
                   </a>
                   <a className="m-icon pull-right">
                     <img
