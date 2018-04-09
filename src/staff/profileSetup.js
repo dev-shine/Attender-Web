@@ -403,11 +403,12 @@ class ProfileSetup extends Component {
   }
 
   handleHourlyRateChange = event => {
-    const value = event.target.value * 1
+    const startRate = event[0]
+    const endRate = event[1]
 
     this.setState({
-      startRate: 8 + value,
-      endRate: 20 + value
+      startRate,
+      endRate
     })
   }
 
@@ -699,15 +700,12 @@ class ProfileSetup extends Component {
                     ${this.state.startRate}/hr - ${this.state.endRate}/hr
                   </span>
                 </p>
-                {/* <input
-                  type="range"
-                  min="0"
-                  max="130"
-                  defaultValue={0}
-                  className="a-slider"
+                <Range
+                  defaultValue={[8, 20]}
+                  max={130}
+                  allowCross={false}
                   onChange={this.handleHourlyRateChange}
-                /> */}
-                <Range />
+                />
               </div>
               <div className="form-group xm">
                 <span className="lg-text">Work Type &nbsp;</span>
