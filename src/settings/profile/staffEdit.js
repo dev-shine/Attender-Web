@@ -124,6 +124,7 @@ class StaffEdit extends Component {
         "Czech"
       ],
       positions: {
+        barista: false,
         bartender: false,
         manager: false,
         waiter: false,
