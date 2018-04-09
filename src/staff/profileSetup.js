@@ -283,7 +283,7 @@ class ProfileSetup extends Component {
       startRate = this.state.startRate,
       endRate = this.state.endRate,
       rateType = this.state.rateType,
-      frequency = this.state.frequency,
+      frequency = this.state.frequency.join(),
       eligibility = this.state.eligibility,
       availability = JSON.stringify(this.state.availability),
       licenses = this.state.licenses.join(),
