@@ -29,7 +29,7 @@ class ProfileSetup extends Component {
       birthdate: "",
       preferedLocation: "",
       preferedDistance: "5km",
-      frequency: "",
+      frequency: [],
       eligibility: "",
       rateType: "hourly",
       startRate: 8,
@@ -248,6 +248,17 @@ class ProfileSetup extends Component {
     this.setState({
       [target]: e.target.value
     })
+  }
+
+  handleWorkTypeChange = e => {
+    const frequency = this.state.frequency
+    if (frequency.find(i => i === e)) {
+      frequency.splice(frequency.findIndex(i => i === e), 1)
+    } else {
+      frequency.splice(-1, 0, e)
+    }
+
+    this.setState({ frequency })
   }
 
   onRemoveLanguage = index => {
@@ -709,19 +720,36 @@ class ProfileSetup extends Component {
               </div>
               <div className="form-group xm">
                 <span className="lg-text">Work Type &nbsp;</span>
-                <select
-                  className="sm pull-right"
-                  name="frequency"
-                  onChange={this.onChangeInput}
-                  value={this.state.frequency}
+                <button
+                  className={
+                    this.state.frequency.find(i => i === "fullTime")
+                      ? "a-btn btn-active"
+                      : "a-btn"
+                  }
+                  onClick={this.handleWorkTypeChange.bind(this, "fullTime")}
                 >
-                  <option value="" disabled>
-                    Select Frequency
-                  </option>
-                  <option>Full Time</option>
-                  <option>Part Time</option>
-                  <option>Casual</option>
-                </select>
+                  Full Time
+                </button>
+                <button
+                  className={
+                    this.state.frequency.find(i => i === "partTime")
+                      ? "a-btn btn-active"
+                      : "a-btn"
+                  }
+                  onClick={this.handleWorkTypeChange.bind(this, "partTime")}
+                >
+                  Part Time
+                </button>
+                <button
+                  className={
+                    this.state.frequency.find(i => i === "casual")
+                      ? "a-btn btn-active"
+                      : "a-btn"
+                  }
+                  onClick={this.handleWorkTypeChange.bind(this, "casual")}
+                >
+                  Casual
+                </button>
               </div>
               <div className="form-group xm">
                 <span className="lg-text">Work Eligibility &nbsp;</span>
