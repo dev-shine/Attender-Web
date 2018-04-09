@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from ".././services/api"
 import AvatarEditor from "react-avatar-editor"
-import Slider from "rc-slider"
+import Slider, { Range } from "rc-slider"
 import PlacesAutocomplete from "react-places-autocomplete"
 import defaultAvatar from "../assets/150x150.png"
 import { cloudinary } from "../services/api"
@@ -699,14 +699,15 @@ class ProfileSetup extends Component {
                     ${this.state.startRate}/hr - ${this.state.endRate}/hr
                   </span>
                 </p>
-                <input
+                {/* <input
                   type="range"
                   min="0"
                   max="130"
                   defaultValue={0}
                   className="a-slider"
                   onChange={this.handleHourlyRateChange}
-                />
+                /> */}
+                <Range />
               </div>
               <div className="form-group xm">
                 <span className="lg-text">Work Type &nbsp;</span>
