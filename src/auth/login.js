@@ -196,6 +196,10 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return state
+}
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
@@ -205,4 +209,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -5,6 +5,8 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./services/api"
 
+import { setProfileDetails } from "./actions/myProfile-actions"
+
 class Navigator extends Component {
   async componentWillMount() {
     let token = localStorage.getItem("com.attender.pty.ltd.token")
@@ -24,6 +26,8 @@ class Navigator extends Component {
           "com.attender.pty.ltd.profile",
           JSON.stringify(profile.data)
         )
+        console.log(profile.data)
+        this.props.onSetProfileDetails(profile.data)
         if (profile.data.verified) {
           if (profile.data.hasProfile) {
             if (profile.data.isStaff) {
@@ -74,7 +78,9 @@ const mapDispatchToProps = dispatch =>
       goSettings: () => push("/settings"),
       goConfirm: () => push("/confirm/token"),
       goSchedules: () => push("/schedules"),
-      goCalendar: () => push("/calendar")
+      goCalendar: () => push("/calendar"),
+
+      onSetProfileDetails: setProfileDetails
     },
     dispatch
   )
