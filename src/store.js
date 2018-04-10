@@ -6,8 +6,13 @@ import createHistory from "history/createBrowserHistory"
 // import productsReducer from'./reducers/products-reducer'
 import myProfileReducer from "./reducers/myProfile-reducer"
 
+let myProfile =
+  myProfileReducer !== ""
+    ? myProfileReducer
+    : localStorage.getItem("com.attender.pty.ltd.profile")
+
 const rootReducer = combineReducers({
-  myProfile: myProfileReducer
+  myProfile: myProfile
 })
 
 export const history = createHistory()
