@@ -70,6 +70,7 @@ class VenueSetup extends Component {
 
   clearAll = () => {
     let staffs = {
+      barista: { on: false, num: 0 },
       bartender: { on: false, num: 0 },
       manager: { on: false, num: 0 },
       waiter: { on: false, num: 0 },

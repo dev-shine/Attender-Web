@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from ".././services/api"
 import AvatarEditor from "react-avatar-editor"
-import Slider from "rc-slider"
+import Slider, { Range } from "rc-slider"
 import PlacesAutocomplete from "react-places-autocomplete"
 import defaultAvatar from "../assets/150x150.png"
 import { cloudinary } from "../services/api"
@@ -29,7 +29,7 @@ class ProfileSetup extends Component {
       birthdate: "",
       preferedLocation: "",
       preferedDistance: "5km",
-      frequency: "",
+      frequency: [],
       eligibility: "",
       rateType: "hourly",
       startRate: 8,
@@ -124,6 +124,7 @@ class ProfileSetup extends Component {
         "Czech"
       ],
       positions: {
+        barista: false,
         bartender: false,
         manager: false,
         waiter: false,
@@ -250,6 +251,17 @@ class ProfileSetup extends Component {
     })
   }
 
+  handleWorkTypeChange = e => {
+    const frequency = this.state.frequency
+    if (frequency.find(i => i === e)) {
+      frequency.splice(frequency.findIndex(i => i === e), 1)
+    } else {
+      frequency.splice(-1, 0, e)
+    }
+
+    this.setState({ frequency })
+  }
+
   onRemoveLanguage = index => {
     let languages = this.state.languages
     let lang = this.state.lang
@@ -272,7 +284,7 @@ class ProfileSetup extends Component {
       startRate = this.state.startRate,
       endRate = this.state.endRate,
       rateType = this.state.rateType,
-      frequency = this.state.frequency,
+      frequency = this.state.frequency.join(),
       eligibility = this.state.eligibility,
       availability = JSON.stringify(this.state.availability),
       licenses = this.state.licenses.join(),
@@ -403,11 +415,12 @@ class ProfileSetup extends Component {
   }
 
   handleHourlyRateChange = event => {
-    const value = event.target.value * 1
+    const startRate = event[0]
+    const endRate = event[1]
 
     this.setState({
-      startRate: 8 + value,
-      endRate: 20 + value
+      startRate,
+      endRate
     })
   }
 
@@ -699,30 +712,45 @@ class ProfileSetup extends Component {
                     ${this.state.startRate}/hr - ${this.state.endRate}/hr
                   </span>
                 </p>
-                <input
-                  type="range"
-                  min="0"
-                  max="130"
-                  defaultValue={0}
-                  className="a-slider"
+                <Range
+                  defaultValue={[8, 20]}
+                  max={130}
+                  allowCross={false}
                   onChange={this.handleHourlyRateChange}
                 />
               </div>
               <div className="form-group xm">
                 <span className="lg-text">Work Type &nbsp;</span>
-                <select
-                  className="sm pull-right"
-                  name="frequency"
-                  onChange={this.onChangeInput}
-                  value={this.state.frequency}
+                <button
+                  className={
+                    this.state.frequency.find(i => i === "fullTime")
+                      ? "a-btn btn-active"
+                      : "a-btn"
+                  }
+                  onClick={this.handleWorkTypeChange.bind(this, "fullTime")}
                 >
-                  <option value="" disabled>
-                    Select Frequency
-                  </option>
-                  <option>Full Time</option>
-                  <option>Part Time</option>
-                  <option>Casual</option>
-                </select>
+                  Full Time
+                </button>
+                <button
+                  className={
+                    this.state.frequency.find(i => i === "partTime")
+                      ? "a-btn btn-active"
+                      : "a-btn"
+                  }
+                  onClick={this.handleWorkTypeChange.bind(this, "partTime")}
+                >
+                  Part Time
+                </button>
+                <button
+                  className={
+                    this.state.frequency.find(i => i === "casual")
+                      ? "a-btn btn-active"
+                      : "a-btn"
+                  }
+                  onClick={this.handleWorkTypeChange.bind(this, "casual")}
+                >
+                  Casual
+                </button>
               </div>
               <div className="form-group xm">
                 <span className="lg-text">Work Eligibility &nbsp;</span>

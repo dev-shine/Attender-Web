@@ -8,6 +8,7 @@ import _ from "lodash/core"
 import { Link } from "react-router-dom"
 
 const staffs = {
+  barista: { on: false, num: 0, data: [] },
   bartender: { on: false, num: 0, data: [] },
   manager: { on: false, num: 0, data: [] },
   waiter: { on: false, num: 0, data: [] },
