@@ -1,11 +1,26 @@
 import React from "react"
 import "./SubscribePopUp.css"
 import { Button } from "react-bootstrap"
+import API from "./../../services/api"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import { setSubscribePopUp } from "./../../actions/myProfile-actions"
 
-export default class SubscribePopUp extends React.Component {
+class SubscribePopUp extends React.Component {
   constructor(props) {
     super(props)
     this.Close = this.Close.bind(this)
+    this.Subscribe = this.Subscribe.bind(this)
+  }
+  Subscribe() {
+    const data = {
+      subscriptionType: "ACCOUNT_PREMIUM"
+    }
+    API.post("subscription/subscribe", data).then(res => {
+      console.log(res)
+    })
+    this.props.onSetSubscribePopUp(false)
+    // update redux to update states
   }
   Close() {
     this.props.close()
@@ -30,10 +45,26 @@ export default class SubscribePopUp extends React.Component {
             </li>
             <li>$49 per month (excl, GST) no lock in contract</li>
           </ul>
-          <Button className="btn-primary">Subscribe now</Button>
+          <Button onClick={this.Subscribe} className="btn-primary">
+            Subscribe now
+          </Button>
           <Button onClick={this.Close}>No thanks</Button>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return state
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onSetSubscribePopUp: setSubscribePopUp
+    },
+    dispatch
+  )
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubscribePopUp)

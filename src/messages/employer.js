@@ -49,8 +49,6 @@ class EmployerMessage extends Component {
       staffFilters: [],
       selectedStaff: {}
     }
-
-    this.props.onSetSubscribePopUp(true)
   }
   componentWillMount = async () => {
     API.initRequest()
@@ -660,7 +658,6 @@ class EmployerMessage extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         {this.props.myProfile.showPopup ? (
