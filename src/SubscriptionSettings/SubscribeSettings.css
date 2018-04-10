@@ -1,0 +1,47 @@
+.subscribe-settings * {
+  letter-spacing: 1px;
+  color: #999;
+}
+
+.subscribe-settings {
+  max-width: 630px;
+  font-size: 18px;
+  padding-top: 40px;
+}
+
+.subscribe-settings h4 {
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 35px;
+}
+
+.subscribe-settings ul {
+  list-style: none;
+  padding: 0;
+}
+
+.subscribe-settings li a {
+  position: relative;
+  display: block;
+  padding: 12px 0 9px;
+  border-bottom: 1px solid #ddd;
+  text-decoration: none !important;
+}
+.subscribe-settings li a:hover {
+  color: #43bfe9;
+}
+
+.subscribe-settings li a .fa {
+  font-size: 30px;
+  position: absolute;
+  right: 8px;
+  color: #ccc;
+  bottom: 10px;
+}
+
+.subscribe-settings h3 {
+  margin-top: 65px;
+  font-size: 20px;
+  margin-bottom: 25px;
+}

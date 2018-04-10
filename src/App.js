@@ -17,7 +17,7 @@ import Schedule from "./venue/schedule"
 import Calendar from "./venue/calendar"
 import Registration from "./auth/registration"
 import Settings from "./settings/index"
-
+import SubscriptionSettings from "./SubscriptionSettings/SubscriptionSettings"
 import store from "./store"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
@@ -51,6 +51,11 @@ class App extends Component {
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
+          <Route
+            exact
+            path="/subscription-settings"
+            component={SubscriptionSettings}
+          />
         </main>
       </div>
     )

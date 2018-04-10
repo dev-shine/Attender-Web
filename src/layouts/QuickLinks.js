@@ -22,7 +22,7 @@ export default class QuickLinks extends React.Component {
         onMouseOut={this.Out}
       >
         <Link to="/">Weekly Schedule</Link>
-        <Link to="/">Subscription</Link>
+        <Link to="/subscription-settings">Subscription</Link>
         <Link to="/">Settings</Link>
       </div>
     )
