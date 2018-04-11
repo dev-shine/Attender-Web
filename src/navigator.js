@@ -26,7 +26,6 @@ class Navigator extends Component {
           "com.attender.pty.ltd.profile",
           JSON.stringify(profile.data)
         )
-        console.log(profile.data)
         this.props.onSetProfileDetails(profile.data)
         if (profile.data.verified) {
           if (profile.data.hasProfile) {

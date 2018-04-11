@@ -1,13 +1,1 @@
-.accordion {
-  height: 0;
-  transition: all 0.5s linear;
-  overflow: hidden;
-}
 
-.accordion.open {
-  height: 250px;
-}
-
-.error-message {
-  color: red;
-}

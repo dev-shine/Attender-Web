@@ -16,7 +16,8 @@ import MyStaff from "./venue/myStaff"
 import Schedule from "./venue/schedule"
 import Calendar from "./venue/calendar"
 import Registration from "./auth/registration"
-import Settings from "./settings/index"
+import Settings from "./settings-old/index"
+import Settings_beta from "./Settings/Settings"
 import SubscriptionSettings from "./SubscriptionSettings/SubscriptionSettings"
 import store from "./store"
 import { connect } from "react-redux"
@@ -48,6 +49,7 @@ class App extends Component {
             component={AccountConfirmed}
           />
           <Route exact path="/settings" component={Settings} />
+          <Route exact path="/settings-beta" component={Settings_beta} />
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
