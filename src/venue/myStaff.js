@@ -684,7 +684,7 @@ class MyStaff extends Component {
 
   renderTimeSheet = () => {
     return (
-      <div style={{ display: "flex" }}>
+      <div>
         <div>
           {this.state.next && (
             <button
@@ -698,17 +698,19 @@ class MyStaff extends Component {
           )}
           {this.state.next && <button>Next</button>}
         </div>
-        {this.state.timesheet.days.length > 0 &&
-          this.state.timesheet.days.map((res, id) => (
-            <div>
-              <p>{moment(res.date).format("MMM DD")}</p>
-              <p>
-                {res.schedules.map(s => (
-                  <p>{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
-                ))}
-              </p>
-            </div>
-          ))}
+        <div>
+          {this.state.timesheet.days.length > 0 &&
+            this.state.timesheet.days.map((res, id) => (
+              <div style={{ display: "flex", alignItems: "" }}>
+                <p>{moment(res.date).format("MMM DD")}</p>
+                <p>
+                  {res.schedules.map(s => (
+                    <p>{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
+                  ))}
+                </p>
+              </div>
+            ))}
+        </div>
         <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
         <div>
           <button
