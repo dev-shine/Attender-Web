@@ -684,7 +684,7 @@ class MyStaff extends Component {
 
   renderTimeSheet = () => {
     return (
-      <div>
+      <div style={{ display: "flex" }}>
         <div>
           {this.state.next && (
             <button
@@ -704,7 +704,7 @@ class MyStaff extends Component {
               <p>{moment(res.date).format("MMM DD")}</p>
               <p>
                 {res.schedules.map(s => (
-                  <p>{`${s.startTime} - ${s.endTime}`}</p>
+                  <p>{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
                 ))}
               </p>
             </div>
