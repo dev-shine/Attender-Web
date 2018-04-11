@@ -19,6 +19,7 @@ const FontAwesome = require("react-fontawesome")
 class ProfileSetup extends Component {
   constructor(props) {
     super(props)
+    this.licencesEnd = null
     this.state = {
       step: 1,
       isLoading: false,
@@ -192,10 +193,11 @@ class ProfileSetup extends Component {
   async componentDidMount() {
     let profile = await API.getProfile()
     if (profile) {
-      if (profile.hasProfile) {
-        this.props.goMain()
-      }
+      // if (profile.hasProfile) {
+      //   this.props.goMain()
+      // }
     }
+    this.scrollToBottom()
   }
 
   addExperience = () => {
@@ -220,10 +222,19 @@ class ProfileSetup extends Component {
     this.setState(prevState => ({ languages, lang, defaultLang: "" }))
   }
 
+  scrollToBottom = () => {
+    this.licencesEnd && this.licencesEnd.scrollIntoView()
+  }
+
   addLicense = () => {
     let licenses = this.state.licenses
     licenses.push("")
-    this.setState(prevState => ({ licenses }))
+    this.setState(
+      prevState => ({ licenses }),
+      () => {
+        this.scrollToBottom()
+      }
+    )
   }
 
   changeGender = gender => {
@@ -584,20 +595,22 @@ class ProfileSetup extends Component {
             </Col>
           </Row>
         </div>
-        <div className="content-footer">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onStep(2)}
-          >
-            Next
-          </button>
-          <button
-            className="pull-left a-btn btn-round btn-outline xs"
-            onClick={() => this.props.goBack()}
-          >
-            Back
-          </button>
-        </div>
+        <Row>
+          <div className="content-footer">
+            <button
+              className="pull-right a-btn btn-round btn-dark"
+              onClick={() => this.onStep(2)}
+            >
+              Next
+            </button>
+            <button
+              className="pull-left a-btn btn-round btn-outline xs"
+              onClick={() => this.props.goBack()}
+            >
+              Back
+            </button>
+          </div>
+        </Row>
       </div>
     )
   }
@@ -788,6 +801,12 @@ class ProfileSetup extends Component {
                       </select>
                     )
                   })}
+                  <div
+                    style={{ float: "left", clear: "both" }}
+                    ref={el => {
+                      this.licencesEnd = el
+                    }}
+                  />
                 </div>
                 <button
                   onClick={() => this.addLicense()}
@@ -824,20 +843,22 @@ class ProfileSetup extends Component {
             </Col>
           </Row>
         </div>
-        <div className="content-wide-footer">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onStep(3)}
-          >
-            Next
-          </button>
-          <button
-            className="pull-left a-btn btn-round btn-outline xs"
-            onClick={() => this.onStep(1)}
-          >
-            Back
-          </button>
-        </div>
+        <Row>
+          <div className="content-wide-footer">
+            <button
+              className="pull-right a-btn btn-round btn-dark"
+              onClick={() => this.onStep(3)}
+            >
+              Next
+            </button>
+            <button
+              className="pull-left a-btn btn-round btn-outline xs"
+              onClick={() => this.onStep(1)}
+            >
+              Back
+            </button>
+          </div>
+        </Row>
       </div>
     )
   }
