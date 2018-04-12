@@ -698,81 +698,86 @@ class MyStaff extends Component {
           )}
           {this.state.next && <button>Next</button>}
         </div>
-        <div>
-          <div style={{ display: "flex" }}>
-            <div style={{ flex: "1" }}>Date</div>
-            <div style={{ flex: "2" }}>Time(AM)</div>
-            <div style={{ flex: "1" }}>Break hr(s)</div>
-            <div style={{ flex: "1" }}>Payable Hours</div>
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: "1" }}>
+            <div style={{ display: "flex" }}>
+              <div style={{ flex: "1" }}>Date</div>
+              <div style={{ flex: "2" }}>Time(AM)</div>
+              <div style={{ flex: "1" }}>Break hr(s)</div>
+              <div style={{ flex: "1" }}>Payable Hours</div>
+            </div>
+            {this.state.timesheet.days.length > 0 &&
+              this.state.timesheet.days.map((res, id) => (
+                <div style={{ display: "flex" }}>
+                  <div style={{ flex: "1" }}>
+                    {moment(res.date).format("MMM DD")}
+                  </div>
+                  <div style={{ flex: "2", display: "flex" }}>
+                    {res.schedules.map(s => (
+                      <p
+                        style={{ flex: "1" }}
+                      >{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
+                    ))}
+                  </div>
+                  <div style={{ flex: "1" }}>
+                    {res.schedules.map(s => <p>{s.break}</p>)}
+                  </div>
+                  <div style={{ flex: "1" }}>
+                    {res.schedules.map(s => <p>8.5</p>)}
+                  </div>
+                </div>
+              ))}
           </div>
-          {this.state.timesheet.days.length > 0 &&
-            this.state.timesheet.days.map((res, id) => (
-              <div style={{ display: "flex" }}>
-                <div style={{ flex: "1" }}>
-                  {moment(res.date).format("MMM DD")}
-                </div>
-                <div style={{ flex: "2", display: "flex" }}>
-                  {res.schedules.map(s => (
-                    <p
-                      style={{ flex: "1" }}
-                    >{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
-                  ))}
-                </div>
-                <div style={{ flex: "1" }}>
-                  {res.schedules.map(s => <p>{s.break}</p>)}
-                </div>
-                <div style={{ flex: "1" }}>
-                  {res.schedules.map(s => <p>8.5</p>)}
-                </div>
-              </div>
-            ))}
-        </div>
-        <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
-        <div>
-          <button
-            onClick={() =>
-              this.setState({
-                isShowEditPayableHours: !this.state.isShowEditPayableHours
-              })
-            }
-          >
-            Add Payable Hours
-          </button>
-          {this.state.isShowEditPayableHours ? (
-            <input
-              type="text"
-              className="a-plain-text"
-              placeholder="0"
-              onChange={hours =>
-                this.setState({ additionalHours: hours.target.value })
+          <div style={{ flex: "1" }}>
+            <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
+            <div>
+              <button
+                onClick={() =>
+                  this.setState({
+                    isShowEditPayableHours: !this.state.isShowEditPayableHours
+                  })
+                }
+              >
+                Add Payable Hours
+              </button>
+              {this.state.isShowEditPayableHours ? (
+                <input
+                  type="text"
+                  className="a-plain-text"
+                  placeholder="0"
+                  onChange={hours =>
+                    this.setState({ additionalHours: hours.target.value })
+                  }
+                />
+              ) : (
+                0
+              )}
+            </div>
+            {this.state.isShowEditRate ? (
+              <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
+            ) : (
+              <input
+                type="text"
+                className="a-plain-text"
+                placeholder={this.state.startRate}
+                onChange={startRate =>
+                  this.setState({ startRate: startRate.target.value })
+                }
+              />
+            )}
+            <button
+              onClick={() =>
+                this.setState({ isShowEditRate: !this.state.isShowEditRate })
               }
-            />
-          ) : (
-            0
-          )}
+            >
+              Edit Rate
+            </button>
+            <div>{`Total to be sent: AUD $${(this.getTotalPayableHours() +
+              this.state.additionalHours * 1) *
+              this.state.startRate}`}</div>
+          </div>
         </div>
-        {this.state.isShowEditRate ? (
-          <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
-        ) : (
-          <input
-            type="text"
-            className="a-plain-text"
-            placeholder={this.state.startRate}
-            onChange={startRate =>
-              this.setState({ startRate: startRate.target.value })
-            }
-          />
-        )}
-        <button
-          onClick={() =>
-            this.setState({ isShowEditRate: !this.state.isShowEditRate })
-          }
-        >
-          Edit Rate
-        </button>
-        <div>{`Total to be sent: AUD $${(this.getTotalPayableHours() +
-          this.state.additionalHours * 1) *
-          this.state.startRate}`}</div>
+
         <div>
           <button onClick={this.onPressPayStaff}>Pay Staff</button>
         </div>
