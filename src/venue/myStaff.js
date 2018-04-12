@@ -699,9 +699,15 @@ class MyStaff extends Component {
           {this.state.next && <button>Next</button>}
         </div>
         <div>
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: "1" }}>Date</div>
+            <div style={{ flex: "2" }}>Time(AM)</div>
+            <div style={{ flex: "1" }}>Break hr(s)</div>
+            <div style={{ flex: "1" }}>Payable Hours</div>
+          </div>
           {this.state.timesheet.days.length > 0 &&
             this.state.timesheet.days.map((res, id) => (
-              <div style={{ display: "flex", alignItems: "" }}>
+              <div style={{ display: "flex" }}>
                 <div style={{ flex: "1" }}>
                   {moment(res.date).format("MMM DD")}
                 </div>
