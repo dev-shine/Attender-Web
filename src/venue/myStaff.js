@@ -778,8 +778,10 @@ class MyStaff extends Component {
           </div>
         </div>
 
-        <div>
-          <button onClick={this.onPressPayStaff}>Pay Staff</button>
+        <div style={{ width: "100%" }}>
+          <button style={{ float: "right" }} onClick={this.onPressPayStaff}>
+            Pay Staff
+          </button>
         </div>
       </div>
     )
