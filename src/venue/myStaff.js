@@ -702,12 +702,22 @@ class MyStaff extends Component {
           {this.state.timesheet.days.length > 0 &&
             this.state.timesheet.days.map((res, id) => (
               <div style={{ display: "flex", alignItems: "" }}>
-                <p style={{ flex: "1" }}>{moment(res.date).format("MMM DD")}</p>
-                <p style={{ flex: "1" }}>
+                <div style={{ flex: "1" }}>
+                  {moment(res.date).format("MMM DD")}
+                </div>
+                <div style={{ flex: "2", display: "flex" }}>
                   {res.schedules.map(s => (
-                    <p>{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
+                    <p
+                      style={{ flex: "1" }}
+                    >{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
                   ))}
-                </p>
+                </div>
+                <div style={{ flex: "1" }}>
+                  {res.schedules.map(s => <p>{s.break}</p>)}
+                </div>
+                <div style={{ flex: "1" }}>
+                  {res.schedules.map(s => <p>8.5</p>)}
+                </div>
               </div>
             ))}
         </div>
