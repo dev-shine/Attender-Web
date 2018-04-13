@@ -10,6 +10,11 @@ import PropTypes from "prop-types"
 import moment from "moment"
 
 import { Link } from "react-router-dom"
+import MomentUtils from "material-ui-pickers/utils/moment-utils"
+import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider"
+import TimePicker from "material-ui-pickers/TimePicker"
+
+import StaffTimePicker from "./staffTimePicker"
 
 import SchedulePopOver from "./SchedulePopOver"
 // import PaymentModal from "./PaymentModal"
@@ -38,7 +43,7 @@ class MyStaff extends Component {
       additionalHours: 0,
       startRate: 0,
       isShowConfirmation: false,
-      isShowEditButton: true,
+      isShowEditButton: false,
       isShowEditPayableHours: true,
       isShowEditRate: true,
       accName: "",
@@ -682,9 +687,23 @@ class MyStaff extends Component {
     return totalPayableHours
   }
 
+  editWorkingHours = () => {
+    this.setState({ isShowEditButton: !this.state.isShowEditButton })
+  }
+
+  handleTimePickerChange = time => {
+    console.log("time picker", time)
+  }
+
   renderTimeSheet = () => {
     return (
       <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          ANDREW O. TIME SHEET July 24 - 30 2017
+        </div>
+        <div onClick={this.editWorkingHours}>
+          Edit Working Hours <i class="fa fa-edit" />
+        </div>
         <div>
           {this.state.next && (
             <button
@@ -699,10 +718,11 @@ class MyStaff extends Component {
           {this.state.next && <button>Next</button>}
         </div>
         <div style={{ display: "flex" }}>
-          <div style={{ flex: "1" }}>
+          <div style={{ flex: "2" }}>
             <div style={{ display: "flex" }}>
               <div style={{ flex: "1" }}>Date</div>
-              <div style={{ flex: "2" }}>Time(AM)</div>
+              <div style={{ flex: "1" }}>Time(AM)</div>
+              <div style={{ flex: "1" }}>Time(PM)</div>
               <div style={{ flex: "1" }}>Break hr(s)</div>
               <div style={{ flex: "1" }}>Payable Hours</div>
             </div>
@@ -710,15 +730,30 @@ class MyStaff extends Component {
               this.state.timesheet.days.map((res, id) => (
                 <div style={{ display: "flex" }}>
                   <div style={{ flex: "1" }}>
+                    <div>{moment(res.date).format("ddd")}</div>
                     {moment(res.date).format("MMM DD")}
                   </div>
-                  <div style={{ flex: "2", display: "flex" }}>
-                    {res.schedules.map(s => (
-                      <p
-                        style={{ flex: "1" }}
-                      >{`${"8:00 AM"} - ${"10:00 PM"}`}</p>
-                    ))}
-                  </div>
+                  {res.schedules.map(
+                    s =>
+                      !this.state.isShowEditButton ? (
+                        <div style={{ flex: "1", display: "flex" }}>
+                          8:00 AM - 10:00 AM
+                        </div>
+                      ) : (
+                        <div style={{ flex: "1", display: "flex" }}>
+                          <StaffTimePicker />
+                          {/* <input
+                        type="text"
+                        className="a-plain-text"
+                        placeholder="0"
+                        value={'8:00 AM - 10:00 AM'}
+                        onChange={hours =>
+                          this.setState({ additionalHours: hours.target.value })
+                        }
+                      /> */}
+                        </div>
+                      )
+                  )}
                   <div style={{ flex: "1" }}>
                     {res.schedules.map(s => <p>{s.break}</p>)}
                   </div>
