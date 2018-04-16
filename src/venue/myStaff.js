@@ -7,11 +7,14 @@ import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
 import PropTypes from "prop-types"
+import moment from "moment"
 
 import { Link } from "react-router-dom"
 
+import StaffTimePicker from "./staffTimePicker"
+
 import SchedulePopOver from "./SchedulePopOver"
-import PaymentModal from "./PaymentModal"
+// import PaymentModal from "./PaymentModal"
 
 class MyStaff extends Component {
   constructor(props) {
@@ -26,7 +29,22 @@ class MyStaff extends Component {
       selectedStaff: [],
       staffMetas: {},
       isPaymentModalOpen: false,
-      selectedPaymentStaff: {}
+      selectedPaymentStaff: {},
+      timesheet: {
+        days: [],
+        banksArray: [],
+        isLoadingPayment: false
+      },
+      next: false,
+      prev: false,
+      additionalHours: 0,
+      startRate: 0,
+      isShowConfirmation: false,
+      isShowEditButton: false,
+      isShowEditPayableHours: true,
+      isShowEditRate: true,
+      accName: "",
+      accNumber: ""
     }
     this.saveTask = this.saveTask.bind(this)
     this.saveSuggestion = this.saveSuggestion.bind(this)
@@ -39,6 +57,7 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
+
   setSchedules(sched, staffid) {
     let staffMetas = this.state.staffMetas
     staffMetas[`staff-${staffid}`].schedules = sched
@@ -56,6 +75,20 @@ class MyStaff extends Component {
     this.setState({ myStaffs: myStaffs })
     this.setState({ selectedStaff: myStaffs[0] })
   }
+
+  getAllBanks = () => {
+    API.get("banks").then(res => {
+      console.log(res)
+      if (res.status) {
+        this.setState({
+          banksArray: res.banks
+        })
+      } else {
+        alert("Something went wrong")
+      }
+    })
+  }
+
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
       if (res.status) {
@@ -109,9 +142,80 @@ class MyStaff extends Component {
   }
 
   togglePaymentModal = staff => {
-    this.setState({
-      selectedPaymentStaff: staff,
-      isPaymentModalOpen: !this.state.isPaymentModalOpen
+    this.setState(
+      {
+        selectedPaymentStaff: staff,
+        isPaymentModalOpen: !this.state.isPaymentModalOpen
+      },
+      () => {
+        this.getStaffTimeSheet()
+        this.getAllBanks()
+      }
+    )
+  }
+
+  onPressPayStaff = () => {
+    alert("I am pressing pay staff")
+    if (this.state.timesheet.status == "paid") {
+      alert("Staff already paid for this week")
+    } else {
+      if (this.state.banksArray.length > 0) {
+        this.setState({
+          accName: this.state.banksArray[0].bankMeta.account_name,
+          accNumber: this.state.banksArray[0].bankMeta.account_number
+        })
+      }
+      this.setState({ isShowConfirmation: true })
+    }
+  }
+
+  onPayStaff = () => {
+    // this.setState({isLoadingPayment: true});
+
+    if (this.state.banksArray.length > 0) {
+      // console.log(this.state.timesheet)
+      const totalPayableHours =
+        this.getTotalPayableHours() + this.state.additionalHours * 1
+      var totalAmount = totalPayableHours * this.state.startRate
+
+      var promiseId = this.state.banksArray[0].promiseId
+
+      // console.log("total amount", totalAmount)
+
+      API.post(`timesheet/${this.state.timesheet._id}/make_payment`, {
+        amount: totalAmount,
+        account_id: promiseId
+      }).then(res => {
+        if (res.status) {
+          alert("Payment Transferred.")
+          // this.setState({isLoadingPayment: false});
+          // this.props.navigation.goBack();
+        } else {
+          alert(`There is no total amount to be paid.`)
+          // this.setState({isLoadingPayment: false});
+        }
+        console.log("Pay staff", res)
+      })
+    } else {
+      alert("Please add atleast (1) bank account")
+      // this.setState({isLoadingPayment: false});
+    }
+  }
+
+  getStaffTimeSheet = () => {
+    API.get(
+      `management/${this.state.selectedPaymentStaff._id}/timesheet/current`
+    ).then(res => {
+      console.log("result ts", res)
+      if (res.status) {
+        this.setState({
+          startRate: this.state.selectedPaymentStaff.staff.startRate,
+          timesheet: res.timesheet,
+          next: res.actions.next,
+          prev: res.actions.previous
+        })
+        // this.timeSheetToState(res.timesheet)
+      }
     })
   }
 
@@ -138,7 +242,6 @@ class MyStaff extends Component {
           className="icon-time"
           onClick={this.togglePaymentModal.bind(this, data)}
         />
-        {this.state.isPaymentModalOpen && <PaymentModal />}
         {data.showSchedulePopOver ? (
           <SchedulePopOver
             staffid={data._id}
@@ -437,6 +540,364 @@ class MyStaff extends Component {
       </div>
     )
   }
+
+  timeFormatter = time => {
+    if (time != "") {
+      return moment(time).format("hh A")
+    } else {
+      return time
+    }
+  }
+
+  getNextOrPreviousTimeSheet = id => {
+    API.get(`timesheet/${id}`).then(res => {
+      console.log("timesheet", res)
+      if (res.status) {
+        this.setState({
+          timesheet: res.timesheet,
+          next: res.actions.next,
+          prev: res.actions.previous,
+          isLoadingPayment: false
+        })
+      }
+    })
+  }
+
+  getPayableHours(startTime, endTime) {
+    let start = moment(startTime, ["hh:mm A", "hh A"])
+    let end = moment(endTime, ["hh:mm A", "hh A"])
+    let payableHours =
+      start.isValid() && end.isValid()
+        ? moment.duration(end.diff(start)).asHours()
+        : 0
+    payableHours = payableHours < 0 ? payableHours + 24 : payableHours
+    return payableHours
+  }
+
+  getTotalPayableHours() {
+    let totalPayableHours = 0
+    if (this.state.timesheet.days.length > 0) {
+      this.state.timesheet.days.map(res => {
+        switch (res.isoWeekPeriod) {
+          case "1":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["monstartTime" + (id + 1)])
+                  startTime = this.state["monstartTime" + (id + 1)]
+                if (this.state["monendTime" + (id + 1)])
+                  endTime = this.state["monendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "2":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["tuestartTime" + (id + 1)])
+                  startTime = this.state["tuestartTime" + (id + 1)]
+                if (this.state["tueendTime" + (id + 1)])
+                  endTime = this.state["tueendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "3":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["wedstartTime" + (id + 1)])
+                  startTime = this.state["wedstartTime" + (id + 1)]
+                if (this.state["wedendTime" + (id + 1)])
+                  endTime = this.state["wedendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "4":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["thustartTime" + (id + 1)])
+                  startTime = this.state["thustartTime" + (id + 1)]
+                if (this.state["thuendTime" + (id + 1)])
+                  endTime = this.state["thuendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "5":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["fristartTime" + (id + 1)])
+                  startTime = this.state["fristartTime" + (id + 1)]
+                if (this.state["friendTime" + (id + 1)])
+                  endTime = this.state["friendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "6":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["satstartTime" + (id + 1)])
+                  startTime = this.state["satstartTime" + (id + 1)]
+                if (this.state["satendTime" + (id + 1)])
+                  endTime = this.state["satendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          case "7":
+            {
+              res.schedules.map((schedule, id) => {
+                let startTime = schedule.startTime
+                let endTime = schedule.endTime
+                if (this.state["sunstartTime" + (id + 1)])
+                  startTime = this.state["sunstartTime" + (id + 1)]
+                if (this.state["sunendTime" + (id + 1)])
+                  endTime = this.state["sunendTime" + (id + 1)]
+                let payableHours = this.getPayableHours(startTime, endTime)
+                totalPayableHours += payableHours
+              })
+            }
+            break
+          default:
+        }
+      })
+    }
+    return totalPayableHours
+  }
+
+  editWorkingHours = () => {
+    this.setState({ isShowEditButton: !this.state.isShowEditButton })
+  }
+
+  onSelectTime = (periodIndex, weekdayIndex, variant, time) => {
+    // Updating the timesheet
+    const timesheet = this.state.timesheet
+    timesheet.days[weekdayIndex].schedules[periodIndex][variant] = time.format(
+      "hh:mm A"
+    )
+    this.setState({ timesheet })
+  }
+
+  onSaveBreakTime = (periodIndex, weekdayIndex, breakTime) => {
+    // Update the breaktime
+    const timesheet = this.state.timesheet
+    timesheet.days[weekdayIndex].schedules[periodIndex].break =
+      breakTime.target.value
+    this.setState({ timesheet })
+  }
+
+  renderTimeSheet = () => {
+    return (
+      <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          ANDREW O. TIME SHEET July 24 - 30 2017
+        </div>
+        <div onClick={this.editWorkingHours}>
+          Edit Working Hours <i class="fa fa-edit" />
+        </div>
+        <div>
+          {this.state.next && (
+            <button
+              onClick={this.getNextOrPreviousTimeSheet.bind(
+                this,
+                this.state.next
+              )}
+            >
+              Previous
+            </button>
+          )}
+          {this.state.next && <button>Next</button>}
+        </div>
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: "2" }}>
+            <div style={{ display: "flex" }}>
+              <div style={{ flex: "1" }}>Date</div>
+              <div style={{ flex: "1" }}>Time(AM)</div>
+              <div style={{ flex: "1" }}>Time(PM)</div>
+              <div style={{ flex: "1" }}>Break hr(s)</div>
+              <div style={{ flex: "1" }}>Payable Hours</div>
+            </div>
+            {this.state.timesheet.days.length > 0 &&
+              this.state.timesheet.days.map((res, weekdayIndex) => (
+                <div style={{ display: "flex" }}>
+                  <div style={{ flex: "1" }}>
+                    <div>{moment(res.date).format("ddd")}</div>
+                    {moment(res.date).format("MMM DD")}
+                  </div>
+                  {res.schedules.map(
+                    (s, periodIndex) =>
+                      !this.state.isShowEditButton ? (
+                        <div style={{ flex: "1", display: "flex" }}>
+                          {`${s.startTime} - ${s.endTime}`}
+                        </div>
+                      ) : (
+                        <div style={{ flex: "1", display: "flex" }}>
+                          <div
+                            style={{
+                              display: "block",
+                              background: "white",
+                              border: "solid 1px gray",
+                              borderRadius: "5px"
+                            }}
+                          >
+                            <StaffTimePicker
+                              selectedTime={moment(s.startTime, [
+                                "hh:mm A",
+                                "hh A"
+                              ])}
+                              onSelectTime={this.onSelectTime.bind(
+                                this,
+                                periodIndex,
+                                weekdayIndex,
+                                "startTime"
+                              )}
+                            />
+                            to
+                            <StaffTimePicker
+                              selectedTime={moment(s.endTime, [
+                                "hh:mm A",
+                                "hh A"
+                              ])}
+                              onSelectTime={this.onSelectTime.bind(
+                                this,
+                                periodIndex,
+                                weekdayIndex,
+                                "endTime"
+                              )}
+                            />
+                          </div>
+                        </div>
+                      )
+                  )}
+                  <div style={{ flex: "1" }}>
+                    {res.schedules.map(
+                      (s, periodIndex) =>
+                        !this.state.isShowEditButton ? (
+                          <p>{s.break}</p>
+                        ) : (
+                          <input
+                            type="text"
+                            className="a-plain-text"
+                            placeholder="0"
+                            value={s.break}
+                            onChange={this.onSaveBreakTime.bind(
+                              this,
+                              periodIndex,
+                              weekdayIndex
+                            )}
+                          />
+                        )
+                    )}
+                  </div>
+                  <div style={{ flex: "1" }}>
+                    {res.schedules.map(s => <p>8.5</p>)}
+                  </div>
+                </div>
+              ))}
+          </div>
+          <div style={{ flex: "1" }}>
+            <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
+            <div>
+              <button
+                onClick={() =>
+                  this.setState({
+                    isShowEditPayableHours: !this.state.isShowEditPayableHours
+                  })
+                }
+              >
+                Add Payable Hours
+              </button>
+              {this.state.isShowEditPayableHours ? (
+                <input
+                  type="text"
+                  className="a-plain-text"
+                  placeholder="0"
+                  onChange={hours =>
+                    this.setState({ additionalHours: hours.target.value })
+                  }
+                />
+              ) : (
+                0
+              )}
+            </div>
+            {this.state.isShowEditRate ? (
+              <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
+            ) : (
+              <input
+                type="text"
+                className="a-plain-text"
+                placeholder={this.state.startRate}
+                onChange={startRate =>
+                  this.setState({ startRate: startRate.target.value })
+                }
+              />
+            )}
+            <button
+              onClick={() =>
+                this.setState({ isShowEditRate: !this.state.isShowEditRate })
+              }
+            >
+              Edit Rate
+            </button>
+            <div>{`Total to be sent: AUD $${(this.getTotalPayableHours() +
+              this.state.additionalHours * 1) *
+              this.state.startRate}`}</div>
+          </div>
+        </div>
+
+        <div style={{ width: "100%" }}>
+          <button style={{ float: "right" }} onClick={this.onPressPayStaff}>
+            Pay Staff
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  renderPaymentModal = () => {
+    return (
+      <div
+        className={this.state.isPaymentModalOpen ? "a-modal show" : "a-modal"}
+      >
+        <div className="a-modal-content">
+          <span
+            onClick={this.togglePaymentModal.bind(
+              this,
+              this.state.selectedPaymentStaff
+            )}
+            className="a-close"
+          >
+            &times;
+          </span>
+          {!this.state.isShowConfirmation ? (
+            this.renderTimeSheet()
+          ) : (
+            <button onClick={this.onPayStaff}>confirm</button>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -445,6 +906,7 @@ class MyStaff extends Component {
           {this.renderMyStaffs()}
           {this.renderEventAssignment()}
           {this.renderStaffManagement()}
+          {this.renderPaymentModal()}
         </div>
       </div>
     )
