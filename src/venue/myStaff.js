@@ -10,9 +10,6 @@ import PropTypes from "prop-types"
 import moment from "moment"
 
 import { Link } from "react-router-dom"
-import MomentUtils from "material-ui-pickers/utils/moment-utils"
-import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider"
-import TimePicker from "material-ui-pickers/TimePicker"
 
 import StaffTimePicker from "./staffTimePicker"
 
@@ -691,8 +688,21 @@ class MyStaff extends Component {
     this.setState({ isShowEditButton: !this.state.isShowEditButton })
   }
 
-  handleTimePickerChange = time => {
-    console.log("time picker", time)
+  onSelectTime = (periodIndex, weekdayIndex, variant, time) => {
+    // Updating the timesheet
+    const timesheet = this.state.timesheet
+    timesheet.days[weekdayIndex].schedules[periodIndex][variant] = time.format(
+      "hh:mm A"
+    )
+    this.setState({ timesheet })
+  }
+
+  onSaveBreakTime = (periodIndex, weekdayIndex, breakTime) => {
+    // Update the breaktime
+    const timesheet = this.state.timesheet
+    timesheet.days[weekdayIndex].schedules[periodIndex].break =
+      breakTime.target.value
+    this.setState({ timesheet })
   }
 
   renderTimeSheet = () => {
@@ -727,35 +737,76 @@ class MyStaff extends Component {
               <div style={{ flex: "1" }}>Payable Hours</div>
             </div>
             {this.state.timesheet.days.length > 0 &&
-              this.state.timesheet.days.map((res, id) => (
+              this.state.timesheet.days.map((res, weekdayIndex) => (
                 <div style={{ display: "flex" }}>
                   <div style={{ flex: "1" }}>
                     <div>{moment(res.date).format("ddd")}</div>
                     {moment(res.date).format("MMM DD")}
                   </div>
                   {res.schedules.map(
-                    s =>
+                    (s, periodIndex) =>
                       !this.state.isShowEditButton ? (
                         <div style={{ flex: "1", display: "flex" }}>
-                          8:00 AM - 10:00 AM
+                          {`${s.startTime} - ${s.endTime}`}
                         </div>
                       ) : (
                         <div style={{ flex: "1", display: "flex" }}>
-                          <StaffTimePicker />
-                          {/* <input
-                        type="text"
-                        className="a-plain-text"
-                        placeholder="0"
-                        value={'8:00 AM - 10:00 AM'}
-                        onChange={hours =>
-                          this.setState({ additionalHours: hours.target.value })
-                        }
-                      /> */}
+                          <div
+                            style={{
+                              display: "block",
+                              background: "white",
+                              border: "solid 1px gray",
+                              borderRadius: "5px"
+                            }}
+                          >
+                            <StaffTimePicker
+                              selectedTime={moment(s.startTime, [
+                                "hh:mm A",
+                                "hh A"
+                              ])}
+                              onSelectTime={this.onSelectTime.bind(
+                                this,
+                                periodIndex,
+                                weekdayIndex,
+                                "startTime"
+                              )}
+                            />
+                            to
+                            <StaffTimePicker
+                              selectedTime={moment(s.endTime, [
+                                "hh:mm A",
+                                "hh A"
+                              ])}
+                              onSelectTime={this.onSelectTime.bind(
+                                this,
+                                periodIndex,
+                                weekdayIndex,
+                                "endTime"
+                              )}
+                            />
+                          </div>
                         </div>
                       )
                   )}
                   <div style={{ flex: "1" }}>
-                    {res.schedules.map(s => <p>{s.break}</p>)}
+                    {res.schedules.map(
+                      (s, periodIndex) =>
+                        !this.state.isShowEditButton ? (
+                          <p>{s.break}</p>
+                        ) : (
+                          <input
+                            type="text"
+                            className="a-plain-text"
+                            placeholder="0"
+                            value={s.break}
+                            onChange={this.onSaveBreakTime.bind(
+                              this,
+                              periodIndex,
+                              weekdayIndex
+                            )}
+                          />
+                        )
+                    )}
                   </div>
                   <div style={{ flex: "1" }}>
                     {res.schedules.map(s => <p>8.5</p>)}
