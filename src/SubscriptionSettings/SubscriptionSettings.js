@@ -19,24 +19,25 @@ export default class SubscribeSettings extends React.Component {
         <div className="a-modal-content">
           <h4>Your Subscriptions</h4>
           <div className="row">
-            <label className="col-md-6">Attender Premium</label>
-            <div className="col-md-6 pull-right">
+            <label className="col-md-6 ">Attender Premium</label>
+            <div className="col-md-6 text-right">
               <span>$49/mo</span>
-              <br />
               <sub>One month of Service</sub>
             </div>
           </div>
-          <div className="row">
-            <small className="pull-left">Purchased September 9 2017</small>
-            <small className="pull-right">Expires on October 10 2017</small>
+          <div className="row last">
+            <small className="col-md-6">Purchased September 9 2017</small>
+            <small className="col-md-6 text-right">
+              Expires on October 10 2017
+            </small>
           </div>
           <hr />
-          <em>
+          <p>
             Note : Subscriptions are renewed on a month by month basis until
             cancelled.
-          </em>
+          </p>
           <div className="a-modal-footer">
-            <Button>Cancel Subscription</Button>
+            <Button className="btn-primary">Cancel Subscription</Button>
           </div>
         </div>
       </div>

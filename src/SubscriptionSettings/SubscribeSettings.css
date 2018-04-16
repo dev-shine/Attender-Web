@@ -45,3 +45,68 @@
   font-size: 20px;
   margin-bottom: 25px;
 }
+
+/*************** Modal ************/
+.a-modal-content {
+  width: 470px;
+  height: auto;
+  padding: 60px 25px;
+  border-radius: 10px;
+  color: #787878;
+}
+.a-modal-content h4 {
+  font-size: 22px;
+  margin-bottom: 45px;
+}
+.a-modal-content .row {
+  margin: 0 0 55px;
+}
+.a-modal-content .row .col-md-6 {
+  padding: 0;
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+.a-modal-content .row sub {
+  display: block;
+  color: #adadad;
+  font-style: italic;
+  font-size: 15px;
+}
+.a-modal-content .row small.col-md-6 {
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: normal;
+}
+.a-modal-content .row.last {
+  margin-bottom: 0;
+}
+.a-modal-content hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.a-modal-content p {
+  font-size: 15px;
+  line-height: 1.2;
+  font-style: italic;
+  color: #3ec1d3;
+}
+.a-modal-footer {
+  text-align: center;
+  margin-top: 165px;
+}
+.a-modal-footer .btn {
+  width: auto;
+  font-size: 15px;
+
+  line-height: 1.7;
+  padding-left: 23px;
+}
+.a-modal-footer .btn-primary {
+  border-top-color: #4cbfc2;
+  border-bottom-color: #4cbfc2;
+  border-left-color: #60cecd;
+  border-right-color: #60cecd;
+  background-color: #00e1eb;
+  color: #fff;
+  text-shadow: 1px 1px 1px #45bec6;
+}
