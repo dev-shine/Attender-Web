@@ -1,8 +1,11 @@
 import React from "react"
 import NavBar from "../layouts/NavBar"
+import API from "./../services/api"
 import { Link } from "react-router-dom"
 import { Button } from "react-bootstrap"
 import "./SubscribeSettings.css"
+// import { bindActionCreators } from "redux"
+// import { connect } from "react-redux"
 
 export default class SubscribeSettings extends React.Component {
   constructor(props) {
@@ -14,6 +17,15 @@ export default class SubscribeSettings extends React.Component {
     }
     this.closeModal = this.closeModal.bind(this)
     this.openModal = this.openModal.bind(this)
+    this.unsubscribe = this.unsubscribe.bind(this)
+  }
+  unsubscribe() {
+    const data = {
+      subscriptionType: "ACCOUNT_PREMIUM"
+    }
+    API.post("subscription/cancel", data).then(res => {
+      console.log(res)
+    })
   }
   closeModal() {
     let myProfile = { ...this.state.myProfile }
@@ -52,7 +64,9 @@ export default class SubscribeSettings extends React.Component {
             cancelled.
           </p>
           <div className="a-modal-footer">
-            <Button className="btn-primary">Cancel Subscription</Button>
+            <Button className="btn-primary" onClick={this.unsubscribe}>
+              Cancel Subscription
+            </Button>
           </div>
         </div>
       </div>

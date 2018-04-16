@@ -20,7 +20,6 @@ class SubscribePopUp extends React.Component {
       console.log(res)
     })
     this.props.onSetSubscribePopUp(false)
-    // update redux to update states
   }
   Close() {
     this.props.close()
