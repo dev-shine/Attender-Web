@@ -22,6 +22,7 @@
 }
 
 .subscribe-settings li a {
+  cursor: pointer;
   position: relative;
   display: block;
   padding: 12px 0 9px;
@@ -29,7 +30,7 @@
   text-decoration: none !important;
 }
 .subscribe-settings li a:hover {
-  color: #43bfe9;
+  color: #43bfe9 !important;
 }
 
 .subscribe-settings li a .fa {
@@ -70,7 +71,8 @@
   display: block;
   color: #adadad;
   font-style: italic;
-  font-size: 15px;
+  font-size: 14px;
+  letter-spacing: normal;
 }
 .a-modal-content .row small.col-md-6 {
   font-size: 12px;
@@ -97,7 +99,8 @@
 .a-modal-footer .btn {
   width: auto;
   font-size: 15px;
-
+  padding-left: 20px;
+  padding-right: 20px;
   line-height: 1.7;
   padding-left: 23px;
 }

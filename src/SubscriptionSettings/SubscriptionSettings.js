@@ -12,11 +12,26 @@ export default class SubscribeSettings extends React.Component {
         showSubscriptionSettingPopup: true
       }
     }
+    this.closeModal = this.closeModal.bind(this)
+    this.openModal = this.openModal.bind(this)
+  }
+  closeModal() {
+    let myProfile = { ...this.state.myProfile }
+    myProfile.showSubscriptionSettingPopup = false
+    this.setState({ myProfile })
+  }
+  openModal() {
+    let myProfile = { ...this.state.myProfile }
+    myProfile.showSubscriptionSettingPopup = true
+    this.setState({ myProfile })
   }
   modal() {
     return (
       <div className="a-modal show">
         <div className="a-modal-content">
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
           <h4>Your Subscriptions</h4>
           <div className="row">
             <label className="col-md-6 ">Attender Premium</label>
@@ -55,7 +70,7 @@ export default class SubscribeSettings extends React.Component {
             <h4>Your Subscription</h4>
             <ul>
               <li>
-                <a onClick={this.modal}>
+                <a onClick={this.openModal}>
                   Attender Premium <i className="fa fa-angle-right" />
                 </a>
               </li>
