@@ -6,6 +6,8 @@ import createHistory from "history/createBrowserHistory"
 // import productsReducer from'./reducers/products-reducer'
 import myProfileReducer from "./reducers/myProfile-reducer"
 
+console.log(myProfileReducer)
+
 let myProfile =
   myProfileReducer !== ""
     ? myProfileReducer

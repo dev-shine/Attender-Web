@@ -4,8 +4,8 @@ import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./services/api"
-
 import { setProfileDetails } from "./actions/myProfile-actions"
+import { loadState } from "./localStorage"
 
 class Navigator extends Component {
   async componentWillMount() {
@@ -20,13 +20,17 @@ class Navigator extends Component {
 
   getProfile = async () => {
     let profile = await API.get("auth/current")
+    let isSubscribed = await API.get("subscription/check")
+
     if (profile) {
       if (profile.status) {
-        localStorage.setItem(
-          "com.attender.pty.ltd.profile",
-          JSON.stringify(profile.data)
-        )
+        console.log(isSubscribed)
+        profile.data = Object.assign({}, profile.data, {
+          isSubscribed: isSubscribed.status
+        })
+        console.log(profile.data)
         this.props.onSetProfileDetails(profile.data)
+
         if (profile.data.verified) {
           if (profile.data.hasProfile) {
             if (profile.data.isStaff) {
@@ -57,6 +61,7 @@ class Navigator extends Component {
   }
 }
 
+const persistedState = loadState()
 const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch =>
@@ -81,7 +86,8 @@ const mapDispatchToProps = dispatch =>
 
       onSetProfileDetails: setProfileDetails
     },
-    dispatch
+    dispatch,
+    persistedState
   )
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigator)

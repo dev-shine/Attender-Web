@@ -10,6 +10,7 @@ import constant from "./../configs/constant"
 import { push } from "react-router-redux"
 import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
 import { setSubscribePopUp } from ".././actions/myProfile-actions"
+import { loadState, saveState } from "../localStorage"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
 const io = ws(constant.API_URL.replace("/api/", ""))
@@ -47,12 +48,20 @@ class EmployerMessage extends Component {
         host: { on: false }
       },
       staffFilters: [],
-      selectedStaff: {}
+      selectedStaff: {},
+      showSubscribeNowOffer: true
     }
   }
   componentWillMount = async () => {
-    API.initRequest()
-    let profile = await API.getProfile()
+    // API.initRequest()
+    // let profile = await API.getProfile()
+
+    const profile = loadState("com.attender.pty.ltd.profile")
+
+    if (profile.isSubscribed) {
+      this.setState({ showSubscribeNowOffer: false })
+    }
+
     this.setState({ profile })
 
     if (profile.isStaff) {
@@ -660,10 +669,10 @@ class EmployerMessage extends Component {
   render() {
     return (
       <div>
-        {this.props.myProfile.showPopup ? (
+        {this.state.showSubscribeNowOffer ? (
           <SubscribePopUp
             close={() => {
-              this.props.onSetSubscribePopUp(false)
+              this.setState({ showSubscribeNowOffer: false })
             }}
           />
         ) : null}

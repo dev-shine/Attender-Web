@@ -4,15 +4,17 @@ import API from "./../services/api"
 import { Link } from "react-router-dom"
 import { Button } from "react-bootstrap"
 import "./SubscribeSettings.css"
-// import { bindActionCreators } from "redux"
-// import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import { unsubscribeMe } from "./../actions/myProfile-actions"
+import { push } from "react-router-redux"
 
-export default class SubscribeSettings extends React.Component {
+class SubscribeSettings extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       myProfile: {
-        showSubscriptionSettingPopup: true
+        showSubscriptionSettingPopup: false
       }
     }
     this.closeModal = this.closeModal.bind(this)
@@ -26,6 +28,9 @@ export default class SubscribeSettings extends React.Component {
     API.post("subscription/cancel", data).then(res => {
       console.log(res)
     })
+    this.props.onUnsubscribeMe()
+    this.closeModal()
+    this.props.goToStaff()
   }
   closeModal() {
     let myProfile = { ...this.state.myProfile }
@@ -128,3 +133,16 @@ export default class SubscribeSettings extends React.Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return state
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      goToStaff: staffId => push(`/find-staff`),
+      onUnsubscribeMe: unsubscribeMe
+    },
+    dispatch
+  )
+export default connect(mapStateToProps, mapDispatchToProps)(SubscribeSettings)

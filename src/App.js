@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Route } from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import Navigator from "./navigator"
 import SignSuccess from "./auth/signSuccess"
 import Login from "./auth/login"
@@ -19,13 +19,36 @@ import Registration from "./auth/registration"
 import Settings from "./settings-old/index"
 import Settings_beta from "./settings/Settings"
 import SubscriptionSettings from "./SubscriptionSettings/SubscriptionSettings"
-import store from "./store"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import SubscriptionOffer from "./SubscriptionOffer/SubscriptionOffer"
+import NotFound from "./NotFound/NotFound"
+import { loadState } from "./localStorage"
 
 class App extends Component {
   constructor(props) {
     super(props)
+  }
+  componentWillUpdate() {}
+  renderSubscriptionSettingsPage() {
+    const profile = loadState("com.attender.pty.ltd.profile")
+    if (profile !== undefined) {
+      if (profile.isSubscribed) {
+        return (
+          <Route
+            exact
+            path="/subscription-settings"
+            component={SubscriptionSettings}
+          />
+        )
+      } else {
+        return (
+          <Route
+            exact
+            path="/subscription-settings"
+            component={SubscriptionOffer}
+          />
+        )
+      }
+    }
   }
   render() {
     return (
@@ -53,11 +76,7 @@ class App extends Component {
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
-          <Route
-            exact
-            path="/subscription-settings"
-            component={SubscriptionSettings}
-          />
+          {this.renderSubscriptionSettingsPage()}
         </main>
       </div>
     )
@@ -67,5 +86,4 @@ class App extends Component {
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1)
 }
-
 export default App

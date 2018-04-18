@@ -4,7 +4,8 @@ import { Button } from "react-bootstrap"
 import API from "./../../services/api"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import { setSubscribePopUp } from "./../../actions/myProfile-actions"
+import { subscribeMe } from "./../../actions/myProfile-actions"
+import { push } from "react-router-redux"
 
 class SubscribePopUp extends React.Component {
   constructor(props) {
@@ -13,13 +14,17 @@ class SubscribePopUp extends React.Component {
     this.Subscribe = this.Subscribe.bind(this)
   }
   Subscribe() {
+    console.log("here")
     const data = {
       subscriptionType: "ACCOUNT_PREMIUM"
     }
     API.post("subscription/subscribe", data).then(res => {
       console.log(res)
+      this.props.onSubscribeMe()
     })
-    this.props.onSetSubscribePopUp(false)
+
+    this.props.close()
+    this.props.goToSubscribeSettings()
   }
   Close() {
     this.props.close()
@@ -61,7 +66,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      onSetSubscribePopUp: setSubscribePopUp
+      goToSubscribeSettings: () => push(`/subscription-settings`),
+      onSubscribeMe: subscribeMe
     },
     dispatch
   )
