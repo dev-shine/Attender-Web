@@ -1,1 +1,50 @@
+h3 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding-top: 25px;
+  margin-bottom: 25px;
+}
 
+.settings-group * {
+  letter-spacing: 1px;
+  color: #999;
+}
+
+.settings-group {
+  width: 835px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+}
+
+.settings-group h4 {
+  font-size: 20px;
+
+  margin-bottom: 25px;
+}
+
+.settings-group li {
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  margin-left: 40px;
+  padding: 7px 0;
+}
+
+.settings-group li:last-child {
+  border-bottom: none;
+}
+
+.settings-group label {
+  color: #9f9f9f;
+  padding: 0;
+}
+
+.settings-group span {
+  color: #d0d0d0;
+  font-size: 14px;
+}
+
+.settings-group .redText {
+  color: #e50000;
+}

@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-// import "./settings.css"
+import "./settings.css"
 import NavBar from "../layouts/NavBar"
 
 class Settings extends Component {
@@ -44,30 +44,44 @@ class Settings extends Component {
             </ul>
           </div>
           <div className="settings-group">
-            <h4>Payment </h4>
+            <h4>Payment Settings</h4>
             <ul>
               <li>
-                <label className="col-sm-3">Edit Profile</label>
-                <span className="col-sm-9">Edit your Profile Information.</span>
-                {
-                  //<div className="col-sm-9 accordion">Form goes here</div>
-                }
-              </li>
-              <li>
-                <label className="col-sm-3">Change Email</label>
+                <label className="col-sm-3">Add Bank Accounts</label>
                 <span className="col-sm-9">
-                  You can change your email address to a new one.
+                  You can add multiple bank account by clicking add bank
+                  account.
                 </span>
                 {
                   //<div className="col-sm-9 accordion">Form goes here</div>
                 }
               </li>
               <li>
-                <label className="col-sm-3">Change Password</label>
-                <span className="col-sm-9">Change your login password.</span>
+                <label className="col-sm-3">Payment Method</label>
+                <span className="col-sm-9">
+                  You can select which primary bank account will be used when
+                  paying staff.
+                </span>
                 {
                   //<div className="col-sm-9 accordion">Form goes here</div>
                 }
+              </li>
+            </ul>
+          </div>
+          <div className="settings-group">
+            <h4>Account Settings </h4>
+            <ul>
+              <li>
+                <label className="col-sm-3">
+                  <span className="redText">Deactivate Account</span>
+                </label>
+                <span className="col-sm-9">&nbsp;</span>
+              </li>
+              <li>
+                <span className="col-sm-12">
+                  Deactivating your account will disable your profile and remove
+                  your listed events and hired staff.
+                </span>
               </li>
             </ul>
           </div>
