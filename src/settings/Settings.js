@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import { Button } from "react-bootstrap"
 import "./settings.css"
 import NavBar from "../layouts/NavBar"
 
@@ -9,9 +10,46 @@ class Settings extends Component {
   constructor(props) {
     super(props)
   }
+  openModal(type) {
+    let content = ""
+    switch (type) {
+      case "DEACTIVATE_ACCOUNT":
+        content = (
+          <div>
+            <p>Are you sure you want to delete your account?</p>
+          </div>
+        )
+        break
+    }
+
+    this.setState({ modalContent: content, openModal: true })
+  }
+  state = {
+    openModal: false,
+    modalContent: "Hello World"
+  }
+  closeModal
+  modal() {
+    return (
+      <div className="a-modal show">
+        <div className="a-modal-content">
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
+          {this.state.modalContent}
+          <div className="a-modal-footer">
+            <Button className="btn-primary" onClick={this.unsubscribe}>
+              Cancel Subscription
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
   render() {
     return (
       <div>
+        {this.state.openModal ? this.modal() : null}
         <NavBar />
         <div className="container xem">
           <h3>Settings</h3>
@@ -73,7 +111,12 @@ class Settings extends Component {
             <ul>
               <li>
                 <label className="col-sm-3">
-                  <span className="redText">Deactivate Account</span>
+                  <span
+                    className="redText"
+                    onClick={this.openModal.bind(this, "DEACTIVATE_ACCOUNT")}
+                  >
+                    Deactivate Account
+                  </span>
                 </label>
                 <span className="col-sm-9">&nbsp;</span>
               </li>
