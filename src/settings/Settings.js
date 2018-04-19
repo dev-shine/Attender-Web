@@ -9,6 +9,7 @@ import NavBar from "../layouts/NavBar"
 class Settings extends Component {
   constructor(props) {
     super(props)
+    this.closeModal = this.closeModal.bind(this)
   }
   openModal(type) {
     let content = ""
@@ -28,7 +29,9 @@ class Settings extends Component {
     openModal: false,
     modalContent: "Hello World"
   }
-  closeModal
+  closeModal() {
+    this.setState({ openModal: false })
+  }
   modal() {
     return (
       <div className="a-modal show">
