@@ -96,10 +96,14 @@
 }
 .settings-page .change-email input[type="text"] {
   background: #fafafa;
-  border: none;
+  border: 1px solid #e0e0e0;
   font-size: 25px;
   padding: 5px 12px;
   width: 100%;
+}
+.no-padding-bottom {
+  padding-bottom: 0;
+  margin-bottom: 0 !important;
 }
 .settings-page .a-modal-content .add-bank-choices span {
   display: block;
@@ -118,4 +122,10 @@
 }
 .settings-page .a-modal-content .add-bank-choices p:hover img {
   width: 140px;
+}
+.settings-page .a-modal-content .col-md-6:first-child {
+  padding-right: 15px;
+}
+.settings-page .a-modal-content .col-md-6:last-child {
+  padding-left: 15px;
 }

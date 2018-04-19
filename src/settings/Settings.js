@@ -102,14 +102,100 @@ class Settings extends Component {
             <h5>
               Which payment type <br />would you like to add?
             </h5>
-            <p>
+            <p onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT")}>
               <img src={require("./img/credit-card.png")} />
               <span>Credit/Debit Card</span>
             </p>
-            <p>
+            <p onClick={this.openModal.bind(this, "ADD_BANK_CARD")}>
               <img src={require("./img/bank-icon.png")} />
               <span>Bank Account</span>
             </p>
+          </div>
+        )
+        break
+      case "ADD_BANK_ACCOUNT":
+        content = (
+          <div className="change-email have-header">
+            <h5>Add Bank Account</h5>
+            <p>
+              <label>Account Name</label>
+              <input type="text" />
+            </p>
+            <p>
+              <label>Bank Name</label>
+              <input type="text" />
+            </p>
+            <div className="row no-padding-bottom">
+              <p className="col-md-6">
+                <label>BSB</label>
+                <input type="text" />
+              </p>
+              <p className="col-md-6">
+                <label>Account Number</label>
+                <input type="text" />
+              </p>
+            </div>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT_CONFIRM")}
+            >
+              Save
+            </Button>
+          </div>
+        )
+        break
+      case "ADD_BANK_ACCOUNT_CONFIRM":
+        content = (
+          <div className="deactivate-account-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Bank Account Added!</h5>
+            <p>You have successfully added a bank account.</p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
+      case "ADD_BANK_CARD":
+        content = (
+          <div className="change-email have-header">
+            <h5>Add Credit/Debit Card</h5>
+            <p>
+              <label>Name on the Card</label>
+              <input type="text" />
+            </p>
+            <p>
+              <label>Credit/Debit Card number</label>
+              <input type="text" />
+            </p>
+            <div className="row no-padding-bottom">
+              <p className="col-md-6">
+                <label>Month/Year</label>
+                <input type="text" />
+              </p>
+              <p className="col-md-6">
+                <label>CVV</label>
+                <input type="text" />
+              </p>
+            </div>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "ADD_BANK_CARD_CONFIRM")}
+            >
+              Save
+            </Button>
+          </div>
+        )
+        break
+      case "ADD_BANK_CARD_CONFIRM":
+        content = (
+          <div className="deactivate-account-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Credit/Debit Card Added!</h5>
+            <p>You have successfully added credit/debit card.</p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
           </div>
         )
         break
