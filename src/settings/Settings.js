@@ -10,6 +10,12 @@ class Settings extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
+    this.delete = this.delete.bind(this)
+  }
+  delete() {
+    // delete through api
+    // update redux
+    this.openModal("DEACTIVATE_ACCOUNT_CONFIRM")
   }
   openModal(type) {
     let content = ""
@@ -22,6 +28,18 @@ class Settings extends Component {
             <p>Are you sure you want to delete your account?</p>
             <Button className="btn-primary" onClick={this.delete}>
               Delete
+            </Button>
+          </div>
+        )
+        break
+      case "DEACTIVATE_ACCOUNT_CONFIRM":
+        content = (
+          <div className="deactivate-account-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Account Deleted</h5>
+            <p>If you wish to join us again, we would love to have you.</p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
             </Button>
           </div>
         )
