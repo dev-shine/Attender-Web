@@ -59,6 +59,43 @@ class Settings extends Component {
           </div>
         )
         break
+      case "CHANGE_PASSWORD":
+        content = (
+          <div className="change-email">
+            <h5>Change Password</h5>
+            <p>
+              <label>Current Password</label>
+              <input type="text" />
+            </p>
+            <p>
+              <label>New Password</label>
+              <input type="text" />
+            </p>
+            <p>
+              <label>Confirm Password</label>
+              <input type="text" />
+            </p>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "CHANGE_PASSWORD_CONFIRM")}
+            >
+              Save
+            </Button>
+          </div>
+        )
+        break
+      case "CHANGE_PASSWORD_CONFIRM":
+        content = (
+          <div className="change-email-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Password Changed!</h5>
+            <p>You have successfully changed your password.</p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
       case "DEACTIVATE_ACCOUNT":
         content = (
           <div className="deactivate-account">
@@ -138,7 +175,12 @@ class Settings extends Component {
                 }
               </li>
               <li>
-                <label className="col-sm-3">Change Password</label>
+                <label
+                  className="col-sm-3"
+                  onClick={this.openModal.bind(this, "CHANGE_PASSWORD")}
+                >
+                  Change Password
+                </label>
                 <span className="col-sm-9">Change your login password.</span>
                 {
                   //<div className="col-sm-9 accordion">Form goes here</div>
