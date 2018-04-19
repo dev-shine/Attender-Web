@@ -83,7 +83,7 @@
 .deactivate-account img {
   height: 95px;
 }
-.settings-page .change-email h5 {
+.settings-page .have-header h5 {
   margin-top: -33px;
   margin-bottom: 38px;
 }
@@ -100,4 +100,22 @@
   font-size: 25px;
   padding: 5px 12px;
   width: 100%;
+}
+.settings-page .a-modal-content .add-bank-choices span {
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+}
+.settings-page .a-modal-content .add-bank-choices p * {
+  transition: all 0.1s linear;
+}
+.settings-page .a-modal-content .add-bank-choices p img {
+  width: 130px;
+}
+.settings-page .a-modal-content .add-bank-choices p:hover {
+  color: #43bfe9;
+  cursor: pointer;
+}
+.settings-page .a-modal-content .add-bank-choices p:hover img {
+  width: 140px;
 }

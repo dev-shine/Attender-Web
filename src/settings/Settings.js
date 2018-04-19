@@ -27,7 +27,7 @@ class Settings extends Component {
     switch (type) {
       case "CHANGE_EMAIL":
         content = (
-          <div className="change-email">
+          <div className="change-email have-header">
             <h5>Change Email Address</h5>
             <p>
               <label>New Email Address</label>
@@ -61,7 +61,7 @@ class Settings extends Component {
         break
       case "CHANGE_PASSWORD":
         content = (
-          <div className="change-email">
+          <div className="change-email have-header">
             <h5>Change Password</h5>
             <p>
               <label>Current Password</label>
@@ -93,6 +93,23 @@ class Settings extends Component {
             <Button className="btn-primary" onClick={this.closeModal}>
               Ok
             </Button>
+          </div>
+        )
+        break
+      case "ADD_BANK_CHOICES":
+        content = (
+          <div className="add-bank-choices have-header">
+            <h5>
+              Which payment type <br />would you like to add?
+            </h5>
+            <p>
+              <img src={require("./img/credit-card.png")} />
+              <span>Credit/Debit Card</span>
+            </p>
+            <p>
+              <img src={require("./img/bank-icon.png")} />
+              <span>Bank Account</span>
+            </p>
           </div>
         )
         break
@@ -192,7 +209,12 @@ class Settings extends Component {
             <h4>Payment Settings</h4>
             <ul>
               <li>
-                <label className="col-sm-3">Add Bank Accounts</label>
+                <label
+                  className="col-sm-3"
+                  onClick={this.openModal.bind(this, "ADD_BANK_CHOICES")}
+                >
+                  Add Bank Accounts
+                </label>
                 <span className="col-sm-9">
                   You can add multiple bank account by clicking add bank
                   account.
