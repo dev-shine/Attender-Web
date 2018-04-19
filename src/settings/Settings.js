@@ -16,8 +16,13 @@ class Settings extends Component {
     switch (type) {
       case "DEACTIVATE_ACCOUNT":
         content = (
-          <div>
+          <div className="deactivate-account">
+            <img src={require("./img/delete-icon.png")} />
+            <h5>Delete Account</h5>
             <p>Are you sure you want to delete your account?</p>
+            <Button className="btn-primary" onClick={this.delete}>
+              Delete
+            </Button>
           </div>
         )
         break
@@ -40,18 +45,13 @@ class Settings extends Component {
             &times;
           </span>
           {this.state.modalContent}
-          <div className="a-modal-footer">
-            <Button className="btn-primary" onClick={this.unsubscribe}>
-              Cancel Subscription
-            </Button>
-          </div>
         </div>
       </div>
     )
   }
   render() {
     return (
-      <div>
+      <div className="component settings-page">
         {this.state.openModal ? this.modal() : null}
         <NavBar />
         <div className="container xem">

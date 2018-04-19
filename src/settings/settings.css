@@ -1,4 +1,4 @@
-h3 {
+.settings-page h3 {
   text-align: center;
   text-transform: uppercase;
   font-size: 20px;
@@ -47,4 +47,36 @@ h3 {
 
 .settings-group .redText {
   color: #e50000;
+}
+
+.settings-page .a-modal-content {
+  text-align: center;
+  width: 400px;
+}
+.settings-page .a-modal-content img {
+  margin-top: 18px;
+}
+.settings-page .a-modal-content * {
+  margin-left: auto;
+  margin-right: auto;
+}
+.settings-page .a-modal-content p {
+  color: #787878;
+  font-style: normal;
+}
+.settings-page .a-modal-content h5 {
+  text-transform: uppercase;
+  font-size: 16px;
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+.settings-page .a-modal-content button {
+  margin-top: 16px;
+  padding: 2px;
+  font-size: 15px;
+  color: #fff;
+  font-weight: normal;
+}
+.deactivate-account img {
+  height: 95px;
 }
