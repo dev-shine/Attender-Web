@@ -83,3 +83,21 @@
 .deactivate-account img {
   height: 95px;
 }
+.settings-page .change-email h5 {
+  margin-top: -33px;
+  margin-bottom: 38px;
+}
+.settings-page .change-email p {
+  text-align: left;
+  margin-bottom: 30px;
+}
+.settings-page .change-email label {
+  font-size: 13px;
+}
+.settings-page .change-email input[type="text"] {
+  background: #fafafa;
+  border: none;
+  font-size: 25px;
+  padding: 5px 12px;
+  width: 100%;
+}
