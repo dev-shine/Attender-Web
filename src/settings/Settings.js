@@ -11,6 +11,11 @@ class Settings extends Component {
     super(props)
     this.closeModal = this.closeModal.bind(this)
     this.delete = this.delete.bind(this)
+    this.changeEmail = this.changeEmail.bind(this)
+  }
+  changeEmail() {
+    // update api and redux
+    this.openModal("CHANGE_EMAIL_CONFIRM")
   }
   delete() {
     // delete through api
@@ -20,6 +25,40 @@ class Settings extends Component {
   openModal(type) {
     let content = ""
     switch (type) {
+      case "CHANGE_EMAIL":
+        content = (
+          <div className="change-email">
+            <h5>Change Email Address</h5>
+            <p>
+              <label>New Email Address</label>
+              <input type="text" />
+            </p>
+            <p>
+              <label>Confirm Email Address</label>
+              <input type="text" />
+            </p>
+            <Button className="btn-primary" onClick={this.changeEmail}>
+              Save
+            </Button>
+          </div>
+        )
+        break
+      case "CHANGE_EMAIL_CONFIRM":
+        content = (
+          <div className="change-email-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Confirmation Sent!</h5>
+            <p>
+              You have successfully changed your email, we have sent the
+              confirmation link to your email, check your inbox/spam for the
+              confirmation link.
+            </p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
       case "DEACTIVATE_ACCOUNT":
         content = (
           <div className="deactivate-account">
@@ -85,7 +124,12 @@ class Settings extends Component {
                 }
               </li>
               <li>
-                <label className="col-sm-3">Change Email</label>
+                <label
+                  className="col-sm-3"
+                  onClick={this.openModal.bind(this, "CHANGE_EMAIL")}
+                >
+                  Change Email
+                </label>
                 <span className="col-sm-9">
                   You can change your email address to a new one.
                 </span>
