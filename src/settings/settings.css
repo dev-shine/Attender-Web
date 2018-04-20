@@ -202,3 +202,17 @@
   opacity: 0.8;
   cursor: pointer;
 }
+.settings-page .a-modal-content .edit-profile {
+}
+.settings-page .a-modal-content .edit-profile .avatar {
+  width: 95px;
+  height: 95px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.settings-page .a-modal-content .edit-profile .avatar img {
+  width: 100%;
+  margin-top: 0;
+}
+.settings-page .a-modal-content .edit-profile .avatar .overlay {
+}

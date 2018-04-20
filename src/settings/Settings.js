@@ -10,22 +10,76 @@ class Settings extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
-    this.delete = this.delete.bind(this)
-    this.changeEmail = this.changeEmail.bind(this)
   }
-  changeEmail() {
-    // update api and redux
-    this.openModal("CHANGE_EMAIL_CONFIRM")
+  state = {
+    openModal: false,
+    modalContent: "Under construction",
+    customModalStyle: {}
   }
-  delete() {
-    // delete through api
-    // update redux
-    this.openModal("DEACTIVATE_ACCOUNT_CONFIRM")
+  closeModal() {
+    this.setState({ openModal: false })
   }
   openModal(type) {
     let content = "",
-      customModalStyle = ""
+      customModalStyle = {}
     switch (type) {
+      case "EDIT_PROFILE":
+        content = (
+          <div className="edit-profile have-header">
+            <h5>Edit Profile</h5>
+            <div className="avatar">
+              <img src={require("./img/kerr.jpeg")} />
+              <span className="overlay" />
+            </div>
+            <sub>
+              Click on the icon to change Profile Picture <br />
+              <span className="remove-photo">Remove Photo</span>
+            </sub>
+
+            <p>
+              <label>Full Name</label>
+              <input type="text" placeholder="Andrew Orsen" />
+            </p>
+            <p>
+              <label>Bio</label>
+              <textarea>
+                Owner of Eivissa Super Clib and running a small restaurant in
+                Sydney for more than 5 years
+              </textarea>
+              <span className="char-counter">24/200</span>
+            </p>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-6">
+                  <p>
+                    <label>Birthdate</label>
+                    <select>
+                      <option>22 / June/1992</option>
+                    </select>
+                  </p>
+                </div>
+                <div className="col-md-6 section-gender">
+                  <p>
+                    <label>Gender</label>
+                    <span>
+                      <i>&#9794;</i> Male
+                    </span>
+                    <span>
+                      <i>&#9792;</i> Female
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "CHANGE_EMAIL_CONFIRM")}
+            >
+              Save
+            </Button>
+          </div>
+        )
+        break
       case "CHANGE_EMAIL":
         content = (
           <div className="change-email have-header">
@@ -38,7 +92,10 @@ class Settings extends Component {
               <label>Confirm Email Address</label>
               <input type="text" />
             </p>
-            <Button className="btn-primary" onClick={this.changeEmail}>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "CHANGE_EMAIL_CONFIRM")}
+            >
               Save
             </Button>
           </div>
@@ -259,10 +316,7 @@ class Settings extends Component {
                 </span>
               </div>
             </div>
-            <Button
-              className="btn-primary"
-              onClick={this.openModal.bind(this, "ADD_BANK_CARD_CONFIRM")}
-            >
+            <Button className="btn-primary" onClick={this.closeModal}>
               Save
             </Button>
           </div>
@@ -274,7 +328,10 @@ class Settings extends Component {
             <img src={require("./img/delete-icon.png")} />
             <h5>Delete Account</h5>
             <p>Are you sure you want to delete your account?</p>
-            <Button className="btn-primary" onClick={this.delete}>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "DEACTIVATE_ACCOUNT_CONFIRM")}
+            >
               Delete
             </Button>
           </div>
@@ -295,14 +352,6 @@ class Settings extends Component {
     }
 
     this.setState({ modalContent: content, openModal: true, customModalStyle })
-  }
-  state = {
-    openModal: false,
-    modalContent: "Under construction",
-    customModalStyle: {}
-  }
-  closeModal() {
-    this.setState({ openModal: false })
   }
   modal() {
     return (
@@ -326,7 +375,7 @@ class Settings extends Component {
           <div className="settings-group">
             <h4>General Settings</h4>
             <ul>
-              <li>
+              <li onClick={this.openModal.bind(this, "EDIT_PROFILE")}>
                 <label className="col-sm-3">Edit Profile</label>
                 <span className="col-sm-9">Edit your Profile Information.</span>
                 {
