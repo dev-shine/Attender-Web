@@ -23,7 +23,8 @@ class Settings extends Component {
     this.openModal("DEACTIVATE_ACCOUNT_CONFIRM")
   }
   openModal(type) {
-    let content = ""
+    let content = "",
+      customModalStyle = ""
     switch (type) {
       case "CHANGE_EMAIL":
         content = (
@@ -199,6 +200,74 @@ class Settings extends Component {
           </div>
         )
         break
+      case "PAYMENT_METHOD":
+        customModalStyle = { width: "405px" }
+        content = (
+          <div className="payment-method have-header">
+            <h5>Payment Method</h5>
+            <div className="group">
+              <p>Credit Card</p>
+              <div className="row">
+                <span className="col-md-2">
+                  <img src={require("./img/mastercard-logo.png")} />
+                </span>
+                <span className="col-md-6">
+                  <span>&#9679;&#9679;&#9679;&#9679;</span>
+                  <span>&#9679;&#9679;&#9679;&#9679;</span>
+                  <span>4375</span>
+                </span>
+                <small className="primary col-md-2">Primary</small>
+                <span className="col-md-1 btn-delete">
+                  <i className="fa fa-minus-circle" />
+                </span>
+              </div>
+              <div className="row">
+                <span className="col-md-2">
+                  <img src={require("./img/visa-logo.png")} />
+                </span>
+                <span className="col-md-6">
+                  <span>&#9679;&#9679;&#9679;&#9679;</span>
+                  <span>&#9679;&#9679;&#9679;&#9679;</span>
+                  <span>4375</span>
+                </span>
+                <small className="col-md-2">&nbsp;</small>
+                <span className="col-md-1 btn-delete">
+                  <i className="fa fa-minus-circle" />
+                </span>
+              </div>
+            </div>
+            <div className="group">
+              <p>Bank Account</p>
+              <div className="row">
+                <span className="col-md-5">National Aust</span>
+                <span className="col-md-5">
+                  <span>XXXX - XXXX</span>
+                  <span>4375</span>
+                </span>
+                <span className="col-md-1 btn-delete">
+                  <i className="fa fa-minus-circle" />
+                </span>
+              </div>
+              <div className="row">
+                <span className="col-md-5">Herritage Bank</span>
+                <span className="col-md-5">
+                  <span>XXXX - XXXX</span>
+                  <span>4375</span>
+                </span>
+                <span className="col-md-1 btn-delete">
+                  <i className="fa fa-minus-circle" />
+                </span>
+              </div>
+            </div>
+            <Button
+              className="btn-primary"
+              onClick={this.openModal.bind(this, "ADD_BANK_CARD_CONFIRM")}
+            >
+              Save
+            </Button>
+          </div>
+        )
+        break
       case "DEACTIVATE_ACCOUNT":
         content = (
           <div className="deactivate-account">
@@ -225,11 +294,12 @@ class Settings extends Component {
         break
     }
 
-    this.setState({ modalContent: content, openModal: true })
+    this.setState({ modalContent: content, openModal: true, customModalStyle })
   }
   state = {
     openModal: false,
-    modalContent: "Hello World"
+    modalContent: "Under construction",
+    customModalStyle: {}
   }
   closeModal() {
     this.setState({ openModal: false })
@@ -237,7 +307,7 @@ class Settings extends Component {
   modal() {
     return (
       <div className="a-modal show">
-        <div className="a-modal-content">
+        <div className="a-modal-content" style={this.state.customModalStyle}>
           <span className="a-close" onClick={this.closeModal}>
             &times;
           </span>
@@ -310,7 +380,12 @@ class Settings extends Component {
                 }
               </li>
               <li>
-                <label className="col-sm-3">Payment Method</label>
+                <label
+                  className="col-sm-3"
+                  onClick={this.openModal.bind(this, "PAYMENT_METHOD")}
+                >
+                  Payment Method
+                </label>
                 <span className="col-sm-9">
                   You can select which primary bank account will be used when
                   paying staff.
