@@ -630,9 +630,9 @@ class ProfileSetup extends Component {
             We need just a few details to get you started
           </p>
         </div>
-        <div className="content-wide">
+        <div className="content-wide" style={{ width: "100%" }}>
           <Row>
-            <Col sm={4} className="form-container-wide">
+            <Col sm={12} md={4} className="form-container-wide">
               <div className="form-group">
                 <p>Describe yourself in 3 words</p>
                 {this.state.description.map((desc, index) => {
@@ -678,7 +678,7 @@ class ProfileSetup extends Component {
                 </div>
               </div>
             </Col>
-            <Col sm={4} className="form-container-wide">
+            <Col sm={12} md={4} className="form-container-wide">
               <div className="form-group">
                 <p>Job Description</p>
                 <div className="h-scroll scroll">
@@ -781,7 +781,7 @@ class ProfileSetup extends Component {
                 </select>
               </div>
             </Col>
-            <Col sm={4} className="form-container">
+            <Col sm={12} md={4} className="form-container">
               <div className="form-group">
                 <p>Licence and Certification</p>
                 <div className="v-scroll scroll xsh-fixed">
