@@ -4,21 +4,59 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Button } from "react-bootstrap"
 import "./settings.css"
+import API from "./../services/api"
 import NavBar from "../layouts/NavBar"
 
 class Settings extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
+    this.save_CHANGE_EMAIL = this.save_CHANGE_EMAIL.bind(this)
   }
   state = {
     openModal: false,
     modalContent: "Under construction",
-    customModalStyle: {}
+    customModalStyle: {},
+    oldEmail: "",
+    newEmail: "",
+    newEmail2: "",
+    emailChangeMessage: ""
+  }
+  componentDidMount = async () => {
+    API.initRequest()
+  }
+  onChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
   closeModal() {
     this.setState({ openModal: false })
   }
+  // Handle modal actions
+  save_CHANGE_EMAIL() {
+    // check if newemail and confirm matches.
+    const body = {
+      oldEmail: this.state.oldEmail,
+      newEmail: this.state.newEmail
+    }
+    if (body.newEmail !== this.state.newEmail2) {
+      alert("Email confirmation does not match.")
+      return false
+    }
+    API.post("user/profile/change-email", body).then(res => {
+      if (!res.status) {
+        alert(res.message)
+        this.setState({ emailChangeMessage: res.message })
+      }
+
+      if (res.status) {
+        this.setState({ emailChangeMessage: res.message })
+        this.openModal("CHANGE_EMAIL_CONFIRM")
+      }
+    })
+  }
+  // end Handle modal actions
   openModal(type) {
     let content = "",
       customModalStyle = {}
@@ -85,17 +123,33 @@ class Settings extends Component {
           <div className="change-email have-header">
             <h5>Change Email Address</h5>
             <p>
+              <label>Old Email Address</label>
+              <input
+                onChange={this.onChangeInput}
+                type="email"
+                name="oldEmail"
+                required
+              />
+            </p>
+            <p>
               <label>New Email Address</label>
-              <input type="text" />
+              <input
+                onChange={this.onChangeInput}
+                type="email"
+                name="newEmail"
+                required
+              />
             </p>
             <p>
               <label>Confirm Email Address</label>
-              <input type="text" />
+              <input
+                onChange={this.onChangeInput}
+                type="email"
+                name="newEmail2"
+                required
+              />
             </p>
-            <Button
-              className="btn-primary"
-              onClick={this.openModal.bind(this, "CHANGE_EMAIL_CONFIRM")}
-            >
+            <Button className="btn-primary" onClick={this.save_CHANGE_EMAIL}>
               Save
             </Button>
           </div>
@@ -111,6 +165,7 @@ class Settings extends Component {
               confirmation link to your email, check your inbox/spam for the
               confirmation link.
             </p>
+
             <Button className="btn-primary" onClick={this.closeModal}>
               Ok
             </Button>
@@ -382,13 +437,8 @@ class Settings extends Component {
                   //<div className="col-sm-9 accordion">Form goes here</div>
                 }
               </li>
-              <li>
-                <label
-                  className="col-sm-3"
-                  onClick={this.openModal.bind(this, "CHANGE_EMAIL")}
-                >
-                  Change Email
-                </label>
+              <li onClick={this.openModal.bind(this, "CHANGE_EMAIL")}>
+                <label className="col-sm-3">Change Email</label>
                 <span className="col-sm-9">
                   You can change your email address to a new one.
                 </span>
