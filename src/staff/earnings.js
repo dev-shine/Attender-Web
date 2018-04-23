@@ -3,6 +3,7 @@ import NavBar from "../layouts/NavBar"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import moment from "moment"
 import API from ".././services/api"
 import "./earnings.css"
 
@@ -10,12 +11,15 @@ class Earnings extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      totalAvailBalanceLabel: 0,
       totalAvailBalance: 0,
+      totalEarnings: 0,
       bankArray: [],
       withdrawToId: "",
       withdrawTo: "",
       accountNumber: "",
-      bankIndex: 0
+      bankIndex: 0,
+      transactions: []
     }
   }
 
@@ -23,19 +27,33 @@ class Earnings extends Component {
   getEarnings = () => {
     API.get("earnings").then(res => {
       console.log("the earnings", res)
-      return false
-      this.setState(
-        {
-          totalAvailBalance: res.wallet.label,
+      if (res.status) {
+        this.setState({
+          totalAvailBalanceLabel: res.wallet.label,
+          totalAvailBalance: res.wallet.balance,
           bankArray: res.banks,
           withdrawToId: res.banks.promiseId,
           withdrawTo: res.banks[this.state.bankIndex].bankMeta.bank_name,
           accountNumber: res.banks[this.state.bankIndex].bankMeta.account_number
-        },
-        () => {
-          console.log("the state", this.state)
-        }
-      )
+        })
+      }
+    })
+  }
+
+  getAllTransactions = () => {
+    API.get("transactions").then(res => {
+      if (res.status) {
+        var total = 0
+        res.transactions.items.map(res => {
+          if (res.state == "completed") {
+            total += res.amount / 100
+          }
+        })
+        this.setState({
+          transactions: res.transactions.items,
+          totalEarnings: total.toFixed(2)
+        })
+      }
     })
   }
   // #endregion
@@ -43,6 +61,7 @@ class Earnings extends Component {
   // #region Lifecycle Methods
   componentDidMount = () => {
     this.getEarnings()
+    this.getAllTransactions()
   }
   // #endregion
 
@@ -59,7 +78,7 @@ class Earnings extends Component {
     return (
       <div>
         <div>Total Available Balance:</div>
-        <div>$1,600.20</div>
+        <div>{this.state.totalAvailBalanceLabel}</div>
       </div>
     )
   }
@@ -76,7 +95,9 @@ class Earnings extends Component {
     return (
       <div>
         <div>Total Earnings</div>
-        <div>$11,750/20</div>
+        <div>{`$${this.state.totalEarnings
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</div>
       </div>
     )
   }
@@ -85,21 +106,34 @@ class Earnings extends Component {
     return (
       <div>
         <div>Total Withdrawn</div>
-        <div>$3,750,20</div>
+        <div>{`$${(
+          (this.state.totalEarnings - this.state.totalAvailBalance) /
+          100
+        )
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</div>
       </div>
     )
   }
 
   renderTransactionHistoryList = () => {
-    return <div>{this.renderTransactionHistoryListItem()}</div>
-  }
-
-  renderTransactionHistoryListItem = () => {
     return (
       <div>
-        <div>Transfer from Jayson Dale</div>
-        <div>Completed 30 June 2018</div>
-        <div>$300.20</div>
+        {this.state.transactions.map(t => (
+          <div>{this.renderTransactionHistoryListItem(t)}</div>
+        ))}
+      </div>
+    )
+  }
+
+  renderTransactionHistoryListItem = transaction => {
+    return (
+      <div>
+        <div>{`${transaction.description} ${transaction.buyer_name}`}</div>
+        <div>{`Completed ${moment().format("DD MMMM YYYY")}`}</div>
+        <div>{`$${(transaction.amount / 100)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</div>
       </div>
     )
   }
