@@ -195,19 +195,31 @@ class Settings extends Component {
             <h5>Change Password</h5>
             <p>
               <label>Current Password</label>
-              <input type="text" />
+              <input
+                onChange={this.onChangeInput}
+                type="password"
+                name="currentPassword"
+              />
             </p>
             <p>
               <label>New Password</label>
-              <input type="text" />
+              <input
+                onChange={this.onChangeInput}
+                type="password"
+                name="newPassword"
+              />
             </p>
             <p>
               <label>Confirm Password</label>
-              <input type="text" />
+              <input
+                onChange={this.onChangeInput}
+                type="password"
+                name="newPasswordConfirm"
+              />
             </p>
             <Button
               className="btn-primary"
-              onClick={this.openModal.bind(this, "CHANGE_PASSWORD_CONFIRM")}
+              onClick={this.saveModal.bind(this, "CHANGE_PASSWORD")}
             >
               Save
             </Button>
