@@ -112,7 +112,8 @@
 
 .settings-page input[type="text"],
 .settings-page input[type="email"],
-.settings-page input[type="password"] {
+.settings-page input[type="password"],
+.settings-page input.a-input {
   background: #fafafa;
   border: 1px solid #e0e0e0;
   font-size: 25px;
@@ -217,4 +218,8 @@
   margin-top: 0;
 }
 .settings-page .a-modal-content .edit-profile .avatar .overlay {
+}
+
+.settings-page .a-modal-content .bank-card .col-sm-4 {
+  height: auto;
 }

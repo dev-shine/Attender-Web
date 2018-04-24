@@ -6,6 +6,62 @@ import { Button } from "react-bootstrap"
 import "./settings.css"
 import API from "./../services/api"
 import NavBar from "../layouts/NavBar"
+import MaskedInput from "react-text-mask"
+
+const cardIconStyle = {
+  width: 50,
+  height: 45
+}
+
+const checkIconStyle = {
+  width: 15,
+  height: 15,
+  float: "left"
+}
+class SelectCardPresentation extends Component {
+  constructor(props) {
+    super(props)
+  }
+  onSelectCard(name) {
+    const cardTypes = this.state.cardTypes.map(
+      c => (c.name === name ? { ...c, on: true } : { ...c, on: false })
+    )
+    this.setState({ cardTypes })
+  }
+  state = {
+    selectedCard: "visa",
+    cardTypes: [
+      { name: "visa", image: "visa.png", on: true },
+      { name: "master", image: "master.png", on: false },
+      { name: "american_express", image: "express.png", on: false }
+    ]
+  }
+  render() {
+    return (
+      <div className="row">
+        {this.state.cardTypes.length > 0 &&
+          this.state.cardTypes.map((c, index) => (
+            <div
+              key={index}
+              className="col-sm-4"
+              onClick={this.onSelectCard.bind(this, c.name)}
+            >
+              <img
+                src={require(`.././assets/cardIcons/${c.image}`)}
+                style={cardIconStyle}
+              />
+              {c.on && (
+                <img
+                  src={require(`.././assets/checkIcon.png`)}
+                  style={checkIconStyle}
+                />
+              )}
+            </div>
+          ))}
+      </div>
+    )
+  }
+}
 
 class Settings extends Component {
   constructor(props) {
@@ -16,12 +72,21 @@ class Settings extends Component {
     openModal: false,
     modalContent: "Under construction",
     customModalStyle: {},
+
     oldEmail: "",
     newEmail: "",
     newEmail2: "",
+
     newPassword: "",
     newPasswordConfirm: "",
-    passwordVerification: ""
+
+    passwordVerification: "",
+
+    cardName: "",
+    cardNumber: "",
+    cardDate: "",
+    cardCV: "",
+    isBankLoading: true
   }
   componentDidMount = async () => {
     API.initRequest()
@@ -60,6 +125,18 @@ class Settings extends Component {
         api_url = "user/profile/change-password"
         confirm_modal_name = "CHANGE_PASSWORD_CONFIRM"
         break
+      case "ADD_BANK_CARD":
+        const cardResult = this.state.cardDate.split("/")
+        body = {
+          account_name: this.state.cardName,
+          account_number: this.state.cardNumber,
+          expiry_month: cardResult[0],
+          expiry_year: 20 + cardResult[1],
+          cvv: this.state.cardCV
+        }
+        api_url = "add-card"
+        confirm_modal_name = "ADD_BANK_CARD_CONFIRM"
+        break
       case "DEACTIVATE_ACCOUNT":
         body = {
           password: this.state.passwordVerification
@@ -70,7 +147,7 @@ class Settings extends Component {
     }
     API.post(api_url, body).then(res => {
       if (!res.status) {
-        alert(res.message)
+        alert(JSON.stringify(res))
       }
       if (res.status) {
         this.openModal(confirm_modal_name)
@@ -252,11 +329,11 @@ class Settings extends Component {
             <h5>
               Which payment type <br />would you like to add?
             </h5>
-            <p onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT")}>
+            <p onClick={this.openModal.bind(this, "ADD_BANK_CARD")}>
               <img src={require("./img/credit-card.png")} />
               <span>Credit/Debit Card</span>
             </p>
-            <p onClick={this.openModal.bind(this, "ADD_BANK_CARD")}>
+            <p onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT")}>
               <img src={require("./img/bank-icon.png")} />
               <span>Bank Account</span>
             </p>
@@ -308,29 +385,50 @@ class Settings extends Component {
         break
       case "ADD_BANK_CARD":
         content = (
-          <div className="change-email have-header">
+          <div className="bank-card have-header">
             <h5>Add Credit/Debit Card</h5>
+
+            {/*<p>This connection is secure</p><SelectCardPresentation />*/}
             <p>
               <label>Name on the Card</label>
-              <input type="text" />
+              <input
+                type="text"
+                name="cardName"
+                onChange={this.onChangeInput}
+              />
             </p>
             <p>
               <label>Credit/Debit Card number</label>
-              <input type="text" />
+              <input
+                type="text"
+                name="cardNumber"
+                onChange={this.onChangeInput}
+              />
             </p>
             <div className="row no-padding-bottom">
               <p className="col-md-6">
                 <label>Month/Year</label>
-                <input type="text" />
+                <MaskedInput
+                  mask={[/[0-1]/, /[1-9]/, "/", /[0-3]/, /[0-9]/]}
+                  name="cardDate"
+                  className="a-input"
+                  guide={false}
+                  onChange={this.onChangeInput}
+                />
               </p>
               <p className="col-md-6">
                 <label>CVV</label>
-                <input type="text" />
+                <input
+                  type="text"
+                  className="a-input"
+                  name="cardCV"
+                  onChange={this.onChangeInput}
+                />
               </p>
             </div>
             <Button
               className="btn-primary"
-              onClick={this.openModal.bind(this, "ADD_BANK_CARD_CONFIRM")}
+              onClick={this.saveModal.bind(this, "ADD_BANK_CARD")}
             >
               Save
             </Button>
@@ -487,9 +585,6 @@ class Settings extends Component {
                 <span className="col-sm-9">
                   You can change your email address to a new one.
                 </span>
-                {
-                  //<div className="col-sm-9 accordion">Form goes here</div>
-                }
               </li>
               <li>
                 <label
@@ -499,29 +594,18 @@ class Settings extends Component {
                   Change Password
                 </label>
                 <span className="col-sm-9">Change your login password.</span>
-                {
-                  //<div className="col-sm-9 accordion">Form goes here</div>
-                }
               </li>
             </ul>
           </div>
           <div className="settings-group">
             <h4>Payment Settings</h4>
             <ul>
-              <li>
-                <label
-                  className="col-sm-3"
-                  onClick={this.openModal.bind(this, "ADD_BANK_CHOICES")}
-                >
-                  Add Bank Accounts
-                </label>
+              <li onClick={this.openModal.bind(this, "ADD_BANK_CHOICES")}>
+                <label className="col-sm-3">Add Bank Accounts</label>
                 <span className="col-sm-9">
                   You can add multiple bank account by clicking add bank
                   account.
                 </span>
-                {
-                  //<div className="col-sm-9 accordion">Form goes here</div>
-                }
               </li>
               <li>
                 <label
@@ -534,9 +618,6 @@ class Settings extends Component {
                   You can select which primary bank account will be used when
                   paying staff.
                 </span>
-                {
-                  //<div className="col-sm-9 accordion">Form goes here</div>
-                }
               </li>
             </ul>
           </div>
