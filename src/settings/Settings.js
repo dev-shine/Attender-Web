@@ -20,7 +20,8 @@ class Settings extends Component {
     newEmail: "",
     newEmail2: "",
     newPassword: "",
-    newPasswordConfirm: ""
+    newPasswordConfirm: "",
+    passwordVerification: ""
   }
   componentDidMount = async () => {
     API.initRequest()
@@ -58,6 +59,13 @@ class Settings extends Component {
         }
         api_url = "user/profile/change-password"
         confirm_modal_name = "CHANGE_PASSWORD_CONFIRM"
+        break
+      case "DEACTIVATE_ACCOUNT":
+        body = {
+          password: this.state.passwordVerification
+        }
+        api_url = "user/profile/deactivate-user"
+        confirm_modal_name = "DEACTIVATE_ACCOUNT_CONFIRM"
         break
     }
     API.post(api_url, body).then(res => {
@@ -412,6 +420,14 @@ class Settings extends Component {
             <img src={require("./img/delete-icon.png")} />
             <h5>Delete Account</h5>
             <p>Are you sure you want to delete your account?</p>
+            <p>
+              <label>Please enter password to verify</label>
+              <input
+                onChange={this.onChangeInput}
+                type="password"
+                name="passwordVerification"
+              />
+            </p>
             <Button
               className="btn-primary"
               onClick={this.openModal.bind(this, "DEACTIVATE_ACCOUNT_CONFIRM")}
