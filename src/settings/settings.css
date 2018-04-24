@@ -1,1 +1,225 @@
+.settings-page h3 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding-top: 25px;
+  margin-bottom: 25px;
+}
 
+.settings-group * {
+  letter-spacing: 1px;
+  color: #999;
+}
+
+.settings-group {
+  width: 835px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+}
+
+.settings-group h4 {
+  font-size: 20px;
+
+  margin-bottom: 25px;
+}
+
+.settings-group li {
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  margin-left: 40px;
+  padding: 7px 0;
+}
+
+.settings-group li:hover * {
+  color: #43bfe9;
+  cursor: pointer;
+}
+
+.settings-group li:last-child {
+  border-bottom: none;
+}
+
+.settings-group label {
+  color: #9f9f9f;
+  padding: 0;
+}
+
+.settings-group span {
+  color: #d0d0d0;
+  font-size: 14px;
+}
+
+.settings-group .redText {
+  color: #e50000;
+}
+
+.settings-page .a-modal-content {
+  text-align: center;
+  width: 400px;
+}
+
+.settings-page .a-modal-content img {
+  margin-top: 18px;
+}
+
+.settings-page .a-modal-content * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.settings-page .a-modal-content p {
+  color: #787878;
+  font-style: normal;
+}
+
+.settings-page .a-modal-content h5 {
+  text-transform: uppercase;
+  font-size: 16px;
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+
+.settings-page .a-modal-content button {
+  margin-top: 16px;
+  padding: 2px;
+  font-size: 15px;
+  color: #fff;
+  font-weight: normal;
+}
+
+.settings-page .a-modal-content label {
+  display: block;
+}
+
+.deactivate-account img {
+  height: 95px;
+}
+
+.settings-page .have-header h5 {
+  margin-top: -33px;
+  margin-bottom: 38px;
+}
+
+.settings-page .change-email p {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.settings-page .change-email label {
+  font-size: 13px;
+}
+
+.settings-page input[type="text"],
+.settings-page input[type="email"],
+.settings-page input[type="password"],
+.settings-page input.a-input {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  font-size: 25px;
+  padding: 5px 12px;
+  width: 100%;
+}
+
+.no-padding-bottom {
+  padding-bottom: 0;
+  margin-bottom: 0 !important;
+}
+
+.settings-page .a-modal-content .add-bank-choices span {
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.settings-page .a-modal-content .add-bank-choices p * {
+  transition: all 0.1s linear;
+}
+
+.settings-page .a-modal-content .add-bank-choices p img {
+  width: 130px;
+}
+
+.settings-page .a-modal-content .add-bank-choices p:hover {
+  color: #43bfe9;
+  cursor: pointer;
+}
+
+.settings-page .a-modal-content .add-bank-choices p:hover img {
+  width: 140px;
+}
+
+.settings-page .a-modal-content .col-md-6:first-child {
+  padding-right: 15px;
+}
+
+.settings-page .a-modal-content .col-md-6:last-child {
+  padding-left: 15px;
+}
+
+.settings-page .a-modal-content .payment-method .group {
+  text-align: left;
+  margin-bottom: 47px;
+}
+
+.settings-page .a-modal-content .payment-method p {
+  font-size: 14px;
+}
+
+.settings-page .a-modal-content .payment-method .row {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.settings-page .a-modal-content .payment-method .row .col-md-2 {
+  padding: 0 18px 0 0;
+  font-size: 12px;
+}
+
+.settings-page .a-modal-content .payment-method .row .col-md-6 span {
+  margin-right: 10px;
+  font-size: 16px;
+}
+.settings-page .a-modal-content .payment-method .row .col-md-5 {
+  padding-left: 0;
+}
+.settings-page .a-modal-content .payment-method .row .col-md-5 span {
+  font-size: 13px;
+}
+
+.settings-page .a-modal-content .payment-method .row .fa-minus-circle {
+  color: #5e5cbd;
+  font-size: 20px;
+}
+.settings-page .a-modal-content .payment-method .primary {
+  color: #bbb;
+}
+
+.settings-page .a-modal-content .payment-method img {
+  width: 100%;
+  margin: auto;
+}
+
+.settings-page .a-modal-content .payment-method .btn-delete:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.settings-page .a-modal-content .edit-profile {
+}
+.settings-page .a-modal-content .edit-profile .avatar {
+  width: 95px;
+  height: 95px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.settings-page .a-modal-content .edit-profile .avatar img {
+  width: 100%;
+  margin-top: 0;
+}
+.settings-page .a-modal-content .edit-profile .avatar .overlay {
+}
+
+.settings-page .a-modal-content .bank-card .col-sm-4 {
+  height: auto;
+}
