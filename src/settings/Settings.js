@@ -86,7 +86,12 @@ class Settings extends Component {
     cardNumber: "",
     cardDate: "",
     cardCV: "",
-    isBankLoading: true
+    isBankLoading: true,
+
+    accountName: "",
+    bankName: "",
+    bankBSB: "",
+    bankAccount: ""
   }
   componentDidMount = async () => {
     API.initRequest()
@@ -136,6 +141,16 @@ class Settings extends Component {
         }
         api_url = "add-card"
         confirm_modal_name = "ADD_BANK_CARD_CONFIRM"
+        break
+      case "ADD_BANK_ACCOUNT":
+        body = {
+          account_name: this.state.accountName,
+          bank_name: this.state.bankName,
+          routing_number: this.state.bankBSB,
+          account_number: this.state.bankAccount
+        }
+        api_url = "add-bank"
+        confirm_modal_name = "ADD_BANK_ACCOUNT_CONFIRM"
         break
       case "DEACTIVATE_ACCOUNT":
         body = {
@@ -346,25 +361,41 @@ class Settings extends Component {
             <h5>Add Bank Account</h5>
             <p>
               <label>Account Name</label>
-              <input type="text" />
+              <input
+                type="text"
+                onChange={this.onChangeInput}
+                name="accountName"
+              />
             </p>
             <p>
               <label>Bank Name</label>
-              <input type="text" />
+              <input
+                type="text"
+                onChange={this.onChangeInput}
+                name="bankName"
+              />
             </p>
             <div className="row no-padding-bottom">
               <p className="col-md-6">
                 <label>BSB</label>
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={this.onChangeInput}
+                  name="bankBSB"
+                />
               </p>
               <p className="col-md-6">
                 <label>Account Number</label>
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={this.onChangeInput}
+                  name="bankAccount"
+                />
               </p>
             </div>
             <Button
               className="btn-primary"
-              onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT_CONFIRM")}
+              onClick={this.saveModal.bind(this, "ADD_BANK_ACCOUNT")}
             >
               Save
             </Button>
