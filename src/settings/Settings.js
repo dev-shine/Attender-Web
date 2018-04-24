@@ -35,43 +35,35 @@ class Settings extends Component {
   }
   // Handle modal actions
   saveModal(type) {
-    let api_url = ""
+    let api_url = "",
+      confirm_modal_name = ""
+    let body = {}
     switch (type) {
       case "CHANGE_EMAIL":
-        const body = {
+        body = {
           oldEmail: this.state.oldEmail,
           newEmail: this.state.newEmail
         }
+        api_url = "user/profile/change-email"
+        confirm_modal_name = "CHANGE_EMAIL_CONFIRM"
         if (body.newEmail !== this.state.newEmail2) {
           alert("Email confirmation does not match.")
           return false
         }
-        api_url = "user/profile/change-email"
-        confirm_modal_name = "CHANGE_EMAIL_CONFIRM"
         break
       case "CHANGE_PASSWORD":
-        const body = {
+        body = {
           newPassword: this.state.newPassword,
           newPasswordConfirm: this.state.newPasswordConfirm
         }
-
-        API.post("user/profile/change-password", body).then(res => {
-          if (!res.status) {
-            alert(res.message)
-            this.setState({ passwordChangeMessage: res.message })
-          }
-
-          if (res.status) {
-            this.setState({ passwordChangeMessage: res.message })
-          }
-        })
+        api_url = "user/profile/change-password"
+        confirm_modal_name = "CHANGE_PASSWORD_CONFIRM"
         break
     }
     API.post(api_url, body).then(res => {
       if (!res.status) {
         alert(res.message)
       }
-
       if (res.status) {
         this.openModal(confirm_modal_name)
       }
