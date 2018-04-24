@@ -11,7 +11,6 @@ class Settings extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
-    this.save_CHANGE_EMAIL = this.save_CHANGE_EMAIL.bind(this)
   }
   state = {
     openModal: false,
@@ -20,7 +19,8 @@ class Settings extends Component {
     oldEmail: "",
     newEmail: "",
     newEmail2: "",
-    emailChangeMessage: ""
+    newPassword: "",
+    newPasswordConfirm: ""
   }
   componentDidMount = async () => {
     API.initRequest()
@@ -34,28 +34,50 @@ class Settings extends Component {
     this.setState({ openModal: false })
   }
   // Handle modal actions
-  save_CHANGE_EMAIL() {
-    // check if newemail and confirm matches.
-    const body = {
-      oldEmail: this.state.oldEmail,
-      newEmail: this.state.newEmail
+  saveModal(type) {
+    let api_url = ""
+    switch (type) {
+      case "CHANGE_EMAIL":
+        const body = {
+          oldEmail: this.state.oldEmail,
+          newEmail: this.state.newEmail
+        }
+        if (body.newEmail !== this.state.newEmail2) {
+          alert("Email confirmation does not match.")
+          return false
+        }
+        api_url = "user/profile/change-email"
+        confirm_modal_name = "CHANGE_EMAIL_CONFIRM"
+        break
+      case "CHANGE_PASSWORD":
+        const body = {
+          newPassword: this.state.newPassword,
+          newPasswordConfirm: this.state.newPasswordConfirm
+        }
+
+        API.post("user/profile/change-password", body).then(res => {
+          if (!res.status) {
+            alert(res.message)
+            this.setState({ passwordChangeMessage: res.message })
+          }
+
+          if (res.status) {
+            this.setState({ passwordChangeMessage: res.message })
+          }
+        })
+        break
     }
-    if (body.newEmail !== this.state.newEmail2) {
-      alert("Email confirmation does not match.")
-      return false
-    }
-    API.post("user/profile/change-email", body).then(res => {
+    API.post(api_url, body).then(res => {
       if (!res.status) {
         alert(res.message)
-        this.setState({ emailChangeMessage: res.message })
       }
 
       if (res.status) {
-        this.setState({ emailChangeMessage: res.message })
-        this.openModal("CHANGE_EMAIL_CONFIRM")
+        this.openModal(confirm_modal_name)
       }
     })
   }
+
   // end Handle modal actions
   openModal(type) {
     let content = "",
@@ -149,7 +171,10 @@ class Settings extends Component {
                 required
               />
             </p>
-            <Button className="btn-primary" onClick={this.save_CHANGE_EMAIL}>
+            <Button
+              className="btn-primary"
+              onClick={this.saveModal.bind(this, "CHANGE_EMAIL")}
+            >
               Save
             </Button>
           </div>
