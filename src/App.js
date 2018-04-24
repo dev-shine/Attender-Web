@@ -7,6 +7,7 @@ import AccountConfirmed from "./auth/accountConfirmed"
 import LookingFor from "./lookingFor/lookingFor"
 import StaffProfileSetup from "./staff/profileSetup"
 import SearchVenues from "./staff/searchVenues"
+import Earnings from "./staff/earnings"
 import VenueSetup from "./venue/venueSetup"
 import employerSetup from "./lookingFor/employerSetup"
 import OrganiserSetup from "./organiser/organiserSetup"
@@ -61,6 +62,7 @@ class App extends Component {
           <Route exact path="/profile-setup" component={StaffProfileSetup} />
           <Route exact path="/search-venues" component={SearchVenues} />
           <Route exact path="/venue-setup" component={VenueSetup} />
+          <Route exact path="/earnings" component={Earnings} />
           <Route exact path="/employer" component={employerSetup} />
           <Route exact path="/organiser-setup" component={OrganiserSetup} />
           <Route exact path="/find-staff" component={FindStaff} />
