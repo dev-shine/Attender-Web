@@ -345,7 +345,7 @@ class FindStaff extends Component {
                     }
                   })}
                 </div>
-                <div className="row xsm scroll v-scroll">
+                <div className="row staff-interest-wrapper scroll v-scroll">
                   {Object.keys(this.state.staffs).map((key, index) => {
                     if (this.state.staffs[key].on) {
                       return (
@@ -374,13 +374,13 @@ class FindStaff extends Component {
                     return null
                   })}
                 </div>
-                <div className="vs-freq xxm row">
+                <div className="vs-freq xxm staff-type">
                   {this.state.frequency.map((freq, index) => {
                     if (freq.on) {
                       return (
                         <div
                           key={index}
-                          className="vs-freq-items col-sm-3"
+                          className="vs-freq-items"
                           onClick={() => this.onChangeFrequency(index)}
                         >
                           {/* TODO Must understand logic on the lines below */}
@@ -392,12 +392,12 @@ class FindStaff extends Component {
                       return (
                         <div
                           key={index}
-                          className="vs-freq-items col-sm-3"
+                          className="vs-freq-items"
                           onClick={() => this.onChangeFrequency(index)}
                         >
                           {/* TODO Must understand logic on the lines below */}
                           <a className="a-checkbox" />
-                          <span style={{ fontSize: "12px" }}>{freq.name}</span>
+                          <span>{freq.name}</span>
                         </div>
                       )
                     }
@@ -443,8 +443,8 @@ class FindStaff extends Component {
                           key={index}
                           className={
                             key.selected
-                              ? "a-btn btn-round btn-dark xs"
-                              : "a-btn btn-round btn-passive xs"
+                              ? "a-btn btn-round btn-dark"
+                              : "a-btn btn-round btn-passive"
                           }
                         >
                           {key.lbl}
@@ -452,7 +452,7 @@ class FindStaff extends Component {
                       )
                     })}
                   </div>
-                  <div className="xdm mini-container">
+                  <div className="xdm find-staff">
                     <button
                       key="All"
                       className={

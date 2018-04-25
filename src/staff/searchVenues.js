@@ -325,9 +325,7 @@ class SearchVenues extends Component {
                     )
                   })}
                 </div>
-                <div className="xxm mini-container">
-                  {this.renderFilterButtons()}
-                </div>
+                <div className="xxm">{this.renderFilterButtons()}</div>
               </div>
             </div>
             <div className="card-content scroll v-scroll xxm">
