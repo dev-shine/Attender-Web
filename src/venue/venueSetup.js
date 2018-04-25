@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import PlacesAutocomplete from "react-places-autocomplete"
+import moment from "moment"
 
 import ".././styles/global.css"
 import ".././styles/style.css"
@@ -9,6 +10,7 @@ import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API, { cloudinary } from ".././services/api"
+import TimePicker from "./staffTimePicker"
 
 class VenueSetup extends Component {
   constructor(props) {
@@ -471,20 +473,34 @@ class VenueSetup extends Component {
                         >
                           {key.capitalize()}
                         </div>
-                        <input
+                        {/* <input
                           className="a-input oh"
                           onChange={e => this.onChangeTime(e, key)}
                           name="start"
                           type="text"
                           value={oh.start}
+                        /> */}
+                        <TimePicker
+                          className="a-input oh"
+                          name="start"
+                          type="text"
+                          selectedTime={moment(oh.start, ["hh:mm A", "hh A"])}
+                          // onSelectTime={this.onSelectTime}
                         />
-                        <input
+                        <TimePicker
+                          className="a-input oh"
+                          name="start"
+                          type="text"
+                          selectedTime={moment(oh.end, ["hh:mm A", "hh A"])}
+                          // onSelectTime={this.onSelectTime}
+                        />
+                        {/* <input
                           className="a-input oh"
                           onChange={e => this.onChangeTime(e, key)}
                           name="end"
                           type="text"
                           value={oh.end}
-                        />
+                        /> */}
                       </div>
                     )
                   }
