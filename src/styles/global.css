@@ -1,4 +1,4 @@
-@keyframes animatetop {
+body @keyframes animatetop {
   from {
     top: -300px;
     opacity: 0;
@@ -13,8 +13,8 @@
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
   .seven-cols .col-lg-1 {
-    width: 100%;
-    *width: 100%;
+	width: 100%;
+	*width: 100%;
   }
 }
 
@@ -22,8 +22,8 @@
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
   .seven-cols .col-lg-1 {
-    width: 14.285714285714285714285714285714%;
-    *width: 14.285714285714285714285714285714%;
+	width: 14.285714285714285714285714285714%;
+	*width: 14.285714285714285714285714285714%;
   }
 }
 
@@ -31,17 +31,17 @@
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
   .seven-cols .col-lg-1 {
-    width: 14.285714285714285714285714285714%;
-    *width: 14.285714285714285714285714285714%;
+	width: 14.285714285714285714285714285714%;
+	*width: 14.285714285714285714285714285714%;
   }
 }
 
 @media screen and (min-width: 0\0) {
   select {
-    background: none\9;
-    padding: 5px\9;
+	background: none\9;
+	padding: 5px\9;
   }
-} */
+  } */
 
 .bg {
   -webkit-background-size: cover;
