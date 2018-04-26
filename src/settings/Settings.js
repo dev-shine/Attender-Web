@@ -477,7 +477,7 @@ class Settings extends Component {
         )
         break
       case "PAYMENT_METHOD":
-        customModalStyle = { width: "405px" }
+        customModalStyle = {}
         content = (
           <div className="payment-method have-header">
             <h5>Payment Method</h5>

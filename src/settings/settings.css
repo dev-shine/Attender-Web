@@ -200,15 +200,12 @@
   margin-bottom: 47px;
 }
 
-.settings-page .a-modal-content .payment-method p {
-  font-size: 14px;
-}
-
 .settings-page .a-modal-content .payment-method .row {
   border-bottom: 1px solid #eee;
   padding: 5px 0;
-  margin-bottom: 5px;
-  font-size: 14px;
+  -ms-align-items: center;
+  align-items: center;
+  margin: auto auto 5px;
 }
 .settings-page .a-modal-content .payment-method .row .col-md-2 {
   padding: 0 18px 0 0;
