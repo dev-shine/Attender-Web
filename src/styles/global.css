@@ -3385,4 +3385,6 @@ textarea {
 
 .form-content .form-group {
   margin-bottom: 1.4em;
+  display: inline-block;
+  width: 100%;
 }

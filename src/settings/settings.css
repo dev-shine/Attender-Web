@@ -52,8 +52,9 @@
   font-size: 14px;
 }
 
-.settings-page .row {
+.settings-page .a-modal-content .row {
   width: 100%;
+  margin: 0 -15px;
 }
 
 .settings-page .a-modal-content {
