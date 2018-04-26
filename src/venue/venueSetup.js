@@ -146,9 +146,10 @@ class VenueSetup extends Component {
     this.setState(prevState => ({ staffs }))
   }
 
-  onChangeTime = (e, key) => {
+  onSelectTime = (key, target, time) => {
+    // Updating the opening hours
     let openingHours = this.state.openingHours
-    openingHours[key][e.target.name] = e.target.value
+    openingHours[key][target] = time
     this.setState(prevState => ({ openingHours }))
   }
 
@@ -473,34 +474,28 @@ class VenueSetup extends Component {
                         >
                           {key.capitalize()}
                         </div>
-                        {/* <input
-                          className="a-input oh"
-                          onChange={e => this.onChangeTime(e, key)}
-                          name="start"
-                          type="text"
-                          value={oh.start}
-                        /> */}
                         <TimePicker
                           className="a-input oh"
                           name="start"
                           type="text"
-                          selectedTime={moment(oh.start, ["hh:mm A", "hh A"])}
-                          // onSelectTime={this.onSelectTime}
+                          selectedTime={moment(oh.start)}
+                          onSelectTime={this.onSelectTime.bind(
+                            this,
+                            key,
+                            "start"
+                          )}
                         />
                         <TimePicker
                           className="a-input oh"
-                          name="start"
-                          type="text"
-                          selectedTime={moment(oh.end, ["hh:mm A", "hh A"])}
-                          // onSelectTime={this.onSelectTime}
-                        />
-                        {/* <input
-                          className="a-input oh"
-                          onChange={e => this.onChangeTime(e, key)}
                           name="end"
                           type="text"
-                          value={oh.end}
-                        /> */}
+                          selectedTime={moment(oh.end)}
+                          onSelectTime={this.onSelectTime.bind(
+                            this,
+                            key,
+                            "end"
+                          )}
+                        />
                       </div>
                     )
                   }
