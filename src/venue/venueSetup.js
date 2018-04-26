@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import NavBar from "../layouts/NavBar"
 import PlacesAutocomplete from "react-places-autocomplete"
+import moment from "moment"
 
 import ".././styles/global.css"
 import ".././styles/style.css"
@@ -9,6 +10,7 @@ import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API, { cloudinary } from ".././services/api"
+import TimePicker from "./staffTimePicker"
 
 class VenueSetup extends Component {
   constructor(props) {
@@ -144,9 +146,10 @@ class VenueSetup extends Component {
     this.setState(prevState => ({ staffs }))
   }
 
-  onChangeTime = (e, key) => {
+  onSelectTime = (key, target, time) => {
+    // Updating the opening hours
     let openingHours = this.state.openingHours
-    openingHours[key][e.target.name] = e.target.value
+    openingHours[key][target] = time
     this.setState(prevState => ({ openingHours }))
   }
 
@@ -471,19 +474,27 @@ class VenueSetup extends Component {
                         >
                           {key.capitalize()}
                         </div>
-                        <input
+                        <TimePicker
                           className="a-input oh"
-                          onChange={e => this.onChangeTime(e, key)}
                           name="start"
                           type="text"
-                          value={oh.start}
+                          selectedTime={moment(oh.start)}
+                          onSelectTime={this.onSelectTime.bind(
+                            this,
+                            key,
+                            "start"
+                          )}
                         />
-                        <input
+                        <TimePicker
                           className="a-input oh"
-                          onChange={e => this.onChangeTime(e, key)}
                           name="end"
                           type="text"
-                          value={oh.end}
+                          selectedTime={moment(oh.end)}
+                          onSelectTime={this.onSelectTime.bind(
+                            this,
+                            key,
+                            "end"
+                          )}
                         />
                       </div>
                     )
