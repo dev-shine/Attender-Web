@@ -114,10 +114,6 @@
   margin-bottom: 30px;
 }
 
-.settings-page .change-email label {
-  font-size: 13px;
-}
-
 .settings-page input[type="text"],
 .settings-page input[type="email"],
 .settings-page input[type="password"],
