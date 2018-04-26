@@ -108,7 +108,7 @@ textarea {
 
 select {
   border: 0px solid;
-  background-color: #fafafa !important;
+  background-color: #fafafa;
   padding: 5px 35px 5px 5px;
   font-size: 16px;
   height: 34px;
@@ -116,13 +116,11 @@ select {
   -moz-appearance: none;
   appearance: none;
   outline: none;
-  font-size: 15px !important;
   padding: 1em;
   color: #525252;
-  width: 95%;
-  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.3);
+  width: 100%;
   height: 3.25em;
-  margin-bottom: 10px !important;
+  margin-bottom: 10px;
   display: block;
 }
 
@@ -3379,4 +3377,12 @@ textarea {
   display: inline-block;
   width: 100%;
   margin-bottom: 30px;
+}
+
+.redText {
+  color: #e50000;
+}
+
+.form-content .form-group {
+  margin-bottom: 1.4em;
 }

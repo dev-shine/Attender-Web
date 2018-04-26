@@ -177,30 +177,30 @@ class Settings extends Component {
     switch (type) {
       case "EDIT_PROFILE":
         content = (
-          <div className="edit-profile have-header">
+          <div className="edit-profile have-header form-content">
             <h5>Edit Profile</h5>
             <div className="avatar">
               <img src={require("./img/kerr.jpeg")} />
               <span className="overlay" />
             </div>
-            <sub>
+            <div className="change-avatar">
               Click on the icon to change Profile Picture <br />
-              <span className="remove-photo">Remove Photo</span>
-            </sub>
+              <span className="remove-photo redText">Remove Photo</span>
+            </div>
 
-            <p>
+            <div className="form-group text-left">
               <label>Full Name</label>
               <input type="text" placeholder="Andrew Orsen" />
-            </p>
-            <p>
+            </div>
+            <div className="form-group text-left">
               <label>Bio</label>
-              <textarea>
+              <textarea rows="4">
                 Owner of Eivissa Super Clib and running a small restaurant in
                 Sydney for more than 5 years
               </textarea>
-              <span className="char-counter">24/200</span>
-            </p>
-            <div className="container">
+              <span className="char-counter pull-right">24/200</span>
+            </div>
+            <div className="form-group text-left">
               <div className="row">
                 <div className="col-md-6">
                   <p>
@@ -211,15 +211,13 @@ class Settings extends Component {
                   </p>
                 </div>
                 <div className="col-md-6 section-gender">
-                  <p>
-                    <label>Gender</label>
-                    <span>
-                      <i>&#9794;</i> Male
-                    </span>
-                    <span>
-                      <i>&#9792;</i> Female
-                    </span>
-                  </p>
+                  <label>Gender</label>
+                  <span className="inputRadio active">
+                    <i className="fa fa-mars" /> Male
+                  </span>
+                  <span className="inputRadio">
+                    <i className="fa fa-venus" /> Female
+                  </span>
                 </div>
               </div>
             </div>
@@ -667,10 +665,8 @@ class Settings extends Component {
                 <span className="col-sm-9">&nbsp;</span>
               </li>
               <li>
-                <span className="col-sm-12">
-                  Deactivating your account will disable your profile and remove
-                  your listed events and hired staff.
-                </span>
+                Deactivating your account will disable your profile and remove
+                your listed events and hired staff.
               </li>
             </ul>
           </div>
