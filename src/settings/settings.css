@@ -52,11 +52,16 @@
   font-size: 14px;
 }
 
+.settings-page .row {
+  width: 100%;
+}
+
 .settings-page .a-modal-content {
   text-align: center;
   width: 100%;
   max-width: 497px;
   height: auto;
+  padding: 2em;
 }
 
 .settings-page .a-modal-content img {
