@@ -436,17 +436,6 @@ class FindStaff extends Component {
                   <div className="xxm">
                     <span>Filtered by:&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <div className="a-icon-container-sm xxm scroll h-scroll">
-                      <button
-                        key="All"
-                        className={
-                          this.state.viewOnly == "all"
-                            ? "a-btn btn-round btn-dark"
-                            : "a-btn btn-round btn-passive"
-                        }
-                        onClick={() => this.viewOnly("all")}
-                      >
-                        All
-                      </button>
                       {Object.values(this.state.sortBtns).map((key, index) => {
                         return (
                           <button
@@ -465,25 +454,38 @@ class FindStaff extends Component {
                     </div>
                   </div>
                   <div className="xdm mini-container">
-                    {Object.keys(this.state.staffs).map((key, index) => {
-                      if (this.state.staffs[key].on) {
-                        return (
-                          <button
-                            key={key}
-                            className={
-                              this.state.viewOnly == key
-                                ? "a-btn btn-round btn-dark"
-                                : "a-btn btn-round btn-passive"
-                            }
-                            onClick={() => this.viewOnly(key)}
-                          >
-                            {key.replace(/\b[a-z]/g, function(letter) {
-                              return letter.toUpperCase()
-                            })}
-                          </button>
-                        )
-                      }
-                    })}
+                    <div className="a-icon-container-sm xxm scroll h-scroll">
+                      <button
+                        key="All"
+                        className={
+                          this.state.viewOnly == "all"
+                            ? "a-btn btn-round btn-dark"
+                            : "a-btn btn-round btn-passive"
+                        }
+                        onClick={() => this.viewOnly("all")}
+                      >
+                        All
+                      </button>
+                      {Object.keys(this.state.staffs).map((key, index) => {
+                        if (this.state.staffs[key].on) {
+                          return (
+                            <button
+                              key={key}
+                              className={
+                                this.state.viewOnly == key
+                                  ? "a-btn btn-round btn-dark"
+                                  : "a-btn btn-round btn-passive"
+                              }
+                              onClick={() => this.viewOnly(key)}
+                            >
+                              {key.replace(/\b[a-z]/g, function(letter) {
+                                return letter.toUpperCase()
+                              })}
+                            </button>
+                          )
+                        }
+                      })}
+                    </div>
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
