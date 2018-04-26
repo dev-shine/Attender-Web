@@ -182,10 +182,10 @@ select::-ms-expand {
   font-weight: 100;
   cursor: pointer;
   display: inline-block;
-  height: 40px;
-  width: 40px;
+  padding: 3px 10px;
   text-align: center;
   z-index: 4;
+  line-height: 1;
 }
 
 .a-modal-content .row {
