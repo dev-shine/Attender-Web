@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import API from ".././services/api"
 
 class Registration extends Component {
@@ -108,7 +109,10 @@ class Registration extends Component {
         <div className="reg-confirmation">
           <input type="checkbox" onClick={() => this.onConfirm()} />
           <p>
-            By confirming your account you agree to our Terms and Conditions.
+            By confirming your account you agree to our
+            <Link target="_blank" to="/terms-and-condition">
+              Terms and Conditions.
+            </Link>
           </p>
         </div>
         <div className="reg-action">

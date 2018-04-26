@@ -11,6 +11,7 @@ import {
   Row,
   Col
 } from "react-bootstrap"
+import { Link } from "react-router-dom"
 
 const FieldGroup = ({ id, label, help, ...props }) => {
   return (
@@ -139,7 +140,9 @@ class Signup extends Component {
                           By confirming your account you agree to our
                         </h5>
                         <h5 className="termscondition-bottom-style">
-                          Terms and Conditions.
+                          <Link target="_blank" to="/terms-and-condition">
+                            Terms and Conditions.
+                          </Link>
                         </h5>
                         <Button onClick={this.onLogin}>Confirm</Button>
                       </div>

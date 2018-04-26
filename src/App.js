@@ -23,6 +23,7 @@ import SubscriptionSettings from "./SubscriptionSettings/SubscriptionSettings"
 import SubscriptionOffer from "./SubscriptionOffer/SubscriptionOffer"
 import NotFound from "./NotFound/NotFound"
 import { loadState } from "./localStorage"
+import TermsAndCondition from "./TermsAndCondition/TermsAndCondition"
 
 class App extends Component {
   constructor(props) {
@@ -78,6 +79,11 @@ class App extends Component {
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={EmployerMessage} />
           {this.renderSubscriptionSettingsPage()}
+          <Route
+            exact
+            path="/terms-and-condition"
+            component={TermsAndCondition}
+          />
         </main>
       </div>
     )
