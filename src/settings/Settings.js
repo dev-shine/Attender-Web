@@ -418,7 +418,7 @@ class Settings extends Component {
             <h5>Add Credit/Debit Card</h5>
 
             {/*<p>This connection is secure</p><SelectCardPresentation />*/}
-            <p>
+            <p className="text-left">
               <label>Name on the Card</label>
               <input
                 type="text"
@@ -426,7 +426,7 @@ class Settings extends Component {
                 onChange={this.onChangeInput}
               />
             </p>
-            <p>
+            <p className="text-left">
               <label>Credit/Debit Card number</label>
               <input
                 type="text"
@@ -435,7 +435,7 @@ class Settings extends Component {
               />
             </p>
             <div className="row no-padding-bottom">
-              <p className="col-md-6">
+              <p className="col-md-6 text-left">
                 <label>Month/Year</label>
                 <MaskedInput
                   mask={[/[0-1]/, /[1-9]/, "/", /[0-3]/, /[0-9]/]}
@@ -445,7 +445,7 @@ class Settings extends Component {
                   onChange={this.onChangeInput}
                 />
               </p>
-              <p className="col-md-6">
+              <p className="col-md-6 text-left">
                 <label>CVV</label>
                 <input
                   type="text"

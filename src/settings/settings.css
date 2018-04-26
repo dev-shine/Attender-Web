@@ -135,6 +135,20 @@
   color: #535252;
   display: inline-block;
   font-weight: 4400;
+  transition: 150ms;
+}
+
+.settings-page input[type="text"]:focus,
+.settings-page input[type="email"]:focus,
+.settings-page input[type="password"]:focus,
+.settings-page textarea:focus,
+.settings-page select:focus,
+.settings-page .inputRadio:focus,
+.settings-page input.a-input:focus {
+  -webkit-box-shadow: 0 0 0 1px #d1d1d1;
+  box-shadow: 0 0 0 1px #d1d1d1;
+  transition: 150ms;
+  outline-style: none;
 }
 
 .settings-page span.inputRadio {
