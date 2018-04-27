@@ -15,6 +15,19 @@ class VenueProfile extends React.Component {
   constructor(props) {
     super(props)
   }
+  state = {
+    venue: {}
+  }
+  fetch = async () => {
+    const { match: { params } } = this.props
+    let venue_id = params.venue_id
+    const data = await API.get("venues/" + venue_id)
+    this.setState({ venue: data.venue })
+  }
+  componentWillMount() {
+    API.initRequest()
+    this.fetch()
+  }
   render() {
     return (
       <div>
@@ -33,7 +46,7 @@ class VenueProfile extends React.Component {
                 <h3>The Venue</h3>
                 <div className="venue-avatar">
                   <span className="venue-avatar-overlay" />
-                  <img src="" />
+                  <img src={this.state.venue.image} />
                 </div>
                 <div className="venue-details-container container">
                   <span className="venue-edit-toggle" />
