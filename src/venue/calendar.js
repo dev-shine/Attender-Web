@@ -450,7 +450,7 @@ class Calendar extends Component {
           </span>
           <div className="row">
             <div className="col-sm-4">
-              <p>CREATE EVENT</p>
+              <p className="title">CREATE EVENT</p>
               <div className="form-group">
                 <p>Event Name</p>
                 <input type="text" className="a-input" />
@@ -492,7 +492,7 @@ class Calendar extends Component {
             </div>
             <div className="col-sm-8">
               <div className="row">
-                <div className="col-sm-7">
+                <div className="col-sm-6">
                   <p>STAFF OF INTEREST</p>
                   <div className="icon-container">
                     <div className="a-icon-item-sm">
@@ -543,7 +543,7 @@ class Calendar extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-sm-5">
+                <div className="col-sm-6">
                   <p>NUMBER OF STAFF</p>
                   <div className="staff-num-container h-scroll scroll">
                     {this.state.staffs.map(staff => {
@@ -568,6 +568,32 @@ class Calendar extends Component {
               <div className="calendar-event-staff-list v-scroll scroll">
                 <div className="calendar-event-staff">
                   <p className="title">Bartenders</p>
+                  <div className="staffs h-scroll scroll">
+                    {this.state.staffs.map((staff, index) => {
+                      return (
+                        <div key={index} className="my-staff">
+                          <div className="item">
+                            <img
+                              alt=""
+                              className="profile-thumb my-staff-img"
+                              src="http://via.placeholder.com/50x50"
+                            />
+                            <p className="name">Staff {staff}</p>
+                            <small>Part Time</small>
+                            <small>$20 - $23 /hour</small>
+                            <button className="a-btn btn-dark btn-round">
+                              <small>Send Message</small>
+                            </button>
+                            <a className="mreview">Add monthly review</a>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                <div className="calendar-event-staff">
+                  <p className="title">Waiter/Waitresses</p>
                   <div className="staffs h-scroll scroll">
                     {this.state.staffs.map((staff, index) => {
                       return (
