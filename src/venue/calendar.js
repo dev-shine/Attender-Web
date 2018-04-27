@@ -41,18 +41,20 @@ class Calendar extends Component {
   renderStaffBox = (closable, col, active) => {
     return (
       <div className={"my-staff " + col}>
-        <img
-          alt=""
-          className="profile-thumb-md my-staff-img"
-          src="http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
-        />
-        <p>Staff {active}</p>
-        <small>Part Time</small>
-        <small>$20 - $23 /hour</small>
-        <button className="a-btn btn-dark btn-round">
-          <small>Send Message</small>
-        </button>
-        <a>Add monthly review</a>
+        <div className="item">
+          <img
+            alt=""
+            className="profile-thumb-sm my-staff-img"
+            src="http://via.placeholder.com/50x50"
+          />
+          <p className="name">Staff {active}</p>
+          <small>Part Time</small>
+          <small>$20 - $23 /hour</small>
+          <button className="a-btn btn-dark btn-round">
+            <small>Send Message</small>
+          </button>
+          <a className="mreview">Add monthly review</a>
+        </div>
       </div>
     )
   }
@@ -667,7 +669,7 @@ class Calendar extends Component {
               <div className="staff-list v-scroll scroll">
                 <div className="row">
                   {this.state.eventStaffs.map(staff => {
-                    return this.renderStaffBox(false, "col-sm-3", staff)
+                    return this.renderStaffBox(false, "col-sm-4", staff)
                   })}
                 </div>
               </div>

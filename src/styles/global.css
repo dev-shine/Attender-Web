@@ -170,8 +170,9 @@ select::-ms-expand {
 }
 
 .a-modal-content.management {
-  width: 60%;
-  height: 36em;
+  width: 68.5%;
+  max-height: 44.5em;
+  min-height: 35em;
 }
 
 .a-modal-content span.a-close {
@@ -215,7 +216,6 @@ select::-ms-expand {
 }
 
 .a-modal-content .col-sm-4 p {
-  font-size: 18px;
   color: #a59999;
 }
 
@@ -298,17 +298,21 @@ select::-ms-expand {
   width: 20em;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 3em;
+  margin-top: 2em;
 }
 
 .a-modal-content.management .col-sm-7 .search input {
-  width: 18.6em;
-  height: 2em;
+  width: 100%;
+  font-size: 12.4px;
+  border-color: #e2e7ea;
+  padding: 7px;
+  height: auto;
+  border-radius: 5px;
 }
 
 .a-modal-content.management .col-sm-7 .staff-list {
-  height: 22.25em;
-  margin-top: 3em;
+  height: 100%;
+  margin-top: 2em;
   margin-right: auto;
   margin-left: auto;
 }
@@ -323,15 +327,30 @@ select::-ms-expand {
 }
 
 .a-modal-content.management .col-sm-5 {
-  height: 34em;
   border-right: 0.5px solid rgba(0, 0, 0, 0.3);
 }
 
 .a-modal-content.management .my-staff {
-  height: 16em;
-  width: 11em;
-  margin: 1em;
-  padding-top: 1em;
+  margin: unset;
+  padding: 1em 0.5em;
+  height: auto;
+  border-right: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.my-staff .item {
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.my-staff .item .mreview {
+  color: #5ec0df;
+  font-size: 11px;
+  text-decoration: underline;
+  margin-top: 10px;
 }
 
 .add-event {
@@ -383,6 +402,8 @@ select::-ms-expand {
 
 .header p:first-child {
   font-weight: 500;
+  font-size: 21px;
+  color: #797979;
 }
 
 .header p:nth-child(2) {
@@ -398,7 +419,6 @@ select::-ms-expand {
 }
 
 .a-modal-content.management .col-sm-7 {
-  height: 34em;
 }
 
 .drop-menu {
@@ -545,10 +565,10 @@ select::-ms-expand {
 
 .search i {
   position: absolute;
-  top: 0.2em;
-  right: 1.5em;
+  top: 8px;
+  right: 12px;
   font-size: 18px;
-  color: #a4a4a4;
+  color: #97a9b2;
 }
 
 .upload-box {
@@ -696,7 +716,13 @@ select::-ms-expand {
 .profile-thumb-md {
   height: 76px;
   width: 76px;
-  border-radius: 38px;
+  border-radius: 50%;
+}
+
+.profile-thumb-sm {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 
 .cont-flex {
@@ -1038,7 +1064,6 @@ textarea {
   background-color: #fafafa;
   outline: none;
   border: 0px solid;
-  padding: 1em;
 }
 
 .a-input-inline {
@@ -1414,7 +1439,6 @@ textarea {
 
 .v-scroll {
   width: 100%;
-  height: auto;
   overflow-x: hidden;
   overflow-y: auto;
   white-space: nowrap;
@@ -2669,6 +2693,11 @@ textarea {
   padding-top: 1em;
   position: relative;
   text-align: center;
+}
+
+.my-staff .name {
+  font-size: 15px;
+  margin: 8px 0 0 0;
 }
 
 .my-staff p {
