@@ -94,7 +94,7 @@ class ViewEvent extends Component {
         <div className="item">
           <img
             alt=""
-            className="profile-thumb-md my-staff-img"
+            className="profile-thumb-sm my-staff-img"
             src="http://via.placeholder.com/50x50"
           />
           <p className="name">Staff {active}</p>
