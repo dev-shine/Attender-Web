@@ -4,6 +4,8 @@ import NavBar from "../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Grid, Row, Col, Image } from "react-bootstrap"
+import { Link } from "react-router-dom"
+
 import API from "../services/api"
 import moment from "moment"
 
@@ -201,7 +203,9 @@ class SearchVenues extends Component {
         </div>
         <div className="col-sm-6 venue-info">
           <p className="venue-name">
-            <b>{venue.name}</b>
+            <Link to={"/venue/profile/" + venue._id}>
+              <b>{venue.name}</b>
+            </Link>
           </p>
           <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
           {Object.keys(venue.openingHours).map((day, index) => (
