@@ -1,0 +1,121 @@
+// Global - should be transfered to global soon on refactor
+.app-body {
+}
+.app-body-header {
+  text-align: center;
+}
+.app-body h1 {
+  font-size: 20px;
+  text-transform: uppercase;
+  padding-top: 25px;
+  margin-bottom: 25px;
+}
+.app-body-boxed {
+  box-shadow: 0px 0px 10px #aaa;
+  padding: 20px;
+}
+.app-body-divider {
+  border-right: 1px solid #aaa;
+}
+.VenueProfile .app-body-circle-list img {
+  display: block;
+}
+.app-body-circle-list li {
+  display: inline-block;
+  width: 50px;
+}
+.app-body-circle-list span {
+  display: block;
+  color: purple;
+  font-size: 14px;
+}
+.app-body-centered-title {
+  text-align: center;
+  font-size: 24px;
+  color: #999;
+}
+// -----------------------
+.VenueProfile h3 {
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.VenueProfile .venue-avatar {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 2px 2px 15px #aaa;
+}
+.VenueProfile .venue-avatar img {
+  width: 400px;
+  height: 50px;
+  background: #eee;
+}
+.VenueProfile .venue-avatar .venue-avatar-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  background-color: #999;
+  transition: all 0.2s linear;
+}
+.VenueProfile .venue-avatar:hover .venue-avatar-overlay {
+  opacity: 0;
+}
+//-------------------------------------------------------
+.VenueProfile .venue-details-container {
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 10px;
+  position: relative;
+}
+.VenueProfile .venue-details-container .venue-edit-toggle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+  top: -10px;
+  background: purple;
+  border-radius: 100%;
+}
+.VenueProfile .venue-details-container label {
+  font-size: 14px;
+  color: #aaa;
+}
+.VenueProfile .venue-details-container strong {
+  font-size: 24px;
+  color: #999;
+}
+.VenueProfile .venue-detail {
+  padding: 10px;
+  border-bottom: 1px solid #aaa;
+}
+
+// ------------------------------------------------------------
+.venue-type-summary {
+  text-align: center;
+}
+.venue-type-summary li {
+  display: inline-block;
+  float: left;
+  list-style: outside;
+}
+
+.venue-schedule table {
+  border-collapse: collapse;
+}
+
+.venue-schedule table,
+.venue-schedule th,
+.venue-schedule td {
+  border: 1px solid black;
+}
+.venue-location address {
+  background: #ddd;
+  padding: 10px;
+  display: block;
+}
+.venue-location img {
+  height: 50px;
+  width: 100%;
+  background: #eee;
+}
