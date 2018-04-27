@@ -177,7 +177,7 @@ class Calendar extends Component {
         </div>
         <div className="calendar-main-date">
           <div className="row">
-            <div className="calendar-main-date-navigator col-sm-6">
+            <div className="calendar-main-date-navigator col-sm-5">
               <div className="calendar-main-head">
                 <a onClick={() => this.prevMonth()} className="pull-left">
                   <i className="fa fa-angle-left" />
@@ -192,33 +192,33 @@ class Calendar extends Component {
               </div>
               <div className="calendar-main-settings">
                 <p>{this.state.selectedDate.format("dddd")}</p>
-                <div className="btn-group">
+                <div className="btn-group text-center">
                   <a className="a-btn">Month</a>
                   <a className="a-btn selected">Week</a>
                   <a className="a-btn">Day</a>
                 </div>
               </div>
             </div>
-            <div className="calendar-main-date-full col-sm-6">
-              <div className="row seven-cols week-names">
-                <div className="col-md-1">SU</div>
-                <div className="col-md-1">MO</div>
-                <div className="col-md-1">TU</div>
-                <div className="col-md-1">WE</div>
-                <div className="col-md-1">TH</div>
-                <div className="col-md-1">FR</div>
-                <div className="col-md-1">SA</div>
+            <div className="calendar-main-date-full col-sm-7">
+              <div className="cal-wrapper week-names">
+                <div className="cal-item label">SU</div>
+                <div className="cal-item label">MO</div>
+                <div className="cal-item label">TU</div>
+                <div className="cal-item label">WE</div>
+                <div className="cal-item label">TH</div>
+                <div className="cal-item label">FR</div>
+                <div className="cal-item label">SA</div>
               </div>
               {this.state.calendar.map((week, id) => {
                 return (
-                  <div className="row seven-cols" key={id}>
+                  <div className="cal-wrapper" key={id}>
                     {week.days.map((day, id) => {
                       if (this.state.today.isSame(day, "day")) {
                         return (
                           <div
                             key={id}
                             onClick={() => this.selectDate(day)}
-                            className="col-md-1"
+                            className="cal-item digit"
                           >
                             <span className="today">{day.format("D")}</span>
                           </div>
@@ -228,7 +228,7 @@ class Calendar extends Component {
                           <div
                             key={id}
                             onClick={() => this.selectDate(day)}
-                            className="col-md-1 on-month"
+                            className="cal-item digit on-month"
                           >
                             <span
                               className={
@@ -243,7 +243,7 @@ class Calendar extends Component {
                         )
                       } else {
                         return (
-                          <div key={id} className="col-md-1">
+                          <div key={id} className="cal-item digit">
                             <span>{day.format("D")}</span>
                           </div>
                         )
@@ -279,10 +279,10 @@ class Calendar extends Component {
                     </div>
                     <div className="col-sm-10">
                       <p className="title">Staff Meeting for Lumi Bar</p>
-                      <p>
+                      <p className="date">
                         <i className="fa fa-clock-o" />&nbsp;10:00 AM - 12:00 PM
                       </p>
-                      <p>
+                      <p className="venue">
                         Venue: Oasis Beach{" "}
                         <span className="pull-right">
                           <i className="fa fa-map-marker" /> Sydney, CBC
@@ -361,7 +361,7 @@ class Calendar extends Component {
                   <div className="col-sm-3">
                     {event === 1 ? (
                       <div>
-                        <p className="light-text">TODAY</p>
+                        <p className="today">TODAY</p>
                         <p className="xl-text">{event}</p>
                       </div>
                     ) : (
@@ -370,57 +370,60 @@ class Calendar extends Component {
                     <p>August {index}</p>
                   </div>
                   <div className="col-sm-9">
-                    <div className="row">
-                      <div className="col-sm-4">
-                        <img
-                          alt=""
-                          src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                        />
-                      </div>
-                      <div className="col-sm-8">
-                        <p className="title">Zark's Burger Challenge</p>
-                        <p>
-                          <i className="fa fa-clock-o" />&nbsp;10:00 AM - 12:00
-                          PM
-                        </p>
-                        <p>Venue: Oasis Beach </p>
-                        <p>
-                          <i className="fa fa-map-marker" /> Sydney, CBC
-                        </p>
-                        <a>
-                          <div className="drop-menu">
-                            <img
-                              alt=""
-                              src={require(".././assets/icons/venue/menu.png")}
-                              onClick={() => this.openDropdown(`e-${index}`)}
-                            />
-                            <div
-                              className="e-dropdown"
-                              style={{
-                                display:
-                                  this.state.eventDropdown === `e-${index}`
-                                    ? "block"
-                                    : "none"
-                              }}
-                            >
-                              <div className="e-dropdown-content">
-                                <p>View Event</p>
-                                {!this.state.profile.isStaff && (
-                                  <p
-                                    onClick={() =>
-                                      this.onOpenEventManagement(index)
-                                    }
-                                  >
-                                    Manage Event
-                                  </p>
-                                )}
-                                {!this.state.profile.isStaff && (
-                                  <p>Delete Event</p>
-                                )}
+                    <div className="event-item">
+                      <div className="row">
+                        <div className="item thumb-wrapper">
+                          <img
+                            className="thumbnail"
+                            alt=""
+                            src="http://via.placeholder.com/85x85"
+                          />
+                        </div>
+                        <div className="item">
+                          <p className="title">Zark's Burger Challenge</p>
+                          <p className="date">
+                            <i className="fa fa-clock-o" />&nbsp;10:00 AM -
+                            12:00 PM
+                          </p>
+                          <p className="venue">Venue: Oasis Beach </p>
+                          <p className="region">
+                            <i className="fa fa-map-marker" /> Sydney, CBC
+                          </p>
+                          <a className="drop-nav">
+                            <div className="drop-menu">
+                              <img
+                                alt=""
+                                src={require(".././assets/icons/venue/menu.png")}
+                                onClick={() => this.openDropdown(`e-${index}`)}
+                              />
+                              <div
+                                className="e-dropdown mini"
+                                style={{
+                                  display:
+                                    this.state.eventDropdown === `e-${index}`
+                                      ? "block"
+                                      : "none"
+                                }}
+                              >
+                                <div className="e-dropdown-content">
+                                  <p>View Event</p>
+                                  {!this.state.profile.isStaff && (
+                                    <p
+                                      onClick={() =>
+                                        this.onOpenEventManagement(index)
+                                      }
+                                    >
+                                      Manage Event
+                                    </p>
+                                  )}
+                                  {!this.state.profile.isStaff && (
+                                    <p>Delete Event</p>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </a>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
