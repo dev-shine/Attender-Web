@@ -36,6 +36,7 @@ class ViewEvent extends Component {
                 <p>Event Starts at 06:30 PM </p>
               </div>
               <div style={{ height: "auto", width: "100%" }}>
+                <br />
                 <img
                   style={{ height: "inherit", width: "inherit" }}
                   src={require(".././assets/Background1.png")}
@@ -76,7 +77,7 @@ class ViewEvent extends Component {
               <div className="staff-list v-scroll scroll view-event-modal-description-staff-list">
                 <div className="row">
                   {this.state.eventStaffs.map(staff => {
-                    return this.renderStaffBox(false, "col-sm-3", staff)
+                    return this.renderStaffBox(false, "col-sm-4", staff)
                   })}
                 </div>
               </div>
@@ -90,18 +91,20 @@ class ViewEvent extends Component {
   renderStaffBox = (closable, col, active) => {
     return (
       <div className={"my-staff " + col}>
-        <img
-          alt=""
-          className="profile-thumb-md my-staff-img"
-          src="http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
-        />
-        <p>Staff {active}</p>
-        <small>Part Time</small>
-        <small>$20 - $23 /hour</small>
-        <button className="a-btn btn-dark btn-round">
-          <small>Send Message</small>
-        </button>
-        <a>Add monthly review</a>
+        <div className="item">
+          <img
+            alt=""
+            className="profile-thumb-md my-staff-img"
+            src="http://via.placeholder.com/50x50"
+          />
+          <p className="name">Staff {active}</p>
+          <small>Part Time</small>
+          <small>$20 - $23 /hour</small>
+          <button className="a-btn btn-dark btn-round">
+            <small>Send Message</small>
+          </button>
+          <a className="mreview">Add monthly review</a>
+        </div>
       </div>
     )
   }

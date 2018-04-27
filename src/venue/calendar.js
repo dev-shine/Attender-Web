@@ -572,18 +572,20 @@ class Calendar extends Component {
                     {this.state.staffs.map((staff, index) => {
                       return (
                         <div key={index} className="my-staff">
-                          <img
-                            alt=""
-                            className="profile-thumb my-staff-img"
-                            src="http://www.technodoze.com/wp-content/uploads/2016/03/default-placeholder.png"
-                          />
-                          <p>Staff {staff}</p>
-                          <small>Part Time</small>
-                          <small>$20 - $23 /hour</small>
-                          <button className="a-btn btn-dark btn-round">
-                            <small>Send Message</small>
-                          </button>
-                          <a>Add monthly review</a>
+                          <div className="item">
+                            <img
+                              alt=""
+                              className="profile-thumb my-staff-img"
+                              src="http://via.placeholder.com/50x50"
+                            />
+                            <p className="name">Staff {staff}</p>
+                            <small>Part Time</small>
+                            <small>$20 - $23 /hour</small>
+                            <button className="a-btn btn-dark btn-round">
+                              <small>Send Message</small>
+                            </button>
+                            <a className="mreview">Add monthly review</a>
+                          </div>
                         </div>
                       )
                     })}
