@@ -51,49 +51,54 @@ class VenueProfile extends React.Component {
                 <div className="venue-details-container container">
                   <span className="venue-edit-toggle" />
                   <div className="venue-detail venue-name row">
-                    <label className="col-md-4">Venue Name</label>
-                    <strong>LuMi Bar & Dining</strong>
+                    <label className="col-md-5">Venue Name</label>
+                    <strong>{this.state.venue.name}</strong>
                   </div>
                   <div className="venue-detail venue-manager-name row">
-                    <label className="col-md-4">Manager's Name</label>
-                    <strong>Andrew Orsen</strong>
+                    <label className="col-md-5">Manager's Name</label>
+                    <strong>{this.state.venue.managerName}</strong>
                   </div>
                   <div className="venue-detail venue-type app-body-centered-title">
                     <label>Type of Venue</label>
                     <ul className="venue-types app-body-circle-list">
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/type/white/cafe.png`)}
+                        />
                         <span>Cafe</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/type/white/restaurant.png`)}
+                        />
                         <span>Restaurant</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/type/white/bar.png`)}
+                        />
                         <span>Bar</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/type/white/club.png`)}
+                        />
                         <span>Club</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/type/white/pub.png`)}
+                        />
                         <span>Pub</span>
                       </li>
                     </ul>
                   </div>
                   <div className="venue-detail venue-info">
-                    <ul className="venue-type-summary">
+                    <ul className="venue-type-summary clearfix">
                       <li>Cafe/Restaurant</li>
                       <li>High-end Dining</li>
                     </ul>
-                    <p>
-                      Beneath a multitude of pendents lights creating an
-                      intimate atmosphere, LuMi Dining comes to life under the
-                      guidance of Chef Federico Zanellato and his wife and
-                      Sommelier, Michela.
-                    </p>
+                    <p>{this.state.venue.info}</p>
                   </div>
                   <div className="venue-detail venue-schedule app-body-centered-title">
                     <label>Opening Hours</label>
@@ -135,31 +140,74 @@ class VenueProfile extends React.Component {
                     <label>Services</label>
                     <ul className="venue-services app-body-circle-list">
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/alcohol.png`)}
+                        />
                         <span>Alcohol</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/breakfast.png`)}
+                        />
+                        <span>Breakfast</span>
+                      </li>
+                      <li>
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/lunch.png`)}
+                        />
+                        <span>Lunch</span>
+                      </li>
+                      <li>
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/dinner.png`)}
+                        />
+                        <span>Dinner</span>
+                      </li>
+                      <li>
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/drinks.png`)}
+                        />
                         <span>Drinks</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/food.png`)}
+                        />
                         <span>Food</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/pokies.png`)}
+                        />
                         <span>Pokies</span>
                       </li>
                       <li>
-                        <img src="" />
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/hotel.png`)}
+                        />
+                        <span>Hotel</span>
+                      </li>
+                      <li>
+                        <img
+                          src={require(`.././assets/icons/venue/services/white/cocktails.png`)}
+                        />
                         <span>Cocktails</span>
                       </li>
                     </ul>
                   </div>
                   <div className="venue-detail venue-location app-body-centered-title">
                     <label>Location</label>
-                    <address>Surry Hills, CBD Sydney</address>
-                    <img src="" />
+                    <address>{this.state.venue.locationName}</address>
+                    <iframe
+                      width="359"
+                      height="250"
+                      frameborder="0"
+                      src={
+                        "https://www.google.com/maps/@" +
+                        this.state.venue.location
+                      }
+                      allowfullscreen
+                    />
                   </div>
                 </div>
               </div>
