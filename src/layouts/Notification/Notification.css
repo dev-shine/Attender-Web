@@ -1,0 +1,12 @@
+.Notification {
+  left: auto;
+  padding: 0 !important;
+}
+.Notification li {
+  border-bottom: 1px solid #eee;
+  display: block !important;
+  padding: 7px 0 13px;
+}
+.Notification li:last-child {
+  border-bottom: none;
+}

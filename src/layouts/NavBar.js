@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from ".././services/api"
 import QuickLinks from "./QuickLinks/QuickLinks"
+import Notification from "./Notification/Notification"
 import "./NavBar.css"
 
 class NavBar extends Component {
@@ -13,12 +14,16 @@ class NavBar extends Component {
     this.state = {
       sideNavOpen: false,
       profile: {},
-      showQuickLinks: false
+      showQuickLinks: false,
+      showNotification: false
     }
     this.closeQuickLinks = this.closeQuickLinks.bind(this)
     this.openQuickLinks = this.openQuickLinks.bind(this)
+    this.closeNotification = this.closeNotification.bind(this)
+    this.openNotification = this.openNotification.bind(this)
+    this.QLtimer
+    this.NotiTimer
   }
-  QLtimer
   async componentDidMount() {
     let profile = await API.getProfile()
     this.setState({ profile })
@@ -42,6 +47,16 @@ class NavBar extends Component {
   openQuickLinks() {
     clearTimeout(this.QLtimer)
     this.setState({ showQuickLinks: true })
+  }
+
+  closeNotification() {
+    this.NotiTimer = setTimeout(() => {
+      this.setState({ showNotification: false })
+    }, 1000)
+  }
+  openNotification() {
+    clearTimeout(this.NotiTimer)
+    this.setState({ showNotification: true })
   }
 
   renderSideMenu = () => {
@@ -183,6 +198,17 @@ class NavBar extends Component {
                 <QuickLinks
                   onMouseOver={this.openQuickLinks}
                   onMouseOut={this.closeQuickLinks}
+                />
+              ) : null}
+              <span
+                className="toggleQuickLinks fa fa-exclamation-circle"
+                onMouseOver={this.openNotification}
+                onMouseOut={this.closeNotification}
+              />
+              {this.state.showNotification ? (
+                <Notification
+                  onMouseOver={this.openNotification}
+                  onMouseOut={this.closeNotification}
                 />
               ) : null}
             </li>
