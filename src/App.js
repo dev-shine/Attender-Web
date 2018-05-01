@@ -24,6 +24,7 @@ import SubscriptionOffer from "./SubscriptionOffer/SubscriptionOffer"
 import NotFound from "./NotFound/NotFound"
 import { loadState } from "./localStorage"
 import TermsAndCondition from "./TermsAndCondition/TermsAndCondition"
+import TermsAndConditionAttendants from "./TermsAndCondition/TermsAndConditionAttendants"
 import VenueProfile from "./VenueProfile/VenueProfile"
 import PrivacyPolicy from "./PrivacyPolicy/PrivacyPolicy"
 
@@ -85,6 +86,11 @@ class App extends Component {
             exact
             path="/terms-and-condition"
             component={TermsAndCondition}
+          />
+          <Route
+            exact
+            path="/terms-and-condition-attendants"
+            component={TermsAndConditionAttendants}
           />
           <Route exact path="/privacy-policy" component={PrivacyPolicy} />
           <Route

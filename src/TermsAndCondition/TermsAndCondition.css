@@ -21,6 +21,11 @@ div.TermsAndCondition > ol > li > ol > li {
   font-size: 15px;
   color: #555;
 }
+div.TermsAndCondition > ol > li > p {
+  font-weight: normal;
+  font-size: 15px;
+  color: #555;
+}
 div.TermsAndCondition > ol > li > ol > li > ol > li {
   font-style: italic;
   font-size: 14px;
