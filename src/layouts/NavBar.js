@@ -4,7 +4,7 @@ import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from ".././services/api"
-import QuickLinks from "./QuickLinks"
+import QuickLinks from "./QuickLinks/QuickLinks"
 import "./NavBar.css"
 
 class NavBar extends Component {
