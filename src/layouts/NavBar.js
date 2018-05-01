@@ -58,6 +58,24 @@ class NavBar extends Component {
     clearTimeout(this.NotiTimer)
     this.setState({ showNotification: true })
   }
+  renderNotification() {
+    return (
+      <span>
+        <span
+          className="toggleQuickLinks fa fa-exclamation-circle"
+          onMouseOver={this.openNotification}
+          onMouseOut={this.closeNotification}
+        />
+        {this.state.showNotification ? (
+          <Notification
+            onMouseOver={this.openNotification}
+            onMouseOut={this.closeNotification}
+            profile={this.state.profile}
+          />
+        ) : null}
+      </span>
+    )
+  }
 
   renderSideMenu = () => {
     return (
@@ -200,17 +218,7 @@ class NavBar extends Component {
                   onMouseOut={this.closeQuickLinks}
                 />
               ) : null}
-              <span
-                className="toggleQuickLinks fa fa-exclamation-circle"
-                onMouseOver={this.openNotification}
-                onMouseOut={this.closeNotification}
-              />
-              {this.state.showNotification ? (
-                <Notification
-                  onMouseOver={this.openNotification}
-                  onMouseOut={this.closeNotification}
-                />
-              ) : null}
+              {this.renderNotification()}
             </li>
             <li>
               <a>
