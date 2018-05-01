@@ -17,7 +17,7 @@ export default class QuickLinks extends React.Component {
   render() {
     return (
       <div
-        className="component QuickLinks"
+        className="component nav-dropdown QuickLinks"
         onMouseOver={this.Stay}
         onMouseOut={this.Out}
       >
