@@ -1,6 +1,8 @@
 .Notification {
   left: auto;
   padding: 0 !important;
+  width: 300px !important;
+  right: -15px;
 }
 .Notification li {
   border-bottom: 1px solid #eee;
