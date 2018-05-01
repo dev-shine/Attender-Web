@@ -64,25 +64,31 @@ class FindStaff extends Component {
     if (profile && profile.employer && profile.employer.staffOfInterest) {
       const frequencies = profile.employer.staffOfInterest.frequency
       const employerStaffs = profile.employer.staffOfInterest.staffs
+      if (
+        typeof frequencies !== "undefined" &&
+        typeof employerStaffs !== "undefined"
+      ) {
+        if (frequencies.length > 0 && employerStaffs.length > 0) {
+          frequencies.forEach(f => {
+            const foundFrequency = frequency.findIndex(fr => f === fr.name)
+            if (foundFrequency) {
+              frequency[foundFrequency].on = true
+              this.setState({ frequency })
+            }
+          })
 
-      if (frequencies.length > 0 && employerStaffs.length > 0) {
-        frequencies.forEach(f => {
-          const foundFrequency = frequency.findIndex(fr => f === fr.name)
-          if (foundFrequency) {
-            frequency[foundFrequency].on = true
-            this.setState({ frequency })
-          }
-        })
-
-        employerStaffs.forEach(es => {
-          const foundStaff = Object.keys(staffs).find(st => st === es.position)
-          if (foundStaff) {
-            const staffs = this.state.staffs
-            staffs[foundStaff].on = true
-            staffs[foundStaff].num = es.num
-            this.setState({ staffs })
-          }
-        })
+          employerStaffs.forEach(es => {
+            const foundStaff = Object.keys(staffs).find(
+              st => st === es.position
+            )
+            if (foundStaff) {
+              const staffs = this.state.staffs
+              staffs[foundStaff].on = true
+              staffs[foundStaff].num = es.num
+              this.setState({ staffs })
+            }
+          })
+        }
       }
     }
   }
