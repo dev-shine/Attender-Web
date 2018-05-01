@@ -25,6 +25,7 @@ import NotFound from "./NotFound/NotFound"
 import { loadState } from "./localStorage"
 import TermsAndCondition from "./TermsAndCondition/TermsAndCondition"
 import VenueProfile from "./VenueProfile/VenueProfile"
+import PrivacyPolicy from "./PrivacyPolicy/PrivacyPolicy"
 
 class App extends Component {
   constructor(props) {
@@ -85,6 +86,7 @@ class App extends Component {
             path="/terms-and-condition"
             component={TermsAndCondition}
           />
+          <Route exact path="/privacy-policy" component={PrivacyPolicy} />
           <Route
             exact
             path="/venue/profile/:venue_id"
