@@ -615,11 +615,14 @@ class VenueSetup extends Component {
 
   renderSecondStep = () => {
     const thumbnails = this.state.venueImages.map((image, index) => (
-      <div key={index} className="vs-p-photo">
+      <div
+        key={index}
+        className="vs-p-photo"
+        style={{ width: "80px", height: "80px" }}
+      >
         <img
           src={image}
-          width="80"
-          height="80"
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
           hidden={!(this.state.venueImages.length > 1)}
           onClick={this.handleImageSelect}
         />
@@ -641,13 +644,13 @@ class VenueSetup extends Component {
           </div>
           <div className="vs-p-container xm" onClick={this.onOpenUploader}>
             <span hidden={!!this.state.selectedImage}>Upload</span>
-            <img
-              src={this.state.selectedImage}
-              width="400"
-              height="288"
-              hidden={!this.state.selectedImage}
-              style={{ margin: "auto" }}
-            />
+            <div style={{ width: "400px", height: "288px" }}>
+              <img
+                src={this.state.selectedImage}
+                style={{ maxWidth: "100%", maxHeight: "100%", margin: "auto" }}
+                hidden={!this.state.selectedImage}
+              />
+            </div>
           </div>
 
           <input

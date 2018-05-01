@@ -8,11 +8,12 @@
 
 .settings-group * {
   letter-spacing: 1px;
-  color: #999;
+  color: #797979;
 }
 
 .settings-group {
-  width: 835px;
+  max-width: 960px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
@@ -20,15 +21,16 @@
 
 .settings-group h4 {
   font-size: 20px;
-
+  font-weight: 400;
   margin-bottom: 25px;
 }
 
 .settings-group li {
   list-style: none;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e2e2e2;
   margin-left: 40px;
   padding: 7px 0;
+  color: #797979;
 }
 
 .settings-group li:hover * {
@@ -43,20 +45,33 @@
 .settings-group label {
   color: #9f9f9f;
   padding: 0;
+  text-align: left;
+  margin-bottom: 0;
 }
 
 .settings-group span {
-  color: #d0d0d0;
-  font-size: 14px;
+  color: #c5c5c5;
 }
 
-.settings-group .redText {
+.settings-group span.redText {
   color: #e50000;
+}
+
+.settings-page .a-modal-content label {
+  margin-bottom: 0.4em;
+}
+
+.settings-page .a-modal-content .row {
+  width: 100%;
+  margin: 0 -15px;
 }
 
 .settings-page .a-modal-content {
   text-align: center;
-  width: 400px;
+  width: 100%;
+  max-width: 497px;
+  height: auto;
+  padding: 2em;
 }
 
 .settings-page .a-modal-content img {
@@ -75,21 +90,29 @@
 
 .settings-page .a-modal-content h5 {
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: 20px;
   margin-top: 35px;
   margin-bottom: 25px;
+  line-height: auto;
+  font-weight: 400;
 }
 
 .settings-page .a-modal-content button {
-  margin-top: 16px;
-  padding: 2px;
-  font-size: 15px;
+  margin-bottom: 16px;
+  padding: 5px;
+  font-size: 16px;
   color: #fff;
   font-weight: normal;
+  min-width: 134px;
 }
 
 .settings-page .a-modal-content label {
   display: block;
+  color: #535252;
+}
+
+.section-gender label {
+  margin-bottom: 0.7rem;
 }
 
 .deactivate-account img {
@@ -97,8 +120,8 @@
 }
 
 .settings-page .have-header h5 {
-  margin-top: -33px;
-  margin-bottom: 38px;
+  margin-top: 15px;
+  margin-bottom: 35px;
 }
 
 .settings-page .change-email p {
@@ -106,19 +129,44 @@
   margin-bottom: 30px;
 }
 
-.settings-page .change-email label {
-  font-size: 13px;
-}
-
 .settings-page input[type="text"],
 .settings-page input[type="email"],
 .settings-page input[type="password"],
+.settings-page textarea,
+.settings-page select,
+.settings-page .inputRadio,
 .settings-page input.a-input {
   background: #fafafa;
-  border: 1px solid #e0e0e0;
-  font-size: 25px;
-  padding: 5px 12px;
+  border: none;
+  font-size: 16px;
+  padding: 13px 12px;
   width: 100%;
+  color: #535252;
+  display: inline-block;
+  font-weight: 4400;
+  transition: 150ms;
+}
+
+.settings-page input[type="text"]:focus,
+.settings-page input[type="email"]:focus,
+.settings-page input[type="password"]:focus,
+.settings-page textarea:focus,
+.settings-page select:focus,
+.settings-page .inputRadio:focus,
+.settings-page input.a-input:focus {
+  -webkit-box-shadow: 0 0 0 1px #d1d1d1;
+  box-shadow: 0 0 0 1px #d1d1d1;
+  transition: 150ms;
+  outline-style: none;
+}
+
+.settings-page span.inputRadio {
+  width: auto;
+}
+
+.settings-page span.inputRadio.active {
+  background: #00d4e4;
+  color: #fff;
 }
 
 .no-padding-bottom {
@@ -129,7 +177,6 @@
 .settings-page .a-modal-content .add-bank-choices span {
   display: block;
   margin-top: 20px;
-  font-size: 13px;
 }
 
 .settings-page .a-modal-content .add-bank-choices p * {
@@ -162,15 +209,12 @@
   margin-bottom: 47px;
 }
 
-.settings-page .a-modal-content .payment-method p {
-  font-size: 14px;
-}
-
 .settings-page .a-modal-content .payment-method .row {
   border-bottom: 1px solid #eee;
   padding: 5px 0;
-  margin-bottom: 5px;
-  font-size: 14px;
+  -ms-align-items: center;
+  align-items: center;
+  margin: auto auto 5px;
 }
 .settings-page .a-modal-content .payment-method .row .col-md-2 {
   padding: 0 18px 0 0;
@@ -212,6 +256,12 @@
   height: 95px;
   border-radius: 100%;
   overflow: hidden;
+}
+.settings-page .a-modal-content .edit-profile .change-avatar {
+  color: #b7b7b7;
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .settings-page .a-modal-content .edit-profile .avatar img {
   width: 100%;

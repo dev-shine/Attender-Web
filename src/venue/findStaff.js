@@ -57,8 +57,32 @@ class FindStaff extends Component {
       results: []
     }
   }
-  componentWillMount = () => {
-    console.log(this.props.match.params.staff)
+  componentWillMount = async () => {
+    API.initRequest()
+    let profile = await API.getProfile()
+
+    if (profile && profile.employer && profile.employer.staffOfInterest) {
+      const frequencies = profile.employer.staffOfInterest.frequency
+      const employerStaffs = profile.employer.staffOfInterest.staffs
+
+      frequencies.forEach(f => {
+        const foundFrequency = frequency.findIndex(fr => f === fr.name)
+        if (foundFrequency) {
+          frequency[foundFrequency].on = true
+          this.setState({ frequency })
+        }
+      })
+
+      employerStaffs.forEach(es => {
+        const foundStaff = Object.keys(staffs).find(st => st === es.position)
+        if (foundStaff) {
+          const staffs = this.state.staffs
+          staffs[foundStaff].on = true
+          staffs[foundStaff].num = es.num
+          this.setState({ staffs })
+        }
+      })
+    }
   }
   onChangeStaffs = (key, action) => {
     let staffs = this.state.staffs
@@ -345,7 +369,7 @@ class FindStaff extends Component {
                     }
                   })}
                 </div>
-                <div className="row xsm scroll v-scroll">
+                <div className="row staff-interest-wrapper scroll v-scroll">
                   {Object.keys(this.state.staffs).map((key, index) => {
                     if (this.state.staffs[key].on) {
                       return (
@@ -374,13 +398,13 @@ class FindStaff extends Component {
                     return null
                   })}
                 </div>
-                <div className="vs-freq xxm row">
+                <div className="vs-freq xxm staff-type">
                   {this.state.frequency.map((freq, index) => {
                     if (freq.on) {
                       return (
                         <div
                           key={index}
-                          className="vs-freq-items col-sm-3"
+                          className="vs-freq-items"
                           onClick={() => this.onChangeFrequency(index)}
                         >
                           {/* TODO Must understand logic on the lines below */}
@@ -392,12 +416,12 @@ class FindStaff extends Component {
                       return (
                         <div
                           key={index}
-                          className="vs-freq-items col-sm-3"
+                          className="vs-freq-items"
                           onClick={() => this.onChangeFrequency(index)}
                         >
                           {/* TODO Must understand logic on the lines below */}
                           <a className="a-checkbox" />
-                          <span style={{ fontSize: "12px" }}>{freq.name}</span>
+                          <span>{freq.name}</span>
                         </div>
                       )
                     }
@@ -435,54 +459,57 @@ class FindStaff extends Component {
                   </p>
                   <div className="xxm">
                     <span>Filtered by:&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-                    {Object.values(this.state.sortBtns).map((key, index) => {
-                      return (
-                        <button
-                          onClick={() => this.setSortBy(key.lbl)}
-                          key={index}
-                          className={
-                            key.selected
-                              ? "a-btn btn-round btn-dark xs"
-                              : "a-btn btn-round btn-passive xs"
-                          }
-                        >
-                          {key.lbl}
-                        </button>
-                      )
-                    })}
-                  </div>
-                  <div className="xdm mini-container">
-                    <button
-                      key="All"
-                      className={
-                        this.state.viewOnly == "all"
-                          ? "a-btn btn-round btn-dark"
-                          : "a-btn btn-round btn-passive"
-                      }
-                      onClick={() => this.viewOnly("all")}
-                    >
-                      All
-                    </button>
-                    {Object.keys(this.state.staffs).map((key, index) => {
-                      if (this.state.staffs[key].on) {
+                    <div className="a-icon-container-sm xxm scroll h-scroll">
+                      {Object.values(this.state.sortBtns).map((key, index) => {
                         return (
                           <button
-                            key={key}
+                            onClick={() => this.setSortBy(key.lbl)}
+                            key={index}
                             className={
-                              this.state.viewOnly == key
-                                ? "a-btn btn-round btn-dark"
-                                : "a-btn btn-round btn-passive"
+                              key.selected
+                                ? "a-btn btn-round btn-dark xs"
+                                : "a-btn btn-round btn-passive xs"
                             }
-                            onClick={() => this.viewOnly(key)}
                           >
-                            {key.replace(/\b[a-z]/g, function(letter) {
-                              return letter.toUpperCase()
-                            })}
+                            {key.lbl}
                           </button>
                         )
-                      }
-                    })}
+                      })}
+                    </div>
+                  </div>
+                  <div className="xdm find-staff">
+                    <div className="a-icon-container-sm xxm scroll h-scroll">
+                      <button
+                        key="All"
+                        className={
+                          this.state.viewOnly == "all"
+                            ? "a-btn btn-round btn-dark"
+                            : "a-btn btn-round btn-passive"
+                        }
+                        onClick={() => this.viewOnly("all")}
+                      >
+                        All
+                      </button>
+                      {Object.keys(this.state.staffs).map((key, index) => {
+                        if (this.state.staffs[key].on) {
+                          return (
+                            <button
+                              key={key}
+                              className={
+                                this.state.viewOnly == key
+                                  ? "a-btn btn-round btn-dark"
+                                  : "a-btn btn-round btn-passive"
+                              }
+                              onClick={() => this.viewOnly(key)}
+                            >
+                              {key.replace(/\b[a-z]/g, function(letter) {
+                                return letter.toUpperCase()
+                              })}
+                            </button>
+                          )
+                        }
+                      })}
+                    </div>
                   </div>
                 </div>
                 <div className="xdm fs-feed-list v-scroll scroll">
