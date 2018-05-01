@@ -25,6 +25,7 @@ import NotFound from "./NotFound/NotFound"
 import { loadState } from "./localStorage"
 import TermsAndCondition from "./TermsAndCondition/TermsAndCondition"
 import TermsAndConditionAttendants from "./TermsAndCondition/TermsAndConditionAttendants"
+import TermsAndConditionBusiness from "./TermsAndCondition/TermsAndConditionBusiness"
 import VenueProfile from "./VenueProfile/VenueProfile"
 import PrivacyPolicy from "./PrivacyPolicy/PrivacyPolicy"
 
@@ -91,6 +92,11 @@ class App extends Component {
             exact
             path="/terms-and-condition-attendants"
             component={TermsAndConditionAttendants}
+          />
+          <Route
+            exact
+            path="/terms-and-condition-business"
+            component={TermsAndConditionBusiness}
           />
           <Route exact path="/privacy-policy" component={PrivacyPolicy} />
           <Route
