@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { push } from "react-router-redux"
 import "./TermsAndCondition.css"
 
-class TermsAndCondition extends React.Component {
+class TermsAndConditionAttendants extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -301,4 +301,6 @@ const mapDispatchToProps = dispatch =>
     },
     dispatch
   )
-export default connect(mapStateToProps, mapDispatchToProps)(TermsAndCondition)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  TermsAndConditionAttendants
+)
