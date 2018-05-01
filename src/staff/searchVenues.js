@@ -187,8 +187,9 @@ class SearchVenues extends Component {
     const url = `venue/${id}/interest`
     let response = await API.post(url, { venue_id: id })
     if (response.status) {
-      this.state.venues[index] = response.venue
-      this.forceUpdate()
+      let venues = [...this.state.venues]
+      venues[index] = response.venue
+      this.setState({ venues })
     }
   }
 
@@ -246,7 +247,9 @@ class SearchVenues extends Component {
           <button
             className={`btn-round ${
               venue.interested &&
-              Object.keys(venue.interested).includes(this.state.profile._id)
+              Object.keys(venue.interested).includes(
+                this.state.profile.staffId._id
+              )
                 ? "btn-dark"
                 : "btn-passive"
             } `}
