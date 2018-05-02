@@ -176,11 +176,15 @@ class Settings extends Component {
       customModalStyle = {}
     switch (type) {
       case "EDIT_PROFILE":
+        let avatarDOM = <img src={this.props.myProfile.avatar} />
+        if (this.props.myProfile.isEmployer) {
+          avatarDOM = <img src={this.props.myProfile.employer.image} />
+        }
         content = (
           <div className="edit-profile have-header form-content">
             <h5>Edit Profile</h5>
             <div className="avatar">
-              <img src={require("./img/kerr.jpeg")} />
+              {avatarDOM}
               <span className="overlay" />
             </div>
             <div className="change-avatar">
