@@ -216,6 +216,7 @@
   align-items: center;
   margin: auto auto 5px;
 }
+
 .settings-page .a-modal-content .payment-method .row .col-md-2 {
   padding: 0 18px 0 0;
   font-size: 12px;
@@ -225,9 +226,11 @@
   margin-right: 10px;
   font-size: 16px;
 }
+
 .settings-page .a-modal-content .payment-method .row .col-md-5 {
   padding-left: 0;
 }
+
 .settings-page .a-modal-content .payment-method .row .col-md-5 span {
   font-size: 13px;
 }
@@ -236,6 +239,7 @@
   color: #5e5cbd;
   font-size: 20px;
 }
+
 .settings-page .a-modal-content .payment-method .primary {
   color: #bbb;
 }
@@ -249,24 +253,34 @@
   opacity: 0.8;
   cursor: pointer;
 }
+
 .settings-page .a-modal-content .edit-profile {
 }
+
 .settings-page .a-modal-content .edit-profile .avatar {
   width: 95px;
   height: 95px;
   border-radius: 100%;
   overflow: hidden;
+  position: relative;
 }
+
 .settings-page .a-modal-content .edit-profile .change-avatar {
   color: #b7b7b7;
   font-size: 15px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
 .settings-page .a-modal-content .edit-profile .avatar img {
   width: 100%;
   margin-top: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-height: 100%;
 }
+
 .settings-page .a-modal-content .edit-profile .avatar .overlay {
 }
 
