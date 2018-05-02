@@ -67,6 +67,7 @@ class Settings extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
+    this.handleFileUpload = this.handleFileUpload.bind(this)
   }
   state = {
     openModal: false,
@@ -91,16 +92,57 @@ class Settings extends Component {
     accountName: "",
     bankName: "",
     bankBSB: "",
-    bankAccount: ""
+    bankAccount: "",
+
+    avatar_temp: "",
+    avatar_temp_preview_url: "",
+    avatar_DOM: "",
+
+    persist_modal: ""
   }
-  componentDidMount = async () => {
+
+  componentWillMount = async () => {
     API.initRequest()
+
+    let avatar_DOM = <img src={this.props.myProfile.avatar} />
+    if (this.props.myProfile.isEmployer) {
+      avatar_DOM = <img src={this.props.myProfile.employer.image} />
+    }
+    this.setState({ avatar_DOM })
+  }
+  componentDidUpdate = async () => {
+    if (this.state.persist_modal !== "") {
+      this.openModal(this.state.persist_modal)
+      this.setState({ persist_modal: "" })
+    }
   }
   onChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
+  handleFileUpload(e) {
+    // const file = files[0];
+    e.preventDefault()
+
+    let reader = new FileReader()
+    let file = e.target.files[0]
+
+    reader.onloadend = () => {
+      let avatar_DOM = <img src={reader.result} />
+      this.setState({
+        avatar_temp: file,
+        avatar_temp_preview_url: reader.result,
+        avatar_DOM: avatar_DOM,
+        persist_modal: "EDIT_PROFILE"
+      })
+    }
+    reader.readAsDataURL(file)
+    this.closeModal()
+  }
+
+  triggerInputFile = () => this.fileInput.click()
+
   closeModal() {
     this.setState({ openModal: false })
   }
@@ -176,15 +218,17 @@ class Settings extends Component {
       customModalStyle = {}
     switch (type) {
       case "EDIT_PROFILE":
-        let avatarDOM = <img src={this.props.myProfile.avatar} />
-        if (this.props.myProfile.isEmployer) {
-          avatarDOM = <img src={this.props.myProfile.employer.image} />
-        }
+        console.log("edit profile again", this.state.avatar_DOM)
         content = (
           <div className="edit-profile have-header form-content">
             <h5>Edit Profile</h5>
-            <div className="avatar">
-              {avatarDOM}
+            <div className="avatar" onClick={this.triggerInputFile}>
+              <input
+                type="file"
+                ref={fileInput => (this.fileInput = fileInput)}
+                onChange={this.handleFileUpload}
+              />
+              {this.state.avatar_DOM}
               <span className="overlay" />
             </div>
             <div className="change-avatar">
@@ -198,10 +242,11 @@ class Settings extends Component {
             </div>
             <div className="form-group text-left">
               <label>Bio</label>
-              <textarea rows="4">
-                Owner of Eivissa Super Clib and running a small restaurant in
-                Sydney for more than 5 years
-              </textarea>
+              <textarea
+                rows="4"
+                defaultValue="Owner of Eivissa Super Clib and running a small restaurant in
+                Sydney for more than 5 years"
+              />
               <span className="char-counter pull-right">24/200</span>
             </div>
             <div className="form-group text-left">
