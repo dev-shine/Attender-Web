@@ -68,11 +68,14 @@ class Settings extends Component {
     super(props)
     this.closeModal = this.closeModal.bind(this)
     this.handleFileUpload = this.handleFileUpload.bind(this)
+    this.onChangeInput = this.onChangeInput.bind(this)
   }
   state = {
     openModal: false,
     modalContent: "Under construction",
     customModalStyle: {},
+
+    info: "",
 
     oldEmail: "",
     newEmail: "",
@@ -108,7 +111,11 @@ class Settings extends Component {
     if (this.props.myProfile.isEmployer) {
       avatar_DOM = <img src={this.props.myProfile.employer.image} />
     }
-    this.setState({ avatar_DOM })
+
+    this.setState({
+      avatar_DOM,
+      info: this.props.myProfile.employer.info
+    })
   }
   componentDidUpdate = async () => {
     if (this.state.persist_modal !== "") {
@@ -152,6 +159,15 @@ class Settings extends Component {
       confirm_modal_name = ""
     let body = {}
     switch (type) {
+      case "EDIT_PROFILE":
+        body = {
+          image: this.state.avatar_temp_preview_url,
+          info: this.state.info,
+          location: this.props.myProfile.location
+        }
+        api_url = "user/profile/venue"
+        confirm_modal_name = "EDIT_PROFILE_CONFIRM"
+        break
       case "CHANGE_EMAIL":
         body = {
           oldEmail: this.state.oldEmail,
@@ -244,8 +260,9 @@ class Settings extends Component {
               <label>Bio</label>
               <textarea
                 rows="4"
-                defaultValue="Owner of Eivissa Super Clib and running a small restaurant in
-                Sydney for more than 5 years"
+                name="info"
+                defaultValue={this.state.info}
+                onChange={this.onChangeInput}
               />
               <span className="char-counter pull-right">24/200</span>
             </div>
@@ -272,9 +289,22 @@ class Settings extends Component {
             </div>
             <Button
               className="btn-primary"
-              onClick={this.openModal.bind(this, "CHANGE_EMAIL_CONFIRM")}
+              onClick={this.saveModal.bind(this, "EDIT_PROFILE")}
             >
               Save
+            </Button>
+          </div>
+        )
+        break
+      case "EDIT_PROFILE_CONFIRM":
+        content = (
+          <div className="change-email-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Data Updated!</h5>
+            <p>You have successfully changed your personal data.</p>
+
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
             </Button>
           </div>
         )
