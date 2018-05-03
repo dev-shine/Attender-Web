@@ -142,45 +142,42 @@ class SearchVenues extends Component {
     })
   }
 
-  handleEventsClick = event => {
-    // const { name } = event.target
-    // this.setState(prev => {
-    //   let events = prev.eventTypes
-    //   if (name === "all") {
-    //     events["all"] = !events["all"]
-    //     Object.keys(prev.eventTypes).forEach(filter => {
-    //       if (filter !== "all") {
-    //         events[filter] = events["all"]
-    //       }
-    //     })
-    //   } else {
-    //     events[name] = !events[name]
-    //     events["all"] = false
-    //   }
-    //   const events = prev.defaultEvents.filter(event => {
-    //     const eventsArray = Object.keys(events).filter(
-    //       type => events[type]
-    //     )
-    //     let isFiltered = false
-    //     event.services.forEach(type => {
-    //       if (servicesArray.includes(type)) {
-    //         isFiltered = true
-    //       }
-    //     })
-    //     return isFiltered
-    //   })
-    //   return { services, venues }
-    // })
+  handleEventsClick = eventType => {
+    const eventTypes = this.state.eventTypes
+    if (eventType === "all") {
+      Object.keys(eventTypes).forEach(key => {
+        eventTypes[key] = false
+      })
+    } else {
+      eventTypes["all"] = false
+    }
+    eventTypes[eventType] = true
+    this.setState({ eventTypes })
   }
 
   handleFilterBy = event => {
-    this.setState(prev => {
-      const filters = prev.filterTypes
-      Object.keys(filters).forEach(type => {
-        filters[type] = !filters[type]
-      })
-      return { filterTypes: filters }
+    this.setState(
+      prev => {
+        const filters = prev.filterTypes
+        Object.keys(filters).forEach(type => {
+          filters[type] = !filters[type]
+        })
+        return { filterTypes: filters }
+      },
+      () => {
+        console.log("the state filter by", this.state.filterTypes)
+      }
+    )
+  }
+
+  handleFilterEvents = filterEvent => {
+    const filterEvents = this.state.filterEvents
+    Object.keys(filterEvents).forEach(key => {
+      key === filterEvent
+        ? (filterEvents[key] = true)
+        : (filterEvents[key] = false)
     })
+    this.setState({ filterEvents })
   }
 
   handleInterestedClick = async (id, index, event) => {
@@ -346,12 +343,21 @@ class SearchVenues extends Component {
               <div className="card-filter">
                 <div className="xxm">
                   <span>FILTER BY:&nbsp;&nbsp;</span>
-                  <button className="a-btn btn-round wide-md btn-dark">
-                    Events Near You
-                  </button>
-                  <button className="a-btn btn-round wide-md btn-passive">
-                    Upcoming Events
-                  </button>
+                  {Object.keys(this.state.filterEvents).map((key, index) => {
+                    const active = this.state.filterEvents[key]
+                      ? "btn-active"
+                      : "btn-passive"
+                    return (
+                      <button
+                        key={index}
+                        className={`a-btn btn-round btn-dark ${active}`}
+                        onClick={this.handleFilterEvents.bind(this, key)}
+                        style={{ fontSize: "14px" }}
+                      >
+                        {key.capitalize()}
+                      </button>
+                    )
+                  })}
                 </div>
                 <div className="xxm card-filter">
                   {Object.keys(this.state.eventTypes).map((key, index) => {
@@ -365,6 +371,7 @@ class SearchVenues extends Component {
                           key.length > 8 ? "wide-md" : "wide-sm"
                         } ${active}`}
                         style={{ fontSize: "14px" }}
+                        onClick={this.handleEventsClick.bind(this, key)}
                       >
                         {key.capitalize()}
                       </button>
