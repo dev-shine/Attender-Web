@@ -66,11 +66,28 @@ class SubscribePopUp extends React.Component {
             <div className="a-modal-footer">
               <Button
                 className="btn-primary"
-                onClick={this.proceed_with_payment}
+                onClick={this.openModal.bind(this, "STEP_2")}
               >
                 Proceed with Payment
               </Button>
             </div>
+          </div>
+        )
+        break
+      case "STEP_2":
+        content = (
+          <div className="add-bank-choices have-header">
+            <h5>
+              Which payment type <br />would you like to add?
+            </h5>
+            <p onClick={this.openModal.bind(this, "ADD_BANK_CARD")}>
+              <img src={require("../../settings/img/credit-card.png")} />
+              <span>Credit/Debit Card</span>
+            </p>
+            <p onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT")}>
+              <img src={require("../../settings/img/bank-icon.png")} />
+              <span>Bank Account</span>
+            </p>
           </div>
         )
         break

@@ -87,3 +87,40 @@ span {
   background: #00d4e4;
   border-color: #00d4e4;
 }
+
+.subscribe-settings-modal .a-modal-content h5 {
+  text-transform: uppercase;
+  font-size: 20px;
+  margin-top: 35px;
+  margin-bottom: 25px;
+  line-height: auto;
+  font-weight: 400;
+}
+.subscribe-settings-modal .have-header h5 {
+  margin-top: 15px;
+  margin-bottom: 35px;
+}
+.subscribe-settings-modal .a-modal-content .add-bank-choices {
+  text-align: center;
+}
+.subscribe-settings-modal .a-modal-content .add-bank-choices span {
+  display: block;
+  margin-top: 20px;
+}
+
+.subscribe-settings-modal .a-modal-content .add-bank-choices p * {
+  transition: all 0.1s linear;
+}
+
+.subscribe-settings-modal .a-modal-content .add-bank-choices p img {
+  width: 130px;
+}
+
+.subscribe-settings-modal .a-modal-content .add-bank-choices p:hover {
+  color: #43bfe9;
+  cursor: pointer;
+}
+
+.subscribe-settings-modal .a-modal-content .add-bank-choices p:hover img {
+  width: 140px;
+}
