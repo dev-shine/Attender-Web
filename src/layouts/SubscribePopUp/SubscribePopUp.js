@@ -12,6 +12,7 @@ class SubscribePopUp extends React.Component {
     super(props)
     this.Close = this.Close.bind(this)
     this.Subscribe = this.Subscribe.bind(this)
+    this.SubscribeNow = this.SubscribeNow.bind(this)
     this.Use_Card = this.Use_Card.bind(this)
     this.Use_Bank = this.Use_Bank.bind(this)
   }
@@ -32,19 +33,19 @@ class SubscribePopUp extends React.Component {
       1: { _id: 1, card: "visa", number: "4375" }
     }
   }
-  // Subscribe() {
-  //   console.log("here")
-  //   const data = {
-  //     subscriptionType: "ACCOUNT_PREMIUM"
-  //   }
-  //   API.post("subscription/subscribe", data).then(res => {
-  //     console.log(res)
-  //     this.props.onSubscribeMe()
-  //   })
-
-  //   this.props.close()
-  //   this.props.goToSubscribeSettings()
-  // }
+  SubscribeNow() {
+    console.log("here")
+    const data = {
+      subscriptionType: "ACCOUNT_PREMIUM"
+    }
+    API.post("subscription/subscribe", data).then(res => {
+      console.log(res)
+      this.props.onSubscribeMe()
+      this.closeModal()
+      this.props.close()
+      this.props.goToSubscribeSettings()
+    })
+  }
   Use_Card() {
     this.setState({ use_card: true, use_bank: false })
     this.openModal("STEP_2")
@@ -278,10 +279,7 @@ class SubscribePopUp extends React.Component {
             <br />
             {DOM}
             <div className="a-modal-footer">
-              <Button
-                className="btn-primary"
-                onClick={this.openModal.bind(this, "STEP_4")}
-              >
+              <Button className="btn-primary" onClick={this.SubscribeNow}>
                 Confirm Subscription
               </Button>
             </div>
@@ -347,7 +345,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goToSubscribeSettings: () => push(`/subscription-settings/#process-1`),
+      goToSubscribeSettings: () => push(`/subscription-settings/#status`),
       onSubscribeMe: subscribeMe
     },
     dispatch

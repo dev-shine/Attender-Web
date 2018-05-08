@@ -36,6 +36,16 @@ class SubscribeSettings extends React.Component {
     let myProfile = { ...this.state.myProfile }
     myProfile.showSubscriptionSettingPopup = false
     this.setState({ myProfile })
+
+    if (window.location.hash) {
+      window.location.href =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        (window.location.port ? ":" + window.location.port : "") +
+        window.location.pathname +
+        (window.location.search ? window.location.search : "")
+    }
   }
   openModal() {
     let myProfile = { ...this.state.myProfile }
@@ -80,7 +90,8 @@ class SubscribeSettings extends React.Component {
   render() {
     return (
       <div>
-        {this.state.myProfile.showSubscriptionSettingPopup
+        {window.location.hash ||
+        this.state.myProfile.showSubscriptionSettingPopup
           ? this.modal()
           : null}
         <NavBar />
