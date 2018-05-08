@@ -21,7 +21,16 @@ class SubscribePopUp extends React.Component {
     customModalStyle: {},
 
     use_card: false,
-    use_bank: false
+    use_bank: false,
+
+    bank_accounts: {
+      0: { _id: 0, bank: "National Aust", number: "4375" },
+      1: { _id: 1, bank: "Herritage Bank", number: "4375" }
+    },
+    credit_cards: {
+      0: { _id: 0, card: "mastercard", number: "4375" },
+      1: { _id: 1, card: "visa", number: "4375" }
+    }
   }
   // Subscribe() {
   //   console.log("here")
@@ -49,6 +58,16 @@ class SubscribePopUp extends React.Component {
   }
   Close() {
     this.props.close()
+  }
+  chooseCard(_id) {
+    let credit_cards = { ...this.state.credit_cards }
+    credit_cards[_id].selected = true
+    this.setState({ credit_cards })
+  }
+  chooseBank(_id) {
+    let bank_accounts = { ...this.state.bank_accounts }
+    bank_accounts[_id].selected = true
+    this.setState({ bank_accounts })
   }
   openModal(type) {
     let content = "",
@@ -119,11 +138,71 @@ class SubscribePopUp extends React.Component {
         )
         break
       case "STEP_3":
+        let DOM = ""
+        if (this.state.use_card) {
+          var listCards = Object.values(this.state.credit_cards).map(
+            (item, key) => {
+              return (
+                <div
+                  className="row"
+                  onClick={this.chooseCard.bind(this, item._id)}
+                >
+                  <span className="col-md-2">
+                    <img
+                      src={require("../../settings/img/" +
+                        item.card +
+                        "-logo.png")}
+                    />
+                  </span>
+                  <span className="col-md-6">
+                    <span>&#9679;&#9679;&#9679;&#9679;</span>
+                    <span>&#9679;&#9679;&#9679;&#9679;</span>
+                    <span>{item.number}</span>
+                  </span>
+                  <small className="primary col-md-2">&nbsp;</small>
+                  <span className="col-md-1">
+                    <i className="fa fa-check-circle" />
+                  </span>
+                </div>
+              )
+            }
+          )
+          DOM = (
+            <div className="group">
+              <p>Choose which Credit Card to use</p>
+              {listCards}
+            </div>
+          )
+        } else {
+          var listBanks = Object.values(this.state.bank_accounts).map(
+            (item, key) => {
+              return (
+                <div
+                  className="row"
+                  onClick={this.chooseBank.bind(this, item._id)}
+                >
+                  <span className="col-md-5">{item.bank}</span>
+                  <span className="col-md-5">
+                    <span>XXXX - XXXX</span>
+                    <span>{item.number}</span>
+                  </span>
+                  <span className="col-md-1">
+                    <i className="fa fa-check-circle" />
+                  </span>
+                </div>
+              )
+            }
+          )
+          DOM = (
+            <div className="group">
+              <p>Choose which Bank Account to use</p>
+              {listBanks}
+            </div>
+          )
+        }
         content = (
           <div className="step-3 have-header">
-            <h5>
-              Which payment type <br />would you like to add?
-            </h5>
+            <h5>You are almost there!</h5>
             <div className="row">
               <label className="col-md-6 ">Attender Premium</label>
               <div className="col-md-6 text-right">
@@ -131,8 +210,8 @@ class SubscribePopUp extends React.Component {
                 <sub>One month of Service</sub>
               </div>
             </div>
-            <hr />
-
+            <br />
+            {DOM}
             <div className="a-modal-footer">
               <Button
                 className="btn-primary"

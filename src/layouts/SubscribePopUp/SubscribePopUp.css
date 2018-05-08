@@ -133,3 +133,53 @@ span {
 .subscribe-settings-modal .a-modal-content .step-2 .a-modal-footer {
   margin-top: 50px;
 }
+
+.subscribe-settings-modal .a-modal-content .step-3 .group {
+  text-align: left;
+  margin-bottom: 47px;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .row {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+  -ms-align-items: center;
+  align-items: center;
+  margin: auto auto 5px;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .row .col-md-2 {
+  padding: 0 18px 0 0;
+  font-size: 12px;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .row .col-md-6 span {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .row .col-md-5 {
+  padding-left: 0;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .row .col-md-5 span {
+  font-size: 13px;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .row .fa-minus-circle {
+  color: #5e5cbd;
+  font-size: 20px;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .primary {
+  color: #bbb;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 img {
+  width: 100%;
+  margin: auto;
+}
+
+.subscribe-settings-modal .a-modal-content .step-3 .btn-delete:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
