@@ -44,7 +44,7 @@ class SubscribeSettings extends React.Component {
   }
   modal() {
     return (
-      <div className="a-modal show">
+      <div className="a-modal show subscribe-settings-modal">
         <div className="a-modal-content">
           <span className="a-close" onClick={this.closeModal}>
             &times;

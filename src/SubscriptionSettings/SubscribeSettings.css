@@ -48,55 +48,55 @@
 }
 
 /*************** Modal ************/
-.subscribe-settings .a-modal-content {
+.subscribe-settings-modal .a-modal-content {
   width: 470px;
   height: auto;
   padding: 60px 25px;
   border-radius: 10px;
   color: #787878;
 }
-.subscribe-settings .a-modal-content h4 {
+.subscribe-settings-modal .a-modal-content h4 {
   font-size: 22px;
   margin-bottom: 45px;
 }
-.subscribe-settings .a-modal-content .row {
+.subscribe-settings-modal .a-modal-content .row {
   margin: 0 0 55px;
 }
-.subscribe-settings .a-modal-content .row .col-md-6 {
+.subscribe-settings-modal .a-modal-content .row .col-md-6 {
   padding: 0;
   font-size: 17px;
   letter-spacing: 1px;
 }
-.subscribe-settings .a-modal-content .row sub {
+.subscribe-settings-modal .a-modal-content .row sub {
   display: block;
   color: #adadad;
   font-style: italic;
   font-size: 14px;
   letter-spacing: normal;
 }
-.subscribe-settings .a-modal-content .row small.col-md-6 {
+.subscribe-settings-modal .a-modal-content .row small.col-md-6 {
   font-size: 12px;
   font-style: italic;
   letter-spacing: normal;
 }
-.subscribe-settings .a-modal-content .row.last {
+.subscribe-settings-modal .a-modal-content .row.last {
   margin-bottom: 0;
 }
-.subscribe-settings .a-modal-content hr {
+.subscribe-settings-modal .a-modal-content hr {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.subscribe-settings .a-modal-content p {
+.subscribe-settings-modal .a-modal-content p {
   font-size: 15px;
   line-height: 1.2;
   font-style: italic;
   color: #3ec1d3;
 }
-.subscribe-settings .a-modal-footer {
+.subscribe-settings-modal .a-modal-footer {
   text-align: center;
   margin-top: 165px;
 }
-.subscribe-settings .a-modal-footer .btn {
+.subscribe-settings-modal .a-modal-footer .btn {
   width: auto;
   font-size: 15px;
   padding-left: 20px;
@@ -104,7 +104,7 @@
   line-height: 1.7;
   padding-left: 23px;
 }
-.subscribe-settings .a-modal-footer .btn-primary {
+.subscribe-settings-modal .a-modal-footer .btn-primary {
   border-top-color: #4cbfc2;
   border-bottom-color: #4cbfc2;
   border-left-color: #60cecd;
