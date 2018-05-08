@@ -66,7 +66,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goToSubscribeSettings: () => push(`/subscription-settings`),
+      goToSubscribeSettings: () => push(`/subscription-settings/#subscription`),
       onSubscribeMe: subscribeMe
     },
     dispatch

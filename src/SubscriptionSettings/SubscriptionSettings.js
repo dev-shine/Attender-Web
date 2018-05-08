@@ -80,7 +80,8 @@ class SubscribeSettings extends React.Component {
   render() {
     return (
       <div>
-        {this.state.myProfile.showSubscriptionSettingPopup
+        {window.location.hash ||
+        this.state.myProfile.showSubscriptionSettingPopup
           ? this.modal()
           : null}
         <NavBar />
