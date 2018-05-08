@@ -232,7 +232,61 @@ class SubscribePopUp extends React.Component {
           </div>
         )
         break
-      case "PROCEED_WITH_CARD":
+      case "STEP_4":
+        if (this.state.use_card) {
+          let item = Object.values(this.state.credit_cards).filter(function(
+            obj
+          ) {
+            return obj.selected == true
+          })
+          console.log(item[0])
+          DOM = (
+            <div className="row">
+              <span className="col-md-5">{item[0].card}</span>
+              <span className="col-md-5">
+                <span>XXXX - XXXX</span>
+                <span>{item[0].number}</span>
+              </span>
+            </div>
+          )
+        } else {
+          let item = Object.values(this.state.bank_accounts).filter(function(
+            obj
+          ) {
+            return obj.selected == true
+          })
+          DOM = (
+            <div className="row">
+              <span className="col-md-5">{item[0].bank}</span>
+              <span className="col-md-5">
+                <span>XXXX - XXXX</span>
+                <span>{item[0].number}</span>
+              </span>
+            </div>
+          )
+        }
+        content = (
+          <div className="step-4 have-header">
+            <h5>You are almost there!</h5>
+            <div className="row">
+              <label className="col-md-6 ">Attender Premium</label>
+              <div className="col-md-6 text-right">
+                <span>$49/mo</span>
+                <sub>One month of Service</sub>
+              </div>
+            </div>
+            <br />
+            {DOM}
+            <div className="a-modal-footer">
+              <Button
+                className="btn-primary"
+                onClick={this.openModal.bind(this, "STEP_4")}
+              >
+                Confirm Subscription
+              </Button>
+            </div>
+          </div>
+        )
         break
     }
     this.setState({ modalContent: content, openModal: true, customModalStyle })
