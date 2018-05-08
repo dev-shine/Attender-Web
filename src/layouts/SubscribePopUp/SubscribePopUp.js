@@ -93,14 +93,6 @@ class SubscribePopUp extends React.Component {
             <h5>
               Which payment type <br />would you like to add?
             </h5>
-            <div className="row">
-              <label className="col-md-6 ">Attender Premium</label>
-              <div className="col-md-6 text-right">
-                <span>$49/mo</span>
-                <sub>One month of Service</sub>
-              </div>
-            </div>
-            <hr />
             <p
               onClick={this.Use_Card}
               className={this.state.use_card ? "selected" : null}
@@ -120,13 +112,37 @@ class SubscribePopUp extends React.Component {
                 className="btn-primary"
                 onClick={this.openModal.bind(this, "STEP_3")}
               >
-                Next
+                Proceed
               </Button>
             </div>
           </div>
         )
         break
       case "STEP_3":
+        content = (
+          <div className="step-3 have-header">
+            <h5>
+              Which payment type <br />would you like to add?
+            </h5>
+            <div className="row">
+              <label className="col-md-6 ">Attender Premium</label>
+              <div className="col-md-6 text-right">
+                <span>$49/mo</span>
+                <sub>One month of Service</sub>
+              </div>
+            </div>
+            <hr />
+
+            <div className="a-modal-footer">
+              <Button
+                className="btn-primary"
+                onClick={this.openModal.bind(this, "STEP_4")}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )
         break
       case "PROCEED_WITH_CARD":
         break
