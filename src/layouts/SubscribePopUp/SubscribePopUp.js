@@ -12,11 +12,16 @@ class SubscribePopUp extends React.Component {
     super(props)
     this.Close = this.Close.bind(this)
     this.Subscribe = this.Subscribe.bind(this)
+    this.Use_Card = this.Use_Card.bind(this)
+    this.Use_Bank = this.Use_Bank.bind(this)
   }
   state = {
     openModal: false,
     modalContent: "Under construction",
-    customModalStyle: {}
+    customModalStyle: {},
+
+    use_card: false,
+    use_bank: false
   }
   // Subscribe() {
   //   console.log("here")
@@ -31,6 +36,14 @@ class SubscribePopUp extends React.Component {
   //   this.props.close()
   //   this.props.goToSubscribeSettings()
   // }
+  Use_Card() {
+    this.setState({ use_card: true, use_bank: false })
+    this.openModal("STEP_2")
+  }
+  Use_Bank() {
+    this.setState({ use_card: false, use_bank: true })
+    this.openModal("STEP_2")
+  }
   Subscribe() {
     this.openModal("STEP_1")
   }
@@ -76,20 +89,46 @@ class SubscribePopUp extends React.Component {
         break
       case "STEP_2":
         content = (
-          <div className="add-bank-choices have-header">
+          <div className="step-2 have-header">
             <h5>
               Which payment type <br />would you like to add?
             </h5>
-            <p onClick={this.openModal.bind(this, "ADD_BANK_CARD")}>
+            <div className="row">
+              <label className="col-md-6 ">Attender Premium</label>
+              <div className="col-md-6 text-right">
+                <span>$49/mo</span>
+                <sub>One month of Service</sub>
+              </div>
+            </div>
+            <hr />
+            <p
+              onClick={this.Use_Card}
+              className={this.state.use_card ? "selected" : null}
+            >
               <img src={require("../../settings/img/credit-card.png")} />
               <span>Credit/Debit Card</span>
             </p>
-            <p onClick={this.openModal.bind(this, "ADD_BANK_ACCOUNT")}>
+            <p
+              onClick={this.Use_Bank}
+              className={this.state.use_bank ? "selected" : null}
+            >
               <img src={require("../../settings/img/bank-icon.png")} />
               <span>Bank Account</span>
             </p>
+            <div className="a-modal-footer">
+              <Button
+                className="btn-primary"
+                onClick={this.openModal.bind(this, "STEP_3")}
+              >
+                Next
+              </Button>
+            </div>
           </div>
         )
+        break
+      case "STEP_3":
+        break
+      case "PROCEED_WITH_CARD":
         break
     }
     this.setState({ modalContent: content, openModal: true, customModalStyle })

@@ -100,27 +100,36 @@ span {
   margin-top: 15px;
   margin-bottom: 35px;
 }
-.subscribe-settings-modal .a-modal-content .add-bank-choices {
+.subscribe-settings-modal .a-modal-content .step-2 {
   text-align: center;
 }
-.subscribe-settings-modal .a-modal-content .add-bank-choices span {
+.subscribe-settings-modal .a-modal-content .step-2 span {
   display: block;
   margin-top: 20px;
 }
 
-.subscribe-settings-modal .a-modal-content .add-bank-choices p * {
+.subscribe-settings-modal .a-modal-content .step-2 p * {
   transition: all 0.1s linear;
 }
 
-.subscribe-settings-modal .a-modal-content .add-bank-choices p img {
+.subscribe-settings-modal .a-modal-content .step-2 p img {
   width: 130px;
 }
 
-.subscribe-settings-modal .a-modal-content .add-bank-choices p:hover {
+.subscribe-settings-modal .a-modal-content .step-2 p:hover {
   color: #43bfe9;
   cursor: pointer;
 }
 
-.subscribe-settings-modal .a-modal-content .add-bank-choices p:hover img {
+.subscribe-settings-modal .a-modal-content .step-2 p:hover img {
   width: 140px;
+}
+.subscribe-settings-modal .a-modal-content .step-2 p.selected img {
+  background: #eee;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px inset;
+}
+.subscribe-settings-modal .a-modal-content .step-2 .a-modal-footer {
+  margin-top: 50px;
 }
