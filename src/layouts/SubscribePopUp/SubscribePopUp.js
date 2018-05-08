@@ -13,49 +13,116 @@ class SubscribePopUp extends React.Component {
     this.Close = this.Close.bind(this)
     this.Subscribe = this.Subscribe.bind(this)
   }
-  Subscribe() {
-    console.log("here")
-    const data = {
-      subscriptionType: "ACCOUNT_PREMIUM"
-    }
-    API.post("subscription/subscribe", data).then(res => {
-      console.log(res)
-      this.props.onSubscribeMe()
-    })
+  state = {
+    openModal: false,
+    modalContent: "Under construction",
+    customModalStyle: {}
+  }
+  // Subscribe() {
+  //   console.log("here")
+  //   const data = {
+  //     subscriptionType: "ACCOUNT_PREMIUM"
+  //   }
+  //   API.post("subscription/subscribe", data).then(res => {
+  //     console.log(res)
+  //     this.props.onSubscribeMe()
+  //   })
 
-    this.props.close()
-    this.props.goToSubscribeSettings()
+  //   this.props.close()
+  //   this.props.goToSubscribeSettings()
+  // }
+  Subscribe() {
+    this.openModal("STEP_1")
   }
   Close() {
     this.props.close()
   }
-  render() {
+  openModal(type) {
+    let content = "",
+      customModalStyle = {}
+    switch (type) {
+      case "STEP_1":
+        content = (
+          <div>
+            <h4>Your Subscriptions</h4>
+            <div className="row">
+              <label className="col-md-6 ">Attender Premium</label>
+              <div className="col-md-6 text-right">
+                <span>$49/mo</span>
+                <sub>One month of Service</sub>
+              </div>
+            </div>
+            <div className="row last">
+              <small className="col-md-6">Purchased September 9 2017</small>
+              <small className="col-md-6 text-right">
+                Expires on October 10 2017
+              </small>
+            </div>
+            <hr />
+            <p>
+              Note : Subscriptions are renewed on a month by month basis until
+              cancelled.
+            </p>
+            <div className="a-modal-footer">
+              <Button
+                className="btn-primary"
+                onClick={this.proceed_with_payment}
+              >
+                Proceed with Payment
+              </Button>
+            </div>
+          </div>
+        )
+        break
+    }
+    this.setState({ modalContent: content, openModal: true, customModalStyle })
+  }
+  closeModal() {
+    this.setState({ openModal: false })
+  }
+  modal() {
     return (
-      <div className="component SubscribePopUp">
-        <div className="leftside">
-          <img src={require("./img/logo.png")} />
-          <h2>Attender</h2>
-          <span>Hospitality work made very simple.</span>
-          <img src={require("./img/preview.png")} />
-        </div>
-        <div className="rightside">
-          <h3>Subscribe To Attender</h3>
-          <h4>Sourcing Workers</h4>
-          <ul>
-            <li>Choose from a pool of ready to work staff when needed</li>
-            <li>Set tasks and trial potential staff through the app</li>
-            <li>
-              View your Venue, Events Calendar and Messages on one platform
-            </li>
-            <li>$49 per month (excl, GST) no lock in contract</li>
-          </ul>
-          <Button onClick={this.Subscribe} className="btn-primary">
-            Subscribe now
-          </Button>
-          <Button onClick={this.Close}>No thanks</Button>
+      <div className="a-modal show subscribe-settings-modal">
+        <div className="a-modal-content" style={this.state.customModalStyle}>
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
+          {this.state.modalContent}
         </div>
       </div>
     )
+  }
+  render() {
+    if (this.state.openModal) {
+      return this.modal()
+    } else {
+      return (
+        <div className="component SubscribePopUp">
+          <div className="leftside">
+            <img src={require("./img/logo.png")} />
+            <h2>Attender</h2>
+            <span>Hospitality work made very simple.</span>
+            <img src={require("./img/preview.png")} />
+          </div>
+          <div className="rightside">
+            <h3>Subscribe To Attender</h3>
+            <h4>Sourcing Workers</h4>
+            <ul>
+              <li>Choose from a pool of ready to work staff when needed</li>
+              <li>Set tasks and trial potential staff through the app</li>
+              <li>
+                View your Venue, Events Calendar and Messages on one platform
+              </li>
+              <li>$49 per month (excl, GST) no lock in contract</li>
+            </ul>
+            <Button onClick={this.Subscribe} className="btn-primary">
+              Subscribe now
+            </Button>
+            <Button onClick={this.Close}>No thanks</Button>
+          </div>
+        </div>
+      )
+    }
   }
 }
 
@@ -66,7 +133,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goToSubscribeSettings: () => push(`/subscription-settings/#subscription`),
+      goToSubscribeSettings: () => push(`/subscription-settings/#process-1`),
       onSubscribeMe: subscribeMe
     },
     dispatch
