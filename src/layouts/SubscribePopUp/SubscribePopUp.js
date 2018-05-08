@@ -24,11 +24,11 @@ class SubscribePopUp extends React.Component {
     use_bank: false,
 
     bank_accounts: {
-      0: { _id: 0, bank: "National Aust", number: "4375" },
+      0: { _id: 0, bank: "National Aust", number: "4375", selected: true },
       1: { _id: 1, bank: "Herritage Bank", number: "4375" }
     },
     credit_cards: {
-      0: { _id: 0, card: "mastercard", number: "4375" },
+      0: { _id: 0, card: "mastercard", number: "4375", selected: true },
       1: { _id: 1, card: "visa", number: "4375" }
     }
   }
@@ -61,13 +61,21 @@ class SubscribePopUp extends React.Component {
   }
   chooseCard(_id) {
     let credit_cards = { ...this.state.credit_cards }
+    Object.keys(credit_cards).map(key => {
+      credit_cards[key].selected = false
+    })
     credit_cards[_id].selected = true
     this.setState({ credit_cards })
+    this.openModal("STEP_3")
   }
   chooseBank(_id) {
     let bank_accounts = { ...this.state.bank_accounts }
+    Object.keys(bank_accounts).map(key => {
+      bank_accounts[key].selected = false
+    })
     bank_accounts[_id].selected = true
     this.setState({ bank_accounts })
+    this.openModal("STEP_3")
   }
   openModal(type) {
     let content = "",
@@ -139,6 +147,11 @@ class SubscribePopUp extends React.Component {
         break
       case "STEP_3":
         let DOM = ""
+        let selected_DOM = (
+          <span className="col-md-1">
+            <i className="fa fa-check-circle" />
+          </span>
+        )
         if (this.state.use_card) {
           var listCards = Object.values(this.state.credit_cards).map(
             (item, key) => {
@@ -160,9 +173,7 @@ class SubscribePopUp extends React.Component {
                     <span>{item.number}</span>
                   </span>
                   <small className="primary col-md-2">&nbsp;</small>
-                  <span className="col-md-1">
-                    <i className="fa fa-check-circle" />
-                  </span>
+                  {item.selected ? selected_DOM : null}
                 </div>
               )
             }
@@ -186,9 +197,7 @@ class SubscribePopUp extends React.Component {
                     <span>XXXX - XXXX</span>
                     <span>{item.number}</span>
                   </span>
-                  <span className="col-md-1">
-                    <i className="fa fa-check-circle" />
-                  </span>
+                  {item.selected ? selected_DOM : null}
                 </div>
               )
             }
