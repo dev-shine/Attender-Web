@@ -714,10 +714,11 @@ class MyStaff extends Component {
 
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          ANDREW O. TIME SHEET July 24 - 30 2017
-        </div>
-        <div onClick={this.editWorkingHours}>
+        <header>
+          <h5>ANDREW O. TIME SHEET</h5>
+          <em>July 24 - 30 2017</em>
+        </header>
+        <div id="btn-edit-working-hours" onClick={this.editWorkingHours}>
           Edit Working Hours <i class="fa fa-edit" />
         </div>
         <div>
@@ -733,94 +734,97 @@ class MyStaff extends Component {
           )}
           {this.state.next && <button>Next</button>}
         </div>
-        <div style={{ display: "flex" }}>
-          <div style={{ flex: "2" }}>
-            <div style={{ display: "flex" }}>
-              <div style={{ flex: "1" }}>Date</div>
-              <div style={{ flex: "1" }}>Time(AM)</div>
-              <div style={{ flex: "1" }}>Time(PM)</div>
-              <div style={{ flex: "1" }}>Break hr(s)</div>
-              <div style={{ flex: "1" }}>Payable Hours</div>
-            </div>
-            {this.state.timesheet.days.length > 0 &&
-              this.state.timesheet.days.map((res, weekdayIndex) => (
-                <div style={{ display: "flex" }}>
-                  <div style={{ flex: "1" }}>
-                    <div>{moment(res.date).format("ddd")}</div>
-                    {moment(res.date).format("MMM DD")}
-                  </div>
-                  {res.schedules.map(
-                    (s, periodIndex) =>
-                      !this.state.isShowEditButton ? (
-                        <div style={{ flex: "1", display: "flex" }}>
-                          {`${s.startTime} - ${s.endTime}`}
-                        </div>
-                      ) : (
-                        <div style={{ flex: "1", display: "flex" }}>
-                          <div
-                            style={{
-                              display: "block",
-                              background: "white",
-                              border: "solid 1px gray",
-                              borderRadius: "5px"
-                            }}
-                          >
-                            <StaffTimePicker
-                              selectedTime={moment(s.startTime, [
-                                "hh:mm A",
-                                "hh A"
-                              ])}
-                              onSelectTime={this.onSelectTime.bind(
-                                this,
-                                periodIndex,
-                                weekdayIndex,
-                                "startTime"
-                              )}
-                            />
-                            to
-                            <StaffTimePicker
-                              selectedTime={moment(s.endTime, [
-                                "hh:mm A",
-                                "hh A"
-                              ])}
-                              onSelectTime={this.onSelectTime.bind(
-                                this,
-                                periodIndex,
-                                weekdayIndex,
-                                "endTime"
-                              )}
-                            />
-                          </div>
-                        </div>
-                      )
-                  )}
-                  <div style={{ flex: "1" }}>
-                    {res.schedules.map(
-                      (s, periodIndex) =>
-                        !this.state.isShowEditButton ? (
-                          <p>{s.break}</p>
-                        ) : (
-                          <input
-                            type="text"
-                            className="a-plain-text"
-                            placeholder="0"
-                            value={s.break}
-                            onChange={this.onSaveBreakTime.bind(
-                              this,
-                              periodIndex,
-                              weekdayIndex
-                            )}
-                          />
-                        )
-                    )}
-                  </div>
-                  <div style={{ flex: "1" }}>
-                    {res.schedules.map(s => <p>8.5</p>)}
-                  </div>
-                </div>
-              ))}
+        <div className="payment-modal-content">
+          <div className="timesheet">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time(AM)</th>
+                  <th>Time(PM)</th>
+                  <th width="20">Break hr(s)</th>
+                  <th width="20">Payable Hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.timesheet.days.length > 0 &&
+                  this.state.timesheet.days.map((res, weekdayIndex) => (
+                    <tr>
+                      <td>
+                        {moment(res.date).format("ddd")}
+                        <br />
+                        {moment(res.date).format("MMM DD")}
+                      </td>
+                      {res.schedules.map(
+                        (s, periodIndex) =>
+                          !this.state.isShowEditButton ? (
+                            <td>{`${s.startTime} - ${s.endTime}`}</td>
+                          ) : (
+                            <td>
+                              <div
+                                style={{
+                                  display: "block",
+                                  background: "white",
+                                  border: "solid 1px gray",
+                                  borderRadius: "5px"
+                                }}
+                              >
+                                <StaffTimePicker
+                                  selectedTime={moment(s.startTime, [
+                                    "hh:mm A",
+                                    "hh A"
+                                  ])}
+                                  onSelectTime={this.onSelectTime.bind(
+                                    this,
+                                    periodIndex,
+                                    weekdayIndex,
+                                    "startTime"
+                                  )}
+                                />
+                                to
+                                <StaffTimePicker
+                                  selectedTime={moment(s.endTime, [
+                                    "hh:mm A",
+                                    "hh A"
+                                  ])}
+                                  onSelectTime={this.onSelectTime.bind(
+                                    this,
+                                    periodIndex,
+                                    weekdayIndex,
+                                    "endTime"
+                                  )}
+                                />
+                              </div>
+                            </td>
+                          )
+                      )}
+                      <td>
+                        {res.schedules.map(
+                          (s, periodIndex) =>
+                            !this.state.isShowEditButton ? (
+                              <p>{s.break}</p>
+                            ) : (
+                              <input
+                                type="text"
+                                className="a-plain-text"
+                                placeholder="0"
+                                value={s.break}
+                                onChange={this.onSaveBreakTime.bind(
+                                  this,
+                                  periodIndex,
+                                  weekdayIndex
+                                )}
+                              />
+                            )
+                        )}
+                      </td>
+                      <td>{res.schedules.map(s => <p>8.5</p>)}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
-          <div style={{ flex: "1" }}>
+          <div className="summary">
             <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
             <div>
               <button
@@ -884,7 +888,7 @@ class MyStaff extends Component {
       <div
         className={this.state.isPaymentModalOpen ? "a-modal show" : "a-modal"}
       >
-        <div className="a-modal-content">
+        <div className="a-modal-content payment-modal">
           <span
             onClick={this.togglePaymentModal.bind(
               this,
