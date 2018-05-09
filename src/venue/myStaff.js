@@ -706,6 +706,12 @@ class MyStaff extends Component {
   }
 
   renderTimeSheet = () => {
+    let total_to_be_sent =
+      (this.getTotalPayableHours() + this.state.additionalHours * 1) *
+      this.state.startRate
+    let attender_fee = Math.round(total_to_be_sent * 0.165)
+    let total = total_to_be_sent + attender_fee
+
     return (
       <div>
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -858,9 +864,9 @@ class MyStaff extends Component {
             >
               Edit Rate
             </button>
-            <div>{`Total to be sent: AUD $${(this.getTotalPayableHours() +
-              this.state.additionalHours * 1) *
-              this.state.startRate}`}</div>
+            <div>{`Total to be sent: AUD $${total_to_be_sent}`}</div>
+            <div>{`Attender Fee (16.5%): AUD $${attender_fee}`}</div>
+            <div>{`Total: AUD $${total}`}</div>
           </div>
         </div>
 
