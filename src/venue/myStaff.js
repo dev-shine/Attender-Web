@@ -8,6 +8,7 @@ import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
 import PropTypes from "prop-types"
 import moment from "moment"
+import { Button } from "react-bootstrap"
 
 import { Link } from "react-router-dom"
 
@@ -825,59 +826,86 @@ class MyStaff extends Component {
             </table>
           </div>
           <div className="summary">
-            <div>{`Total Payable hours: ${this.getTotalPayableHours()}`}</div>
-            <div>
-              <button
-                onClick={() =>
-                  this.setState({
-                    isShowEditPayableHours: !this.state.isShowEditPayableHours
-                  })
-                }
-              >
-                Add Payable Hours
-              </button>
-              {this.state.isShowEditPayableHours ? (
+            <h5>Payment Details</h5>
+            <div className="clearfix">
+              <label className="pull-left">Total Payable hours:</label>
+              <div className="pull-right">{this.getTotalPayableHours()}</div>
+            </div>
+            <div className="clearfix">
+              <div className="pull-left">
+                <label>Payable Hours:</label>
+                <br />
+                <button
+                  onClick={() =>
+                    this.setState({
+                      isShowEditPayableHours: !this.state.isShowEditPayableHours
+                    })
+                  }
+                >
+                  Add Payable Hours
+                </button>
+              </div>
+              <div className="pull-right">
+                {this.state.isShowEditPayableHours ? (
+                  <input
+                    type="text"
+                    placeholder="0"
+                    onChange={hours =>
+                      this.setState({ additionalHours: hours.target.value })
+                    }
+                  />
+                ) : (
+                  0
+                )}
+              </div>
+            </div>
+            <div className="clearfix">
+              <div className="pull-left">
+                <label>Rate Per Hours: </label>
+                <br />
+                <button
+                  onClick={() =>
+                    this.setState({
+                      isShowEditRate: !this.state.isShowEditRate
+                    })
+                  }
+                >
+                  Edit Rate
+                </button>
+              </div>
+              {this.state.isShowEditRate ? (
+                <div className="pull-right">${this.state.startRate}/Hr</div>
+              ) : (
                 <input
                   type="text"
-                  className="a-plain-text"
-                  placeholder="0"
-                  onChange={hours =>
-                    this.setState({ additionalHours: hours.target.value })
+                  className="pull-right"
+                  placeholder={this.state.startRate}
+                  onChange={startRate =>
+                    this.setState({ startRate: startRate.target.value })
                   }
                 />
-              ) : (
-                0
               )}
             </div>
-            {this.state.isShowEditRate ? (
-              <div>{`Rate Per Hours: $${this.state.startRate}/Hr`}</div>
-            ) : (
-              <input
-                type="text"
-                className="a-plain-text"
-                placeholder={this.state.startRate}
-                onChange={startRate =>
-                  this.setState({ startRate: startRate.target.value })
-                }
-              />
-            )}
-            <button
-              onClick={() =>
-                this.setState({ isShowEditRate: !this.state.isShowEditRate })
-              }
-            >
-              Edit Rate
-            </button>
-            <div>{`Total to be sent: AUD $${total_to_be_sent}`}</div>
-            <div>{`Attender Fee (16.5%): AUD $${attender_fee}`}</div>
-            <div>{`Total: AUD $${total}`}</div>
-          </div>
-        </div>
 
-        <div style={{ width: "100%" }}>
-          <button style={{ float: "right" }} onClick={this.onPressPayStaff}>
-            Pay Staff
-          </button>
+            <div className="clearfix">
+              <label className="pull-left">Total to be sent:</label>
+              <div className="pull-right">AUD ${total_to_be_sent}</div>
+            </div>
+            <div className="clearfix">
+              <label className="pull-left">Attender Fee (16.5%):</label>
+              <div className="pull-right">AUD ${attender_fee}</div>
+            </div>
+            <div className="clearfix grand-total">
+              <h3 className="pull-left">Total:</h3>
+              <div className="pull-right">AUD ${total}</div>
+            </div>
+            <Button
+              className="btn-primary pull-right"
+              onClick={this.onPressPayStaff}
+            >
+              Pay Staff
+            </Button>
+          </div>
         </div>
       </div>
     )
