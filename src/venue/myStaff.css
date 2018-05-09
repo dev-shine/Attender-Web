@@ -161,7 +161,7 @@
 }
 .payment-modal .timesheet {
   flex: 2;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #ddd;
   margin-right: 20px;
 }
 .payment-modal table {
@@ -178,4 +178,36 @@
 }
 .payment-modal .summary {
   flex: 1;
+}
+.payment-modal .summary h3 {
+  font-weight: 200;
+  font-size: 20px;
+}
+
+.payment-modal .summary .pull-right {
+  font-size: 16px;
+}
+.payment-modal .summary .clearfix {
+  padding: 15px 8px;
+}
+.payment-modal .summary .clearfix:hover {
+  background: #fdfdfd;
+}
+.payment-modal .summary input[type="text"] {
+  width: 50px;
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.payment-modal .summary .grand-total {
+  border-top: 1px solid #ccc;
+  padding-top: 35px;
+}
+.payment-modal .summary .grand-total .pull-right {
+  font-size: 20px;
+  color: #674cbe;
+}
+.payment-modal .summary .btn-primary {
+  margin-top: 50px;
 }
