@@ -136,3 +136,46 @@
 .hide {
   display: none;
 }
+
+.payment-modal {
+  width: 950px;
+  height: auto;
+  padding-bottom: 45px;
+  padding-top: 35px;
+  margin-bottom: 50px;
+}
+.payment-modal header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+#btn-edit-working-hours {
+  font-style: italic;
+  color: #00b9d7;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.payment-modal .payment-modal-content {
+  display: flex;
+  font-size: 14px;
+  color: #777;
+}
+.payment-modal .timesheet {
+  flex: 2;
+  border-right: 1px solid #ccc;
+  margin-right: 20px;
+}
+.payment-modal table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.payment-modal th,
+.payment-modal td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.payment-modal .summary {
+  flex: 1;
+}
