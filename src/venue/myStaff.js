@@ -740,11 +740,11 @@ class MyStaff extends Component {
             <table>
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Time(AM)</th>
-                  <th>Time(PM)</th>
-                  <th width="20">Break hr(s)</th>
-                  <th width="20">Payable Hours</th>
+                  <th width="20">Date</th>
+                  <th width="50">Time(AM)</th>
+                  <th width="50">Time(PM)</th>
+                  <th width="40">Break hr(s)</th>
+                  <th width="30">Payable Hours</th>
                 </tr>
               </thead>
               <tbody>
@@ -762,39 +762,35 @@ class MyStaff extends Component {
                             <td>{`${s.startTime} - ${s.endTime}`}</td>
                           ) : (
                             <td>
-                              <div
-                                style={{
-                                  display: "block",
-                                  background: "white",
-                                  border: "solid 1px gray",
-                                  borderRadius: "5px"
-                                }}
-                              >
-                                <StaffTimePicker
-                                  selectedTime={moment(s.startTime, [
-                                    "hh:mm A",
-                                    "hh A"
-                                  ])}
-                                  onSelectTime={this.onSelectTime.bind(
-                                    this,
-                                    periodIndex,
-                                    weekdayIndex,
-                                    "startTime"
-                                  )}
-                                />
-                                to
-                                <StaffTimePicker
-                                  selectedTime={moment(s.endTime, [
-                                    "hh:mm A",
-                                    "hh A"
-                                  ])}
-                                  onSelectTime={this.onSelectTime.bind(
-                                    this,
-                                    periodIndex,
-                                    weekdayIndex,
-                                    "endTime"
-                                  )}
-                                />
+                              <div className="time-container">
+                                <div className="time-content">
+                                  <StaffTimePicker
+                                    selectedTime={moment(s.startTime, [
+                                      "hh:mm A",
+                                      "hh A"
+                                    ])}
+                                    onSelectTime={this.onSelectTime.bind(
+                                      this,
+                                      periodIndex,
+                                      weekdayIndex,
+                                      "startTime"
+                                    )}
+                                  />
+                                  <br />
+                                  to<br />
+                                  <StaffTimePicker
+                                    selectedTime={moment(s.endTime, [
+                                      "hh:mm A",
+                                      "hh A"
+                                    ])}
+                                    onSelectTime={this.onSelectTime.bind(
+                                      this,
+                                      periodIndex,
+                                      weekdayIndex,
+                                      "endTime"
+                                    )}
+                                  />
+                                </div>
                               </div>
                             </td>
                           )

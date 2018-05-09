@@ -153,6 +153,11 @@
   color: #00b9d7;
   font-size: 14px;
   margin-bottom: 10px;
+  cursor: pointer;
+  display: inline-block;
+}
+#btn-edit-working-hours:hover {
+  color: blue;
 }
 .payment-modal .payment-modal-content {
   display: flex;
@@ -210,4 +215,25 @@
 }
 .payment-modal .summary .btn-primary {
   margin-top: 50px;
+}
+.payment-modal .timesheet .time-container {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 2;
+}
+.payment-modal .timesheet .time-container:hover {
+  background: #fafafa;
+}
+.payment-modal .timesheet .time-container * {
+  text-align: center;
+  font-size: 13px;
+  cursor: pointer;
 }
