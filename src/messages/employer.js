@@ -74,7 +74,7 @@ class EmployerMessage extends Component {
     }
 
     API.get(this.threadUrl).then(res => {
-      if (res.status) {
+      if (res && res.status) {
         this.setState(
           {
             threads: res.threads,
@@ -151,7 +151,7 @@ class EmployerMessage extends Component {
 
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
-      if (res.status) {
+      if (res && res.status) {
         const allStaff = []
         Object.keys(res.staffs).forEach(staff => {
           res.staffs[staff].forEach(as => {

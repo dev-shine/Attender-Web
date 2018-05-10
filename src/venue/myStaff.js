@@ -92,7 +92,7 @@ class MyStaff extends Component {
 
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
-      if (res.status) {
+      if (res && res.status) {
         const allStaff = []
         let staffMetas = {}
         Object.keys(res.staffs).forEach(position => {
