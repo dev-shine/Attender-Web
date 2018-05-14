@@ -206,13 +206,15 @@ class SearchVenues extends Component {
             </Link>
           </p>
           <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
-          {Object.keys(venue.openingHours).map((day, index) => (
-            <p key={index}>{`${day.capitalize()}: ${moment(
-              venue.openingHours[day].start
-            ).format("h:m A")} - ${moment(venue.openingHours[day].end).format(
-              "h:m A"
-            )}`}</p>
-          ))}
+          {venue.openingHours
+            ? Object.keys(venue.openingHours).map((day, index) => (
+                <p key={index}>{`${day.capitalize()}: ${moment(
+                  venue.openingHours[day].start
+                ).format("h:m A")} - ${moment(
+                  venue.openingHours[day].end
+                ).format("h:m A")}`}</p>
+              ))
+            : null}
           <Grid>
             <Row>
               Services:
