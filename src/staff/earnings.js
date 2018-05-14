@@ -6,6 +6,7 @@ import { connect } from "react-redux"
 import moment from "moment"
 import API from ".././services/api"
 import "./earnings.css"
+import { Button } from "react-bootstrap"
 
 class Earnings extends Component {
   constructor(props) {
@@ -65,60 +66,44 @@ class Earnings extends Component {
   }
   // #endregion
 
-  // #region Sub Render methods
-  renderTitleHeaderText = () => {
-    return (
-      <div>
-        <h1>Earnings</h1>
-      </div>
-    )
-  }
-
-  renderTotalAvailableBalanceText = () => {
-    return (
-      <div>
-        <div>Total Available Balance:</div>
-        <div>{this.state.totalAvailBalanceLabel}</div>
-      </div>
-    )
-  }
-
   renderWithdrawFundButton = () => {
     return (
       <div>
-        <button>Withdraw Funds</button>
+        <Button className="btn-primary">Withdraw Funds</Button>
       </div>
     )
   }
 
   renderTotalEarningsText = () => {
     return (
-      <div>
-        <div>Total Earnings</div>
-        <div>{`$${this.state.totalEarnings
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</div>
+      <div className="clearfix">
+        <strong className="pull-left">Total Earnings</strong>
+        <span className="pull-right">
+          {`$${this.state.totalEarnings
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
+        </span>
       </div>
     )
   }
 
   renderTotalWithdrawnText = () => {
     return (
-      <div>
-        <div>Total Withdrawn</div>
-        <div>{`$${(
+      <div className="clearfix">
+        <strong className="pull-left">Total Withdrawn</strong>
+        <span className="pull-right">{`$${(
           (this.state.totalEarnings - this.state.totalAvailBalance) /
           100
         )
           .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</div>
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</span>
       </div>
     )
   }
 
   renderTransactionHistoryList = () => {
     return (
-      <div>
+      <div className="transaction-history">
         {this.state.transactions.map(t => (
           <div>{this.renderTransactionHistoryListItem(t)}</div>
         ))}
@@ -128,12 +113,18 @@ class Earnings extends Component {
 
   renderTransactionHistoryListItem = transaction => {
     return (
-      <div>
-        <div>{`${transaction.description} ${transaction.buyer_name}`}</div>
-        <div>{`Completed ${moment().format("DD MMMM YYYY")}`}</div>
-        <div>{`$${(transaction.amount / 100)
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</div>
+      <div className="clearfix">
+        <div className="pull-left">
+          <p>
+            {transaction.description} <strong>{transaction.buyer_name}</strong>
+          </p>
+          <small>{`Completed ${moment().format("DD MMMM YYYY")}`}</small>
+        </div>
+        <div className="pull-right">
+          {`$${(transaction.amount / 100)
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
+        </div>
       </div>
     )
   }
@@ -151,15 +142,24 @@ class Earnings extends Component {
   // #region Main render method
   render() {
     return (
-      <div>
+      <div className="component earnings-page">
         <NavBar />
-        <div className="Earnings__content">
-          {this.renderTitleHeaderText()}
-          {this.renderTotalAvailableBalanceText()}
-          {this.renderWithdrawFundButton()}
-          {this.renderTotalWithdrawnText()}
-          {this.renderTotalEarningsText()}
-          {this.renderTransactionHistoryList()}
+        <div className="Earnings__content container xem">
+          <h3 className="page-title">Earnings</h3>
+          <div className="earning-summary">
+            <div className="clearfix">
+              <strong className="pull-left">Total Available Balance:</strong>
+              <span className="pull-right">
+                {`$${this.state.totalAvailBalanceLabel}`}
+                {this.renderWithdrawFundButton()}
+              </span>
+            </div>
+          </div>
+          <div className="earning-details">
+            {this.renderTotalWithdrawnText()}
+            {this.renderTotalEarningsText()}
+            {this.renderTransactionHistoryList()}
+          </div>
         </div>
         {this.renderPrivacyTaC()}
       </div>

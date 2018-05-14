@@ -1,6 +1,9 @@
 .Earnings__footer {
   text-align: center;
 }
+.Earnings__footer * {
+  color: #797979 !important;
+}
 
 .Earnings__content {
   text-align: center;
@@ -10,4 +13,84 @@
   margin-left: auto;
   margin-right: auto;
   padding: 1em;
+}
+
+.page-title {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding-top: 25px;
+  margin-bottom: 25px;
+  font-weight: 400;
+}
+
+.component * {
+  color: #cdcdcd;
+}
+
+.earnings-page .xem {
+  width: 860px;
+}
+
+.earnings-page strong {
+  font-weight: 300;
+  color: #797979;
+}
+
+.earnings-page .earning-summary {
+}
+
+.earnings-page .earning-summary strong {
+  font-size: 19px;
+}
+
+.earnings-page .earning-summary span {
+  font-size: 20px;
+}
+
+.earnings-page .earning-summary span button {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 200;
+  width: auto;
+  padding: 7px 23px;
+  margin-top: 10px;
+}
+
+.earnings-page .earning-details .clearfix {
+  margin-bottom: 10px;
+}
+
+.earnings-page .earning-details {
+  margin: 47px auto;
+  width: 750px;
+}
+
+.earnings-page .earning-details strong {
+}
+
+.earnings-page .earning-details span {
+}
+.earnings-page .transaction-history {
+}
+.earnings-page .transaction-history span {
+  font-size: 12px;
+  text-align: left;
+  display: block;
+}
+.earnings-page .transaction-history .clearfix {
+  padding: 15px 0;
+  border-top: 1px solid #ddd;
+  margin-top: 15px;
+  font-size: 14px;
+}
+.earnings-page .transaction-history strong {
+  color: #999;
+}
+.earnings-page .transaction-history p {
+  margin-bottom: 5px;
+}
+.earnings-page .transaction-history .pull-left {
+}
+.earnings-page .transaction-history .pull-right {
 }
