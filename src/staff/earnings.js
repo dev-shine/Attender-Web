@@ -20,8 +20,101 @@ class Earnings extends Component {
       withdrawTo: "",
       accountNumber: "",
       bankIndex: 0,
-      transactions: []
+      transactions: [],
+
+      openModal: false,
+      modalContent: "Under construction",
+      customModalStyle: {},
+
+      bank_accounts: {
+        0: { _id: 0, bank: "National Aust", number: "4375", selected: true },
+        1: { _id: 1, bank: "Herritage Bank", number: "4375" }
+      }
     }
+    this.closeModal = this.closeModal.bind(this)
+  }
+  chooseBank(_id) {
+    let bank_accounts = { ...this.state.bank_accounts }
+    Object.keys(bank_accounts).map(key => {
+      bank_accounts[key].selected = false
+    })
+    bank_accounts[_id].selected = true
+    this.setState({ bank_accounts })
+    this.openModal("WIDTHRAW_CHOICES")
+  }
+  openModal(type) {
+    let content = "",
+      customModalStyle = {}
+    switch (type) {
+      case "WIDTHRAW_CHOICES":
+        let selected_DOM = (
+          <span className="col-md-1">
+            <i className="fa fa-check-circle" />
+          </span>
+        )
+        var listBanks = Object.values(this.state.bank_accounts).map(
+          (item, key) => {
+            return (
+              <div
+                className="row"
+                onClick={this.chooseBank.bind(this, item._id)}
+              >
+                <span className="col-md-5">{item.bank}</span>
+                <span className="col-md-5">
+                  <span>XXXX - XXXX</span>
+                  <span>{item.number}</span>
+                </span>
+                {item.selected ? selected_DOM : null}
+              </div>
+            )
+          }
+        )
+        content = (
+          <div className="group">
+            <p>Choose which Bank Account to use</p>
+            {listBanks}
+            <div className="a-modal-footer">
+              <Button
+                className="btn-primary"
+                onClick={this.openModal.bind(this, "WIDTHRAW_CONFIRM")}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )
+
+        break
+      case "WIDTHRAW_CONFIRM":
+        content = (
+          <div className="withdraw-confirm">
+            <img src={require("../settings/img/confirm-icon.png")} />
+            <h5>Confirmed!</h5>
+            <p>You have successfully made the transaction.</p>
+
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
+    }
+    this.setState({ modalContent: content, openModal: true, customModalStyle })
+  }
+  closeModal() {
+    this.setState({ openModal: false })
+  }
+  modal() {
+    return (
+      <div className="a-modal show subscribe-settings-modal earnings-modal">
+        <div className="a-modal-content" style={this.state.customModalStyle}>
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
+          {this.state.modalContent}
+        </div>
+      </div>
+    )
   }
 
   // #region Non Render Methods
@@ -69,7 +162,12 @@ class Earnings extends Component {
   renderWithdrawFundButton = () => {
     return (
       <div>
-        <Button className="btn-primary">Withdraw Funds</Button>
+        <Button
+          className="btn-primary"
+          onClick={this.openModal.bind(this, "WIDTHRAW_CHOICES")}
+        >
+          Withdraw Funds
+        </Button>
       </div>
     )
   }
@@ -143,6 +241,7 @@ class Earnings extends Component {
   render() {
     return (
       <div className="component earnings-page">
+        {this.state.openModal ? this.modal() : null}
         <NavBar />
         <div className="Earnings__content container xem">
           <h3 className="page-title">Earnings</h3>
