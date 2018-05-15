@@ -262,7 +262,7 @@ class SearchVenues extends Component {
   renderFilterButtons = () => {
     if (this.state.filterTypes.venue) {
       return Object.keys(this.state.venueTypeFilters).map((venue, index) => {
-        const wide = venue === "restaurant" ? "wide-md" : "wide-sm"
+        const wide = venue === "restaurant" ? "" : ""
         const active = this.state.venueTypeFilters[venue]
           ? "btn-active"
           : "btn-passive"
@@ -288,7 +288,7 @@ class SearchVenues extends Component {
           key={index}
           active={service.active}
           name={service}
-          className={`a-btn btn-round "wide-sm" ${active}`}
+          className={`a-btn btn-round "" ${active}`}
           style={{ fontSize: "14px" }}
           onClick={this.handleServiceClick}
         >
@@ -368,7 +368,7 @@ class SearchVenues extends Component {
                       <button
                         key={index}
                         className={`a-btn btn-round ${
-                          key.length > 8 ? "wide-md" : "wide-sm"
+                          key.length > 8 ? "" : ""
                         } ${active}`}
                         style={{ fontSize: "14px" }}
                         onClick={this.handleEventsClick.bind(this, key)}
