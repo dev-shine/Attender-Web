@@ -2752,6 +2752,27 @@ textarea {
   padding: 3em;
 }
 
+.my-staff-event-search .label {
+  margin-bottom: 7px;
+}
+
+.my-staff-event-search .event-item {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.my-staff-event-search .event-item .thumb {
+  max-width: 93px;
+}
+
 .my-staff-event-search p {
   margin-bottom: 1.5em;
 }
@@ -2762,22 +2783,34 @@ textarea {
 
 .my-staff-event-box {
   width: 100%;
+  height: auto;
 }
 
 .my-staff-event-box img {
-  border: 1.5px solid white;
+  border: 2px solid white;
   border-radius: 3px;
   position: relative;
   overflow: hidden;
-  width: 7em;
-  height: 7em;
-  margin-left: -10px;
+  width: 100%;
+}
+
+.my-staff-event-box .content {
+  max-width: calc(100% - 93px);
+  height: auto;
+  background: transparent;
+  box-shadow: none;
+  margin: auto;
+  padding: 0 10px;
 }
 
 .my-staff-event-box p,
 .my-staff-staff-box p {
   color: white;
   margin-bottom: 0;
+}
+
+.my-staff-event-box p:not(.title) {
+  font-size: 12px;
 }
 
 .my-staff-event-box a {
