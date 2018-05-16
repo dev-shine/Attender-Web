@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^1.0.17"
+    "react-scripts": "^1.0.17",
+    "grunt-sass": "~1.0.0",
+    "grunt-contrib-watch": "~0.6.1",
   },
   "dependencies": {
+    "load-grunt-tasks": "~3.2.0",
     "adonis-websocket-client": "^1.0.2",
     "cloudinary-react": "^1.0.6",
     "husky": "^0.14.3",
