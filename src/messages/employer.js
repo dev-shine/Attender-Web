@@ -685,34 +685,38 @@ class EmployerMessage extends Component {
                   <span>My Conversations</span>
                   <a className="m-icon pull-right">
                     {/* <img
-                      alt=""
-                      src={require(".././assets/icons/messages/gear.png")}
-                    /> */}
+					  alt=""
+					  src={require(".././assets/icons/messages/gear.png")}
+					/> */}
                   </a>
-                  <a className="m-icon pull-right">
-                    <img
-                      alt=""
-                      src={require(".././assets/icons/messages/edit.png")}
-                    />
-                  </a>
-                  <div className="drop-menu">
-                    <img
-                      alt=""
-                      src={require(".././assets/icons/messages/gear.png")}
-                      onClick={() => this.openDropdown("e-1")}
-                    />
-                    <div
-                      className="e-dropdown"
-                      style={{
-                        display:
-                          this.state.eventDropdown === "e-1" ? "block" : "none"
-                      }}
-                    >
-                      <div className="e-dropdown-content">
-                        <p onClick={this.handleViewProfileClick}>
-                          View Profile
-                        </p>
-                        <p onClick={this.handleOpenModal}>Hiring Options</p>
+                  <div className="pull-right">
+                    <a className="m-icon">
+                      <img
+                        alt=""
+                        src={require(".././assets/icons/messages/edit.png")}
+                      />
+                    </a>
+                    <div className="drop-menu">
+                      <img
+                        alt=""
+                        src={require(".././assets/icons/messages/gear.png")}
+                        onClick={() => this.openDropdown("e-1")}
+                      />
+                      <div
+                        className="e-dropdown"
+                        style={{
+                          display:
+                            this.state.eventDropdown === "e-1"
+                              ? "block"
+                              : "none"
+                        }}
+                      >
+                        <div className="e-dropdown-content">
+                          <p onClick={this.handleViewProfileClick}>
+                            View Profile
+                          </p>
+                          <p onClick={this.handleOpenModal}>Hiring Options</p>
+                        </div>
                       </div>
                     </div>
                   </div>

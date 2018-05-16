@@ -2001,6 +2001,18 @@ textarea {
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
 }
 
+.messages-header .m-icon {
+  margin-right: 20px;
+}
+
+.messages-header .drop-menu {
+  vertical-align: top;
+}
+
+.messages-header .e-dropdown {
+  margin-right: 1em;
+}
+
 .messages-header span {
   color: rgb(168, 168, 168);
   font-size: 15px;
@@ -2057,15 +2069,14 @@ textarea {
   display: inline-block;
   line-height: 20px;
   padding: 1.4em;
-  height: 20px;
-  padding-bottom: 2em;
+  padding-bottom: 0.5em;
   color: #5bb7d6;
   border-bottom: 3px solid #5bb7d6;
 }
 
 .m-contacts-menu-item span,
 .m-contacts-menu-item-active span {
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .m-thread {
