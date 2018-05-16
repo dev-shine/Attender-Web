@@ -76,9 +76,9 @@ class Earnings extends Component {
 
   renderTotalAvailableBalanceText = () => {
     return (
-      <div className="earning-header">
-        <label>Total Available Balance:</label>
-        <div className="value">{this.state.totalAvailBalanceLabel}</div>
+      <div>
+        <div>Total Available Balance:</div>
+        <div>{this.state.totalAvailBalanceLabel}</div>
       </div>
     )
   }
@@ -86,7 +86,7 @@ class Earnings extends Component {
   renderWithdrawFundButton = () => {
     return (
       <div>
-        <button className="a-btn btn-round  btn-active">Withdraw Funds</button>
+        <button>Withdraw Funds</button>
       </div>
     )
   }
