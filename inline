@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "public/stylesheets/style.min.css",
+	"sources": [
+		"src/scss/index.scss",
+		"src/scss/modules/Staff/_search-venues.scss"
+	],
+	"mappings": "",
+	"names": []
+}
