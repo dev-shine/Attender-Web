@@ -1,12 +1,12 @@
 import React, { Component } from "react"
 import "./lookingFor.css"
-import "../.././styles/style.css"
+import "./../.././styles/style.css"
 import { Button, Row, Col } from "react-bootstrap"
 import ReactCSSTransitionGroup from "react-transition-group/CSSTransitionGroup"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from ".././services/api"
+import API from "./../../services/api"
 
 class lookingFor extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class lookingFor extends Component {
             <Col sm={4} className="col-container-left">
               <img
                 alt=""
-                src={require("../../assets/looking-for-bg.png")}
+                src={require("./../../assets/looking-for-bg.png")}
                 className="background-image"
               />
             </Col>

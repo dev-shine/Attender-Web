@@ -1,10 +1,10 @@
 import React from "react"
 import "./SubscribePopUp.css"
 import { Button } from "react-bootstrap"
-import API from "./../../services/api"
+import API from "./../../../services/api"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import { subscribeMe } from "./../../actions/myProfile-actions"
+import { subscribeMe } from "./../../../actions/myProfile-actions"
 import { push } from "react-router-redux"
 
 class SubscribePopUp extends React.Component {
@@ -125,14 +125,14 @@ class SubscribePopUp extends React.Component {
               onClick={this.Use_Card}
               className={this.state.use_card ? "selected" : null}
             >
-              <img src={require("../../settings/img/credit-card.png")} />
+              <img src={require("./../../settings/img/credit-card.png")} />
               <span>Credit/Debit Card</span>
             </p>
             <p
               onClick={this.Use_Bank}
               className={this.state.use_bank ? "selected" : null}
             >
-              <img src={require("../../settings/img/bank-icon.png")} />
+              <img src={require("./../../settings/img/bank-icon.png")} />
               <span>Bank Account</span>
             </p>
             <div className="a-modal-footer">
@@ -163,7 +163,7 @@ class SubscribePopUp extends React.Component {
                 >
                   <span className="col-md-2">
                     <img
-                      src={require("../../settings/img/" +
+                      src={require("./../../settings/img/" +
                         item.card +
                         "-logo.png")}
                     />

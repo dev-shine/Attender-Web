@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import "./venueEvent.css"
-import "../.././styles/style.css"
+import "./../.././styles/style.css"
 import {
   Button,
   FormGroup,
@@ -37,7 +37,7 @@ class venueEvent extends Component {
           <Col sm={6} className="col-container-left">
             <div>
               <img
-                src={require("../../assets/background-2.png")}
+                src={require("./../../assets/background-2.png")}
                 className="background-image"
               />
             </div>
@@ -73,7 +73,7 @@ class venueEvent extends Component {
           <Col sm={6} className="col-container-right">
             <div align="center">
               <img
-                src={require("../../assets/logo&Text.png")}
+                src={require("./../../assets/logo&Text.png")}
                 className="logo"
               />
             </div>

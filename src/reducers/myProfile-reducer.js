@@ -4,9 +4,9 @@ import {
   SET_SUBSCRIBE_ME,
   SET_UNSUBSCRIBE_ME,
   GET_INFO
-} from "../actions/myProfile-actions"
+} from "./../actions/myProfile-actions"
 
-import { loadState, saveState } from "../../localStorage"
+import { loadState, saveState } from "./../localStorage"
 
 export default function myProfileReducer(state = "", { type, payload }) {
   const profile = loadState("com.attender.pty.ltd.profile")

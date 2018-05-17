@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import PlacesAutocomplete from "react-places-autocomplete"
 
-import "../../.././styles/global.css"
-import "../../.././styles/style.css"
+import "./../../.././styles/global.css"
+import "./../../.././styles/style.css"
 
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API, { cloudinary } from "../.././services/api"
+import API, { cloudinary } from "./../../../services/api"
 
 class VenueEdit extends Component {
   constructor(props) {

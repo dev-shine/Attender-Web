@@ -2,8 +2,8 @@ import React, { Component } from "react"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import "../.././styles/global.css"
-import "../.././styles/style.css"
+import "./../.././styles/global.css"
+import "./../.././styles/style.css"
 
 class employerSetup extends Component {
   constructor(props) {

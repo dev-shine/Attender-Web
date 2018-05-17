@@ -6,8 +6,8 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
 
-import NavBar from "../layouts/NavBar"
-import API from "./../services/api"
+import NavBar from "./../layouts/NavBar"
+import API from "./../../services/api"
 
 import "./VenueProfile.css"
 
@@ -19,7 +19,9 @@ class VenueProfile extends React.Component {
     venue: {}
   }
   fetch = async () => {
-    const { match: { params } } = this.props
+    const {
+      match: { params }
+    } = this.props
     let venue_id = params.venue_id
     const data = await API.get("venues/" + venue_id)
     this.setState({ venue: data.venue })

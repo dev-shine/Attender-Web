@@ -1,15 +1,15 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 import PlacesAutocomplete from "react-places-autocomplete"
 import moment from "moment"
 
-import "../.././styles/global.css"
-import "../.././styles/style.css"
+import "./../.././styles/global.css"
+import "./../.././styles/style.css"
 
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API, { cloudinary } from ".././services/api"
+import API, { cloudinary } from "./../../services/api"
 import TimePicker from "./staffTimePicker"
 
 class VenueSetup extends Component {

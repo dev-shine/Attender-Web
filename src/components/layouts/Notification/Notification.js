@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import API from "./../../services/api"
+import API from "./../../../services/api"
 import "./Notification.css"
 var moment = require("moment")
 

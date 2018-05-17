@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from ".././services/api"
+import API from "./../../services/api"
 import QuickLinks from "./QuickLinks/QuickLinks"
 import Notification from "./Notification/Notification"
 import "./NavBar.css"
@@ -89,7 +89,7 @@ class NavBar extends Component {
               <div>
                 <img
                   alt=""
-                  src={require("../../assets/icons/nav/envelope.png")}
+                  src={require("./../../assets/icons/nav/envelope.png")}
                 />
               </div>
               <span>Messages</span>
@@ -102,7 +102,7 @@ class NavBar extends Component {
                   <div>
                     <img
                       alt=""
-                      src={require("../../assets/icons/nav/venuesEvents.png")}
+                      src={require("./../../assets/icons/nav/venuesEvents.png")}
                     />
                   </div>
                   <span>Venues / Events</span>
@@ -116,7 +116,7 @@ class NavBar extends Component {
                   <div>
                     <img
                       alt=""
-                      src={require("../../assets/icons/nav/venuesEvents.png")}
+                      src={require("./../../assets/icons/nav/venuesEvents.png")}
                     />
                   </div>
                   <span>Earnings</span>
@@ -130,7 +130,7 @@ class NavBar extends Component {
                   <div>
                     <img
                       alt=""
-                      src={require("../../assets/icons/nav/staff.png")}
+                      src={require("./../../assets/icons/nav/staff.png")}
                     />
                   </div>
                   <span>Staffs</span>
@@ -144,7 +144,7 @@ class NavBar extends Component {
                   <div>
                     <img
                       alt=""
-                      src={require("../../assets/icons/nav/browse-jobseeker.png")}
+                      src={require("./../../assets/icons/nav/browse-jobseeker.png")}
                     />
                   </div>
                   <span>Browse Jobseekers</span>
@@ -156,7 +156,7 @@ class NavBar extends Component {
               <div>
                 <img
                   alt=""
-                  src={require("../../assets/icons/nav/calendar.png")}
+                  src={require("./../../assets/icons/nav/calendar.png")}
                 />
               </div>
               <span>Calendar</span>
@@ -167,7 +167,7 @@ class NavBar extends Component {
               <div>
                 <img
                   alt=""
-                  src={require("../../assets/icons/nav/settings.png")}
+                  src={require("./../../assets/icons/nav/settings.png")}
                 />
               </div>
               <span>Settings</span>
@@ -197,7 +197,7 @@ class NavBar extends Component {
             className="nav-brand"
             onClick={() => this.openSideNav()}
           >
-            <img alt="" src={require("../../assets/logo.png")} />&nbsp;&nbsp;Attender
+            <img alt="" src={require("./../../assets/logo.png")} />&nbsp;&nbsp;Attender
           </a>
           <ul className="nav-menu list-inline">
             <li>
@@ -226,7 +226,7 @@ class NavBar extends Component {
                 <img
                   alt=""
                   onClick={() => this.onLogout()}
-                  src={require("../../assets/icons/nav/logout.png")}
+                  src={require("./../../assets/icons/nav/logout.png")}
                 />
               </a>
             </li>

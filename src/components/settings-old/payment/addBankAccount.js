@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import "../../.././styles/global.css"
+import "./../../.././styles/global.css"
 
 const AddBankAccountPresentation = ({
   onChangeInput,

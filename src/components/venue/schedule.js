@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 

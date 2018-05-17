@@ -1,8 +1,8 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from "../services/api"
+import API from "./../../services/api"
 import "./findStaff.css"
 import _ from "lodash/core"
 import { Link } from "react-router-dom"
@@ -250,13 +250,13 @@ class FindStaff extends Component {
               <p>
                 <small className="pull-left">Skills: &nbsp;&nbsp;</small>
                 <span className="btn-skills pull-left">
-                  <img src={require(".././venue/img/uk-flag.gif")} />
+                  <img src={require("./.././venue/img/uk-flag.gif")} />
                 </span>
                 <span className="btn-skills pull-left">
-                  <img src={require(".././venue/img/contact-icon.gif")} />
+                  <img src={require("./.././venue/img/contact-icon.gif")} />
                 </span>
                 <span className="btn-skills pull-left">
-                  <img src={require(".././venue/img/list-icon.gif")} />
+                  <img src={require("./.././venue/img/list-icon.gif")} />
                 </span>
                 {(() => {
                   if (k[1].openMeta) {
@@ -300,7 +300,9 @@ class FindStaff extends Component {
             {Object.keys(k[1].experiences).map((key, index) => {
               return (
                 <div key={key} className="fs-staff-experience clearfix">
-                  <img src={require(".././venue/img/image-placeholder.jpg")} />
+                  <img
+                    src={require("./.././venue/img/image-placeholder.jpg")}
+                  />
                   <ul>
                     <li>
                       <strong>Bar: </strong>

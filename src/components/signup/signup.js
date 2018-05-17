@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 // import './signup.css';
-import "../.././styles/style.css"
+import "./../.././styles/style.css"
 import {
   Button,
   FormGroup,
@@ -51,12 +51,12 @@ class Signup extends Component {
         <Row className="row-container">
           <Col sm={4} className="col-container-left">
             <img
-              src={require("../../assets/half-background image.png")}
+              src={require("./../../assets/half-background image.png")}
               className="background-image"
             />
             <div>
               <img
-                src={require("../../assets/logo&Text.png")}
+                src={require("./../../assets/logo&Text.png")}
                 className="logo"
               />
             </div>

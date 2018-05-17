@@ -3,7 +3,7 @@ import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import API from ".././services/api"
+import API from "./../../services/api"
 
 class Registration extends Component {
   constructor(props) {
@@ -135,7 +135,7 @@ class Registration extends Component {
             <img
               className="reg-main-logo"
               alt=""
-              src={require("../../assets/logo&Text.png")}
+              src={require("./../../assets/logo&Text.png")}
             />
           </div>
         </div>

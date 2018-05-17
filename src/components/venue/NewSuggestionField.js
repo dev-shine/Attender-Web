@@ -29,7 +29,7 @@ class NewSuggestionField extends Component {
           <div className="my-staff-ss-check">
             <img
               alt=""
-              src={require("../../assets/icons/venue/check-item.png")}
+              src={require("./../../assets/icons/venue/check-item.png")}
             />
           </div>
           <div className="my-staff-ss-desc">

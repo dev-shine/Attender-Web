@@ -1,11 +1,11 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
-import "../.././styles/global.css"
-import "../.././styles/style.css"
+import NavBar from "./../layouts/NavBar"
+import "./../.././styles/global.css"
+import "./../.././styles/style.css"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from ".././services/api"
+import API from "./../../services/api"
 
 class OrganiserSetup extends Component {
   constructor(props) {

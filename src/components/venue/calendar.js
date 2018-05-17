@@ -1,11 +1,11 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
-import { setSubscribePopUp } from ".././actions/myProfile-actions"
+import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
+import { setSubscribePopUp } from "./../../actions/myProfile-actions"
 import ViewEvent from "./viewEvent"
-import API from "./../services/api"
+import API from "./../../services/api"
 const moment = require("moment")
 
 class Calendar extends Component {
@@ -294,7 +294,7 @@ class Calendar extends Component {
                         <div className="drop-menu">
                           <img
                             alt=""
-                            src={require("../../assets/icons/venue/menu.png")}
+                            src={require("./../../assets/icons/venue/menu.png")}
                             onClick={() => this.openDropdown(`c-${index}`)}
                           />
                           <div
@@ -395,7 +395,7 @@ class Calendar extends Component {
                             <div className="drop-menu">
                               <img
                                 alt=""
-                                src={require("../../assets/icons/venue/menu.png")}
+                                src={require("./../../assets/icons/venue/menu.png")}
                                 onClick={() => this.openDropdown(`e-${index}`)}
                               />
                               <div

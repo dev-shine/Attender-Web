@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from ".././services/api"
+import API from "./../../services/api"
 
 class SignSuccess extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class SignSuccess extends Component {
       <div className="bg bg-ss">
         <div className="container">
           <div className="ss-content">
-            <img alt="" src={require("../../assets/logo3.png")} />
+            <img alt="" src={require("./../../assets/logo3.png")} />
             <p className="ss-title">SIGN UP SUCCESS</p>
             <p className="ss-body">
               We have sent the confirmation link to your email. Please check

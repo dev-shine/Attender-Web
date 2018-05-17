@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import moment from "moment"
-import API from ".././services/api"
+import API from "./../../services/api"
 import "./earnings.css"
 import { Button } from "react-bootstrap"
 
@@ -88,7 +88,7 @@ class Earnings extends Component {
       case "WIDTHRAW_CONFIRM":
         content = (
           <div className="withdraw-confirm">
-            <img src={require("../settings/img/confirm-icon.png")} />
+            <img src={require("./../settings/img/confirm-icon.png")} />
             <h5>Confirmed!</h5>
             <p>You have successfully made the transaction.</p>
 

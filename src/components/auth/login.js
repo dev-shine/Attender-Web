@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import "../.././styles/style.css"
+import "./../.././styles/style.css"
 import {
   Button,
   FormGroup,
@@ -14,7 +14,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import OverlayLoader from "react-loading-indicator-overlay/lib/OverlayLoader"
 
-import API from ".././services/api"
+import API from "./../../services/api"
 
 const FieldGroup = ({ id, label, help, ...props }) => {
   return (
@@ -91,7 +91,7 @@ class Login extends Component {
                   <Col sm={2} className="align-center">
                     <img
                       alt=""
-                      src={require("../../assets/logo.png")}
+                      src={require("./../../assets/logo.png")}
                       className="header-logo"
                     />
                   </Col>
@@ -166,22 +166,22 @@ class Login extends Component {
               </div>
               <img
                 alt=""
-                src={require("../../assets/half-logo.png")}
+                src={require("./../../assets/half-logo.png")}
                 className="half-logo"
               />
 
               <div className="social-button-position">
                 <img
                   alt=""
-                  src={require("../../assets/fb-logo.png")}
+                  src={require("./../../assets/fb-logo.png")}
                   className="logo-spacer"
                 />
                 <img
                   alt=""
-                  src={require("../../assets/ig-logo.png")}
+                  src={require("./../../assets/ig-logo.png")}
                   className="logo-spacer"
                 />
-                <img alt="" src={require("../../assets/twitter.png")} />
+                <img alt="" src={require("./../../assets/twitter.png")} />
                 <h5 className="pull-right credit-style">
                   © {new Date().getFullYear()} Attender Pty Ltd. Terms and
                   Conditions | Privacy Policy

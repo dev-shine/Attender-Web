@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from ".././services/api"
+import API from "./../../services/api"
 
 class AccountConfirmed extends Component {
   constructor(props) {
@@ -13,7 +13,9 @@ class AccountConfirmed extends Component {
   }
 
   async componentWillMount() {
-    const { match: { params } } = this.props
+    const {
+      match: { params }
+    } = this.props
     let verification = params.verification
     let token = params.token
     let response = await API.post("auth/verify", { token, verification })

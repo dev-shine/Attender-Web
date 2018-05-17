@@ -4,8 +4,8 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Button } from "react-bootstrap"
 import "./settings.css"
-import API from "./../services/api"
-import NavBar from "../layouts/NavBar"
+import API from "./../../services/api"
+import NavBar from "./../layouts/NavBar"
 import MaskedInput from "react-text-mask"
 
 const cardIconStyle = {

@@ -1,8 +1,8 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import API from "./../services/api"
+import API from "./../../services/api"
 import "./myStaff.css"
 import NewTaskField from "./NewTaskField"
 import NewSuggestionField from "./NewSuggestionField"
@@ -124,7 +124,10 @@ class MyStaff extends Component {
     return (
       <div key={task._id} className="my-staff-ss-item">
         <div className="my-staff-ss-check">
-          <img alt="" src={require("../../assets/icons/venue/check-item.png")} />
+          <img
+            alt=""
+            src={require("./../../assets/icons/venue/check-item.png")}
+          />
         </div>
         <div className="my-staff-ss-desc">
           <p>{task.description}</p>

@@ -1,12 +1,12 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
+import NavBar from "./../layouts/NavBar"
 
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Grid, Row, Col, Image } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-import API from "../services/api"
+import API from "./../../services/api"
 import moment from "moment"
 
 const FontAwesome = require("react-fontawesome")

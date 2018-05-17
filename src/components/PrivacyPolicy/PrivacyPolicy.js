@@ -2,7 +2,7 @@ import React from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
-import "../TermsAndCondition/TermsAndCondition.css"
+import "./../TermsAndCondition/TermsAndCondition.css"
 
 class PrivacyPolicy extends React.Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import "../../.././styles/global.css"
-import API from "../.././services/api"
+import "./../../.././styles/global.css"
+import API from "./../../../services/api"
 import MaskedInput from "react-text-mask"
 
 //#region Presentations

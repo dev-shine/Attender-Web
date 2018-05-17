@@ -4,8 +4,8 @@ class NewTaskField extends Component {
   constructor() {
     super()
     this.state = {
-      form : 'newTaskFieldForm',
-      placeholder : 'Enter Task'
+      form: "newTaskFieldForm",
+      placeholder: "Enter Task"
     }
     this.save = this.save.bind(this)
   }
@@ -29,7 +29,7 @@ class NewTaskField extends Component {
           <div className="my-staff-ss-check">
             <img
               alt=""
-              src={require("../../assets/icons/venue/check-item.png")}
+              src={require("./../../assets/icons/venue/check-item.png")}
             />
           </div>
           <div className="my-staff-ss-desc">

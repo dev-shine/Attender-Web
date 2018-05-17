@@ -1,12 +1,12 @@
 import React from "react"
-import NavBar from "../layouts/NavBar"
-import API from "./../services/api"
+import NavBar from "./../layouts/NavBar"
+import API from "./../../services/api"
 import { Link } from "react-router-dom"
 import { Button } from "react-bootstrap"
 import "./SubscribeSettings.css"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import { unsubscribeMe } from "./../actions/myProfile-actions"
+import { unsubscribeMe } from "./../../actions/myProfile-actions"
 import { push } from "react-router-redux"
 
 class SubscribeSettings extends React.Component {

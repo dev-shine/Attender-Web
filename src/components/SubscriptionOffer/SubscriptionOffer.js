@@ -1,10 +1,10 @@
 import React from "react"
-import NavBar from "../layouts/NavBar"
-import SubscribePopUp from "../layouts/SubscribePopUp/SubscribePopUp"
+import NavBar from "./../layouts/NavBar"
+import SubscribePopUp from "./../layouts/SubscribePopUp/SubscribePopUp"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
-import { subscribeMe } from "./../actions/myProfile-actions"
+import { subscribeMe } from "./../../actions/myProfile-actions"
 
 class SubscriptionOffer extends React.Component {
   constructor(props) {

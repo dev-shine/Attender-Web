@@ -1,16 +1,16 @@
 import React, { Component } from "react"
-import NavBar from "../layouts/NavBar"
-import "../.././styles/global.css"
-import "../.././styles/style.css"
+import NavBar from "./../layouts/NavBar"
+import "./../.././styles/global.css"
+import "./../.././styles/style.css"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import TextTruncate from "react-text-truncate"
-import API from "./../services/api"
-import constant from "./../configs/constant"
+import API from "./../../services/api"
+import constant from "./../../configs/constant"
 import { push } from "react-router-redux"
-import SubscribePopUp from ".././layouts/SubscribePopUp/SubscribePopUp"
-import { setSubscribePopUp } from ".././actions/myProfile-actions"
-import { loadState, saveState } from "../../localStorage"
+import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
+import { setSubscribePopUp } from "./../../actions/myProfile-actions"
+import { loadState, saveState } from "./../../localStorage"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
 const io = ws(constant.API_URL.replace("/api/", ""))
@@ -256,7 +256,9 @@ class EmployerMessage extends Component {
     API.post(
       this.state.profile.isStaff
         ? "new-venue-message"
-        : thread ? "new-staff-message" : "new-initial-message",
+        : thread
+          ? "new-staff-message"
+          : "new-initial-message",
       body
     ).then(res => {
       if (res.status) {
@@ -627,7 +629,7 @@ class EmployerMessage extends Component {
         <a className="m-icon pull-left">
           <img
             alt=""
-            src={require("../../assets/icons/messages/attachment.png")}
+            src={require("./../../assets/icons/messages/attachment.png")}
           />
         </a>
         <form onSubmit={this.onSend}>
@@ -686,19 +688,19 @@ class EmployerMessage extends Component {
                   <a className="m-icon pull-right">
                     {/* <img
                       alt=""
-                      src={require("../../assets/icons/messages/gear.png")}
+                      src={require("./../../assets/icons/messages/gear.png")}
                     /> */}
                   </a>
                   <a className="m-icon pull-right">
                     <img
                       alt=""
-                      src={require("../../assets/icons/messages/edit.png")}
+                      src={require("./../../assets/icons/messages/edit.png")}
                     />
                   </a>
                   <div className="drop-menu">
                     <img
                       alt=""
-                      src={require("../../assets/icons/messages/gear.png")}
+                      src={require("./../../assets/icons/messages/gear.png")}
                       onClick={() => this.openDropdown("e-1")}
                     />
                     <div

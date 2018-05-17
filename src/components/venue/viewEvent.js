@@ -39,7 +39,7 @@ class ViewEvent extends Component {
                 <br />
                 <img
                   style={{ height: "inherit", width: "inherit" }}
-                  src={require("../../assets/Background1.png")}
+                  src={require("./../../assets/Background1.png")}
                 />
               </div>
               <div className="sem">
