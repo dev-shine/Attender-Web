@@ -196,10 +196,10 @@ class SearchVenues extends Component {
     }
     return this.state.venues.map((venue, index) => (
       <div key={index} className="venue-box row">
-        <div className="col-sm-3 venue-img">
+        <div className="venue-img">
           <img alt="" src={venue.image} />
         </div>
-        <div className="col-sm-6 venue-info">
+        <div className="venue-info">
           <p className="venue-name">
             <Link to={"/venue/profile/" + venue._id}>
               <b>{venue.name}</b>
@@ -264,7 +264,7 @@ class SearchVenues extends Component {
   renderFilterButtons = () => {
     if (this.state.filterTypes.venue) {
       return Object.keys(this.state.venueTypeFilters).map((venue, index) => {
-        const wide = venue === "restaurant" ? "wide-md" : "wide-sm"
+        // const wide = venue === "restaurant" ? "wide-md" : ""
         const active = this.state.venueTypeFilters[venue]
           ? "btn-active"
           : "btn-passive"
@@ -273,7 +273,7 @@ class SearchVenues extends Component {
             key={index}
             active={venue.active}
             name={venue}
-            className={`a-btn btn-round ${wide} ${active}`}
+            className={`a-btn btn-round ${active}`}
             style={{ fontSize: "14px" }}
             onClick={this.handleVenueTypeClick}
           >
@@ -302,18 +302,15 @@ class SearchVenues extends Component {
 
   render() {
     return (
-      <div>
+      <div class="m-search-venues">
         <NavBar />
 
-        <div
-          className="xem cont-flex"
-          style={{ paddingLeft: "5%", paddingRight: "5%", height: "85vh" }}
-        >
-          <div className="card card-md">
-            <div className="card-header">
+        <div className="xem cont-flex m-search-venues--body">
+          <div className="card card-md m-search-venues--nearby-venue">
+            <div className="card-header m-search-venues--header">
               <h4>NEARBY VENUE</h4>
               <div className="card-filter">
-                <div className="xxm">
+                <div className="xxm m-search-venues--header--filter-by">
                   <span>FILTER BY:&nbsp;&nbsp;</span>
                   {Object.keys(this.state.filterTypes).map((type, index) => {
                     const active = this.state.filterTypes[type]
@@ -331,10 +328,12 @@ class SearchVenues extends Component {
                     )
                   })}
                 </div>
-                <div className="xxm">{this.renderFilterButtons()}</div>
+                <div className="xxm m-search-venues--header--filter-items">
+                  {this.renderFilterButtons()}
+                </div>
               </div>
             </div>
-            <div className="card-content scroll v-scroll xxm">
+            <div className="card-content scroll v-scroll xxm m-search-venues--venue-lists">
               {this.renderVenueLists()}
             </div>
           </div>

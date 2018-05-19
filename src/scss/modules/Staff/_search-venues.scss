@@ -1,0 +1,83 @@
+.m-search-venues {
+	button {
+		cursor:pointer;
+		border:1px solid transparent;
+		&:hover {
+			border-color:#aaa;
+		}
+	}
+    &--body {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1250px;
+    }
+    &--nearby-venue {
+        max-width: 736px;
+        width: 60%;
+    }
+    &--header {
+        background: none;
+        margin: 8px 30px;
+        padding: 0;
+        border-bottom: 1px solid #f3f3f3;
+        h4 {
+            font-weight: 200;
+        }
+        &--filter-by {
+            margin-top: 13px;
+            span {
+                margin: 10px;
+                display: inline-block;
+                font-size: 17px;
+            }
+            button {
+                font-size: 0.9rem;
+                margin: 0 5px 0 5px;
+                padding: 7px 25px 4px;
+            }
+        }
+        &--filter-items {
+            margin-top: 5px;
+            margin-bottom: 35px;
+            margin-left: 5px;
+            button {
+                width: auto;
+                padding: 7px 25px 4px;
+                margin: 0 7px;
+            }
+        }
+    }
+    &--venue-lists {
+        margin: 0px 30px;
+        width: auto;
+        padding: 0;
+        .venue-box {
+            border-top: none;
+            border-bottom: 1px solid #f3f3f3;
+            padding: 20px 12px 30px;
+        }
+        .venue-img {
+            position: relative;
+            overflow: hidden;
+            width: 112px;
+            height: 112px;
+            margin-right: 20px;
+            img {
+                width: 100%;
+            }
+        }
+        .venue-info {
+            width: 335px;
+            .venue-name a{
+                color: #373737;
+                font-weight:200;
+                &:hover {
+                	text-decoration:none;
+                	color:#5d5bbc;
+
+                }
+            }
+        }
+    }
+}

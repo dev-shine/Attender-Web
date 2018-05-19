@@ -30,6 +30,8 @@ import TermsAndConditionBusiness from "./components/TermsAndCondition/TermsAndCo
 import VenueProfile from "./components/VenueProfile/VenueProfile"
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy"
 
+import "./style.min.css"
+
 class App extends Component {
   constructor(props) {
     super(props)

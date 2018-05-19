@@ -1,2 +1,45 @@
+.m-search-venues--body {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1250px; }
+
+.m-search-venues--nearby-venue {
+  max-width: 736px;
+  width: 60%; }
+
+.m-search-venues--header {
+  background: none;
+  margin: 8px 30px;
+  padding: 0;
+  border-bottom: 1px solid #f3f3f3; }
+  .m-search-venues--header h4 {
+    font-weight: 200; }
+  .m-search-venues--header--filter-by {
+    margin-top: 13px; }
+    .m-search-venues--header--filter-by span {
+      margin: 10px;
+      display: inline-block;
+      font-size: 17px; }
+    .m-search-venues--header--filter-by button {
+      font-size: 0.9rem;
+      margin: 0 5px 0 5px;
+      padding: 7px 25px 4px; }
+  .m-search-venues--header--filter-items {
+    margin-top: 5px;
+    margin-bottom: 35px;
+    margin-left: 5px; }
+    .m-search-venues--header--filter-items button {
+      width: auto;
+      padding: 7px 25px 4px;
+      margin: 0 7px; }
+
+.m-search-venues--venue-lists {
+  margin: 0px 30px;
+  width: auto;
+  padding: 0; }
+  .m-search-venues--venue-lists .venue-box {
+    border-top: none;
+    border-bottom: 1px solid #f3f3f3; }
 
 /*# sourceMappingURL=../inline */
