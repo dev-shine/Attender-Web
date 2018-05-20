@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^1.0.17"
+    "react-scripts": "^1.0.17",
+    "webpack": "^3.1.0"
   },
   "dependencies": {
     "@material-ui/core": "^1.0.0-rc.1",
