@@ -31,8 +31,14 @@ class SearchVenues extends Component {
         service: false
       },
       filterEvents: {
-        near: true,
-        upcoming: false
+        near: {
+          label: "Events near you",
+          value: true
+        },
+        upcoming: {
+          label: "Upcoming events",
+          value: false
+        }
       },
       services: {
         all: true,
@@ -174,8 +180,8 @@ class SearchVenues extends Component {
     const filterEvents = this.state.filterEvents
     Object.keys(filterEvents).forEach(key => {
       key === filterEvent
-        ? (filterEvents[key] = true)
-        : (filterEvents[key] = false)
+        ? (filterEvents[key].value = true)
+        : (filterEvents[key].value = false)
     })
     this.setState({ filterEvents })
   }
@@ -338,14 +344,14 @@ class SearchVenues extends Component {
             </div>
           </div>
 
-          <div className="card card-md">
-            <div className="card-header">
+          <div className="card card-md m-search-venues--nearby-events">
+            <div className="card-header m-search-venues--header">
               <h4>UPCOMING EVENTS NEAR YOU</h4>
               <div className="card-filter">
-                <div className="xxm">
+                <div className="xxm m-search-venues--header--filter-by">
                   <span>FILTER BY:&nbsp;&nbsp;</span>
                   {Object.keys(this.state.filterEvents).map((key, index) => {
-                    const active = this.state.filterEvents[key]
+                    const active = this.state.filterEvents[key].value
                       ? "btn-active"
                       : "btn-passive"
                     return (
@@ -355,12 +361,12 @@ class SearchVenues extends Component {
                         onClick={this.handleFilterEvents.bind(this, key)}
                         style={{ fontSize: "14px" }}
                       >
-                        {key.capitalize()}
+                        {this.state.filterEvents[key].label.capitalize()}
                       </button>
                     )
                   })}
                 </div>
-                <div className="xxm card-filter">
+                <div className="xxm card-filter m-search-venues--header--filter-items">
                   {Object.keys(this.state.eventTypes).map((key, index) => {
                     const active = this.state.eventTypes[key]
                       ? "btn-active"
@@ -368,9 +374,7 @@ class SearchVenues extends Component {
                     return (
                       <button
                         key={index}
-                        className={`a-btn btn-round ${
-                          key.length > 8 ? "wide-md" : "wide-sm"
-                        } ${active}`}
+                        className={`a-btn btn-round ${active}`}
                         style={{ fontSize: "14px" }}
                         onClick={this.handleEventsClick.bind(this, key)}
                       >

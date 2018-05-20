@@ -15,8 +15,8 @@
 }
 
 .m-search-venues--nearby-venue {
-  max-width: 736px;
   width: 60%;
+  margin-right: 20px;
 }
 
 .m-search-venues--header {
@@ -30,6 +30,7 @@
 }
 .m-search-venues--header--filter-by {
   margin-top: 13px;
+  margin-bottom: 13px;
 }
 .m-search-venues--header--filter-by span {
   margin: 10px;
@@ -48,8 +49,8 @@
 }
 .m-search-venues--header--filter-items button {
   width: auto;
-  padding: 7px 25px 4px;
-  margin: 0 7px;
+  padding: 7px 20px 4px;
+  margin: 0 7px 10px;
 }
 
 .m-search-venues--venue-lists {
