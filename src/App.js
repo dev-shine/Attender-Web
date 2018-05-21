@@ -12,7 +12,10 @@ import Earnings from "./components/staff/earnings"
 import VenueSetup from "./components/venue/venueSetup"
 import employerSetup from "./components/lookingFor/employerSetup"
 import OrganiserSetup from "./components/organiser/organiserSetup"
-import EmployerMessage from "./components/messages/employer"
+
+//import EmployerMessage from "./components/messages/employer"
+import Messages from "./components/Messages/messages"
+
 import FindStaff from "./components/venue/findStaff"
 import MyStaff from "./components/venue/myStaff"
 import Schedule from "./components/venue/schedule"
@@ -84,7 +87,7 @@ class App extends Component {
           <Route exact path="/settings" component={Settings} />
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
-          <Route exact path="/messages/:staff?" component={EmployerMessage} />
+          <Route exact path="/messages/:staff?" component={Messages} />
           {this.renderSubscriptionSettingsPage()}
           <Route
             exact
