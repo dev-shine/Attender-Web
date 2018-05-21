@@ -1,33 +1,39 @@
 import React, { Component } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import Navigator from "./navigator"
-import SignSuccess from "./auth/signSuccess"
-import Login from "./auth/login"
-import AccountConfirmed from "./auth/accountConfirmed"
-import LookingFor from "./lookingFor/lookingFor"
-import StaffProfileSetup from "./staff/profileSetup"
-import SearchVenues from "./staff/searchVenues"
-import Earnings from "./staff/earnings"
-import VenueSetup from "./venue/venueSetup"
-import employerSetup from "./lookingFor/employerSetup"
-import OrganiserSetup from "./organiser/organiserSetup"
-import EmployerMessage from "./messages/employer"
-import FindStaff from "./venue/findStaff"
-import MyStaff from "./venue/myStaff"
-import Schedule from "./venue/schedule"
-import Calendar from "./venue/calendar"
-import Registration from "./auth/registration"
+
+import SignSuccess from "./components/auth/signSuccess"
+import Login from "./components/auth/login"
+import AccountConfirmed from "./components/auth/accountConfirmed"
+import LookingFor from "./components/lookingFor/lookingFor"
+import StaffProfileSetup from "./components/staff/profileSetup"
+import SearchVenues from "./components/staff/searchVenues"
+import Earnings from "./components/staff/earnings"
+import VenueSetup from "./components/venue/venueSetup"
+import employerSetup from "./components/lookingFor/employerSetup"
+import OrganiserSetup from "./components/organiser/organiserSetup"
+
+//import EmployerMessage from "./components/messages/employer"
+import Messages from "./components/Messages/messages"
+
+import FindStaff from "./components/venue/findStaff"
+import MyStaff from "./components/venue/myStaff"
+import Schedule from "./components/venue/schedule"
+import Calendar from "./components/venue/calendar"
+import Registration from "./components/auth/registration"
 // import Settings from "./settings-old/index"
-import Settings from "./settings/Settings"
-import SubscriptionSettings from "./SubscriptionSettings/SubscriptionSettings"
-import SubscriptionOffer from "./SubscriptionOffer/SubscriptionOffer"
-import NotFound from "./NotFound/NotFound"
+import Settings from "./components/settings/Settings"
+import SubscriptionSettings from "./components/SubscriptionSettings/SubscriptionSettings"
+import SubscriptionOffer from "./components/SubscriptionOffer/SubscriptionOffer"
+import NotFound from "./components/NotFound/NotFound"
 import { loadState } from "./localStorage"
-import TermsAndCondition from "./TermsAndCondition/TermsAndCondition"
-import TermsAndConditionAttendants from "./TermsAndCondition/TermsAndConditionAttendants"
-import TermsAndConditionBusiness from "./TermsAndCondition/TermsAndConditionBusiness"
-import VenueProfile from "./VenueProfile/VenueProfile"
-import PrivacyPolicy from "./PrivacyPolicy/PrivacyPolicy"
+import TermsAndCondition from "./components/TermsAndCondition/TermsAndCondition"
+import TermsAndConditionAttendants from "./components/TermsAndCondition/TermsAndConditionAttendants"
+import TermsAndConditionBusiness from "./components/TermsAndCondition/TermsAndConditionBusiness"
+import VenueProfile from "./components/VenueProfile/VenueProfile"
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy"
+
+import "./style.min.css"
 
 class App extends Component {
   constructor(props) {
@@ -81,7 +87,7 @@ class App extends Component {
           <Route exact path="/settings" component={Settings} />
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
-          <Route exact path="/messages/:staff?" component={EmployerMessage} />
+          <Route exact path="/messages/:staff?" component={Messages} />
           {this.renderSubscriptionSettingsPage()}
           <Route
             exact

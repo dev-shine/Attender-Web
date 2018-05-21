@@ -56,7 +56,7 @@ body @keyframes animatetop {
 }
 
 .bg-default {
-  background-image: url(".././assets/backgrounds/setup-bg.jpg");
+  background-image: url("./../assets/backgrounds/setup-bg.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -65,15 +65,15 @@ body @keyframes animatetop {
 }
 
 .bg-ss {
-  background-image: url(".././assets/backgrounds/signup-success-bg.png");
+  background-image: url("./../assets/backgrounds/signup-success-bg.png");
 }
 
 .bg-acc-confirmed {
-  background-image: url(".././assets/backgrounds/acc-confirmed-bg.jpg");
+  background-image: url("./../assets/backgrounds/acc-confirmed-bg.jpg");
 }
 
 .bg-employer-setup {
-  background-image: url(".././assets/backgrounds/employer-looking-bg.png");
+  background-image: url("./../assets/backgrounds/employer-looking-bg.png");
 }
 
 p {
@@ -1537,12 +1537,6 @@ textarea {
   font-size: 18px;
 }
 
-.venue-action {
-  position: absolute;
-  bottom: 2em;
-  right: 2em;
-}
-
 .event-box {
   box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
   position: relative;
@@ -2502,7 +2496,7 @@ textarea {
   display: inline-block;
   height: 100vh;
   background-size: 100%;
-  background-image: url(".././assets/backgrounds/reg-bg.png");
+  background-image: url("./../assets/backgrounds/reg-bg.png");
   position: relative;
 }
 
