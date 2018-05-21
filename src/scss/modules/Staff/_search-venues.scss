@@ -1,21 +1,21 @@
 .m-search-venues {
-	button {
-		cursor:pointer;
-		border:1px solid transparent;
-		&:hover {
-			border-color:#aaa;
-		}
-	}
+    button {
+        cursor: pointer;
+        border: 1px solid transparent;
+        &:hover {
+            border-color: #aaa;
+        }
+    }
     &--body {
         width: 100%;
         margin-left: auto;
         margin-right: auto;
         max-width: 1250px;
-        height:85vh;
+        height: 85vh;
     }
     &--nearby-venue {
-      width: 60%;
-    margin-right: 20px;
+        width: 60%;
+        margin-right: 20px;
     }
     &--header {
         background: none;
@@ -71,13 +71,103 @@
         }
         .venue-info {
             width: 335px;
-            .venue-name a{
-                color: #373737;
-                font-weight:200;
+            color: #686868;
+            p {
+                color: #686868;
+            }
+            .venue-name {
+                line-height: initial;
+                font-size: 17px;
+                margin-bottom: 0;
+                a {
+                    color: #3b3b3b;
+                    font-weight: 200;
+                    &:hover {
+                        text-decoration: none;
+                        color: #5d5bbc;
+                    }
+                }
+            }
+            .venue-type {
+                margin-bottom: 0;
+            }
+            .venue-schedules {
+                p {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .services {
+            margin-top: 5px;
+            label {
+                margin-right: 10px;
+                margin-bottom: 0;
+                line-height: 35px;
+            }
+            span {
+                width: 35px;
+                height: 35px;
+                display: inline-block;
+                background-color: #684cbd;
+                border-radius: 100%;
+                background-size: auto 20px;
+                background-position: center;
+                margin: 0 2px;
+            }
+            &--alcohol {
+                background: url('./assets/icons/venue/services/white/alcohol.png') no-repeat;
+            }
+            &--drinks {
+                background: url('./assets/icons/venue/services/white/drinks.png') no-repeat;
+            }
+            &--cocktails {
+                background: url('./assets/icons/venue/services/white/cocktails.png') no-repeat;
+            }
+            &--breakfast {
+                background: url('./assets/icons/venue/services/white/breakfast.png') no-repeat;
+            }
+            &--hotel {
+                background: url('./assets/icons/venue/services/white/hotel.png') no-repeat;
+            }
+            &--lunch {
+                background: url('./assets/icons/venue/services/white/lunch.png') no-repeat;
+            }
+            &--food {
+                background: url('./assets/icons/venue/services/white/food.png') no-repeat;
+            }
+            &--pokies {
+                background: url('./assets/icons/venue/services/white/pokies.png') no-repeat;
+            }
+            &--dinner {
+                background: url('./assets/icons/venue/services/white/dinner.png') no-repeat;
+            }
+        }
+        .venue-action {
+            padding-top: 53px;
+            font-size: 14px;
+            text-align: center;
+            width: 160px;
+            .venue-address {
+                .fa {
+                    font-size: 18px;
+                }
+            }
+            button {
+                font-size:15px;
+                color:#684cbd;
+                border-color:#684cbd;
+                background-color:#fff;
+                padding: 5px 20px 3px;
+                &.btn-dark {
+                    background-color:#684cbd;
+                    color:#fff;
+                    &:hover {
+                        background-color:#333;
+                    }
+                }
                 &:hover {
-                	text-decoration:none;
-                	color:#5d5bbc;
-
+                    background-color:#222;
+                    color:#fff;
                 }
             }
         }

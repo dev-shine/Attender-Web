@@ -273,7 +273,7 @@ class SearchVenues extends Component {
       })
     }
     return (
-      <div>
+      <div className="venue-schedules">
         <p>{isWeekdaysFormat}</p> <p>{isWeekendFormat}</p>
       </div>
     )
@@ -294,34 +294,23 @@ class SearchVenues extends Component {
               <b>{venue.name}</b>
             </Link>
           </p>
-          <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
+          <p className="venue-type">
+            {venue.type.map(type => type.capitalize()).join(" / ")}
+          </p>
           {this.renderOpeningHoursDOM(venue.openingHours)}
           <Grid>
-            <Row>
-              Services:
+            <Row className="services">
+              <label>Services:</label>
               {venue.services.map((service, index) => {
                 if (service && index < 3) {
-                  return (
-                    <Col key={index} md={2}>
-                      <Image
-                        src={require(`../../assets/icons/venue/services/white/${service}.png`)}
-                        style={{
-                          width: "2.5em",
-                          height: "2.5em",
-                          borderRadius: "100%",
-                          padding: "2px",
-                          backgroundColor: "#5e5cbd"
-                        }}
-                      />
-                    </Col>
-                  )
+                  return <span className={"services--" + service} key={index} />
                 }
               })}
             </Row>
           </Grid>
         </div>
-        <div className="col-sm-3 venue-action">
-          <p>
+        <div className="venue-action">
+          <p className="venue-address">
             <FontAwesome name="map-marker" />&nbsp;&nbsp;{venue.locationName}
           </p>
           <button
