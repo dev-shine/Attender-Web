@@ -8,8 +8,8 @@ import TextTruncate from "react-text-truncate"
 import API from "./../../services/api"
 import constant from "./../../configs/constant"
 import { push } from "react-router-redux"
-import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
-import { setSubscribePopUp } from "./../../actions/myProfile-actions"
+// import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
+// import { setSubscribePopUp } from "./../../actions/myProfile-actions"
 import { loadState, saveState } from "./../../localStorage"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
@@ -48,8 +48,8 @@ class Messages extends Component {
         host: { on: false }
       },
       staffFilters: [],
-      selectedStaff: {},
-      showSubscribeNowOffer: true
+      selectedStaff: {}
+      // showSubscribeNowOffer: true
     }
   }
   componentWillMount = async () => {
@@ -58,9 +58,9 @@ class Messages extends Component {
 
     const profile = loadState("com.attender.pty.ltd.profile")
 
-    if (profile.isSubscribed) {
-      this.setState({ showSubscribeNowOffer: false })
-    }
+    // if (profile.isSubscribed) {
+    //   this.setState({ showSubscribeNowOffer: false })
+    // }
 
     this.setState({ profile })
 
@@ -671,13 +671,14 @@ class Messages extends Component {
   render() {
     return (
       <div>
-        {this.state.showSubscribeNowOffer ? (
-          <SubscribePopUp
-            close={() => {
-              this.setState({ showSubscribeNowOffer: false })
-            }}
-          />
-        ) : null}
+        {/*this.state.showSubscribeNowOffer ? (
+              <SubscribePopUp
+                close={() => {
+                  this.setState({ showSubscribeNowOffer: false })
+                }}
+              />
+            ) : null
+          */}
         <NavBar />
         <div className="container xxem">
           <div className="content-messages">
@@ -751,8 +752,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goToStaff: staffId => push(`/find-staff/${staffId}`),
-      onSetSubscribePopUp: setSubscribePopUp
+      goToStaff: staffId => push(`/find-staff/${staffId}`)
+      // onSetSubscribePopUp: setSubscribePopUp
     },
     dispatch
   )
