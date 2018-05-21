@@ -88,13 +88,33 @@ class Earnings extends Component {
       case "WIDTHRAW_CONFIRM":
         content = (
           <div className="withdraw-confirm">
+            <h5>Continue?</h5>
+            <p>Are you sure you want to widthraw your money?</p>
+            <div className="a-modal-footer">
+              <Button className="btn-default" onClick={this.closeModal}>
+                Cancel
+              </Button>
+              <Button
+                className="btn btn-primary"
+                onClick={this.openModal.bind(this, "WIDTHRAW_SUCCESS")}
+              >
+                Yes
+              </Button>
+            </div>
+          </div>
+        )
+        break
+      case "WIDTHRAW_SUCCESS":
+        content = (
+          <div className="withdraw-confirm">
             <img src={require("./../settings/img/confirm-icon.png")} />
             <h5>Confirmed!</h5>
             <p>You have successfully made the transaction.</p>
-
-            <Button className="btn-primary" onClick={this.closeModal}>
-              Ok
-            </Button>
+            <div className="a-modal-footer">
+              <Button className="btn-primary" onClick={this.closeModal}>
+                Ok
+              </Button>
+            </div>
           </div>
         )
         break
