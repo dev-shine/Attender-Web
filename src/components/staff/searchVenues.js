@@ -31,8 +31,14 @@ class SearchVenues extends Component {
         service: false
       },
       filterEvents: {
-        near: true,
-        upcoming: false
+        near: {
+          label: "Events near you",
+          value: true
+        },
+        upcoming: {
+          label: "Upcoming events",
+          value: false
+        }
       },
       services: {
         all: true,
@@ -174,8 +180,8 @@ class SearchVenues extends Component {
     const filterEvents = this.state.filterEvents
     Object.keys(filterEvents).forEach(key => {
       key === filterEvent
-        ? (filterEvents[key] = true)
-        : (filterEvents[key] = false)
+        ? (filterEvents[key].value = true)
+        : (filterEvents[key].value = false)
     })
     this.setState({ filterEvents })
   }
@@ -189,58 +195,122 @@ class SearchVenues extends Component {
       this.setState({ venues })
     }
   }
-
+  renderOpeningHoursDOM(data) {
+    let isWeekdaysFormat = "",
+      isWeekendFormat = ""
+    if (data != undefined) {
+      Object.keys(data).map((day, index) => {
+        switch (day) {
+          case "monday":
+          case "tuesday":
+          case "wednesday":
+          case "thursday":
+          case "friday":
+            if (
+              data[day].start == data["monday"].start &&
+              data[day].end == data["monday"].end
+            ) {
+              isWeekdaysFormat =
+                "Monday - Friday : " +
+                moment(data[day].start).format("h:m A") +
+                " - " +
+                moment(data[day].end).format("h:m A") +
+                "\n"
+            } else {
+              isWeekdaysFormat =
+                "Monday : " +
+                moment(data["saturday"].start).format("h:m A") +
+                " - " +
+                moment(data["sunday"].end).format("h:m A") +
+                "\n"
+              "Tuesday : " +
+                moment(data["tuesday"].start).format("h:m A") +
+                " - " +
+                moment(data["tuesday"].end).format("h:m A") +
+                "\n"
+              "Wednesday : " +
+                moment(data["wednesday"].start).format("h:m A") +
+                " - " +
+                moment(data["wednesday"].end).format("h:m A") +
+                "\n"
+              "Thursday : " +
+                moment(data["thursday"].start).format("h:m A") +
+                " - " +
+                moment(data["thursday"].end).format("h:m A") +
+                "\n"
+              "Friday : " +
+                moment(data["friday"].start).format("h:m A") +
+                " - " +
+                moment(data["friday"].end).format("h:m A") +
+                "\n"
+            }
+            break
+          case "saturday":
+          case "sunday":
+            if (
+              data[day].start == data["saturday"].start &&
+              data[day].end == data["saturday"].end
+            ) {
+              isWeekendFormat =
+                "Saturday - Sunday : " +
+                moment(data[day].start).format("h:m A") +
+                " - " +
+                moment(data[day].end).format("h:m A")
+            } else {
+              isWeekendFormat =
+                "Saturday : " +
+                moment(data["saturday"].start).format("h:m A") +
+                " - " +
+                moment(data["sunday"].end).format("h:m A") +
+                "\n"
+              "Sunday : " +
+                moment(data["saturday"].start).format("h:m A") +
+                " - " +
+                moment(data["sunday"].end).format("h:m A")
+            }
+            break
+        }
+      })
+    }
+    return (
+      <div className="venue-schedules">
+        <p>{isWeekdaysFormat}</p> <p>{isWeekendFormat}</p>
+      </div>
+    )
+  }
   renderVenueLists = () => {
     if (this.state.loading) {
       return <div>Loading...</div>
     }
+    let openingHours
     return this.state.venues.map((venue, index) => (
       <div key={index} className="venue-box row">
-        <div className="col-sm-3 venue-img">
+        <div className="venue-img">
           <img alt="" src={venue.image} />
         </div>
-        <div className="col-sm-6 venue-info">
+        <div className="venue-info">
           <p className="venue-name">
             <Link to={"/venue/profile/" + venue._id}>
               <b>{venue.name}</b>
             </Link>
           </p>
-          <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
-          {venue.openingHours
-            ? Object.keys(venue.openingHours).map((day, index) => (
-                <p key={index}>{`${day.capitalize()}: ${moment(
-                  venue.openingHours[day].start
-                ).format("h:m A")} - ${moment(
-                  venue.openingHours[day].end
-                ).format("h:m A")}`}</p>
-              ))
-            : null}
+          <p className="venue-type">
+            {venue.type.map(type => type.capitalize()).join(" / ")}
+          </p>
+          {this.renderOpeningHoursDOM(venue.openingHours)}
           <Grid>
-            <Row>
-              Services:
+            <Row className="services">
+              <label>Services:</label>
               {venue.services.map((service, index) => {
                 if (service && index < 3) {
-                  return (
-                    <Col key={index} md={2}>
-                      <Image
-                        src={require(`../../assets/icons/venue/services/white/${service}.png`)}
-                        style={{
-                          width: "2.5em",
-                          height: "2.5em",
-                          borderRadius: "100%",
-                          padding: "2px",
-                          backgroundColor: "#5e5cbd"
-                        }}
-                      />
-                    </Col>
-                  )
+                  return <span className={"services--" + service} key={index} />
                 }
               })}
             </Row>
           </Grid>
         </div>
-        <div className="col-sm-3 venue-action">
-          <p>
+        <div className="venue-action">
+          <p className="venue-address">
             <FontAwesome name="map-marker" />&nbsp;&nbsp;{venue.locationName}
           </p>
           <button
@@ -264,7 +334,7 @@ class SearchVenues extends Component {
   renderFilterButtons = () => {
     if (this.state.filterTypes.venue) {
       return Object.keys(this.state.venueTypeFilters).map((venue, index) => {
-        const wide = venue === "restaurant" ? "wide-md" : "wide-sm"
+        // const wide = venue === "restaurant" ? "wide-md" : ""
         const active = this.state.venueTypeFilters[venue]
           ? "btn-active"
           : "btn-passive"
@@ -273,7 +343,7 @@ class SearchVenues extends Component {
             key={index}
             active={venue.active}
             name={venue}
-            className={`a-btn btn-round ${wide} ${active}`}
+            className={`a-btn btn-round ${active}`}
             style={{ fontSize: "14px" }}
             onClick={this.handleVenueTypeClick}
           >
@@ -302,18 +372,15 @@ class SearchVenues extends Component {
 
   render() {
     return (
-      <div>
+      <div class="m-search-venues">
         <NavBar />
 
-        <div
-          className="xem cont-flex"
-          style={{ paddingLeft: "5%", paddingRight: "5%", height: "85vh" }}
-        >
-          <div className="card card-md">
-            <div className="card-header">
+        <div className="xem cont-flex m-search-venues--body">
+          <div className="card card-md m-search-venues--nearby-venue">
+            <div className="card-header m-search-venues--header">
               <h4>NEARBY VENUE</h4>
               <div className="card-filter">
-                <div className="xxm">
+                <div className="xxm m-search-venues--header--filter-by">
                   <span>FILTER BY:&nbsp;&nbsp;</span>
                   {Object.keys(this.state.filterTypes).map((type, index) => {
                     const active = this.state.filterTypes[type]
@@ -331,22 +398,24 @@ class SearchVenues extends Component {
                     )
                   })}
                 </div>
-                <div className="xxm">{this.renderFilterButtons()}</div>
+                <div className="xxm m-search-venues--header--filter-items">
+                  {this.renderFilterButtons()}
+                </div>
               </div>
             </div>
-            <div className="card-content scroll v-scroll xxm">
+            <div className="card-content scroll v-scroll xxm m-search-venues--venue-lists">
               {this.renderVenueLists()}
             </div>
           </div>
 
-          <div className="card card-md">
-            <div className="card-header">
+          <div className="card card-md m-search-venues--nearby-events">
+            <div className="card-header m-search-venues--header">
               <h4>UPCOMING EVENTS NEAR YOU</h4>
               <div className="card-filter">
-                <div className="xxm">
+                <div className="xxm m-search-venues--header--filter-by">
                   <span>FILTER BY:&nbsp;&nbsp;</span>
                   {Object.keys(this.state.filterEvents).map((key, index) => {
-                    const active = this.state.filterEvents[key]
+                    const active = this.state.filterEvents[key].value
                       ? "btn-active"
                       : "btn-passive"
                     return (
@@ -356,12 +425,12 @@ class SearchVenues extends Component {
                         onClick={this.handleFilterEvents.bind(this, key)}
                         style={{ fontSize: "14px" }}
                       >
-                        {key.capitalize()}
+                        {this.state.filterEvents[key].label.capitalize()}
                       </button>
                     )
                   })}
                 </div>
-                <div className="xxm card-filter">
+                <div className="xxm card-filter m-search-venues--header--filter-items">
                   {Object.keys(this.state.eventTypes).map((key, index) => {
                     const active = this.state.eventTypes[key]
                       ? "btn-active"
@@ -369,9 +438,7 @@ class SearchVenues extends Component {
                     return (
                       <button
                         key={index}
-                        className={`a-btn btn-round ${
-                          key.length > 8 ? "wide-md" : "wide-sm"
-                        } ${active}`}
+                        className={`a-btn btn-round ${active}`}
                         style={{ fontSize: "14px" }}
                         onClick={this.handleEventsClick.bind(this, key)}
                       >

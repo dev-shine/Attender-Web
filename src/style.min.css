@@ -1,0 +1,175 @@
+.m-search-venues button {
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.m-search-venues button:hover {
+  border-color: #aaa;
+}
+
+.m-search-venues--body {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1250px;
+  height: 85vh;
+}
+
+.m-search-venues--nearby-venue {
+  width: 60%;
+  margin-right: 20px;
+}
+
+.m-search-venues--header {
+  background: none;
+  margin: 8px 30px;
+  padding: 0;
+  border-bottom: 1px solid #f3f3f3;
+}
+.m-search-venues--header h4 {
+  font-weight: 200;
+}
+.m-search-venues--header--filter-by {
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+.m-search-venues--header--filter-by span {
+  margin: 10px;
+  display: inline-block;
+  font-size: 17px;
+}
+.m-search-venues--header--filter-by button {
+  font-size: 0.9rem;
+  margin: 0 5px 0 5px;
+  padding: 7px 25px 4px;
+}
+.m-search-venues--header--filter-items {
+  margin-top: 5px;
+  margin-bottom: 35px;
+  margin-left: 5px;
+}
+.m-search-venues--header--filter-items button {
+  width: auto;
+  padding: 7px 20px 4px;
+  margin: 0 7px 10px;
+}
+
+.m-search-venues--venue-lists {
+  margin: 0px 0px 0 30px;
+  width: auto;
+  padding: 0;
+}
+.m-search-venues--venue-lists .venue-box {
+  border-top: none;
+  border-bottom: 1px solid #f3f3f3;
+  padding: 20px 12px 30px;
+}
+.m-search-venues--venue-lists .venue-img {
+  position: relative;
+  overflow: hidden;
+  width: 112px;
+  height: 112px;
+  margin-right: 20px;
+}
+.m-search-venues--venue-lists .venue-img img {
+  width: 100%;
+}
+.m-search-venues--venue-lists .venue-info {
+  width: 335px;
+  color: #686868;
+}
+.m-search-venues--venue-lists .venue-info p {
+  color: #686868;
+}
+.m-search-venues--venue-lists .venue-info .venue-name {
+  line-height: initial;
+  font-size: 17px;
+  margin-bottom: 0;
+}
+.m-search-venues--venue-lists .venue-info .venue-name a {
+  color: #3b3b3b;
+  font-weight: 200;
+}
+.m-search-venues--venue-lists .venue-info .venue-name a:hover {
+  text-decoration: none;
+  color: #5d5bbc;
+}
+.m-search-venues--venue-lists .venue-info .venue-type {
+  margin-bottom: 0;
+}
+.m-search-venues--venue-lists .venue-info .venue-schedules p {
+  margin-bottom: 0;
+}
+.m-search-venues--venue-lists .services {
+  margin-top: 5px;
+}
+.m-search-venues--venue-lists .services label {
+  margin-right: 10px;
+  margin-bottom: 0;
+  line-height: 35px;
+}
+.m-search-venues--venue-lists .services span {
+  width: 35px;
+  height: 35px;
+  display: inline-block;
+  background-color: #684cbd;
+  border-radius: 100%;
+  background-size: auto 20px;
+  background-position: center;
+  margin: 0 2px;
+}
+.m-search-venues--venue-lists .services--alcohol {
+  background: url("./assets/icons/venue/services/white/alcohol.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--drinks {
+  background: url("./assets/icons/venue/services/white/drinks.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--cocktails {
+  background: url("./assets/icons/venue/services/white/cocktails.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--breakfast {
+  background: url("./assets/icons/venue/services/white/breakfast.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--hotel {
+  background: url("./assets/icons/venue/services/white/hotel.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--lunch {
+  background: url("./assets/icons/venue/services/white/lunch.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--food {
+  background: url("./assets/icons/venue/services/white/food.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--pokies {
+  background: url("./assets/icons/venue/services/white/pokies.png") no-repeat;
+}
+.m-search-venues--venue-lists .services--dinner {
+  background: url("./assets/icons/venue/services/white/dinner.png") no-repeat;
+}
+.m-search-venues--venue-lists .venue-action {
+  padding-top: 53px;
+  font-size: 14px;
+  text-align: center;
+  width: 160px;
+}
+.m-search-venues--venue-lists .venue-action .venue-address .fa {
+  font-size: 18px;
+}
+.m-search-venues--venue-lists .venue-action button {
+  font-size: 15px;
+  color: #684cbd;
+  border-color: #684cbd;
+  background-color: #fff;
+  padding: 5px 20px 3px;
+}
+.m-search-venues--venue-lists .venue-action button.btn-dark {
+  background-color: #684cbd;
+  color: #fff;
+}
+.m-search-venues--venue-lists .venue-action button.btn-dark:hover {
+  background-color: #333;
+}
+.m-search-venues--venue-lists .venue-action button:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+/*# sourceMappingURL=../inline */
