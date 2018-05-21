@@ -195,11 +195,94 @@ class SearchVenues extends Component {
       this.setState({ venues })
     }
   }
-
+  renderOpeningHoursDOM(data) {
+    let isWeekdaysFormat = "",
+      isWeekendFormat = ""
+    if (data != undefined) {
+      Object.keys(data).map((day, index) => {
+        switch (day) {
+          case "monday":
+          case "tuesday":
+          case "wednesday":
+          case "thursday":
+          case "friday":
+            if (
+              data[day].start == data["monday"].start &&
+              data[day].end == data["monday"].end
+            ) {
+              isWeekdaysFormat =
+                "Monday - Friday : " +
+                moment(data[day].start).format("h:m A") +
+                " - " +
+                moment(data[day].end).format("h:m A") +
+                "\n"
+            } else {
+              isWeekdaysFormat =
+                "Monday : " +
+                moment(data["saturday"].start).format("h:m A") +
+                " - " +
+                moment(data["sunday"].end).format("h:m A") +
+                "\n"
+              "Tuesday : " +
+                moment(data["tuesday"].start).format("h:m A") +
+                " - " +
+                moment(data["tuesday"].end).format("h:m A") +
+                "\n"
+              "Wednesday : " +
+                moment(data["wednesday"].start).format("h:m A") +
+                " - " +
+                moment(data["wednesday"].end).format("h:m A") +
+                "\n"
+              "Thursday : " +
+                moment(data["thursday"].start).format("h:m A") +
+                " - " +
+                moment(data["thursday"].end).format("h:m A") +
+                "\n"
+              "Friday : " +
+                moment(data["friday"].start).format("h:m A") +
+                " - " +
+                moment(data["friday"].end).format("h:m A") +
+                "\n"
+            }
+            break
+          case "saturday":
+          case "sunday":
+            if (
+              data[day].start == data["saturday"].start &&
+              data[day].end == data["saturday"].end
+            ) {
+              isWeekendFormat =
+                "Saturday - Sunday : " +
+                moment(data[day].start).format("h:m A") +
+                " - " +
+                moment(data[day].end).format("h:m A")
+            } else {
+              isWeekendFormat =
+                "Saturday : " +
+                moment(data["saturday"].start).format("h:m A") +
+                " - " +
+                moment(data["sunday"].end).format("h:m A") +
+                "\n"
+              "Sunday : " +
+                moment(data["saturday"].start).format("h:m A") +
+                " - " +
+                moment(data["sunday"].end).format("h:m A")
+            }
+            break
+        }
+      })
+    }
+    return (
+      <div>
+        <p>{isWeekdaysFormat}</p> <p>{isWeekendFormat}</p>
+      </div>
+    )
+  }
   renderVenueLists = () => {
     if (this.state.loading) {
       return <div>Loading...</div>
     }
+    let openingHours
     return this.state.venues.map((venue, index) => (
       <div key={index} className="venue-box row">
         <div className="venue-img">
@@ -212,15 +295,7 @@ class SearchVenues extends Component {
             </Link>
           </p>
           <p>{venue.type.map(type => type.capitalize()).join(" / ")}</p>
-          {venue.openingHours
-            ? Object.keys(venue.openingHours).map((day, index) => (
-                <p key={index}>{`${day.capitalize()}: ${moment(
-                  venue.openingHours[day].start
-                ).format("h:m A")} - ${moment(
-                  venue.openingHours[day].end
-                ).format("h:m A")}`}</p>
-              ))
-            : null}
+          {this.renderOpeningHoursDOM(venue.openingHours)}
           <Grid>
             <Row>
               Services:
