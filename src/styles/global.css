@@ -1431,7 +1431,7 @@ textarea {
 
 .h-scroll {
   width: auto;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
 }
@@ -3573,4 +3573,22 @@ textarea {
   background: #5e5cbd;
   color: #fff;
   transition: 150ms;
+}
+
+.find-staff-filter {
+  padding: 10px 0;
+  display: inline-block;
+  max-width: calc(100% - 100px);
+  margin-top: 0;
+  vertical-align: middle;
+}
+
+.find-staff-filter-all {
+  margin-top: 0;
+  display: inline-block;
+}
+
+.find-staff-filter-all .a-icon-container-sm {
+  margin-top: 0;
+  padding: 3px;
 }

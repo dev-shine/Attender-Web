@@ -467,9 +467,11 @@ class FindStaff extends Component {
                       {this.state.lookingforTxt}
                     </span>
                   </p>
-                  <div className="xxm">
-                    <span>Filtered by:&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <div className="a-icon-container-sm xxm scroll h-scroll">
+                  <div className="xxm find-staff-filter-wrapper">
+                    <span className="find-staff-filter-label">
+                      Filtered by:&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                    <div className="find-staff-filter a-icon-container-sm xxm scroll h-scroll">
                       {Object.values(this.state.sortBtns).map((key, index) => {
                         return (
                           <button
@@ -477,8 +479,8 @@ class FindStaff extends Component {
                             key={index}
                             className={
                               key.selected
-                                ? "a-btn btn-round btn-dark xs"
-                                : "a-btn btn-round btn-passive xs"
+                                ? "a-btn btn-round btn-dark"
+                                : "a-btn btn-round btn-passive"
                             }
                           >
                             {key.lbl}
@@ -487,7 +489,7 @@ class FindStaff extends Component {
                       })}
                     </div>
                   </div>
-                  <div className="xdm find-staff">
+                  <div className="xdm find-staff find-staff-filter-all">
                     <div className="a-icon-container-sm xxm scroll h-scroll">
                       <button
                         key="All"
