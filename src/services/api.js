@@ -2,8 +2,8 @@
  * @providesModule API
  */
 
-import constant from "../configs/constant"
-import helper from "../helper/ZHelper"
+import constant from "./../configs/constant"
+import helper from "./../helper/ZHelper"
 
 export const cloudinary = {
   uploadFile(payload) {

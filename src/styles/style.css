@@ -1,12 +1,12 @@
 @font-face {
   font-family: "Avenir Next";
-  src: url("../assets/fonts/eot/AvenirNextLTPro-UltLt.eot");
-  src: url("../assets/fonts/eot/AvenirNextLTPro-UltLt.eot?#iefix")
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-UltLt.eot");
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-UltLt.eot?#iefix")
       format("embedded-opentype"),
-    url("../assets/fonts/woff2/AvenirNextLTPro-UltLt.woff2") format("woff2"),
-    url("../assets/fonts/woff/AvenirNextLTPro-UltLt.woff") format("woff"),
-    url("../assets/fonts/ttf/AvenirNextLTPro-UltLt.ttf") format("truetype"),
-    url("../assets/fonts/svg/AvenirNextLTPro-UltLt.svg#AvenirNextLTPro-UltLt")
+    url("./../assets/fonts/woff2/AvenirNextLTPro-UltLt.woff2") format("woff2"),
+    url("./../assets/fonts/woff/AvenirNextLTPro-UltLt.woff") format("woff"),
+    url("./../assets/fonts/ttf/AvenirNextLTPro-UltLt.ttf") format("truetype"),
+    url("./../assets/fonts/svg/AvenirNextLTPro-UltLt.svg#AvenirNextLTPro-UltLt")
       format("svg"); /* Legacy iOS */
   font-weight: 400;
   font-style: normal;
@@ -14,13 +14,13 @@
 
 @font-face {
   font-family: "Avenir Next";
-  src: url("../assets/fonts/eot/AvenirNextLTPro-Regular.eot");
-  src: url("../assets/fonts/eot/AvenirNextLTPro-Regular.eot?#iefix")
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-Regular.eot");
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-Regular.eot?#iefix")
       format("embedded-opentype"),
-    url("../assets/fonts/woff2/AvenirNextLTPro-Regular.woff2") format("woff2"),
-    url("../assets/fonts/woff/AvenirNextLTPro-Regular.woff") format("woff"),
-    url("../assets/fonts/ttf/AvenirNextLTPro-Regular.ttf") format("truetype"),
-    url("../assets/fonts/svg/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular")
+    url("./../assets/fonts/woff2/AvenirNextLTPro-Regular.woff2") format("woff2"),
+    url("./../assets/fonts/woff/AvenirNextLTPro-Regular.woff") format("woff"),
+    url("./../assets/fonts/ttf/AvenirNextLTPro-Regular.ttf") format("truetype"),
+    url("./../assets/fonts/svg/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular")
       format("svg"); /* Legacy iOS */
   font-weight: 400;
   font-style: normal;
@@ -28,13 +28,13 @@
 
 @font-face {
   font-family: "Avenir Next";
-  src: url("../assets/fonts/eot/AvenirNextLTPro-It.eot");
-  src: url("../assets/fonts/eot/AvenirNextLTPro-It.eot?#iefix")
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-It.eot");
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-It.eot?#iefix")
       format("embedded-opentype"),
-    url("../assets/fonts/woff2/AvenirNextLTPro-It.woff2") format("woff2"),
-    url("../assets/fonts/woff/AvenirNextLTPro-It.woff") format("woff"),
-    url("../assets/fonts/ttf/AvenirNextLTPro-It.ttf") format("truetype"),
-    url("../assets/fonts/svg/AvenirNextLTPro-It.svg#AvenirNextLTPro-It")
+    url("./../assets/fonts/woff2/AvenirNextLTPro-It.woff2") format("woff2"),
+    url("./../assets/fonts/woff/AvenirNextLTPro-It.woff") format("woff"),
+    url("./../assets/fonts/ttf/AvenirNextLTPro-It.ttf") format("truetype"),
+    url("./../assets/fonts/svg/AvenirNextLTPro-It.svg#AvenirNextLTPro-It")
       format("svg");
   font-weight: 400;
   font-style: italic;
@@ -42,13 +42,13 @@
 
 @font-face {
   font-family: "Avenir Next";
-  src: url("../assets/fonts/eot/AvenirNextLTPro-Medium.eot");
-  src: url("../assets/fonts/eot/AvenirNextLTPro-Medium.eot?#iefix")
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-Medium.eot");
+  src: url("./../assets/fonts/eot/AvenirNextLTPro-Medium.eot?#iefix")
       format("embedded-opentype"),
-    url("../assets/fonts/woff2/AvenirNextLTPro-Medium.woff2")format("woff2"),
-    url("../assets/fonts/woff/AvenirNextLTPro-Medium.woff") format("woff"),
-    url("../assets/fonts/ttf/AvenirNextLTPro-Medium.ttf") format("truetype"),
-    url("../assets/fonts/svg/AvenirNextLTPro-Medium.svg#AvenirNextLTPro-Medium")
+    url("./../assets/fonts/woff2/AvenirNextLTPro-Medium.woff2") format("woff2"),
+    url("./../assets/fonts/woff/AvenirNextLTPro-Medium.woff") format("woff"),
+    url("./../assets/fonts/ttf/AvenirNextLTPro-Medium.ttf") format("truetype"),
+    url("./../assets/fonts/svg/AvenirNextLTPro-Medium.svg#AvenirNextLTPro-Medium")
       format("svg"); /* Legacy iOS */
   font-weight: 500;
   font-style: normal;
