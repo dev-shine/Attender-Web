@@ -1467,7 +1467,7 @@ textarea {
 }
 
 .card {
-  box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
   margin-left: auto;
   margin-right: auto;
@@ -3435,8 +3435,9 @@ textarea {
 .calendar-events-list {
   margin-top: 1em;
   max-height: 566px;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding: 0.5em;
+  width: 100%;
+  overflow-y: auto;
 }
 
 .calendar-events-list .today {

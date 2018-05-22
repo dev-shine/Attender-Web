@@ -329,18 +329,20 @@ class Calendar extends Component {
 
   renderEvents = () => {
     return (
-      <div className="calendar-events card">
+      <div className="calendar-events">
         <div className="calendar-events-menu">
-          <div
-            className={
-              this.state.eventTypesTab === 1
-                ? "calendar-events-header-menu-active"
-                : "calendar-events-header-menu"
-            }
-            onClick={() => this.setState({ eventTypesTab: 1 })}
-          >
-            <span>YOUR EVENTS</span>
-          </div>
+          {!this.state.profile.isStaff && (
+            <div
+              className={
+                this.state.eventTypesTab === 1
+                  ? "calendar-events-header-menu-active"
+                  : "calendar-events-header-menu"
+              }
+              onClick={() => this.setState({ eventTypesTab: 1 })}
+            >
+              <span>YOUR EVENTS</span>
+            </div>
+          )}
           <div
             className={
               this.state.eventTypesTab === 2
@@ -352,7 +354,7 @@ class Calendar extends Component {
             <span>UPCOMING EVENTS</span>
           </div>
         </div>
-        <div className="calendar-events-list v-scroll scroll">
+        <div className="calendar-events-list scroll">
           {this.state.events.map((event, index) => {
             return (
               <div key={index} className="event card">
