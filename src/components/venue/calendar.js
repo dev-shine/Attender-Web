@@ -457,7 +457,7 @@ class Calendar extends Component {
               </div>
               <div className="form-group">
                 <p>Event Description</p>
-                <textarea value="" rows="2" cols="50" className="a-input" />
+                <textarea rows="2" cols="50" className="a-input" />
               </div>
               <div className="form-group">
                 <div className="row">
