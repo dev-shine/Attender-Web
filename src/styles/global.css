@@ -3586,6 +3586,7 @@ textarea {
 .find-staff-filter-all {
   margin-top: 0;
   display: inline-block;
+  max-width: 100%;
 }
 
 .find-staff-filter-all .a-icon-container-sm {
