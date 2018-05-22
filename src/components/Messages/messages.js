@@ -685,7 +685,7 @@ class Messages extends Component {
                 <div className="col-sm-4 m-head">
                   <span>My Conversations</span>
                   <div className="pull-right">
-                    <a className="m-icon pull-right">
+                    <a className="m-icon">
                       <img
                         alt=""
                         src={require("./../../assets/icons/messages/edit.png")}
