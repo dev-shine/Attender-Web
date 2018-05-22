@@ -13,9 +13,7 @@ class AccountConfirmed extends Component {
   }
 
   async componentWillMount() {
-    const {
-      match: { params }
-    } = this.props
+    const { match: { params } } = this.props
     let verification = params.verification
     let token = params.token
     let response = await API.post("auth/verify", { token, verification })

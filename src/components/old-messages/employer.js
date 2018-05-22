@@ -256,9 +256,7 @@ class EmployerMessage extends Component {
     API.post(
       this.state.profile.isStaff
         ? "new-venue-message"
-        : thread
-          ? "new-staff-message"
-          : "new-initial-message",
+        : thread ? "new-staff-message" : "new-initial-message",
       body
     ).then(res => {
       if (res.status) {
@@ -685,36 +683,35 @@ class EmployerMessage extends Component {
               <div className="row">
                 <div className="col-sm-4 m-head">
                   <span>My Conversations</span>
-                  <a className="m-icon pull-right">
-                    {/* <img
-                      alt=""
-                      src={require("./../../assets/icons/messages/gear.png")}
-                    /> */}
-                  </a>
-                  <a className="m-icon pull-right">
-                    <img
-                      alt=""
-                      src={require("./../../assets/icons/messages/edit.png")}
-                    />
-                  </a>
-                  <div className="drop-menu">
-                    <img
-                      alt=""
-                      src={require("./../../assets/icons/messages/gear.png")}
-                      onClick={() => this.openDropdown("e-1")}
-                    />
-                    <div
-                      className="e-dropdown"
-                      style={{
-                        display:
-                          this.state.eventDropdown === "e-1" ? "block" : "none"
-                      }}
-                    >
-                      <div className="e-dropdown-content">
-                        <p onClick={this.handleViewProfileClick}>
-                          View Profile
-                        </p>
-                        <p onClick={this.handleOpenModal}>Hiring Options</p>
+                  <a className="m-icon pull-right" />
+                  <div className="pull-right">
+                    <a className="m-icon">
+                      <img
+                        alt=""
+                        src={require(".././assets/icons/messages/edit.png")}
+                      />
+                    </a>
+                    <div className="drop-menu">
+                      <img
+                        alt=""
+                        src={require(".././assets/icons/messages/gear.png")}
+                        onClick={() => this.openDropdown("e-1")}
+                      />
+                      <div
+                        className="e-dropdown"
+                        style={{
+                          display:
+                            this.state.eventDropdown === "e-1"
+                              ? "block"
+                              : "none"
+                        }}
+                      >
+                        <div className="e-dropdown-content">
+                          <p onClick={this.handleViewProfileClick}>
+                            View Profile
+                          </p>
+                          <p onClick={this.handleOpenModal}>Hiring Options</p>
+                        </div>
                       </div>
                     </div>
                   </div>

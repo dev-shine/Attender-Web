@@ -19,9 +19,7 @@ class VenueProfile extends React.Component {
     venue: {}
   }
   fetch = async () => {
-    const {
-      match: { params }
-    } = this.props
+    const { match: { params } } = this.props
     let venue_id = params.venue_id
     const data = await API.get("venues/" + venue_id)
     this.setState({ venue: data.venue })

@@ -381,17 +381,14 @@ class MyStaff extends Component {
               placeholder="Enter name to find staff"
             />
             <div className="sem">
-              <p>Event</p>
+              <div className="label">Event</div>
               <div className="a-gradient my-staff-event-box">
-                <div className="row">
-                  <div className="col-sm-4">
-                    <img
-                      alt=""
-                      src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                    />
+                <div className="event-item">
+                  <div className="thumb">
+                    <img alt="" src="http://via.placeholder.com/112x112" />
                   </div>
-                  <div className="col-sm-8">
-                    <p>The Winery Party</p>
+                  <div className="content">
+                    <p className="title">The Winery Party</p>
                     <p>
                       <small>Cafe / Restaurant</small>
                     </p>
@@ -424,8 +421,8 @@ class MyStaff extends Component {
             <div className="my-staff-list v-scroll scroll">
               <div className="row">
                 {/*this.state.active.map(active => {
-                  return this.renderStaffBox(true, "col-sm-3", active)
-                })*/}
+				  return this.renderStaffBox(true, "col-sm-3", active)
+				})*/}
               </div>
             </div>
           </div>

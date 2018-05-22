@@ -15,15 +15,15 @@
 
 .app-title {
   font-size: 17px;
-  color: #ACACAC;
+  color: #acacac;
   font-family: "Avenir Next";
 }
 
-.menu-home-style   {
+.menu-home-style {
   position: absolute;
   left: 44%;
   font-size: 17px;
-  color: #ACACAC;
+  color: #acacac;
   font-family: "Avenir Next";
 }
 
@@ -60,9 +60,9 @@
 }
 
 .label-style {
-  color: #A5A5A5;
+  color: #a5a5a5;
   font-weight: 600;
-  font-family: 'Avenir Next'
+  font-family: "Avenir Next";
 }
 
 .confirm-button-container {
@@ -89,16 +89,16 @@
   border-bottom: 1px solid #000;
   box-shadow: none;
   border-radius: 0;
-  color: #5151A1;
-  font-family: 'Avenir Next';
+  color: #5151a1;
+  font-family: "Avenir Next";
   font-weight: 500;
   font-size: 18px;
-  padding-left: 0px
+  padding-left: 0px;
 }
 
 .form-control:focus {
   box-shadow: none;
-  border-color: #5151A1
+  border-color: #5151a1;
 }
 
 .background-image {
@@ -120,18 +120,23 @@
 }
 
 .btn:hover {
-  background-color: #5151A1;
+  background-color: #5151a1;
   color: white;
   border-color: transparent;
 }
 
 .btn:focus {
-  background-color: #5151A1;
+  background-color: #5151a1;
   color: white;
   border-color: transparent;
 }
 
-.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus {
   outline: thin dotted;
   outline: 0px auto -webkit-focus-ring-color;
   outline-offset: 0px;
@@ -142,7 +147,7 @@
   left: 27%;
   bottom: 20%;
   color: white;
-  font-family: 'Avenir Next';
+  font-family: "Avenir Next";
 }
 
 .large-text {
@@ -155,12 +160,13 @@
   font-weight: 100;
   font-size: 12px;
   border-width: 0px;
-  background-color: #335BBC;
+  background-color: #335bbc;
   color: white;
   margin-right: 15px;
 }
 
-.facebook-button:focus, .facebook-button:hover {
+.facebook-button:focus,
+.facebook-button:hover {
   background-color: #21469e !important;
   color: white !important;
 }
@@ -171,17 +177,18 @@
   font-weight: 100;
   font-size: 12px;
   border-width: 0px;
-  background-color: #C93A2C;
+  background-color: #c93a2c;
   color: white;
 }
 
-.google-button:focus, .google-button:hover {
+.google-button:focus,
+.google-button:hover {
   background-color: #99271d !important;
   color: white !important;
 }
 
 .login-button-container {
-  margin-top: 20px
+  margin-top: 20px;
 }
 
 .social-button-position {
@@ -198,7 +205,7 @@
 .credit-style {
   color: white;
   font-size: 13px;
-  margin-right: 100px
+  margin-right: 100px;
 }
 
 .header-style {

@@ -274,10 +274,7 @@ class Calendar extends Component {
                 >
                   <div className="row">
                     <div className="col-sm-2">
-                      <img
-                        alt=""
-                        src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                      />
+                      <img alt="" src="http://via.placeholder.com/99x80" />
                     </div>
                     <div className="col-sm-10">
                       <p className="title">Staff Meeting for Lumi Bar</p>
@@ -332,18 +329,20 @@ class Calendar extends Component {
 
   renderEvents = () => {
     return (
-      <div className="calendar-events card">
+      <div className="calendar-events">
         <div className="calendar-events-menu">
-          <div
-            className={
-              this.state.eventTypesTab === 1
-                ? "calendar-events-header-menu-active"
-                : "calendar-events-header-menu"
-            }
-            onClick={() => this.setState({ eventTypesTab: 1 })}
-          >
-            <span>YOUR EVENTS</span>
-          </div>
+          {!this.state.profile.isStaff && (
+            <div
+              className={
+                this.state.eventTypesTab === 1
+                  ? "calendar-events-header-menu-active"
+                  : "calendar-events-header-menu"
+              }
+              onClick={() => this.setState({ eventTypesTab: 1 })}
+            >
+              <span>YOUR EVENTS</span>
+            </div>
+          )}
           <div
             className={
               this.state.eventTypesTab === 2
@@ -355,7 +354,7 @@ class Calendar extends Component {
             <span>UPCOMING EVENTS</span>
           </div>
         </div>
-        <div className="calendar-events-list v-scroll scroll">
+        <div className="calendar-events-list scroll">
           {this.state.events.map((event, index) => {
             return (
               <div key={index} className="event card">
@@ -408,7 +407,16 @@ class Calendar extends Component {
                                 }}
                               >
                                 <div className="e-dropdown-content">
-                                  <p>View Event</p>
+                                  <p
+                                    onClick={() =>
+                                      this.setState({
+                                        openViewDetails: !this.state
+                                          .openViewDetails
+                                      })
+                                    }
+                                  >
+                                    View Event
+                                  </p>
                                   {!this.state.profile.isStaff && (
                                     <p
                                       onClick={() =>

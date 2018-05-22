@@ -1,6 +1,6 @@
 .back-title {
   font-size: 15px;
-  color: #ACACAC;
+  color: #acacac;
   cursor: pointer;
 }
 
@@ -17,7 +17,7 @@
 .logo {
   position: absolute;
   left: 30%;
-  bottom: 25%
+  bottom: 25%;
 }
 
 .looking-col-container-right {
@@ -35,25 +35,26 @@
 }
 
 .btn-looking:hover {
-  background-color: #47C1DD;
+  background-color: #47c1dd;
   color: white;
   border-color: transparent;
 }
 
 .accent {
-  background-color: #47C1DD;
+  background-color: #47c1dd;
   color: white;
   border-color: transparent;
 }
 
 .btn-looking:focus {
-  background-color: #47C1DD;
+  background-color: #47c1dd;
   color: white;
   border-color: transparent;
 }
 
-.btn-looking.active.focus, .btn-looking.focus, {
-  outline:0 !important;
+.btn-looking.active.focus,
+.btn-looking.focus {
+  outline: 0 !important;
 }
 
 .large-text {
