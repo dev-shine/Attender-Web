@@ -274,10 +274,7 @@ class Calendar extends Component {
                 >
                   <div className="row">
                     <div className="col-sm-2">
-                      <img
-                        alt=""
-                        src="http://www.venue360.co.uk/assets/3314/0061/9043/riverside-ltfc2.jpg"
-                      />
+                      <img alt="" src="http://via.placeholder.com/99x80" />
                     </div>
                     <div className="col-sm-10">
                       <p className="title">Staff Meeting for Lumi Bar</p>
@@ -408,7 +405,16 @@ class Calendar extends Component {
                                 }}
                               >
                                 <div className="e-dropdown-content">
-                                  <p>View Event</p>
+                                  <p
+                                    onClick={() =>
+                                      this.setState({
+                                        openViewDetails: !this.state
+                                          .openViewDetails
+                                      })
+                                    }
+                                  >
+                                    View Event
+                                  </p>
                                   {!this.state.profile.isStaff && (
                                     <p
                                       onClick={() =>

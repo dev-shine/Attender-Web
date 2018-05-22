@@ -3325,7 +3325,7 @@ textarea {
   top: 0;
   left: 2;
   max-width: none;
-  width: 12em;
+  width: 100%;
 }
 
 .calendar-main-event .col-sm-10 {
