@@ -3,6 +3,8 @@ import NavBar from "./../layouts/NavBar"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
+import EventDatePicker from "./eventDatePicker"
+import StaffTimePicker from "./staffTimePicker"
 import { setSubscribePopUp } from "./../../actions/myProfile-actions"
 import ViewEvent from "./viewEvent"
 import API from "./../../services/api"
@@ -472,13 +474,19 @@ class Calendar extends Component {
                   <div className="col-sm-6">
                     <div className="form-group">
                       <p>Date</p>
-                      <input type="text" className="a-input" />
+                      <EventDatePicker
+                        selectedDate={moment()}
+                        onSelectDate={() => "test"}
+                      />
                     </div>
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
                       <p>Time</p>
-                      <input type="text" className="a-input" />
+                      <StaffTimePicker
+                        selectedTime={moment()}
+                        onSelectTime={() => "test"}
+                      />
                     </div>
                   </div>
                 </div>
