@@ -17,7 +17,6 @@ class Calendar extends Component {
       isLoading: false,
       events: [1, 2, 3, 4, 6, 7, 8],
       currentEvents: [1, 2, 3, 4, 5, 6],
-      staffs: [3, 4, 6, 8],
       eventStaffs: [2, 4, 5, 7],
       calendar: [],
       today: moment(),
@@ -37,6 +36,17 @@ class Calendar extends Component {
         breakfast: false,
         lunch: false,
         dinner: false
+      },
+      staffOfInterest: [],
+      staffs: {
+        barista: { on: true, num: 0 },
+        bartender: { on: true, num: 0 },
+        manager: { on: true, num: 0 },
+        waiter: { on: true, num: 0 },
+        chef: { on: true, num: 0 },
+        barback: { on: true, num: 0 },
+        kitchen: { on: true, num: 0 },
+        host: { on: true, num: 0 }
       }
     }
     this.props.onSetSubscribePopUp(true)
@@ -47,6 +57,11 @@ class Calendar extends Component {
     let profile = await API.getProfile()
     this.setState({ profile })
     this.loadCalendar(moment())
+    Object.keys(this.state.staffs).forEach(key => {
+      const obj = this.state.staffs[key]
+      obj.key = key
+      this.state.staffOfInterest.push(obj)
+    })
   }
 
   renderStaffBox = (closable, col, active) => {
@@ -457,49 +472,24 @@ class Calendar extends Component {
     )
   }
 
-  /**
-   * Append To Staff Interest Array.
-   *
-   * Pushes an object to the staff of interest array
-   * and assigns a new object item "key" (manager, bartender)
-   */
-  appendToStaffInterestArray = (obj, key) => {
-    const staffOfInterest = this.state.staffOfInterest
-    obj.key = key
-    staffOfInterest.push(obj)
-    this.setState({ staffOfInterest })
-  }
-
-  /**
-   * Remove To Staff Interest Array.
-   *
-   * Finds the index using the key ('manager', 'bartender'),
-   * then splices it from the staff of interest array.
-   */
-  removeToStaffInterestArray = key => {
-    const staffOfInterestIndex = this.state.staffOfInterest.findIndex(s => {
-      return s.key === key
-    })
-    const staffOfInterest = this.state.staffOfInterest
-    staffOfInterest.splice(staffOfInterestIndex, 1)
-    this.setState({ staffOfInterest })
-  }
-
   onSelectOption = (key, obj) => {
     let _obj = this.state[obj]
-    if (obj === "staffs") {
-      _obj[key].on = !_obj[key].on
-
-      // This is for appending/removing the staff of interest array.
-      if (_obj[key].on) {
-        this.appendToStaffInterestArray(_obj[key], key)
-      } else {
-        this.removeToStaffInterestArray(key)
-      }
-    } else {
-      _obj[key] = !_obj[key]
-    }
+    _obj[key] = !_obj[key]
     this.setState(prevState => ({ [obj]: _obj }))
+  }
+
+  onChangeStaffs = (key, action) => {
+    let staffs = this.state.staffs
+    if (staffs[key].on) {
+      if (action === "add") {
+        staffs[key].num += 1
+      } else {
+        if (staffs[key].num > 0) {
+          staffs[key].num -= 1
+        }
+      }
+    }
+    this.setState(prevState => ({ staffs }))
   }
 
   renderEventModal = () => {
@@ -612,21 +602,36 @@ class Calendar extends Component {
                 <div className="col-sm-6">
                   <p>NUMBER OF STAFF</p>
                   <div className="staff-num-container h-scroll scroll">
-                    {this.state.staffs.map(staff => {
-                      return (
-                        <div className="sn-container">
-                          <p>Bartender</p>
-                          <div className="noe-container">
-                            <a className="noe-action">
-                              <strong>–</strong>
-                            </a>
-                            <div className="noe-num">{staff}</div>
-                            <a className="noe-action">
-                              <strong>+</strong>
-                            </a>
+                    {this.state.staffOfInterest.map((soi, index) => {
+                      if (this.state.staffs[soi.key].on) {
+                        return (
+                          <div className="sn-container" key={index}>
+                            <p className="vs-title">{soi.key.capitalize()}</p>
+                            <div className="noe-container">
+                              <a
+                                className="noe-action"
+                                onClick={() =>
+                                  this.onChangeStaffs(soi.key, "sub")
+                                }
+                              >
+                                <strong>–</strong>
+                              </a>
+                              <div className="noe-num">
+                                {this.state.staffs[soi.key].num}
+                              </div>
+                              <a
+                                className="noe-action"
+                                onClick={() =>
+                                  this.onChangeStaffs(soi.key, "add")
+                                }
+                              >
+                                <strong>+</strong>
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                      )
+                        )
+                      }
+                      return null
                     })}
                   </div>
                 </div>
@@ -635,7 +640,7 @@ class Calendar extends Component {
                 <div className="calendar-event-staff">
                   <p className="title">Bartenders</p>
                   <div className="staffs h-scroll scroll">
-                    {this.state.staffs.map((staff, index) => {
+                    {[3, 4, 6, 8].map((staff, index) => {
                       return (
                         <div key={index} className="my-staff">
                           <div className="item">
@@ -661,7 +666,7 @@ class Calendar extends Component {
                 <div className="calendar-event-staff">
                   <p className="title">Waiter/Waitresses</p>
                   <div className="staffs h-scroll scroll">
-                    {this.state.staffs.map((staff, index) => {
+                    {[3, 4, 6, 8].map((staff, index) => {
                       return (
                         <div key={index} className="my-staff">
                           <div className="item">
