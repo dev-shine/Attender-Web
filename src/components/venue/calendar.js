@@ -28,7 +28,16 @@ class Calendar extends Component {
       eventDropdown: "init",
       event: {},
       profile: {},
-      eventTypesTab: 1
+      eventTypesTab: 1,
+      services: {
+        alcohol: false,
+        cocktails: false,
+        drinks: false,
+        food: false,
+        breakfast: false,
+        lunch: false,
+        dinner: false
+      }
     }
     this.props.onSetSubscribePopUp(true)
   }
@@ -448,6 +457,51 @@ class Calendar extends Component {
     )
   }
 
+  /**
+   * Append To Staff Interest Array.
+   *
+   * Pushes an object to the staff of interest array
+   * and assigns a new object item "key" (manager, bartender)
+   */
+  appendToStaffInterestArray = (obj, key) => {
+    const staffOfInterest = this.state.staffOfInterest
+    obj.key = key
+    staffOfInterest.push(obj)
+    this.setState({ staffOfInterest })
+  }
+
+  /**
+   * Remove To Staff Interest Array.
+   *
+   * Finds the index using the key ('manager', 'bartender'),
+   * then splices it from the staff of interest array.
+   */
+  removeToStaffInterestArray = key => {
+    const staffOfInterestIndex = this.state.staffOfInterest.findIndex(s => {
+      return s.key === key
+    })
+    const staffOfInterest = this.state.staffOfInterest
+    staffOfInterest.splice(staffOfInterestIndex, 1)
+    this.setState({ staffOfInterest })
+  }
+
+  onSelectOption = (key, obj) => {
+    let _obj = this.state[obj]
+    if (obj === "staffs") {
+      _obj[key].on = !_obj[key].on
+
+      // This is for appending/removing the staff of interest array.
+      if (_obj[key].on) {
+        this.appendToStaffInterestArray(_obj[key], key)
+      } else {
+        this.removeToStaffInterestArray(key)
+      }
+    } else {
+      _obj[key] = !_obj[key]
+    }
+    this.setState(prevState => ({ [obj]: _obj }))
+  }
+
   renderEventModal = () => {
     return (
       <div className={this.state.openCreateEvent ? "a-modal show" : "a-modal"}>
@@ -510,46 +564,42 @@ class Calendar extends Component {
               <div className="row">
                 <div className="col-sm-6">
                   <p>STAFF OF INTEREST</p>
-                  <div className="icon-container">
-                    <div className="a-icon-item-sm">
-                      <a className="a-icon-action-sm">
-                        <i className="fa fa-glass" aria-hidden="true" />
-                      </a>
-                      <p className="xxm">Alcohol</p>
-                    </div>
-                    <div className="a-icon-item-active-sm">
-                      <a className="a-icon-action-sm">
-                        <i
-                          className="fa fa-times-rectangle"
-                          aria-hidden="true"
-                        />
-                      </a>
-                      <p className="xxm">Drinks</p>
-                    </div>
-                    <div className="a-icon-item-sm">
-                      <a className="a-icon-action-sm">
-                        <i className="fa fa-glass" aria-hidden="true" />
-                      </a>
-                      <p className="xxm">Alcohol</p>
-                    </div>
-                    <div className="a-icon-item-sm">
-                      <a className="a-icon-action-sm">
-                        <i className="fa fa-glass" aria-hidden="true" />
-                      </a>
-                      <p className="xxm">Alcohol</p>
-                    </div>
-                    <div className="a-icon-item-sm">
-                      <a className="a-icon-action-sm">
-                        <i className="fa fa-glass" aria-hidden="true" />
-                      </a>
-                      <p className="xxm">Alcohol</p>
-                    </div>
-                    <div className="a-icon-item-sm">
-                      <a className="a-icon-action-sm">
-                        <i className="fa fa-glass" aria-hidden="true" />
-                      </a>
-                      <p className="xxm">Alcohol</p>
-                    </div>
+                  <div className="vs-service-container xxm scroll h-scroll">
+                    {Object.keys(this.state.services).map((key, index) => {
+                      if (this.state.services[key]) {
+                        return (
+                          <div
+                            className="vs-service-item-active"
+                            key={index}
+                            onClick={() => this.onSelectOption(key, "services")}
+                          >
+                            <a className="vs-service-action">
+                              <img
+                                alt=""
+                                src={require(`../../assets/icons/venue/services/white/${key}.png`)}
+                              />
+                            </a>
+                            <p className="xxm">{key.capitalize()}</p>
+                          </div>
+                        )
+                      } else {
+                        return (
+                          <div
+                            className="vs-service-item"
+                            key={index}
+                            onClick={() => this.onSelectOption(key, "services")}
+                          >
+                            <a className="vs-service-action">
+                              <img
+                                alt=""
+                                src={require(`../../assets/icons/venue/services/default/${key}.png`)}
+                              />
+                            </a>
+                            <p className="xxm">{key.capitalize()}</p>
+                          </div>
+                        )
+                      }
+                    })}
                   </div>
                   <div className="search">
                     <i className="fa fa-search" />
