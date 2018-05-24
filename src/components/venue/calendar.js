@@ -47,7 +47,8 @@ class Calendar extends Component {
         barback: { on: true, num: 0 },
         kitchen: { on: true, num: 0 },
         host: { on: true, num: 0 }
-      }
+      },
+      selectedImage: ""
     }
     this.props.onSetSubscribePopUp(true)
   }
@@ -492,6 +493,28 @@ class Calendar extends Component {
     this.setState(prevState => ({ staffs }))
   }
 
+  onOpenUploader = event => {
+    const uploader = this.refs.uploader
+    uploader.click()
+  }
+
+  onUploadImage = event => {
+    const images = event.target.files
+    const uploader = this.refs.uploader
+
+    Object.values(images).forEach((image, index) => {
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        const imageBase64 = reader.result
+        if (index === 0) {
+          this.setState({ selectedImage: imageBase64 })
+        }
+      }
+      reader.readAsDataURL(image)
+    })
+    uploader.value = ""
+  }
+
   renderEventModal = () => {
     return (
       <div className={this.state.openCreateEvent ? "a-modal show" : "a-modal"}>
@@ -538,15 +561,31 @@ class Calendar extends Component {
               <div className="form-group">
                 <span>UPLOAD PHOTOS</span>
                 <div className="upload-box">
-                  <a>Upload</a>
-                </div>
-              </div>
-              <div className="form-group">
-                <p>Uploaded Photos</p>
-                <div className="upload-photos-box">
-                  <div className="photo" />
-                  <div className="photo" />
-                  <div className="photo" />
+                  <div
+                    className="vs-p-container xm"
+                    onClick={this.onOpenUploader}
+                  >
+                    <span hidden={!!this.state.selectedImage}>Upload</span>
+                    <div style={{ width: "400px", height: "288px" }}>
+                      <img
+                        src={this.state.selectedImage}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "100%",
+                          margin: "auto"
+                        }}
+                        hidden={!this.state.selectedImage}
+                      />
+                    </div>
+                  </div>
+
+                  <input
+                    type="file"
+                    ref="uploader"
+                    onChange={this.onUploadImage}
+                    multiple
+                    hidden
+                  />
                 </div>
               </div>
             </div>
