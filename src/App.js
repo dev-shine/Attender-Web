@@ -21,7 +21,7 @@ import MyStaff from "./components/venue/myStaff"
 import Schedule from "./components/venue/schedule"
 import Calendar from "./components/venue/calendar"
 import Registration from "./components/auth/registration"
-// import Settings from "./settings-old/index"
+import SettingsOld from "./components/settings-old/index"
 import Settings from "./components/settings/Settings"
 import SubscriptionSettings from "./components/SubscriptionSettings/SubscriptionSettings"
 import SubscriptionOffer from "./components/SubscriptionOffer/SubscriptionOffer"
@@ -85,6 +85,7 @@ class App extends Component {
             component={AccountConfirmed}
           />
           <Route exact path="/settings" component={Settings} />
+          <Route exact path="/settings-old" component={SettingsOld} />
           <Route exact path="/schedules" component={Schedule} />
           <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/messages/:staff?" component={Messages} />
