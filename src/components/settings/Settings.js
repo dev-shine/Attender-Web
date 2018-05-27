@@ -92,6 +92,9 @@ class Settings extends Component {
     cardCV: "",
     isBankLoading: true,
 
+    cardArray: [],
+    bankArray: [],
+
     accountName: "",
     bankName: "",
     bankBSB: "",
@@ -103,7 +106,41 @@ class Settings extends Component {
 
     persist_modal: ""
   }
-
+  getAllBanks = () => {
+    API.get("banks").then(res => {
+      if (res.status) {
+        this.setState({
+          bankArray: res.banks,
+          accountName: "",
+          bankName: "",
+          bankBSB: "",
+          bankAccount: "",
+          isBankLoading: false
+        })
+      } else {
+        alert("Something went wrong")
+        this.setState({ isBankLoading: false })
+      }
+    })
+  }
+  getAllCards = () => {
+    API.get("cards").then(res => {
+      console.log(res)
+      if (res.status) {
+        this.setState({
+          cardArray: res.cards,
+          cardName: "",
+          cardNumber: "",
+          cardDate: "",
+          cardCV: "",
+          isBankLoading: false
+        })
+      } else {
+        alert("Something went wrong")
+        this.setState({ isBankLoading: false })
+      }
+    })
+  }
   componentWillMount = async () => {
     API.initRequest()
 
@@ -112,10 +149,16 @@ class Settings extends Component {
       avatar_DOM = <img src={this.props.myProfile.employer.image} />
     }
 
-    this.setState({
-      avatar_DOM,
-      info: this.props.myProfile.employer.info
-    })
+    this.setState(
+      {
+        avatar_DOM,
+        info: this.props.myProfile.employer.info
+      },
+      () => {
+        this.getAllBanks()
+        this.getAllCards()
+      }
+    )
   }
   componentDidUpdate = async () => {
     if (this.state.persist_modal !== "") {
@@ -562,57 +605,36 @@ class Settings extends Component {
             <h5>Payment Method</h5>
             <div className="group">
               <p>Credit Card</p>
-              <div className="row">
-                <span className="col-md-2">
-                  <img src={require("./img/mastercard-logo.png")} />
-                </span>
-                <span className="col-md-6">
-                  <span>&#9679;&#9679;&#9679;&#9679;</span>
-                  <span>&#9679;&#9679;&#9679;&#9679;</span>
-                  <span>4375</span>
-                </span>
-                <small className="primary col-md-2">Primary</small>
-                <span className="col-md-1 btn-delete">
-                  <i className="fa fa-minus-circle" />
-                </span>
-              </div>
-              <div className="row">
-                <span className="col-md-2">
-                  <img src={require("./img/visa-logo.png")} />
-                </span>
-                <span className="col-md-6">
-                  <span>&#9679;&#9679;&#9679;&#9679;</span>
-                  <span>&#9679;&#9679;&#9679;&#9679;</span>
-                  <span>4375</span>
-                </span>
-                <small className="col-md-2">&nbsp;</small>
-                <span className="col-md-1 btn-delete">
-                  <i className="fa fa-minus-circle" />
-                </span>
-              </div>
+              {this.state.cardArray.map(card => (
+                <div className="row">
+                  <span className="col-md-2">
+                    <img
+                      src={require(`./img/${card.cardMeta.type}-logo.png`)}
+                    />
+                  </span>
+                  <span className="col-md-6">
+                    <span>{card.cardMeta.number}</span>
+                  </span>
+                  <small className="primary col-md-2">&nbsp;</small>
+                  <span className="col-md-1 btn-delete">
+                    <i className="fa fa-minus-circle" />
+                  </span>
+                </div>
+              ))}
             </div>
             <div className="group">
               <p>Bank Account</p>
-              <div className="row">
-                <span className="col-md-5">National Aust</span>
-                <span className="col-md-5">
-                  <span>XXXX - XXXX</span>
-                  <span>4375</span>
-                </span>
-                <span className="col-md-1 btn-delete">
-                  <i className="fa fa-minus-circle" />
-                </span>
-              </div>
-              <div className="row">
-                <span className="col-md-5">Herritage Bank</span>
-                <span className="col-md-5">
-                  <span>XXXX - XXXX</span>
-                  <span>4375</span>
-                </span>
-                <span className="col-md-1 btn-delete">
-                  <i className="fa fa-minus-circle" />
-                </span>
-              </div>
+              {this.state.bankArray.map(bank => (
+                <div className="row">
+                  <span className="col-md-5">{bank.bankMeta.bank_name}</span>
+                  <span className="col-md-5">
+                    {bank.bankMeta.account_number}
+                  </span>
+                  <span className="col-md-1 btn-delete">
+                    <i className="fa fa-minus-circle" />
+                  </span>
+                </div>
+              ))}
             </div>
             <Button className="btn-primary" onClick={this.closeModal}>
               Save
