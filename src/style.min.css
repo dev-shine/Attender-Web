@@ -23,7 +23,6 @@
   background: none;
   margin: 8px 30px;
   padding: 0;
-  border-bottom: 1px solid #f3f3f3;
 }
 .m-search-venues--header h4 {
   font-weight: 200;
@@ -60,8 +59,11 @@
 }
 .m-search-venues--venue-lists .venue-box {
   border-top: none;
-  border-bottom: 1px solid #f3f3f3;
+  border-top: 1px solid #f3f3f3;
   padding: 20px 12px 30px;
+}
+.m-search-venues--venue-lists .venue-box:last-child {
+  border-bottom: 1px solid #f3f3f3;
 }
 .m-search-venues--venue-lists .venue-img {
   position: relative;
@@ -170,6 +172,52 @@
 .m-search-venues--venue-lists .venue-action button:hover {
   background-color: #222;
   color: #fff;
+}
+
+.m-search-venues--nearby-events--header {
+  background: none;
+  margin: 8px 20px;
+  padding: 0;
+}
+
+.m-search-venues--nearby-events .event-box {
+  margin: 5px 0 5px 5px;
+}
+.m-search-venues--nearby-events .event-box .event-data {
+  padding: 10px 12px;
+  width: 380px;
+}
+.m-search-venues--nearby-events .event-box .event-date {
+  line-height: 1;
+  width: 112px;
+  padding: 1.5em 0;
+  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+.m-search-venues--nearby-events .event-box .event-img {
+  width: 90px;
+  height: 90px;
+  float: left;
+  margin-right: 10px;
+}
+.m-search-venues--nearby-events .event-box .event-img img {
+  width: 100%;
+}
+.m-search-venues--nearby-events .event-box .event-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+.m-search-venues--nearby-events .event-box .event-meta .fa {
+  margin-right: 10px;
+}
+.m-search-venues--nearby-events .event-box .event-action {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font-size: 12px;
+}
+.m-search-venues--nearby-events .event-box .event-action a {
+  color: #5bb7d6;
 }
 
 /*# sourceMappingURL=../inline */

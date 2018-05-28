@@ -1566,14 +1566,6 @@ textarea {
 .event-img {
   position: relative;
   overflow: hidden;
-  width: 7em;
-  height: 7em;
-}
-
-.event-date {
-  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding: 1.5em;
 }
 
 .event-date .e-day {
@@ -1583,16 +1575,6 @@ textarea {
 
 .event-date .e-month {
   font-size: 18px;
-}
-
-.event-action {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.event-action a {
-  color: #5bb7d6;
 }
 
 .vs-info {
