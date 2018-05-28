@@ -191,7 +191,7 @@
                 line-height: 1;
                 width: 112px;
                 padding: 1.5em 0;
-                box-shadow:0 0px 10px 0 rgba(0, 0, 0, 0.4);
+                box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.4);
                 text-align: center;
             }
             .event-img {
@@ -216,9 +216,64 @@
                 position: absolute;
                 top: 4px;
                 right: 10px;
-                font-size:12px;
+                font-size: 12px;
                 a {
-                  color: #5bb7d6;
+                    color: #5bb7d6;
+                }
+            }
+            .event-options {
+                position: absolute;
+                right: 40px;
+                background: rgba(255, 255, 255, 0.95);
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                top: 4px;
+                font-size: 13px;
+                box-shadow: 0px 0px 5px 0 #ccc;
+                &:after,
+                &:before {
+                    left: 100%;
+                    top: 12px;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    pointer-events: none;
+                }
+
+                &:after {
+                    border-color: rgba(255, 255, 255, 0);
+                    border-left-color: #fff;
+                    border-width: 10px;
+                    margin-top: -10px;
+                }
+                &:before {
+                    border-color: rgba(204, 204, 204, 0);
+                    border-left-color: #ccc;
+                    border-width: 11px;
+                    margin-top: -11px;
+                }
+                ul {
+                    padding: 5px 0;
+                    margin: 0;
+                    list-style: none;
+                    li {
+                        border-bottom: 1px solid #ccc;
+                        &:last-child {
+                            border: none;
+                        }
+                    }
+                    a {
+
+                        padding: 5px 10px;
+                        display: block;
+                        color: #3b3b3b;
+                        &:hover {
+                            text-decoration: none;
+                            color: #5bb7d6;
+                        }
+                    }
                 }
             }
         }
