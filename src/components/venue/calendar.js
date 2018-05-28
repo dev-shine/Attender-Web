@@ -48,7 +48,11 @@ class Calendar extends Component {
         kitchen: { on: true, num: 0 },
         host: { on: true, num: 0 }
       },
-      selectedImage: ""
+      selectedImage: "",
+      eventName: "",
+      eventDescription: "",
+      date: null,
+      startTime: null
     }
     this.props.onSetSubscribePopUp(true)
   }
@@ -516,63 +520,30 @@ class Calendar extends Component {
   }
 
   onSaveEvent = () => {
-    if (this.props.navigation.state.params.isOrganizer) {
-      var eventData = {
-        name: this.state.eventName,
-        description: this.state.eventDescription,
-        date: this.state.date.toString(),
-        startTime: moment(this.state.startTime).format("hh:mm A"),
-        endTime: moment(this.state.endTime).format("hh:mm A"),
-        interest: JSON.stringify([
-          {
-            staff: "bartender",
-            quantity: this.state.bartendersValue
-          },
-          {
-            staff: "waiter",
-            quantity: this.state.waitersValue
-          }
-        ]),
-        image: this.state.photo.uri
-      }
-
-      API.post("events", eventData).then(res => {
-        if (res.status) {
-          alert("Save successful")
-          //  this.props.navigation.dispatch({type: 'Navigation/RESET', index: 0, actions: [{ type: 'Navigate', routeName:'HomeEmployer'}]});
-        } else {
-          alert("Something wrong")
-        }
-      })
-    } else {
-      var eventData = {
-        name: this.state.eventName,
-        description: this.state.eventDescription,
-        date: this.state.date.toString(),
-        startTime: moment(this.state.startTime).format("hh:mm A"),
-        endTime: moment(this.state.endTime).format("hh:mm A"),
-        interest: JSON.stringify([
-          {
-            staff: "bartender",
-            quantity: this.state.bartendersValue
-          },
-          {
-            staff: "waiter",
-            quantity: this.state.waitersValue
-          }
-        ]),
-        image: this.state.photo.uri
-      }
-
-      API.post("events", eventData).then(res => {
-        console.log(res)
-        if (res.status) {
-          alert("Save successful")
-        } else {
-          alert("Something wrong")
-        }
-      })
+    var eventData = {
+      name: this.state.eventName,
+      description: this.state.eventDescription,
+      date: this.state.date.toString(),
+      startTime: moment(this.state.startTime).format("hh:mm A"),
+      endTime: null,
+      interest: JSON.stringify([]),
+      image: null
     }
+
+    API.post("events", eventData).then(res => {
+      if (res.status) {
+        alert("Save successful")
+        //  this.props.navigation.dispatch({type: 'Navigation/RESET', index: 0, actions: [{ type: 'Navigate', routeName:'HomeEmployer'}]});
+      } else {
+        alert("Something wrong")
+      }
+    })
+  }
+
+  onChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   renderEventModal = () => {
@@ -590,11 +561,22 @@ class Calendar extends Component {
               <p className="title">CREATE EVENT</p>
               <div className="form-group">
                 <p>Event Name</p>
-                <input type="text" className="a-input" />
+                <input
+                  type="text"
+                  className="a-input"
+                  name="eventName"
+                  onChange={this.onChangeInput}
+                />
               </div>
               <div className="form-group">
                 <p>Event Description</p>
-                <textarea rows="2" cols="50" className="a-input" />
+                <textarea
+                  rows="2"
+                  cols="50"
+                  className="a-input"
+                  name="eventDescription"
+                  onChange={this.onChangeInput}
+                />
               </div>
               <div className="form-group">
                 <div className="row">
@@ -603,7 +585,7 @@ class Calendar extends Component {
                       <p>Date</p>
                       <EventDatePicker
                         selectedDate={moment()}
-                        onSelectDate={() => "test"}
+                        onSelectDate={date => this.setState({ date })}
                       />
                     </div>
                   </div>
@@ -612,7 +594,9 @@ class Calendar extends Component {
                       <p>Time</p>
                       <StaffTimePicker
                         selectedTime={moment()}
-                        onSelectTime={() => "test"}
+                        onSelectTime={time =>
+                          this.setState({ startTime: time })
+                        }
                       />
                     </div>
                   </div>
@@ -788,7 +772,10 @@ class Calendar extends Component {
                   </div>
                 </div>
               </div>
-              <button className="a-btn btn-dark btn-round pull-right">
+              <button
+                className="a-btn btn-dark btn-round pull-right"
+                onClick={this.onSaveEvent}
+              >
                 Save
               </button>
             </div>
