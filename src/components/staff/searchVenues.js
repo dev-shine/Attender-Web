@@ -330,6 +330,54 @@ class SearchVenues extends Component {
       </div>
     ))
   }
+  renderEventList = () => {
+    return this.state.events.map((evnt, index) => (
+      <div key={evnt._id} className="event-box row">
+        <div className="event-date">
+          <p className="e-day">{moment(evnt.date).day()}</p>
+          <p className="e-month">{moment(evnt.date).format("MMMM")}</p>
+        </div>
+        <div className="event-data">
+          <div className="event-img">
+            <img
+              alt=""
+              src={
+                evnt.image !== "undefined"
+                  ? evnt.image
+                  : "https://dummyimage.com/150x150/000/fff"
+              }
+            />
+          </div>
+          <div className="event-meta">
+            <p className="event-title">{evnt.name}</p>
+            <p>
+              <small>
+                <FontAwesome name="clock-o" />
+                {`${moment(evnt.time.start).format("h:m A")} - ${moment(
+                  evnt.time.end
+                ).format("h:m A")}`}
+              </small>
+            </p>
+            <p>
+              <small>Venue: {evnt.employer && evnt.employer.name}</small>
+            </p>
+            <p>
+              <small>
+                <FontAwesome name="map-marker" />
+                {evnt.employer && evnt.employer.locationName}
+              </small>
+            </p>
+            <div className="event-action">
+              {/* TODO Identify correct logic on the lines below */}
+              <a href="#">
+                <FontAwesome name="ellipsis-v" size="2x" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
 
   renderFilterButtons = () => {
     if (this.state.filterTypes.venue) {
@@ -376,7 +424,7 @@ class SearchVenues extends Component {
 
         <div className="xem cont-flex m-search-venues--body">
           <div className="card card-md m-search-venues--nearby-venue">
-            <div className="card-header m-search-venues--header">
+            <div className="m-card-header m-search-venues--header">
               <h4>NEARBY VENUE</h4>
               <div className="card-filter">
                 <div className="xxm m-search-venues--header--filter-by">
@@ -408,7 +456,7 @@ class SearchVenues extends Component {
           </div>
 
           <div className="card card-md m-search-venues--nearby-events">
-            <div className="card-header m-search-venues--header">
+            <div className="m-card-header m-search-venues--nearby-events--header">
               <h4>UPCOMING EVENTS NEAR YOU</h4>
               <div className="card-filter">
                 <div className="xxm m-search-venues--header--filter-by">
@@ -429,7 +477,7 @@ class SearchVenues extends Component {
                     )
                   })}
                 </div>
-                <div className="xxm card-filter m-search-venues--header--filter-items">
+                <div className="xxm card-filter m-search-venues--nearby-events--header--filter-items">
                   {Object.keys(this.state.eventTypes).map((key, index) => {
                     const active = this.state.eventTypes[key]
                       ? "btn-active"
@@ -449,58 +497,7 @@ class SearchVenues extends Component {
               </div>
             </div>
             <div className="card-content-np scroll v-scroll xxm">
-              {this.state.events.map((evnt, index) => (
-                <div key={evnt._id} className="event-box row">
-                  <div className="col-sm-3 event-date">
-                    <p className="e-day">{moment(evnt.date).day()}</p>
-                    <p className="e-month">
-                      {moment(evnt.date).format("MMMM")}
-                    </p>
-                  </div>
-                  <div className="col-sm-9 event-data">
-                    <div className="col-sm-3 event-img">
-                      <img
-                        alt=""
-                        height={150}
-                        width={150}
-                        src={
-                          evnt.image !== "undefined"
-                            ? evnt.image
-                            : "https://dummyimage.com/150x150/000/fff"
-                        }
-                      />
-                    </div>
-                    <div className="col-sm-9">
-                      <p className="event-title">{evnt.name}</p>
-                      <p>
-                        <small>
-                          <FontAwesome name="clock-o" />
-                          {`${moment(evnt.time.start).format(
-                            "h:m A"
-                          )} - ${moment(evnt.time.end).format("h:m A")}`}
-                        </small>
-                      </p>
-                      <p>
-                        <small>
-                          Venue: {evnt.employer && evnt.employer.name}
-                        </small>
-                      </p>
-                      <p>
-                        <small>
-                          <FontAwesome name="map-marker" />
-                          {evnt.employer && evnt.employer.locationName}
-                        </small>
-                      </p>
-                      <div className="event-action">
-                        {/* TODO Identify correct logic on the lines below */}
-                        <a href="#">
-                          <FontAwesome name="ellipsis-v" size="2x" />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {this.renderEventList()}
             </div>
           </div>
         </div>

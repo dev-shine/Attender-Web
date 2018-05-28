@@ -21,7 +21,6 @@
         background: none;
         margin: 8px 30px;
         padding: 0;
-        border-bottom: 1px solid #f3f3f3;
         h4 {
             font-weight: 200;
         }
@@ -56,8 +55,11 @@
         padding: 0;
         .venue-box {
             border-top: none;
-            border-bottom: 1px solid #f3f3f3;
+            border-top: 1px solid #f3f3f3;
             padding: 20px 12px 30px;
+            &:last-child {
+                border-bottom: 1px solid #f3f3f3;
+            }
         }
         .venue-img {
             position: relative;
@@ -153,21 +155,70 @@
                 }
             }
             button {
-                font-size:15px;
-                color:#684cbd;
-                border-color:#684cbd;
-                background-color:#fff;
+                font-size: 15px;
+                color: #684cbd;
+                border-color: #684cbd;
+                background-color: #fff;
                 padding: 5px 20px 3px;
                 &.btn-dark {
-                    background-color:#684cbd;
-                    color:#fff;
+                    background-color: #684cbd;
+                    color: #fff;
                     &:hover {
-                        background-color:#333;
+                        background-color: #333;
                     }
                 }
                 &:hover {
-                    background-color:#222;
-                    color:#fff;
+                    background-color: #222;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    &--nearby-events {
+        &--header {
+            background: none;
+            margin: 8px 20px;
+            padding: 0;
+            &--filter-items {}
+        }
+        .event-box {
+            margin: 5px 0 5px 5px;
+            .event-data {
+                padding: 10px 12px;
+                width: 380px;
+            }
+            .event-date {
+                line-height: 1;
+                width: 112px;
+                padding: 1.5em 0;
+                box-shadow:0 0px 10px 0 rgba(0, 0, 0, 0.4);
+                text-align: center;
+            }
+            .event-img {
+                width: 90px;
+                height: 90px;
+                float: left;
+                margin-right: 10px;
+                img {
+                    width: 100%;
+                }
+            }
+            .event-title {
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .event-meta {
+                .fa {
+                    margin-right: 10px;
+                }
+            }
+            .event-action {
+                position: absolute;
+                top: 4px;
+                right: 10px;
+                font-size:12px;
+                a {
+                  color: #5bb7d6;
                 }
             }
         }
