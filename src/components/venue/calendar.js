@@ -515,6 +515,66 @@ class Calendar extends Component {
     uploader.value = ""
   }
 
+  onSaveEvent = () => {
+    if (this.props.navigation.state.params.isOrganizer) {
+      var eventData = {
+        name: this.state.eventName,
+        description: this.state.eventDescription,
+        date: this.state.date.toString(),
+        startTime: moment(this.state.startTime).format("hh:mm A"),
+        endTime: moment(this.state.endTime).format("hh:mm A"),
+        interest: JSON.stringify([
+          {
+            staff: "bartender",
+            quantity: this.state.bartendersValue
+          },
+          {
+            staff: "waiter",
+            quantity: this.state.waitersValue
+          }
+        ]),
+        image: this.state.photo.uri
+      }
+
+      API.post("events", eventData).then(res => {
+        if (res.status) {
+          alert("Save successful")
+          //  this.props.navigation.dispatch({type: 'Navigation/RESET', index: 0, actions: [{ type: 'Navigate', routeName:'HomeEmployer'}]});
+        } else {
+          alert("Something wrong")
+        }
+      })
+    } else {
+      var eventData = {
+        name: this.state.eventName,
+        description: this.state.eventDescription,
+        date: this.state.date.toString(),
+        startTime: moment(this.state.startTime).format("hh:mm A"),
+        endTime: moment(this.state.endTime).format("hh:mm A"),
+        interest: JSON.stringify([
+          {
+            staff: "bartender",
+            quantity: this.state.bartendersValue
+          },
+          {
+            staff: "waiter",
+            quantity: this.state.waitersValue
+          }
+        ]),
+        image: this.state.photo.uri
+      }
+
+      API.post("events", eventData).then(res => {
+        console.log(res)
+        if (res.status) {
+          alert("Save successful")
+        } else {
+          alert("Something wrong")
+        }
+      })
+    }
+  }
+
   renderEventModal = () => {
     return (
       <div className={this.state.openCreateEvent ? "a-modal show" : "a-modal"}>
