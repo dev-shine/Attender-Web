@@ -14,6 +14,12 @@ const FontAwesome = require("react-fontawesome")
 class SearchVenues extends Component {
   constructor(props) {
     super(props)
+
+    this.openEventOptions = this.openEventOptions.bind(this)
+    this.closeEventOptions = this.closeEventOptions.bind(this)
+    this.stayEventOptions = this.stayEventOptions.bind(this)
+
+    this.EOtimer
     this.state = {
       step: 1,
       isLoading: false,
@@ -60,7 +66,9 @@ class SearchVenues extends Component {
       },
       events: [],
       profile: {},
-      loading: true
+      loading: true,
+
+      showEventOptions: false
     }
   }
 
@@ -195,6 +203,23 @@ class SearchVenues extends Component {
       this.setState({ venues })
     }
   }
+
+  closeEventOptions() {
+    this.EOtimer = setTimeout(() => {
+      this.setState({ showEventOptions: false })
+    }, 1500)
+  }
+  openEventOptions() {
+    clearTimeout(this.EOtimer)
+    this.setState({ showEventOptions: true })
+  }
+  stayEventOptions() {
+    if (this.state.showEventOptions) {
+      clearTimeout(this.EOtimer)
+      this.setState({ showEventOptions: true })
+    }
+  }
+
   renderOpeningHoursDOM(data) {
     let isWeekdaysFormat = "",
       isWeekendFormat = ""
@@ -369,7 +394,24 @@ class SearchVenues extends Component {
             </p>
             <div className="event-action">
               {/* TODO Identify correct logic on the lines below */}
-              <a href="#">
+
+              {this.state.showEventOptions ? (
+                <div
+                  className="event-options"
+                  onMouseOver={this.stayEventOptions}
+                  onMouseOut={this.closeEventOptions}
+                >
+                  <ul>
+                    <li>
+                      <Link to="/">Bookmark Event</Link>
+                    </li>
+                    <li>
+                      <Link to="/">View Details</Link>
+                    </li>
+                  </ul>
+                </div>
+              ) : null}
+              <a href="#" onClick={this.openEventOptions}>
                 <FontAwesome name="ellipsis-v" size="2x" />
               </a>
             </div>

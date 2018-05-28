@@ -219,5 +219,58 @@
 .m-search-venues--nearby-events .event-box .event-action a {
   color: #5bb7d6;
 }
+.m-search-venues--nearby-events .event-box .event-options {
+  position: absolute;
+  right: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  top: 4px;
+  font-size: 13px;
+  box-shadow: 0px 0px 5px 0 #ccc;
+}
+.m-search-venues--nearby-events .event-box .event-options:after,
+.m-search-venues--nearby-events .event-box .event-options:before {
+  left: 100%;
+  top: 12px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.m-search-venues--nearby-events .event-box .event-options:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-left-color: #fff;
+  border-width: 10px;
+  margin-top: -10px;
+}
+.m-search-venues--nearby-events .event-box .event-options:before {
+  border-color: rgba(204, 204, 204, 0);
+  border-left-color: #ccc;
+  border-width: 11px;
+  margin-top: -11px;
+}
+.m-search-venues--nearby-events .event-box .event-options ul {
+  padding: 5px 0;
+  margin: 0;
+  list-style: none;
+}
+.m-search-venues--nearby-events .event-box .event-options ul li {
+  border-bottom: 1px solid #ccc;
+}
+.m-search-venues--nearby-events .event-box .event-options ul li:last-child {
+  border: none;
+}
+.m-search-venues--nearby-events .event-box .event-options ul a {
+  padding: 5px 10px;
+  display: block;
+  color: #3b3b3b;
+}
+.m-search-venues--nearby-events .event-box .event-options ul a:hover {
+  text-decoration: none;
+  color: #5bb7d6;
+}
 
 /*# sourceMappingURL=../inline */
