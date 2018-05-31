@@ -56,13 +56,13 @@ class SearchVenues extends Component {
         lunch: false,
         dinner: false
       },
-      eventTypes: {
+      eventTypesFilters: {
         all: true,
-        wedding: false,
-        birthday: false,
-        conference: false,
-        musicFestival: false,
-        familyEvent: false
+        wedding: true,
+        birthday: true,
+        conference: true,
+        musicFestival: true,
+        familyEvent: true
       },
       events: [],
       profile: {},
@@ -157,19 +157,22 @@ class SearchVenues extends Component {
   }
 
   handleEventsClick = eventType => {
-    const eventTypes = this.state.eventTypes
+    const eventTypesFilters = this.state.eventTypesFilters
+
     if (eventType === "all") {
-      Object.keys(eventTypes).forEach(key => {
-        eventTypes[key] = false
+      const toggleAllValue = !this.state.eventTypesFilters.all
+      Object.keys(eventTypesFilters).forEach(key => {
+        eventTypesFilters[key] = toggleAllValue
       })
     } else {
-      eventTypes["all"] = false
+      eventTypesFilters["all"] = false
+      eventTypesFilters[eventType] = true
     }
-    eventTypes[eventType] = true
-    this.setState({ eventTypes })
+
+    this.setState({ eventTypesFilters })
   }
 
-  handleFilterBy = event => {
+  handleFilterByVenue = event => {
     this.setState(
       prev => {
         const filters = prev.filterTypes
@@ -184,7 +187,7 @@ class SearchVenues extends Component {
     )
   }
 
-  handleFilterEvents = filterEvent => {
+  handleFilterByEvents = filterEvent => {
     const filterEvents = this.state.filterEvents
     Object.keys(filterEvents).forEach(key => {
       key === filterEvent
@@ -480,7 +483,7 @@ class SearchVenues extends Component {
                         key={index}
                         name={type}
                         className={`a-btn btn-round  ${active}`}
-                        onClick={this.handleFilterBy}
+                        onClick={this.handleFilterByVenue}
                       >
                         {`Type of ${type.capitalize()}`}
                       </button>
@@ -511,7 +514,7 @@ class SearchVenues extends Component {
                       <button
                         key={index}
                         className={`a-btn btn-round btn-dark ${active}`}
-                        onClick={this.handleFilterEvents.bind(this, key)}
+                        onClick={this.handleFilterByEvents.bind(this, key)}
                       >
                         {this.state.filterEvents[key].label.capitalize()}
                       </button>
@@ -519,21 +522,23 @@ class SearchVenues extends Component {
                   })}
                 </div>
                 <div className="xxm card-filter m-search-venues--nearby-events--header--filter-items">
-                  {Object.keys(this.state.eventTypes).map((key, index) => {
-                    const active = this.state.eventTypes[key]
-                      ? "btn-active"
-                      : "btn-passive"
-                    return (
-                      <button
-                        key={index}
-                        className={`a-btn btn-round ${active}`}
-                        style={{ fontSize: "14px" }}
-                        onClick={this.handleEventsClick.bind(this, key)}
-                      >
-                        {key.capitalize()}
-                      </button>
-                    )
-                  })}
+                  {Object.keys(this.state.eventTypesFilters).map(
+                    (key, index) => {
+                      const active = this.state.eventTypesFilters[key]
+                        ? "btn-active"
+                        : "btn-passive"
+                      return (
+                        <button
+                          key={index}
+                          className={`a-btn btn-round ${active}`}
+                          style={{ fontSize: "14px" }}
+                          onClick={this.handleEventsClick.bind(this, key)}
+                        >
+                          {key.capitalize()}
+                        </button>
+                      )
+                    }
+                  )}
                 </div>
               </div>
             </div>
