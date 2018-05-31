@@ -207,6 +207,10 @@
   font-size: 14px;
   font-weight: 500;
 }
+.m-search-venues--nearby-events .event-box .event-title:hover {
+  cursor: pointer;
+  color: #5d5bbc;
+}
 .m-search-venues--nearby-events .event-box .event-meta .fa {
   margin-right: 10px;
 }
