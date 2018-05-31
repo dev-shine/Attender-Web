@@ -57,12 +57,12 @@ class SearchVenues extends Component {
         dinner: false
       },
       eventTypesFilters: {
-        all: true,
-        wedding: true,
-        birthday: true,
-        conference: true,
-        musicFestival: true,
-        familyEvent: true
+        all: false,
+        wedding: false,
+        birthday: false,
+        conference: false,
+        musicFestival: false,
+        familyEvent: false
       },
       events: [],
       profile: {},
@@ -158,6 +158,7 @@ class SearchVenues extends Component {
 
   handleEventsClick = eventType => {
     const eventTypesFilters = this.state.eventTypesFilters
+    let events = this.state.defaultEvents
 
     if (eventType === "all") {
       const toggleAllValue = !this.state.eventTypesFilters.all
@@ -165,11 +166,36 @@ class SearchVenues extends Component {
         eventTypesFilters[key] = toggleAllValue
       })
     } else {
-      eventTypesFilters["all"] = false
-      eventTypesFilters[eventType] = true
+      if (eventTypesFilters.all) {
+        Object.keys(eventTypesFilters).forEach(key => {
+          eventTypesFilters[key] = false
+        })
+        eventTypesFilters[eventType] = true
+      } else {
+        eventTypesFilters[eventType] = !eventTypesFilters[eventType]
+      }
     }
 
-    this.setState({ eventTypesFilters })
+    // if(eventTypesFilters.all) {
+    //   events = this.state.defaultEvents
+    // }
+    // else {
+    events = events.filter(function(event) {
+      console.log(event, eventTypesFilters)
+      return Object.keys(eventTypesFilters).some(value => {
+        console.log(
+          event.type.includes(value),
+          eventTypesFilters[value] === true,
+          value
+        )
+        if (event.type.includes(value) && eventTypesFilters[value] === true) {
+          return true
+        }
+      })
+    })
+    // }
+
+    this.setState({ eventTypesFilters, events })
   }
 
   handleFilterByVenue = event => {
