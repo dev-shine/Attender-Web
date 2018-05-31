@@ -74,7 +74,7 @@ class SearchVenues extends Component {
     profile: {},
     loading: true,
 
-    showEventOptions: false,
+    showEventOptionsForID: false,
 
     openEventProfile: false
   }
@@ -242,17 +242,20 @@ class SearchVenues extends Component {
 
   closeEventOptions() {
     this.EOtimer = setTimeout(() => {
-      this.setState({ showEventOptions: false })
+      this.setState({ showEventOptionsForID: false })
+    }, 500)
+  }
+  openEventOptions(index) {
+    clearTimeout(this.EOtimer)
+    this.setState({ showEventOptionsForID: index })
+    this.EOtimer = setTimeout(() => {
+      this.setState({ showEventOptionsForID: false })
     }, 1500)
   }
-  openEventOptions() {
-    clearTimeout(this.EOtimer)
-    this.setState({ showEventOptions: true })
-  }
-  stayEventOptions() {
-    if (this.state.showEventOptions) {
+  stayEventOptions(index) {
+    if (this.state.showEventOptionsForID) {
       clearTimeout(this.EOtimer)
-      this.setState({ showEventOptions: true })
+      this.setState({ showEventOptionsForID: index })
     }
   }
 
@@ -539,10 +542,10 @@ class SearchVenues extends Component {
             <div className="event-action">
               {/* TODO Identify correct logic on the lines below */}
 
-              {this.state.showEventOptions ? (
+              {this.state.showEventOptionsForID == evnt._id ? (
                 <div
                   className="event-options"
-                  onMouseOver={this.stayEventOptions}
+                  onMouseOver={this.stayEventOptions.bind(this, evnt._id)}
                   onMouseOut={this.closeEventOptions}
                 >
                   <ul>
@@ -550,12 +553,20 @@ class SearchVenues extends Component {
                       <Link to="/">Bookmark Event</Link>
                     </li>
                     <li>
-                      <Link to="/">View Details</Link>
+                      <a
+                        onClick={this.openModal.bind(
+                          this,
+                          "EVENT_PROFILE",
+                          index
+                        )}
+                      >
+                        View Details
+                      </a>
                     </li>
                   </ul>
                 </div>
               ) : null}
-              <a href="#" onClick={this.openEventOptions}>
+              <a href="#" onClick={this.openEventOptions.bind(this, evnt._id)}>
                 <FontAwesome name="ellipsis-v" size="2x" />
               </a>
             </div>
