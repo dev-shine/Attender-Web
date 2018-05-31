@@ -461,7 +461,7 @@ class SearchVenues extends Component {
 
   render() {
     return (
-      <div class="m-search-venues">
+      <div className="m-search-venues">
         <NavBar />
 
         <div className="xem cont-flex m-search-venues--body">
@@ -512,7 +512,6 @@ class SearchVenues extends Component {
                         key={index}
                         className={`a-btn btn-round btn-dark ${active}`}
                         onClick={this.handleFilterEvents.bind(this, key)}
-                        style={{ fontSize: "14px" }}
                       >
                         {this.state.filterEvents[key].label.capitalize()}
                       </button>
