@@ -276,6 +276,7 @@
 .m-eventModal .a-modal-content {
   width: 480px;
   padding: 30px 60px;
+  height: auto;
 }
 .m-eventModal .a-modal-content .header {
   text-transform: uppercase;
@@ -305,6 +306,9 @@
 }
 .m-eventModal .a-modal-content textarea {
   height: 115px;
+}
+.m-eventModal .a-modal-content img {
+  width: 100%;
 }
 
 /*# sourceMappingURL=../inline */

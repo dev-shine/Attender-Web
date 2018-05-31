@@ -18,6 +18,7 @@ class SearchVenues extends Component {
     this.openEventOptions = this.openEventOptions.bind(this)
     this.closeEventOptions = this.closeEventOptions.bind(this)
     this.stayEventOptions = this.stayEventOptions.bind(this)
+    this.closeModal = this.closeModal.bind(this)
 
     this.EOtimer
   }
@@ -285,45 +286,57 @@ class SearchVenues extends Component {
   }
 
   // end Handle modal actions
-  openModal(type) {
+  openModal(type, index) {
+    console.log(index)
     let content = "",
       customModalStyle = {}
     switch (type) {
       case "EVENT_PROFILE":
+        let events = this.state.events
+        console.log(events[index])
         content = (
           <div>
             <div className="header">
               <h3>Manage your event</h3>
-              <h4>Event for April 5 (Today)</h4>
-              <p>Event Starts at 06:30 PM</p>
+              <h4>
+                Event for {moment(events[index].date).format("MMMM")}{" "}
+                {moment(events[index].date).day()}
+              </h4>
+              <p>Event Starts at {events[index].time.start}</p>
             </div>
 
             <div className="body">
               <div className="row">
                 <div className="form-group">
                   <label>Event Name</label>
-                  <input type="text" value="Winery Party" />
+                  <input type="text" value={events[index].name} />
                 </div>
                 <div className="form-group">
                   <label>Event Description</label>
-                  <textarea>
-                    Beneath a multitude of pendent lights creating an intimate
-                    atmosphere, LuMi Dining comes to life under the guidance of
-                    Chef Federico Zanellato and his wife and Sommelier, Michela.
-                  </textarea>
+                  <textarea value={events[index].description} />
                 </div>
                 <div className="col-md-6 form-group">
                   <label>Date</label>
-                  <input type="text" value="04/ 05/ 2017" />
+                  <input
+                    type="text"
+                    value={moment(events[index].date).format("L")}
+                  />
                 </div>
                 <div className="col-md-6 form-group">
                   <label>Time</label>
-                  <input type="text" value="06 : 30 PM" />
+                  <input type="text" value={events[index].time.start} />
                 </div>
 
                 <div className="form-group">
                   <label>Upload Photos</label>
-                  <img src="" />
+                  <img
+                    alt=""
+                    src={
+                      events[index].image !== "undefined"
+                        ? events[index].image
+                        : "https://dummyimage.com/150x150/000/fff"
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -502,7 +515,7 @@ class SearchVenues extends Component {
           <div className="event-meta">
             <label
               className="event-title"
-              onClick={this.openModal.bind(this, "EVENT_PROFILE")}
+              onClick={this.openModal.bind(this, "EVENT_PROFILE", index)}
             >
               {evnt.name}
             </label>
