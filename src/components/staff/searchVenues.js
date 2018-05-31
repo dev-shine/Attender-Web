@@ -498,7 +498,27 @@ class SearchVenues extends Component {
     ))
   }
   renderEventList = () => {
-    return this.state.events.map((evnt, index) => (
+    let filterEvents = this.state.filterEvents
+    let events = this.state.events
+    filterEvents = Object.keys(filterEvents).filter(function(fe) {
+      if (filterEvents[fe].value) {
+        return true
+      }
+    })[0]
+    switch (filterEvents) {
+      case "upcoming":
+        events = events.filter(function(e, v) {
+          var start = moment(e.date, "YYYY-MM-DD")
+          var end = moment(new Date())
+          var dur = moment.duration(start.diff(end))._data.days
+
+          if (dur < 2 && dur >= 0) {
+            return true
+          }
+        })
+        break
+    }
+    return events.map((evnt, index) => (
       <div key={evnt._id} className="event-box row">
         <div className="event-date">
           <p className="e-day">{moment(evnt.date).day()}</p>
