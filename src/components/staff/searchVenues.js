@@ -20,56 +20,62 @@ class SearchVenues extends Component {
     this.stayEventOptions = this.stayEventOptions.bind(this)
 
     this.EOtimer
-    this.state = {
-      step: 1,
-      isLoading: false,
-      venues: [],
-      venueTypeFilters: {
-        all: true,
-        cafe: false,
-        bar: false,
-        club: false,
-        pub: false,
-        restaurant: false
-      },
-      filterTypes: {
-        venue: true,
-        service: false
-      },
-      filterEvents: {
-        near: {
-          label: "Events near you",
-          value: true
-        },
-        upcoming: {
-          label: "Upcoming events",
-          value: false
-        }
-      },
-      services: {
-        all: true,
-        alcohol: false,
-        cocktails: false,
-        drinks: false,
-        food: false,
-        breakfast: false,
-        lunch: false,
-        dinner: false
-      },
-      eventTypesFilters: {
-        all: false,
-        wedding: false,
-        birthday: false,
-        conference: false,
-        musicFestival: false,
-        familyEvent: false
-      },
-      events: [],
-      profile: {},
-      loading: true,
+  }
+  state = {
+    openModal: false,
+    modalContent: "Under construction",
+    customModalStyle: {},
 
-      showEventOptions: false
-    }
+    step: 1,
+    isLoading: false,
+    venues: [],
+    venueTypeFilters: {
+      all: true,
+      cafe: false,
+      bar: false,
+      club: false,
+      pub: false,
+      restaurant: false
+    },
+    filterTypes: {
+      venue: true,
+      service: false
+    },
+    filterEvents: {
+      near: {
+        label: "Events near you",
+        value: true
+      },
+      upcoming: {
+        label: "Upcoming events",
+        value: false
+      }
+    },
+    services: {
+      all: true,
+      alcohol: false,
+      cocktails: false,
+      drinks: false,
+      food: false,
+      breakfast: false,
+      lunch: false,
+      dinner: false
+    },
+    eventTypesFilters: {
+      all: false,
+      wedding: false,
+      birthday: false,
+      conference: false,
+      musicFestival: false,
+      familyEvent: false
+    },
+    events: [],
+    profile: {},
+    loading: true,
+
+    showEventOptions: false,
+
+    openEventProfile: false
   }
 
   componentWillMount = async () => {
@@ -219,6 +225,7 @@ class SearchVenues extends Component {
         ? (filterEvents[key].value = true)
         : (filterEvents[key].value = false)
     })
+
     this.setState({ filterEvents })
   }
 
@@ -246,6 +253,97 @@ class SearchVenues extends Component {
       clearTimeout(this.EOtimer)
       this.setState({ showEventOptions: true })
     }
+  }
+
+  closeModal() {
+    this.setState({ openModal: false })
+  }
+  // Handle modal actions
+  saveModal(type) {
+    let api_url = "",
+      confirm_modal_name = ""
+    let body = {}
+    // switch (type) {
+    //   case "EDIT_PROFILE":
+    body = {
+      image: this.state.avatar_temp_preview_url,
+      info: this.state.info,
+      location: this.props.myProfile.location
+    }
+    api_url = "user/profile/venue"
+    confirm_modal_name = "EDIT_PROFILE_CONFIRM"
+    //     break
+    // }
+    API.post(api_url, body).then(res => {
+      if (!res.status) {
+        alert(JSON.stringify(res))
+      }
+      if (res.status) {
+        this.openModal(confirm_modal_name)
+      }
+    })
+  }
+
+  // end Handle modal actions
+  openModal(type) {
+    let content = "",
+      customModalStyle = {}
+    switch (type) {
+      case "EVENT_PROFILE":
+        content = (
+          <div>
+            <div className="header">
+              <h3>Manage your event</h3>
+              <h4>Event for April 5 (Today)</h4>
+              <p>Event Starts at 06:30 PM</p>
+            </div>
+
+            <div className="body">
+              <div className="row">
+                <div className="form-group">
+                  <label>Event Name</label>
+                  <input type="text" value="Winery Party" />
+                </div>
+                <div className="form-group">
+                  <label>Event Description</label>
+                  <textarea>
+                    Beneath a multitude of pendent lights creating an intimate
+                    atmosphere, LuMi Dining comes to life under the guidance of
+                    Chef Federico Zanellato and his wife and Sommelier, Michela.
+                  </textarea>
+                </div>
+                <div className="col-md-6 form-group">
+                  <label>Date</label>
+                  <input type="text" value="04/ 05/ 2017" />
+                </div>
+                <div className="col-md-6 form-group">
+                  <label>Time</label>
+                  <input type="text" value="06 : 30 PM" />
+                </div>
+
+                <div className="form-group">
+                  <label>Upload Photos</label>
+                  <img src="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+        break
+    }
+    this.setState({ modalContent: content, openModal: true, customModalStyle })
+  }
+  modal() {
+    return (
+      <div className="a-modal show m-eventModal">
+        <div className="a-modal-content" style={this.state.customModalStyle}>
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
+          {this.state.modalContent}
+        </div>
+      </div>
+    )
   }
 
   renderOpeningHoursDOM(data) {
@@ -402,7 +500,12 @@ class SearchVenues extends Component {
             />
           </div>
           <div className="event-meta">
-            <p className="event-title">{evnt.name}</p>
+            <label
+              className="event-title"
+              onClick={this.openModal.bind(this, "EVENT_PROFILE")}
+            >
+              {evnt.name}
+            </label>
             <p>
               <small>
                 <FontAwesome name="clock-o" />
@@ -490,6 +593,7 @@ class SearchVenues extends Component {
   render() {
     return (
       <div className="m-search-venues">
+        {this.state.openModal ? this.modal() : null}
         <NavBar />
 
         <div className="xem cont-flex m-search-venues--body">

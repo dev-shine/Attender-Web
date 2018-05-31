@@ -273,4 +273,38 @@
   color: #5bb7d6;
 }
 
+.m-eventModal .a-modal-content {
+  width: 480px;
+  padding: 30px 60px;
+}
+.m-eventModal .a-modal-content .header {
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+.m-eventModal .a-modal-content .header h3 {
+  font-size: 22px;
+}
+.m-eventModal .a-modal-content .header h4 {
+  font-size: 22px;
+}
+.m-eventModal .a-modal-content .header p {
+  text-transform: none;
+}
+.m-eventModal .a-modal-content label {
+  margin-bottom: 2px;
+}
+.m-eventModal .a-modal-content .form-group {
+  width: 100%;
+}
+.m-eventModal .a-modal-content input[type="text"],
+.m-eventModal .a-modal-content textarea {
+  background: #f6f6f6;
+  border: none;
+  padding: 10px 18px;
+  width: 100%;
+}
+.m-eventModal .a-modal-content textarea {
+  height: 115px;
+}
+
 /*# sourceMappingURL=../inline */
