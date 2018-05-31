@@ -206,6 +206,10 @@
             .event-title {
                 font-size: 14px;
                 font-weight: 500;
+                &:hover {
+                    cursor:pointer;
+                    color:#5d5bbc;
+                }
             }
             .event-meta {
                 .fa {
@@ -265,7 +269,7 @@
                         }
                     }
                     a {
-
+                        cursor:pointer;
                         padding: 5px 10px;
                         display: block;
                         color: #3b3b3b;

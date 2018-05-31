@@ -18,58 +18,65 @@ class SearchVenues extends Component {
     this.openEventOptions = this.openEventOptions.bind(this)
     this.closeEventOptions = this.closeEventOptions.bind(this)
     this.stayEventOptions = this.stayEventOptions.bind(this)
+    this.closeModal = this.closeModal.bind(this)
 
     this.EOtimer
-    this.state = {
-      step: 1,
-      isLoading: false,
-      venues: [],
-      venueTypeFilters: {
-        all: true,
-        cafe: false,
-        bar: false,
-        club: false,
-        pub: false,
-        restaurant: false
-      },
-      filterTypes: {
-        venue: true,
-        service: false
-      },
-      filterEvents: {
-        near: {
-          label: "Events near you",
-          value: true
-        },
-        upcoming: {
-          label: "Upcoming events",
-          value: false
-        }
-      },
-      services: {
-        all: true,
-        alcohol: false,
-        cocktails: false,
-        drinks: false,
-        food: false,
-        breakfast: false,
-        lunch: false,
-        dinner: false
-      },
-      eventTypes: {
-        all: true,
-        wedding: false,
-        birthday: false,
-        conference: false,
-        musicFestival: false,
-        familyEvent: false
-      },
-      events: [],
-      profile: {},
-      loading: true,
+  }
+  state = {
+    openModal: false,
+    modalContent: "Under construction",
+    customModalStyle: {},
 
-      showEventOptions: false
-    }
+    step: 1,
+    isLoading: false,
+    venues: [],
+    venueTypeFilters: {
+      all: true,
+      cafe: false,
+      bar: false,
+      club: false,
+      pub: false,
+      restaurant: false
+    },
+    filterTypes: {
+      venue: true,
+      service: false
+    },
+    filterEvents: {
+      near: {
+        label: "Events near you",
+        value: true
+      },
+      upcoming: {
+        label: "Upcoming events",
+        value: false
+      }
+    },
+    services: {
+      all: true,
+      alcohol: false,
+      cocktails: false,
+      drinks: false,
+      food: false,
+      breakfast: false,
+      lunch: false,
+      dinner: false
+    },
+    eventTypesFilters: {
+      all: false,
+      wedding: false,
+      birthday: false,
+      conference: false,
+      musicFestival: false,
+      familyEvent: false
+    },
+    events: [],
+    profile: {},
+    loading: true,
+
+    showEventOptionsForID: false,
+
+    openEventProfile: false
   }
 
   componentWillMount = async () => {
@@ -157,19 +164,47 @@ class SearchVenues extends Component {
   }
 
   handleEventsClick = eventType => {
-    const eventTypes = this.state.eventTypes
+    const eventTypesFilters = this.state.eventTypesFilters
+    let events = this.state.defaultEvents
+
     if (eventType === "all") {
-      Object.keys(eventTypes).forEach(key => {
-        eventTypes[key] = false
+      const toggleAllValue = !this.state.eventTypesFilters.all
+      Object.keys(eventTypesFilters).forEach(key => {
+        eventTypesFilters[key] = toggleAllValue
       })
     } else {
-      eventTypes["all"] = false
+      if (eventTypesFilters.all) {
+        Object.keys(eventTypesFilters).forEach(key => {
+          eventTypesFilters[key] = false
+        })
+        eventTypesFilters[eventType] = true
+      } else {
+        eventTypesFilters[eventType] = !eventTypesFilters[eventType]
+      }
     }
-    eventTypes[eventType] = true
-    this.setState({ eventTypes })
+
+    if (eventTypesFilters.all) {
+      events = this.state.defaultEvents
+    } else {
+      events = events.filter(function(event) {
+        console.log(event, eventTypesFilters)
+        return Object.keys(eventTypesFilters).some(value => {
+          console.log(
+            event.type.includes(value),
+            eventTypesFilters[value] === true,
+            value
+          )
+          if (event.type.includes(value) && eventTypesFilters[value] === true) {
+            return true
+          }
+        })
+      })
+    }
+
+    this.setState({ eventTypesFilters, events })
   }
 
-  handleFilterBy = event => {
+  handleFilterByVenue = event => {
     this.setState(
       prev => {
         const filters = prev.filterTypes
@@ -184,13 +219,14 @@ class SearchVenues extends Component {
     )
   }
 
-  handleFilterEvents = filterEvent => {
+  handleFilterByEvents = filterEvent => {
     const filterEvents = this.state.filterEvents
     Object.keys(filterEvents).forEach(key => {
       key === filterEvent
         ? (filterEvents[key].value = true)
         : (filterEvents[key].value = false)
     })
+
     this.setState({ filterEvents })
   }
 
@@ -206,18 +242,124 @@ class SearchVenues extends Component {
 
   closeEventOptions() {
     this.EOtimer = setTimeout(() => {
-      this.setState({ showEventOptions: false })
+      this.setState({ showEventOptionsForID: false })
+    }, 500)
+  }
+  openEventOptions(index) {
+    clearTimeout(this.EOtimer)
+    this.setState({ showEventOptionsForID: index })
+    this.EOtimer = setTimeout(() => {
+      this.setState({ showEventOptionsForID: false })
     }, 1500)
   }
-  openEventOptions() {
-    clearTimeout(this.EOtimer)
-    this.setState({ showEventOptions: true })
-  }
-  stayEventOptions() {
-    if (this.state.showEventOptions) {
+  stayEventOptions(index) {
+    if (this.state.showEventOptionsForID) {
       clearTimeout(this.EOtimer)
-      this.setState({ showEventOptions: true })
+      this.setState({ showEventOptionsForID: index })
     }
+  }
+
+  closeModal() {
+    this.setState({ openModal: false })
+  }
+  // Handle modal actions
+  saveModal(type) {
+    let api_url = "",
+      confirm_modal_name = ""
+    let body = {}
+    // switch (type) {
+    //   case "EDIT_PROFILE":
+    body = {
+      image: this.state.avatar_temp_preview_url,
+      info: this.state.info,
+      location: this.props.myProfile.location
+    }
+    api_url = "user/profile/venue"
+    confirm_modal_name = "EDIT_PROFILE_CONFIRM"
+    //     break
+    // }
+    API.post(api_url, body).then(res => {
+      if (!res.status) {
+        alert(JSON.stringify(res))
+      }
+      if (res.status) {
+        this.openModal(confirm_modal_name)
+      }
+    })
+  }
+
+  // end Handle modal actions
+  openModal(type, index) {
+    console.log(index)
+    let content = "",
+      customModalStyle = {}
+    switch (type) {
+      case "EVENT_PROFILE":
+        let events = this.state.events
+        console.log(events[index])
+        content = (
+          <div>
+            <div className="header">
+              <h3>Manage your event</h3>
+              <h4>
+                Event for {moment(events[index].date).format("MMMM")}{" "}
+                {moment(events[index].date).day()}
+              </h4>
+              <p>Event Starts at {events[index].time.start}</p>
+            </div>
+
+            <div className="body">
+              <div className="row">
+                <div className="form-group">
+                  <label>Event Name</label>
+                  <input type="text" value={events[index].name} />
+                </div>
+                <div className="form-group">
+                  <label>Event Description</label>
+                  <textarea value={events[index].description} />
+                </div>
+                <div className="col-md-6 form-group">
+                  <label>Date</label>
+                  <input
+                    type="text"
+                    value={moment(events[index].date).format("L")}
+                  />
+                </div>
+                <div className="col-md-6 form-group">
+                  <label>Time</label>
+                  <input type="text" value={events[index].time.start} />
+                </div>
+
+                <div className="form-group">
+                  <label>Upload Photos</label>
+                  <img
+                    alt=""
+                    src={
+                      events[index].image !== "undefined"
+                        ? events[index].image
+                        : "https://dummyimage.com/150x150/000/fff"
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+        break
+    }
+    this.setState({ modalContent: content, openModal: true, customModalStyle })
+  }
+  modal() {
+    return (
+      <div className="a-modal show m-eventModal">
+        <div className="a-modal-content" style={this.state.customModalStyle}>
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
+          {this.state.modalContent}
+        </div>
+      </div>
+    )
   }
 
   renderOpeningHoursDOM(data) {
@@ -356,7 +498,27 @@ class SearchVenues extends Component {
     ))
   }
   renderEventList = () => {
-    return this.state.events.map((evnt, index) => (
+    let filterEvents = this.state.filterEvents
+    let events = this.state.events
+    filterEvents = Object.keys(filterEvents).filter(function(fe) {
+      if (filterEvents[fe].value) {
+        return true
+      }
+    })[0]
+    switch (filterEvents) {
+      case "upcoming":
+        events = events.filter(function(e, v) {
+          var start = moment(e.date, "YYYY-MM-DD")
+          var end = moment(new Date())
+          var dur = moment.duration(start.diff(end))._data.days
+
+          if (dur < 2 && dur >= 0) {
+            return true
+          }
+        })
+        break
+    }
+    return events.map((evnt, index) => (
       <div key={evnt._id} className="event-box row">
         <div className="event-date">
           <p className="e-day">{moment(evnt.date).day()}</p>
@@ -374,7 +536,12 @@ class SearchVenues extends Component {
             />
           </div>
           <div className="event-meta">
-            <p className="event-title">{evnt.name}</p>
+            <label
+              className="event-title"
+              onClick={this.openModal.bind(this, "EVENT_PROFILE", index)}
+            >
+              {evnt.name}
+            </label>
             <p>
               <small>
                 <FontAwesome name="clock-o" />
@@ -395,10 +562,10 @@ class SearchVenues extends Component {
             <div className="event-action">
               {/* TODO Identify correct logic on the lines below */}
 
-              {this.state.showEventOptions ? (
+              {this.state.showEventOptionsForID == evnt._id ? (
                 <div
                   className="event-options"
-                  onMouseOver={this.stayEventOptions}
+                  onMouseOver={this.stayEventOptions.bind(this, evnt._id)}
                   onMouseOut={this.closeEventOptions}
                 >
                   <ul>
@@ -406,12 +573,20 @@ class SearchVenues extends Component {
                       <Link to="/">Bookmark Event</Link>
                     </li>
                     <li>
-                      <Link to="/">View Details</Link>
+                      <a
+                        onClick={this.openModal.bind(
+                          this,
+                          "EVENT_PROFILE",
+                          index
+                        )}
+                      >
+                        View Details
+                      </a>
                     </li>
                   </ul>
                 </div>
               ) : null}
-              <a href="#" onClick={this.openEventOptions}>
+              <a href="#" onClick={this.openEventOptions.bind(this, evnt._id)}>
                 <FontAwesome name="ellipsis-v" size="2x" />
               </a>
             </div>
@@ -461,7 +636,8 @@ class SearchVenues extends Component {
 
   render() {
     return (
-      <div class="m-search-venues">
+      <div className="m-search-venues">
+        {this.state.openModal ? this.modal() : null}
         <NavBar />
 
         <div className="xem cont-flex m-search-venues--body">
@@ -480,7 +656,7 @@ class SearchVenues extends Component {
                         key={index}
                         name={type}
                         className={`a-btn btn-round  ${active}`}
-                        onClick={this.handleFilterBy}
+                        onClick={this.handleFilterByVenue}
                       >
                         {`Type of ${type.capitalize()}`}
                       </button>
@@ -511,8 +687,7 @@ class SearchVenues extends Component {
                       <button
                         key={index}
                         className={`a-btn btn-round btn-dark ${active}`}
-                        onClick={this.handleFilterEvents.bind(this, key)}
-                        style={{ fontSize: "14px" }}
+                        onClick={this.handleFilterByEvents.bind(this, key)}
                       >
                         {this.state.filterEvents[key].label.capitalize()}
                       </button>
@@ -520,21 +695,23 @@ class SearchVenues extends Component {
                   })}
                 </div>
                 <div className="xxm card-filter m-search-venues--nearby-events--header--filter-items">
-                  {Object.keys(this.state.eventTypes).map((key, index) => {
-                    const active = this.state.eventTypes[key]
-                      ? "btn-active"
-                      : "btn-passive"
-                    return (
-                      <button
-                        key={index}
-                        className={`a-btn btn-round ${active}`}
-                        style={{ fontSize: "14px" }}
-                        onClick={this.handleEventsClick.bind(this, key)}
-                      >
-                        {key.capitalize()}
-                      </button>
-                    )
-                  })}
+                  {Object.keys(this.state.eventTypesFilters).map(
+                    (key, index) => {
+                      const active = this.state.eventTypesFilters[key]
+                        ? "btn-active"
+                        : "btn-passive"
+                      return (
+                        <button
+                          key={index}
+                          className={`a-btn btn-round ${active}`}
+                          style={{ fontSize: "14px" }}
+                          onClick={this.handleEventsClick.bind(this, key)}
+                        >
+                          {key.capitalize()}
+                        </button>
+                      )
+                    }
+                  )}
                 </div>
               </div>
             </div>
