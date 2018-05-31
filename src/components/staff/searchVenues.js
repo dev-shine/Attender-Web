@@ -176,24 +176,23 @@ class SearchVenues extends Component {
       }
     }
 
-    // if(eventTypesFilters.all) {
-    //   events = this.state.defaultEvents
-    // }
-    // else {
-    events = events.filter(function(event) {
-      console.log(event, eventTypesFilters)
-      return Object.keys(eventTypesFilters).some(value => {
-        console.log(
-          event.type.includes(value),
-          eventTypesFilters[value] === true,
-          value
-        )
-        if (event.type.includes(value) && eventTypesFilters[value] === true) {
-          return true
-        }
+    if (eventTypesFilters.all) {
+      events = this.state.defaultEvents
+    } else {
+      events = events.filter(function(event) {
+        console.log(event, eventTypesFilters)
+        return Object.keys(eventTypesFilters).some(value => {
+          console.log(
+            event.type.includes(value),
+            eventTypesFilters[value] === true,
+            value
+          )
+          if (event.type.includes(value) && eventTypesFilters[value] === true) {
+            return true
+          }
+        })
       })
-    })
-    // }
+    }
 
     this.setState({ eventTypesFilters, events })
   }
