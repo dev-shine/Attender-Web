@@ -194,15 +194,18 @@ class Calendar extends Component {
       <div className="calendar-main card">
         <div className="calendar-main-header">
           <p>CALENDAR {this.state.selectedDate.format("YYYY")}</p>
-          <div className="add-event pull-right">
-            <a
-              onClick={() => this.onTriggerCreateEventModal()}
-              className="add-event-btn a-btn-circle"
-            >
-              +
-            </a>
-            <div className="e-tooltip">Create Event</div>
-          </div>
+          {this.state.profile &&
+            (this.state.profile.isVenue || this.state.profile.isEmployer) && (
+              <div className="add-event pull-right">
+                <a
+                  onClick={() => this.onTriggerCreateEventModal()}
+                  className="add-event-btn a-btn-circle"
+                >
+                  +
+                </a>
+                <div className="e-tooltip">Create Event</div>
+              </div>
+            )}
           <input
             type="text"
             className="a-plain-text"
