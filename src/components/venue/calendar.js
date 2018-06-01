@@ -356,7 +356,11 @@ class Calendar extends Component {
                                   : "none"
                             }}
                           >
-                            <p>Delete Event</p>
+                            {this.state.profile &&
+                              (this.state.profile.isVenue ||
+                                this.state.profile.isEmployer) && (
+                                <p>Delete Event</p>
+                              )}
                             <p
                               onClick={() =>
                                 this.setState({
