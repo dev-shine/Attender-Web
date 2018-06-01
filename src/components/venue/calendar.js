@@ -52,7 +52,8 @@ class Calendar extends Component {
       eventName: "",
       eventDescription: "",
       date: null,
-      startTime: null
+      startTime: null,
+      variant: "week"
     }
     this.props.onSetSubscribePopUp(true)
   }
@@ -226,9 +227,27 @@ class Calendar extends Component {
               <div className="calendar-main-settings">
                 <p>{this.state.selectedDate.format("dddd")}</p>
                 <div className="btn-group text-center">
-                  <a className="a-btn">Month</a>
-                  <a className="a-btn selected">Week</a>
-                  <a className="a-btn">Day</a>
+                  <a
+                    className={`a-btn ${this.state.variant === "month" &&
+                      "selected"}`}
+                    onClick={() => this.setState({ variant: "month" })}
+                  >
+                    Month
+                  </a>
+                  <a
+                    className={`a-btn ${this.state.variant === "week" &&
+                      "selected"}`}
+                    onClick={() => this.setState({ variant: "week" })}
+                  >
+                    Week
+                  </a>
+                  <a
+                    className={`a-btn ${this.state.variant === "day" &&
+                      "selected"}`}
+                    onClick={() => this.setState({ variant: "day" })}
+                  >
+                    Day
+                  </a>
                 </div>
               </div>
             </div>
