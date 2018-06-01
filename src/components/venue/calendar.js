@@ -52,7 +52,8 @@ class Calendar extends Component {
       eventName: "",
       eventDescription: "",
       date: null,
-      startTime: null
+      startTime: null,
+      variant: "week"
     }
     this.props.onSetSubscribePopUp(true)
   }
@@ -193,15 +194,18 @@ class Calendar extends Component {
       <div className="calendar-main card">
         <div className="calendar-main-header">
           <p>CALENDAR {this.state.selectedDate.format("YYYY")}</p>
-          <div className="add-event pull-right">
-            <a
-              onClick={() => this.onTriggerCreateEventModal()}
-              className="add-event-btn a-btn-circle"
-            >
-              +
-            </a>
-            <div className="e-tooltip">Create Event</div>
-          </div>
+          {this.state.profile &&
+            (this.state.profile.isVenue || this.state.profile.isEmployer) && (
+              <div className="add-event pull-right">
+                <a
+                  onClick={() => this.onTriggerCreateEventModal()}
+                  className="add-event-btn a-btn-circle"
+                >
+                  +
+                </a>
+                <div className="e-tooltip">Create Event</div>
+              </div>
+            )}
           <input
             type="text"
             className="a-plain-text"
@@ -226,9 +230,27 @@ class Calendar extends Component {
               <div className="calendar-main-settings">
                 <p>{this.state.selectedDate.format("dddd")}</p>
                 <div className="btn-group text-center">
-                  <a className="a-btn">Month</a>
-                  <a className="a-btn selected">Week</a>
-                  <a className="a-btn">Day</a>
+                  <a
+                    className={`a-btn ${this.state.variant === "month" &&
+                      "selected"}`}
+                    onClick={() => this.setState({ variant: "month" })}
+                  >
+                    Month
+                  </a>
+                  <a
+                    className={`a-btn ${this.state.variant === "week" &&
+                      "selected"}`}
+                    onClick={() => this.setState({ variant: "week" })}
+                  >
+                    Week
+                  </a>
+                  <a
+                    className={`a-btn ${this.state.variant === "day" &&
+                      "selected"}`}
+                    onClick={() => this.setState({ variant: "day" })}
+                  >
+                    Day
+                  </a>
                 </div>
               </div>
             </div>
@@ -334,7 +356,11 @@ class Calendar extends Component {
                                   : "none"
                             }}
                           >
-                            <p>Delete Event</p>
+                            {this.state.profile &&
+                              (this.state.profile.isVenue ||
+                                this.state.profile.isEmployer) && (
+                                <p>Delete Event</p>
+                              )}
                             <p
                               onClick={() =>
                                 this.setState({
