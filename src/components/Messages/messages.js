@@ -256,7 +256,9 @@ class Messages extends Component {
     API.post(
       this.state.profile.isStaff
         ? "new-venue-message"
-        : thread ? "new-staff-message" : "new-initial-message",
+        : thread
+          ? "new-staff-message"
+          : "new-initial-message",
       body
     ).then(res => {
       if (res.status) {
@@ -394,7 +396,11 @@ class Messages extends Component {
           return (
             <div
               key={index}
-              className="m-thread"
+              className={
+                this.state.thread._id === thread._id
+                  ? "m-thread active"
+                  : "m-thread"
+              }
               onClick={this.handleThreadClick.bind(this, thread)}
             >
               <div className="row">
