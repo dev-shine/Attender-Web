@@ -393,6 +393,10 @@ class Messages extends Component {
     return (
       <div>
         {this.state.threads.map((thread, index) => {
+          const uavatar =
+            thread.uavatar !== "undefined"
+              ? thread.uavatar
+              : "http://via.placeholder.com/150x150"
           return (
             <div
               key={index}
@@ -405,7 +409,7 @@ class Messages extends Component {
             >
               <div className="row">
                 <div className="col-sm-3">
-                  <img alt="" className="profile-thumb" src={thread.uavatar} />
+                  <img alt="" className="profile-thumb" src={uavatar} />
                 </div>
                 <div className="col-sm-9">
                   <span>{thread.uname}</span>
@@ -535,10 +539,26 @@ class Messages extends Component {
                   )
           )
           .map((staff, index) => {
+            const avatar =
+              staff.staff.avatar !== "undefined"
+                ? staff.staff.avatar
+                : "http://via.placeholder.com/150x150"
+            let classVal = "m-thread"
+            console.log(this.state.selectedStaff._id, staff.staff._id)
+            if (this.state.thread !== null) {
+              if (this.state.thread.staffId._id === staff.staff._id) {
+                classVal += " active"
+              }
+            } else {
+              console.log("hey")
+              if (this.state.selectedStaff._id == staff.staff._id) {
+                classVal += " active"
+              }
+            }
             return (
               <div
                 key={index}
-                className="m-thread"
+                className={classVal}
                 onClick={this.handleThreadClick.bind(
                   this,
                   this.state.threads.find(t => t.uselect === staff.staff._id),
@@ -547,11 +567,7 @@ class Messages extends Component {
               >
                 <div className="row">
                   <div className="col-sm-3">
-                    <img
-                      alt=""
-                      className="profile-thumb"
-                      src={staff.staff.avatar}
-                    />
+                    <img alt="" className="profile-thumb" src={avatar} />
                   </div>
                   <div className="col-sm-9">
                     <span>{staff.staff.fullname}</span>
