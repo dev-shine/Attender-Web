@@ -16,7 +16,8 @@ class VenueProfile extends React.Component {
     super(props)
   }
   state = {
-    venue: {}
+    venue: {},
+    profile: {}
   }
   fetch = async () => {
     const { match: { params } } = this.props
@@ -27,6 +28,10 @@ class VenueProfile extends React.Component {
   componentWillMount() {
     API.initRequest()
     this.fetch()
+  }
+  componentDidMount = async () => {
+    let profile = await API.getProfile()
+    this.setState({ profile })
   }
   render() {
     return (
@@ -211,10 +216,14 @@ class VenueProfile extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6">
-                <h3>Your Staff</h3>
-                <p>Under constrution</p>
-              </div>
+              {this.state.profile &&
+                (this.state.profile.isVenue ||
+                  this.state.profile.isEmployer) && (
+                  <div className="col-md-6">
+                    <h3>Your Staff</h3>
+                    <p>Under constrution</p>
+                  </div>
+                )}
             </div>
           </div>
         </div>
