@@ -7,6 +7,7 @@ export default class QuickLinks extends React.Component {
     super(props)
     this.Stay = this.Stay.bind(this)
     this.Out = this.Out.bind(this)
+    this.profile = this.props.profile
   }
   Stay() {
     this.props.onMouseOver()
@@ -22,7 +23,10 @@ export default class QuickLinks extends React.Component {
         onMouseOut={this.Out}
       >
         <Link to="/">Weekly Schedule</Link>
-        <Link to="/subscription-settings">Subscription</Link>
+        {this.profile &&
+          (this.profile.isVenue || this.profile.isEmployer) && (
+            <Link to="/subscription-settings">Subscription</Link>
+          )}
         <Link to="/">Settings</Link>
       </div>
     )

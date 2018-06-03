@@ -216,6 +216,7 @@ class NavBar extends Component {
                 <QuickLinks
                   onMouseOver={this.openQuickLinks}
                   onMouseOut={this.closeQuickLinks}
+                  profile={this.state.profile && this.state.profile}
                 />
               ) : null}
               {this.renderNotification()}
