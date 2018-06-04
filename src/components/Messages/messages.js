@@ -418,6 +418,31 @@ class Messages extends Component {
                       name="trash"
                       onClick={this.handleDeleteConversation.bind(this, thread)}
                     />
+                    {this.state.thread._id === thread._id ? (
+                      <div className="drop-menu gear">
+                        <img
+                          alt=""
+                          src={require("./../../assets/icons/messages/gear.png")}
+                          onMouseClick={() => this.openDropdown("e-1")}
+                        />
+                        <div
+                          className="e-dropdown"
+                          style={{
+                            display:
+                              this.state.eventDropdown === "e-1"
+                                ? "block"
+                                : "none"
+                          }}
+                        >
+                          <div className="e-dropdown-content">
+                            <p onClick={this.handleViewProfileClick}>
+                              View Profile
+                            </p>
+                            <p onClick={this.handleOpenModal}>Hiring Options</p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
                   </span>
                   <div className="m-thread-msg">
                     {!thread.seen ? (
