@@ -720,7 +720,7 @@ class MyStaff extends Component {
           <em>July 24 - 30 2017</em>
         </header>
         <div id="btn-edit-working-hours" onClick={this.editWorkingHours}>
-          Edit Working Hours <i class="fa fa-edit" />
+          Edit Working Hours <i className="fa fa-edit" />
         </div>
         <div>
           {this.state.next && (
