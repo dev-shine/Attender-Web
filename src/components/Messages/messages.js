@@ -78,8 +78,8 @@ class Messages extends Component {
         this.setState(
           {
             threads: res.threads,
-            renderContactsLoading: false,
-            thread: res.threads[0]
+            renderContactsLoading: false
+            // thread: res.threads[0]
           },
           () => {
             if (res.threads.length > 1) {
@@ -125,7 +125,7 @@ class Messages extends Component {
 
     if (!thread) {
       this.setState({ thread: null })
-      this.setState({ selectedStaff: staff })
+      // this.setState({ selectedStaff: staff })
     }
   }
 
@@ -423,7 +423,7 @@ class Messages extends Component {
                         <img
                           alt=""
                           src={require("./../../assets/icons/messages/gear.png")}
-                          onMouseClick={() => this.openDropdown("e-1")}
+                          onClick={() => this.openDropdown("e-1")}
                         />
                         <div
                           className="e-dropdown"
@@ -738,29 +738,31 @@ class Messages extends Component {
                         src={require("./../../assets/icons/messages/edit.png")}
                       />
                     </a>
-                    <div className="drop-menu">
-                      <img
-                        alt=""
-                        src={require("./../../assets/icons/messages/gear.png")}
-                        onClick={() => this.openDropdown("e-1")}
-                      />
-                      <div
-                        className="e-dropdown"
-                        style={{
-                          display:
-                            this.state.eventDropdown === "e-1"
-                              ? "block"
-                              : "none"
-                        }}
-                      >
-                        <div className="e-dropdown-content">
-                          <p onClick={this.handleViewProfileClick}>
-                            View Profile
-                          </p>
-                          <p onClick={this.handleOpenModal}>Hiring Options</p>
+                    {Object.keys(this.state.thread).length !== 0 ? (
+                      <div className="drop-menu">
+                        <img
+                          alt=""
+                          src={require("./../../assets/icons/messages/gear.png")}
+                          onClick={() => this.openDropdown("e-1")}
+                        />
+                        <div
+                          className="e-dropdown"
+                          style={{
+                            display:
+                              this.state.eventDropdown === "e-1"
+                                ? "block"
+                                : "none"
+                          }}
+                        >
+                          <div className="e-dropdown-content">
+                            <p onClick={this.handleViewProfileClick}>
+                              View Profile
+                            </p>
+                            <p onClick={this.handleOpenModal}>Hiring Options</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
