@@ -32,6 +32,7 @@ import TermsAndConditionAttendants from "./components/TermsAndCondition/TermsAnd
 import TermsAndConditionBusiness from "./components/TermsAndCondition/TermsAndConditionBusiness"
 import VenueProfile from "./components/VenueProfile/VenueProfile"
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy"
+import StaffProfile from "./components/StaffProfile/StaffProfile"
 
 import "./style.min.css"
 
@@ -110,6 +111,11 @@ class App extends Component {
             exact
             path="/venue/profile/:venue_id"
             component={VenueProfile}
+          />
+          <Route
+            exact
+            path="/staff/profile/:staff_id"
+            component={StaffProfile}
           />
         </main>
       </div>
