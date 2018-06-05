@@ -7,6 +7,9 @@ import "./settings.css"
 import API from "./../../services/api"
 import NavBar from "./../layouts/NavBar"
 import MaskedInput from "react-text-mask"
+import VenueEdit from "./../settings-old/profile/venueEdit"
+import OrganiserEdit from "./../settings-old/profile/organiserEdit"
+import StaffEdit from "./../settings-old/profile/staffEdit"
 
 const cardIconStyle = {
   width: 50,
@@ -145,14 +148,19 @@ class Settings extends Component {
     API.initRequest()
 
     let avatar_DOM = <img src={this.props.myProfile.avatar} />
-    if (this.props.myProfile.isEmployer) {
+    if (this.props.myProfile && this.props.myProfile.isEmployer) {
       avatar_DOM = <img src={this.props.myProfile.employer.image} />
     }
 
     this.setState(
       {
         avatar_DOM,
-        info: this.props.myProfile.employer.info
+        info:
+          this.props.myProfile &&
+          this.props.myProfile.employer &&
+          this.props.myProfile.employer.info
+            ? this.props.myProfile.employer.info
+            : null
       },
       () => {
         this.getAllBanks()
@@ -160,6 +168,12 @@ class Settings extends Component {
       }
     )
   }
+
+  componentDidMount = async () => {
+    let profile = await API.getProfile()
+    this.setState({ profile })
+  }
+
   componentDidUpdate = async () => {
     if (this.state.persist_modal !== "") {
       this.openModal(this.state.persist_modal)
@@ -272,70 +286,30 @@ class Settings extends Component {
   }
 
   // end Handle modal actions
+
+  renderEditProfile = () => {
+    if (this.state.profile && this.state.profile.isVenue) {
+      return <VenueEdit profile={this.state.profile.employer} />
+    }
+
+    if (this.state.profile && this.state.profile.isOrganizer) {
+      return <OrganiserEdit profile={this.state.profile.employer} />
+    }
+
+    if (this.state.profile && this.state.profile.isStaff) {
+      return <StaffEdit profile={this.state.profile.staffId} />
+    }
+  }
+
   openModal(type) {
     let content = "",
       customModalStyle = {}
     switch (type) {
       case "EDIT_PROFILE":
-        console.log("edit profile again", this.state.avatar_DOM)
         content = (
           <div className="edit-profile have-header form-content">
             <h5>Edit Profile</h5>
-            <div className="avatar" onClick={this.triggerInputFile}>
-              <input
-                type="file"
-                ref={fileInput => (this.fileInput = fileInput)}
-                onChange={this.handleFileUpload}
-              />
-              {this.state.avatar_DOM}
-              <span className="overlay" />
-            </div>
-            <div className="change-avatar">
-              Click on the icon to change Profile Picture <br />
-              <span className="remove-photo redText">Remove Photo</span>
-            </div>
-
-            <div className="form-group text-left">
-              <label>Full Name</label>
-              <input type="text" placeholder="Andrew Orsen" />
-            </div>
-            <div className="form-group text-left">
-              <label>Bio</label>
-              <textarea
-                rows="4"
-                name="info"
-                defaultValue={this.state.info}
-                onChange={this.onChangeInput}
-              />
-              <span className="char-counter pull-right">24/200</span>
-            </div>
-            <div className="form-group text-left">
-              <div className="row">
-                <div className="col-md-6">
-                  <p>
-                    <label>Birthdate</label>
-                    <select>
-                      <option>22 / June/1992</option>
-                    </select>
-                  </p>
-                </div>
-                <div className="col-md-6 section-gender">
-                  <label>Gender</label>
-                  <span className="inputRadio active">
-                    <i className="fa fa-mars" /> Male
-                  </span>
-                  <span className="inputRadio">
-                    <i className="fa fa-venus" /> Female
-                  </span>
-                </div>
-              </div>
-            </div>
-            <Button
-              className="btn-primary"
-              onClick={this.saveModal.bind(this, "EDIT_PROFILE")}
-            >
-              Save
-            </Button>
+            {this.renderEditProfile()}
           </div>
         )
         break
