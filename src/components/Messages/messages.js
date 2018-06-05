@@ -424,24 +424,20 @@ class Messages extends Component {
                         <img
                           alt=""
                           src={require("./../../assets/icons/messages/gear.png")}
-                          onClick={() => this.openDropdown("e-1")}
+                          onClick={this.showGearOption.bind(this, thread._id)}
                         />
-                        <div
-                          className="e-dropdown"
-                          style={{
-                            display:
-                              this.state.eventDropdown === "e-1"
-                                ? "block"
-                                : "none"
-                          }}
-                        >
-                          <div className="e-dropdown-content">
-                            <p onClick={this.handleViewProfileClick}>
-                              View Profile
-                            </p>
-                            <p onClick={this.handleOpenModal}>Hiring Options</p>
+                        {this.state.eventDropdown === thread._id ? (
+                          <div className="e-dropdown">
+                            <div className="e-dropdown-content">
+                              <p onClick={this.handleViewProfileClick}>
+                                View Profile
+                              </p>
+                              <p onClick={this.handleOpenModal}>
+                                Hiring Options
+                              </p>
+                            </div>
                           </div>
-                        </div>
+                        ) : null}
                       </div>
                     ) : null}
                   </span>
@@ -697,6 +693,9 @@ class Messages extends Component {
     )
   }
 
+  showGearOption(index) {
+    this.setState({ eventDropdown: index })
+  }
   openDropdown = index => {
     if (this.state.eventDropdown === index) {
       this.setState({ eventDropdown: "init" })
