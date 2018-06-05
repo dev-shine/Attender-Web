@@ -25,7 +25,7 @@ class StaffProfile extends React.Component {
     } = this.props
     let staff_id = params.staff_id
     const data = await API.get("staff/" + staff_id + "/show")
-    console.log(data)
+
     this.setState({ staff: data.staff })
   }
   componentWillMount() {
@@ -37,6 +37,8 @@ class StaffProfile extends React.Component {
     this.setState({ profile })
   }
   render() {
+    var staff = this.state.staff
+
     return (
       <div>
         <NavBar />
@@ -44,7 +46,21 @@ class StaffProfile extends React.Component {
           <div className="container StaffProfile">
             <div className="app-body-header">
               <h1>Staff Profile</h1>
-              <p>&nbsp;</p>
+              <p>
+                Note : Temporary page for staff profile since there is no design
+                for this yet. <br />Below are the datas fetched from the
+                specified staff.
+              </p>
+              <hr />
+
+              <div className="text-left">
+                <pre>
+                  {Object.keys(this.state.staff).map(function(key) {
+                    console.log(key, staff[key])
+                    return <p>{`${key}:${staff[key]}`}</p>
+                  })}
+                </pre>
+              </div>
             </div>
           </div>
         </div>
