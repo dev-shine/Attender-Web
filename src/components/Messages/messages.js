@@ -8,6 +8,8 @@ import TextTruncate from "react-text-truncate"
 import API from "./../../services/api"
 import constant from "./../../configs/constant"
 import { push } from "react-router-redux"
+import { Link } from "react-router-dom"
+
 // import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
 // import { setSubscribePopUp } from "./../../actions/myProfile-actions"
 import { loadState, saveState } from "./../../localStorage"
@@ -429,9 +431,9 @@ class Messages extends Component {
                         {this.state.eventDropdown === thread._id ? (
                           <div className="e-dropdown">
                             <div className="e-dropdown-content">
-                              <p onClick={this.handleViewProfileClick}>
+                              <Link to={`/staff/profile/${thread.staff._id}`}>
                                 View Profile
-                              </p>
+                              </Link>
                               <p onClick={this.handleOpenModal}>
                                 Hiring Options
                               </p>
