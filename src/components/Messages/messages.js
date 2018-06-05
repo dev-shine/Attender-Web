@@ -418,7 +418,8 @@ class Messages extends Component {
                       name="trash"
                       onClick={this.handleDeleteConversation.bind(this, thread)}
                     />
-                    {this.state.thread._id === thread._id ? (
+                    {this.state.thread._id === thread._id &&
+                    this.props.myProfile.isStaff === false ? (
                       <div className="drop-menu gear">
                         <img
                           alt=""
@@ -740,11 +741,13 @@ class Messages extends Component {
                     </a>
                     {Object.keys(this.state.thread).length !== 0 ? (
                       <div className="drop-menu">
-                        <img
-                          alt=""
-                          src={require("./../../assets/icons/messages/gear.png")}
-                          onClick={() => this.openDropdown("e-1")}
-                        />
+                        {this.props.myProfile.isStaff === false ? (
+                          <img
+                            alt=""
+                            src={require("./../../assets/icons/messages/gear.png")}
+                            onClick={() => this.openDropdown("e-1")}
+                          />
+                        ) : null}
                         <div
                           className="e-dropdown"
                           style={{
