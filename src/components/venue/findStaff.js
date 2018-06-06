@@ -216,13 +216,16 @@ class FindStaff extends Component {
     })
     this.setState({ results: results, searchTriggered: true })
   }
-  toggleShowStaffDetails = (isShow, i) => {
+  toggleShowStaffDetails = async (isShow, i) => {
     let results = [...this.state.results]
     if (isShow) {
       results[i].openMeta = true
     } else {
       results[i].openMeta = false
     }
+    // console.log(results[i]._id)
+    let reviews = await API.get("staff/" + results[i]._id + "/reviews")
+    results[i].reviews = reviews
     this.setState({ results: results })
   }
   invokeStarRatings = k => {
@@ -240,6 +243,36 @@ class FindStaff extends Component {
       return <div className="fs-staff-ratings">{stars}</div>
     }
   }
+  invokeReviews = k => {
+    let reviews = []
+    if (k.reviews !== undefined) {
+      Object.keys(k.reviews.ratings).map(function(key) {
+        if (k.reviews.ratings[key].review !== "") {
+          reviews.push(
+            <li>
+              {`Got ${k.reviews.ratings[key].overAll} ratings from an Employer`}{" "}
+              - <blockquote>{k.reviews.ratings[key].review}</blockquote>
+            </li>
+          )
+        } else {
+          reviews.push(
+            <li>{`Got ${
+              k.reviews.ratings[key].overAll
+            } ratings from an Employer`}</li>
+          )
+        }
+      })
+    }
+    if (!Object.keys(reviews).length) {
+      reviews.push(<li>No reviews yet.</li>)
+    }
+    return (
+      <div className="fs-staff-reviews">
+        <span>Reviews : </span>
+        <ul>{reviews}</ul>
+      </div>
+    )
+  }
   invokeStaffs = (k, i) => {
     return (
       <div key={i} className="fs-staff-box">
@@ -253,7 +286,6 @@ class FindStaff extends Component {
                 <strong>{k[1].fullname}</strong>
                 {this.invokeStarRatings(k[1])}
               </div>
-
               <small>
                 {this.Capitalize(k[1].position.join(", "))} |{" "}
                 {this.Capitalize(k[1].rateType)}
@@ -306,6 +338,7 @@ class FindStaff extends Component {
         <div className={"fs-staff-meta" + (k[1].openMeta ? " open" : "")}>
           <p>Age : 25</p>
           <p className="bio">{k[1].bio}</p>
+          {this.invokeReviews(k[1])}
           <button key="Languages" className="a-btn btn-round btn-passive">
             Languages
           </button>
