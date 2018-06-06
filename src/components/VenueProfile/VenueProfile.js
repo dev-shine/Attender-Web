@@ -8,6 +8,7 @@ import { push } from "react-router-redux"
 
 import NavBar from "./../layouts/NavBar"
 import API from "./../../services/api"
+import SocialShare from "./../SocialShare/SocialShare"
 
 import "./VenueProfile.css"
 
@@ -20,7 +21,9 @@ class VenueProfile extends React.Component {
     profile: {}
   }
   fetch = async () => {
-    const { match: { params } } = this.props
+    const {
+      match: { params }
+    } = this.props
     let venue_id = params.venue_id
     const data = await API.get("venues/" + venue_id)
     this.setState({ venue: data.venue })
@@ -206,14 +209,15 @@ class VenueProfile extends React.Component {
                     <iframe
                       width="359"
                       height="250"
-                      frameborder="0"
+                      frameBorder="0"
                       src={
                         "https://www.google.com/maps/@" +
                         this.state.venue.location
                       }
-                      allowfullscreen
+                      allowFullScreen
                     />
                   </div>
+                  <SocialShare venueData={this.state.venue} />
                 </div>
               </div>
               {this.state.profile &&

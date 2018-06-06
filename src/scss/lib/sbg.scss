@@ -1,0 +1,63 @@
+$color_1: white;
+$background_color_1: black;
+$background_color_2: #3b5998;
+$background_color_3: #00aced;
+$background_color_4: #007bb6;
+$background_color_5: #dd4b39;
+$background_color_6: #cb2027;
+$background_color_7: #999999;
+.SocialShare {
+	text-align:center;
+}
+.sbg-button {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	text-align: center;
+	line-height: 0;
+	border-radius: .5em;
+	background-color: $background_color_1;
+	color: $color_1;
+	cursor: pointer;
+	font-size: 50px;
+	margin:4px;
+	&:hover {
+		color: $color_1;
+	}
+}
+.sbg-button-icon {
+	font-size: .5em;
+	padding: .5em;
+}
+.sbg-button-facebook {
+	background-color: $background_color_2;
+	.sbg-button-icon {
+		padding-left: .44em;
+	}
+}
+.sbg-button-twitter {
+	background-color: $background_color_3;
+	.sbg-button-icon {
+		padding-left: .48em;
+	}
+}
+.sbg-button-linkedin {
+	background-color: $background_color_4;
+}
+.sbg-button-google-plus {
+	background-color: $background_color_5;
+}
+.sbg-button-pinterest {
+	background-color: $background_color_6;
+	.sbg-button-icon {
+		padding-left: .45em;
+		padding-top: .48em;
+	}
+}
+.sbg-button-email {
+	background-color: $background_color_7;
+	.sbg-button-icon {
+		padding-left: .434em;
+		padding-top: .44em;
+	}
+}
