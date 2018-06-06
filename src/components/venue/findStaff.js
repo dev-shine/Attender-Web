@@ -225,8 +225,22 @@ class FindStaff extends Component {
     }
     this.setState({ results: results })
   }
+  invokeStarRatings = k => {
+    if (k.rating === undefined) {
+      return <div className="fs-staff-ratings">No ratings available.</div>
+    } else {
+      let stars = []
+      for (var x = 0; x <= 5; x++) {
+        if (x <= k.rating.star) {
+          stars.push(<i className="fa fa-star" />)
+        } else {
+          stars.push(<i className="fa fa-star-o" />)
+        }
+      }
+      return <div className="fs-staff-ratings">{stars}</div>
+    }
+  }
   invokeStaffs = (k, i) => {
-    console.log(k)
     return (
       <div key={i} className="fs-staff-box">
         <div className="fs-staff-block clearfix">
@@ -235,7 +249,11 @@ class FindStaff extends Component {
           </div>
           <div className="fs-staff-data">
             <div className="fs-staff-info">
-              <p>{k[1].fullname}</p>
+              <div>
+                <strong>{k[1].fullname}</strong>
+                {this.invokeStarRatings(k[1])}
+              </div>
+
               <small>
                 {this.Capitalize(k[1].position.join(", "))} |{" "}
                 {this.Capitalize(k[1].rateType)}

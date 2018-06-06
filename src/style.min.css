@@ -320,4 +320,14 @@
   width: 100%;
 }
 
+.fs-staff-ratings {
+  display: inline-block;
+  margin-left: 20px;
+  color: #999;
+}
+.fs-staff-ratings .fa {
+  margin: 0 2px;
+  color: red;
+}
+
 /*# sourceMappingURL=../inline */
