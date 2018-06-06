@@ -54,7 +54,8 @@ class FindStaff extends Component {
         { lbl: "Availability", selected: false },
         { lbl: "Last Active", selected: false }
       ],
-      results: []
+      results: [],
+      searchTriggered: false
     }
   }
   componentWillMount = async () => {
@@ -213,7 +214,7 @@ class FindStaff extends Component {
         results = results.concat(val.data)
       }
     })
-    this.setState({ results: results })
+    this.setState({ results: results, searchTriggered: true })
   }
   toggleShowStaffDetails = (isShow, i) => {
     let results = [...this.state.results]
@@ -538,6 +539,16 @@ class FindStaff extends Component {
                           (key, index) => {
                             return this.invokeStaffs(key, index)
                           }
+                        )
+                      }
+                    } else {
+                      if (this.state.searchTriggered) {
+                        return (
+                          <p>There is no current staff in this position.</p>
+                        )
+                      } else {
+                        return (
+                          <p>Please select a staff of interest to search.</p>
                         )
                       }
                     }
