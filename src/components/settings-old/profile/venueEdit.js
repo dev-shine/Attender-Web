@@ -645,14 +645,233 @@ class VenueEdit extends Component {
   }
 
   renderContent = () => {
-    switch (this.state.step) {
-      case 1:
-        return this.renderFirstStep()
-      case 2:
-        return this.renderSecondStep()
-      default:
-        return this.renderFirstStep()
+    const inputProps = {
+      value: this.state.locationName,
+      onChange: this.handleLocationChange,
+      name: "locationName",
+      type: "text",
+      placeholder: "Location"
     }
+    return (
+      <div className="row">
+        <div className="col-sm-5 vs-info">
+          <p className="vs-title">VENUE INFORMATION</p>
+          <div className="form-group xxm">
+            <input
+              type="text"
+              className="a-input"
+              name="name"
+              placeholder="Venue name"
+              onChange={this.onChangeInput}
+              value={this.state.name}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="a-input"
+              name="managerName"
+              placeholder="Manager name"
+              onChange={this.onChangeInput}
+              value={this.state.managerName}
+            />
+          </div>
+          <p className="vs-title">TYPE OF VENUE</p>
+          <div className="vs-service-container xxm">
+            {Object.keys(this.state.types).map((key, index) => {
+              if (this.state.types[key]) {
+                return (
+                  <div
+                    className="vs-service-item-active"
+                    key={index}
+                    onClick={() => this.onSelectOption(key, "types")}
+                  >
+                    <a className="vs-service-action">
+                      <img
+                        alt=""
+                        src={require(`../../../assets/icons/venue/type/white/${key}.png`)}
+                      />
+                    </a>
+                    <p className="xxm">{key.capitalize()}</p>
+                  </div>
+                )
+              } else {
+                return (
+                  <div
+                    className="vs-service-item"
+                    key={index}
+                    onClick={() => this.onSelectOption(key, "types")}
+                  >
+                    <a className="vs-service-action">
+                      <img
+                        alt=""
+                        src={require(`../../../assets/icons/venue/type/default/${key}.png`)}
+                      />
+                    </a>
+                    <p className="xxm">{key.capitalize()}</p>
+                  </div>
+                )
+              }
+            })}
+          </div>
+          <p className="vs-title xxm">LOCATION</p>
+          <div className="form-group">
+            <div className="vs-location">
+              <i className="fa fa-map-marker" />
+              <PlacesAutocomplete
+                classNames={{ input: "a-input" }}
+                inputProps={inputProps}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-7 vs-about">
+          <p className="vs-title">OPENING HOURS</p>
+          <div className="oh-container xxm scroll h-scroll">
+            {Object.keys(this.state.openingHours).map((key, index) => {
+              let oh = this.state.openingHours[key]
+              if (oh.off) {
+                return (
+                  <div key={index} className="oh-item inactive">
+                    <div
+                      className="oh-day"
+                      onClick={() => this.onClickDay(key)}
+                    >
+                      {key.capitalize()}
+                    </div>
+                    <input
+                      className="a-input oh"
+                      type="text"
+                      readOnly
+                      value={oh.start}
+                    />
+                    <input
+                      className="a-input oh"
+                      type="text"
+                      readOnly
+                      value={oh.end}
+                    />
+                  </div>
+                )
+              } else {
+                return (
+                  <div key={index} className="oh-item">
+                    <div
+                      className="oh-day"
+                      onClick={() => this.onClickDay(key)}
+                    >
+                      {key.capitalize()}
+                    </div>
+                    <input
+                      className="a-input oh"
+                      onChange={e => this.onChangeTime(e, key)}
+                      name="start"
+                      type="text"
+                      value={oh.start}
+                    />
+                    <input
+                      className="a-input oh"
+                      onChange={e => this.onChangeTime(e, key)}
+                      name="end"
+                      type="text"
+                      value={oh.end}
+                    />
+                  </div>
+                )
+              }
+            })}
+          </div>
+          <div className="row xxm">
+            <div className="col-sm-6">
+              <p className="vs-title">NUMBER OF EMPLOYEES</p>
+              <div className="noe-container">
+                <a
+                  onClick={() => this.onChangeEmployees("sub")}
+                  className="noe-action"
+                >
+                  <strong>–</strong>
+                </a>
+                <div className="noe-num">{this.state.numberEmployees}</div>
+                <a
+                  onClick={() => this.onChangeEmployees("add")}
+                  className="noe-action"
+                >
+                  <strong>+</strong>
+                </a>
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <p className="vs-title">SERVICES</p>
+              <div className="vs-service-container xxm scroll h-scroll">
+                {Object.keys(this.state.services).map((key, index) => {
+                  if (this.state.services[key]) {
+                    return (
+                      <div
+                        className="vs-service-item-active"
+                        key={index}
+                        onClick={() => this.onSelectOption(key, "services")}
+                      >
+                        <a className="vs-service-action">
+                          <img
+                            alt=""
+                            src={require(`../../../assets/icons/venue/services/white/${key}.png`)}
+                          />
+                        </a>
+                        <p className="xxm">{key.capitalize()}</p>
+                      </div>
+                    )
+                  } else {
+                    return (
+                      <div
+                        className="vs-service-item"
+                        key={index}
+                        onClick={() => this.onSelectOption(key, "services")}
+                      >
+                        <a className="vs-service-action">
+                          <img
+                            alt=""
+                            src={require(`../../../assets/icons/venue/services/default/${key}.png`)}
+                          />
+                        </a>
+                        <p className="xxm">{key.capitalize()}</p>
+                      </div>
+                    )
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="row xxm">
+            <p className="vs-title">INTEGRATE SOCIAL MEDIA</p>
+            <div className="col-sm-4 col-sm-offset-4">
+              {Object.keys(this.state.socialMedia).map((key, index) => {
+                if (this.state.socialMedia[key]) {
+                  return (
+                    <a
+                      key={index}
+                      className="vss-action active"
+                      onClick={() => this.onSelectSocial(key)}
+                    >
+                      <i className={`fa fa-${key}`} aria-hidden="true" />
+                    </a>
+                  )
+                } else {
+                  return (
+                    <a
+                      key={index}
+                      className="vss-action"
+                      onClick={() => this.onSelectSocial(key)}
+                    >
+                      <i className={`fa fa-${key}`} aria-hidden="true" />
+                    </a>
+                  )
+                }
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   render() {
