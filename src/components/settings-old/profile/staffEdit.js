@@ -464,132 +464,6 @@ class StaffEdit extends Component {
   }
 
   renderFirstStep = () => {
-    return (
-      <div className="container xem">
-        <div className="content-header">
-          <h1>Profile Information</h1>
-        </div>
-        <div className="content">
-          <Row>
-            <Col sm={6} className="form-container">
-              <div className="pp-container">
-                <div className="pp-header">
-                  Click on the box to upload Profile Picture
-                </div>
-                <div className="pp-holder" onClick={this.onOpenUploader}>
-                  <AvatarEditor
-                    ref={this.setEditorRef}
-                    image={this.state.avatar}
-                    width={250}
-                    height={250}
-                    color={[255, 255, 255, 0.6]} // RGBA
-                    scale={this.state.zoom}
-                    crossOrigin="anonymous"
-                  />
-                  <input
-                    type="file"
-                    ref="uploader"
-                    onChange={this.onUploadImage}
-                    hidden
-                  />
-                </div>
-                <div className="pp-action">
-                  <a href="javascript:void(0)" onClick={this.onRemovePhoto}>
-                    <p>Remove Photo</p>
-                  </a>
-                  <div className="pp-slider">
-                    <Slider
-                      min={1.0}
-                      max={10.0}
-                      step={0.1}
-                      value={this.state.zoom}
-                      onChange={this.onImageZoomChange}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col sm={6} className="form-container">
-              <div className="form-group">
-                <p>Full Name</p>
-                <input
-                  type="text"
-                  onChange={this.onChangeInput}
-                  name="fullname"
-                  className="a-input"
-                  value={this.state.fullname}
-                />
-              </div>
-              <div className="form-group">
-                <p>Bio</p>
-                <textarea
-                  maxLength="200"
-                  rows="4"
-                  cols="50"
-                  className="a-input"
-                  onChange={this.onChangeInput}
-                  name="bio"
-                  value={this.state.bio}
-                />
-                <span className="help-text pull-right">
-                  {this.state.bio.length}/200
-                </span>
-              </div>
-              <div className="form-group">
-                <p>Birthdate</p>
-                <input
-                  type="date"
-                  name="birthdate"
-                  onChange={this.onChangeInput}
-                  className="a-input sm"
-                  value={this.state.birthdate}
-                />
-              </div>
-              <div className="form-group">
-                <p>Gender</p>
-                <button
-                  onClick={() => this.changeGender("male")}
-                  className={
-                    this.state.gender === "male" ? "a-btn btn-active" : "a-btn"
-                  }
-                >
-                  <FontAwesome name="mars" size="1x" />&nbsp;&nbsp;Male
-                </button>
-                <button
-                  onClick={() => this.changeGender("female")}
-                  className={
-                    this.state.gender === "female"
-                      ? "a-btn btn-active"
-                      : "a-btn"
-                  }
-                >
-                  <FontAwesome name="venus" />&nbsp;&nbsp;Female
-                </button>
-                <input
-                  onChange={this.onChangeInput}
-                  name="gender"
-                  type="text"
-                  className="a-input xs"
-                  placeholder="Other"
-                  value={this.state.other}
-                />
-              </div>
-            </Col>
-          </Row>
-        </div>
-        <div className="content-footer">
-          <button
-            className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onStep(2)}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  renderSecondStep = () => {
     const inputProps = {
       value: this.state.address,
       onChange: this.handleLocationSelect,
@@ -597,13 +471,109 @@ class StaffEdit extends Component {
       type: "text"
     }
     return (
-      <div className="container xem">
-        <div className="content-header">
-          <h1>Job Description</h1>
-        </div>
-        <div className="content-wide">
-          <Row>
-            <Col sm={4} className="form-container-wide">
+      <div>
+        <Row>
+          <Col sm={12} className="form-container">
+            <div className="pp-container">
+              <div className="pp-header">
+                Click on the box to upload Profile Picture
+              </div>
+              <div className="pp-holder" onClick={this.onOpenUploader}>
+                <AvatarEditor
+                  ref={this.setEditorRef}
+                  image={this.state.avatar}
+                  width={250}
+                  height={250}
+                  color={[255, 255, 255, 0.6]} // RGBA
+                  scale={this.state.zoom}
+                  crossOrigin="anonymous"
+                />
+                <input
+                  type="file"
+                  ref="uploader"
+                  onChange={this.onUploadImage}
+                  hidden
+                />
+              </div>
+              <div className="pp-action">
+                <a href="javascript:void(0)" onClick={this.onRemovePhoto}>
+                  <p>Remove Photo</p>
+                </a>
+                <div className="pp-slider">
+                  <Slider
+                    min={1.0}
+                    max={10.0}
+                    step={0.1}
+                    value={this.state.zoom}
+                    onChange={this.onImageZoomChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="form-group">
+              <p>Full Name</p>
+              <input
+                type="text"
+                onChange={this.onChangeInput}
+                name="fullname"
+                className="a-input"
+                value={this.state.fullname}
+              />
+            </div>
+            <div className="form-group">
+              <p>Bio</p>
+              <textarea
+                maxLength="200"
+                rows="4"
+                cols="50"
+                className="a-input"
+                onChange={this.onChangeInput}
+                name="bio"
+                value={this.state.bio}
+              />
+              <span className="help-text pull-right">
+                {this.state.bio.length}/200
+              </span>
+            </div>
+            <div className="form-group">
+              <p>Birthdate</p>
+              <input
+                type="date"
+                name="birthdate"
+                onChange={this.onChangeInput}
+                className="a-input sm"
+                value={this.state.birthdate}
+              />
+            </div>
+            <div className="form-group">
+              <p>Gender</p>
+              <button
+                onClick={() => this.changeGender("male")}
+                className={
+                  this.state.gender === "male" ? "a-btn btn-active" : "a-btn"
+                }
+              >
+                <FontAwesome name="mars" size="1x" />&nbsp;&nbsp;Male
+              </button>
+              <button
+                onClick={() => this.changeGender("female")}
+                className={
+                  this.state.gender === "female" ? "a-btn btn-active" : "a-btn"
+                }
+              >
+                <FontAwesome name="venus" />&nbsp;&nbsp;Female
+              </button>
+              <input
+                onChange={this.onChangeInput}
+                name="gender"
+                type="text"
+                className="a-input xs"
+                placeholder="Other"
+                value={this.state.other}
+              />
+
+              {/* Second step */}
+              <h1>Job Description</h1>
               <div className="form-group">
                 <p>Describe yourself in 3 words</p>
                 {this.state.description.map((desc, index) => {
@@ -647,148 +617,729 @@ class StaffEdit extends Component {
                     )
                   })}
                 </div>
-              </div>
-            </Col>
-            <Col sm={4} className="form-container-wide">
-              <div className="form-group">
-                <p>Job Description</p>
-                <div className="h-scroll scroll">
-                  {Object.keys(this.state.positions).map((key, index) => {
-                    if (this.state.positions[key]) {
+                <div className="form-group">
+                  <p>Job Description</p>
+                  <div className="h-scroll scroll">
+                    {Object.keys(this.state.positions).map((key, index) => {
+                      if (this.state.positions[key]) {
+                        return (
+                          <div
+                            key={index}
+                            className="vs-service-item-active"
+                            onClick={() => this.onSelectPosition(key)}
+                          >
+                            <a className="vs-service-action">
+                              <img
+                                alt=""
+                                src={require(`../../../assets/icons/staff/white/${key}.png`)}
+                              />
+                            </a>
+                            <p className="xxm">{key.capitalize()}</p>
+                          </div>
+                        )
+                      } else {
+                        return (
+                          <div
+                            key={index}
+                            className="vs-service-item"
+                            onClick={() => this.onSelectPosition(key)}
+                          >
+                            <a className="vs-service-action">
+                              <img
+                                alt=""
+                                src={require(`../../../assets/icons/staff/default/${key}.png`)}
+                              />
+                            </a>
+                            <p className="xxm">{key.capitalize()}</p>
+                          </div>
+                        )
+                      }
+                    })}
+                  </div>
+                </div>
+                <div className="form-group xm">
+                  <p>
+                    Hourly Rate &nbsp;&nbsp;<span className="dark-text">
+                      ${this.state.startRate}/hr - ${this.state.endRate}/hr
+                    </span>
+                  </p>
+                  <input
+                    type="range"
+                    min="0"
+                    max="130"
+                    defaultValue={0}
+                    className="a-slider"
+                    onChange={this.handleHourlyRateChange}
+                  />
+                </div>
+                <div className="form-group xm">
+                  <span className="lg-text">Work Type &nbsp;</span>
+                  <select
+                    className="sm pull-right"
+                    name="frequency"
+                    onChange={this.onChangeInput}
+                    value={this.state.frequency}
+                  >
+                    <option value="" disabled>
+                      Select Frequency
+                    </option>
+                    <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Casual</option>
+                  </select>
+                </div>
+                <div className="form-group xm">
+                  <span className="lg-text">Work Eligibility &nbsp;</span>
+                  <select
+                    className="sm pull-right"
+                    name="eligibility"
+                    onChange={this.onChangeInput}
+                    value={this.state.eligibility}
+                  >
+                    <option value="" disabled>
+                      Select Eligibility
+                    </option>
+                    <option>Citizenship</option>
+                    <option>Working Visa</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <p>Licence and Certification</p>
+                  <div className="v-scroll scroll xsh-fixed">
+                    {this.state.licenses.map((license, index) => {
                       return (
-                        <div
+                        <select
                           key={index}
-                          className="vs-service-item-active"
-                          onClick={() => this.onSelectPosition(key)}
+                          defaultValue=""
+                          onChange={e => this.onSelectLicence(e, index)}
                         >
-                          <a className="vs-service-action">
-                            <img
-                              alt=""
-                              src={require(`../../../assets/icons/staff/white/${key}.png`)}
-                            />
-                          </a>
-                          <p className="xxm">{key.capitalize()}</p>
-                        </div>
+                          <option disabled value="">
+                            Select
+                          </option>
+                          {this.state.lacs.map((lac, index) => {
+                            return <option key={index}>{lac}</option>
+                          })}
+                        </select>
                       )
-                    } else {
-                      return (
-                        <div
-                          key={index}
-                          className="vs-service-item"
-                          onClick={() => this.onSelectPosition(key)}
-                        >
-                          <a className="vs-service-action">
-                            <img
-                              alt=""
-                              src={require(`../../../assets/icons/staff/default/${key}.png`)}
-                            />
-                          </a>
-                          <p className="xxm">{key.capitalize()}</p>
-                        </div>
-                      )
-                    }
-                  })}
+                    })}
+                  </div>
+                  <button
+                    onClick={() => this.addLicense()}
+                    className="pull-right a-btn btn-round btn-dark xxm-xr"
+                  >
+                    Add More
+                  </button>
+                </div>
+                <div className="form-group xm">
+                  <p>Prefered Location</p>
+                  <div className="pp-location">
+                    <PlacesAutocomplete
+                      classNames={{ input: "a-input-outline" }}
+                      inputProps={inputProps}
+                    />
+                    <i className="fa fa-map-marker" />
+                  </div>
+                </div>
+                <div className="form-group xm">
+                  <p>
+                    Distance &nbsp;&nbsp;<span className="dark-text">
+                      {`${this.state.distance}km`}
+                    </span>
+                  </p>
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    defaultValue={50}
+                    className="a-slider"
+                    onChange={this.handleChangeDistance}
+                  />
                 </div>
               </div>
-              <div className="form-group xm">
-                <p>
-                  Hourly Rate &nbsp;&nbsp;<span className="dark-text">
-                    ${this.state.startRate}/hr - ${this.state.endRate}/hr
-                  </span>
-                </p>
-                <input
-                  type="range"
-                  min="0"
-                  max="130"
-                  defaultValue={0}
-                  className="a-slider"
-                  onChange={this.handleHourlyRateChange}
-                />
+              {/* Second step */}
+              {/* Third step */}
+              <div className="sched-header">
+                <p>Availability</p>
+                <span>Tap on the box to fill your schedule</span>
               </div>
-              <div className="form-group xm">
-                <span className="lg-text">Work Type &nbsp;</span>
-                <select
-                  className="sm pull-right"
-                  name="frequency"
-                  onChange={this.onChangeInput}
-                  value={this.state.frequency}
-                >
-                  <option value="" disabled>
-                    Select Frequency
-                  </option>
-                  <option>Full Time</option>
-                  <option>Part Time</option>
-                  <option>Casual</option>
-                </select>
-              </div>
-              <div className="form-group xm">
-                <span className="lg-text">Work Eligibility &nbsp;</span>
-                <select
-                  className="sm pull-right"
-                  name="eligibility"
-                  onChange={this.onChangeInput}
-                  value={this.state.eligibility}
-                >
-                  <option value="" disabled>
-                    Select Eligibility
-                  </option>
-                  <option>Citizenship</option>
-                  <option>Working Visa</option>
-                </select>
-              </div>
-            </Col>
-            <Col sm={4} className="form-container">
-              <div className="form-group">
-                <p>Licence and Certification</p>
-                <div className="v-scroll scroll xsh-fixed">
-                  {this.state.licenses.map((license, index) => {
-                    return (
-                      <select
-                        key={index}
-                        defaultValue=""
-                        onChange={e => this.onSelectLicence(e, index)}
+              <Row className="sched-container">
+                <Table responsive>
+                  <thead>
+                    <tr>
+                      <td />
+                      <td>Morning</td>
+                      <td>Afternoon</td>
+                      <td>Evening</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Monday</td>
+                      <td
+                        onClick={() => this.onClickSched("monday", "morning")}
+                        className={
+                          this.state.availability.monday.morning ? "s-box" : ""
+                        }
                       >
-                        <option disabled value="">
-                          Select
-                        </option>
-                        {this.state.lacs.map((lac, index) => {
-                          return <option key={index}>{lac}</option>
-                        })}
-                      </select>
+                        {!this.state.availability.monday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("monday", "afternoon")}
+                        className={
+                          this.state.availability.monday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.monday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("monday", "evening")}
+                        className={
+                          this.state.availability.monday.evening ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.monday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tuesday</td>
+                      <td
+                        onClick={() => this.onClickSched("tuesday", "morning")}
+                        className={
+                          this.state.availability.tuesday.morning ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.tuesday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() =>
+                          this.onClickSched("tuesday", "afternoon")
+                        }
+                        className={
+                          this.state.availability.tuesday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.tuesday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("tuesday", "evening")}
+                        className={
+                          this.state.availability.tuesday.evening ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.tuesday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Wednesday</td>
+                      <td
+                        onClick={() =>
+                          this.onClickSched("wednesday", "morning")
+                        }
+                        className={
+                          this.state.availability.wednesday.morning
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.wednesday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() =>
+                          this.onClickSched("wednesday", "afternoon")
+                        }
+                        className={
+                          this.state.availability.wednesday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.wednesday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() =>
+                          this.onClickSched("wednesday", "evening")
+                        }
+                        className={
+                          this.state.availability.wednesday.evening
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.wednesday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Thursday</td>
+                      <td
+                        onClick={() => this.onClickSched("thursday", "morning")}
+                        className={
+                          this.state.availability.thursday.morning
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.thursday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() =>
+                          this.onClickSched("thursday", "afternoon")
+                        }
+                        className={
+                          this.state.availability.thursday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.thursday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("thursday", "evening")}
+                        className={
+                          this.state.availability.thursday.evening
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.thursday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Friday</td>
+                      <td
+                        onClick={() => this.onClickSched("friday", "morning")}
+                        className={
+                          this.state.availability.friday.morning ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.friday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("friday", "afternoon")}
+                        className={
+                          this.state.availability.friday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.friday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("friday", "evening")}
+                        className={
+                          this.state.availability.friday.evening ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.friday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Saturday</td>
+                      <td
+                        onClick={() => this.onClickSched("saturday", "morning")}
+                        className={
+                          this.state.availability.saturday.morning
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.saturday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() =>
+                          this.onClickSched("saturday", "afternoon")
+                        }
+                        className={
+                          this.state.availability.saturday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.saturday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("saturday", "evening")}
+                        className={
+                          this.state.availability.saturday.evening
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.saturday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Sunday</td>
+                      <td
+                        onClick={() => this.onClickSched("sunday", "morning")}
+                        className={
+                          this.state.availability.sunday.morning ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.sunday.morning ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("sunday", "afternoon")}
+                        className={
+                          this.state.availability.sunday.afternoon
+                            ? "s-box"
+                            : ""
+                        }
+                      >
+                        {!this.state.availability.sunday.afternoon ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                      <td
+                        onClick={() => this.onClickSched("sunday", "evening")}
+                        className={
+                          this.state.availability.sunday.evening ? "s-box" : ""
+                        }
+                      >
+                        {!this.state.availability.sunday.evening ? (
+                          <a className="s-btn">+</a>
+                        ) : null}
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Row>
+              <div className="sched-header">
+                <p>Work Experience</p>
+                <span>Optional</span>
+              </div>
+              <Row className="xxm v-scroll scroll h-fixed">
+                {this.state.experiences.map((experience, index) => {
+                  return (
+                    <div key={index}>
+                      <Col sm={6} className="form-group">
+                        <p>Company</p>
+                        <input
+                          name="companyValue"
+                          value={experience.companyValue}
+                          onChange={e => this.onChangeExperience(e, index)}
+                          type="text"
+                          className="a-input"
+                        />
+                      </Col>
+                      <Col sm={6} className="form-group">
+                        <p>Position</p>
+                        <input
+                          name="positionValue"
+                          value={experience.positionValue}
+                          onChange={e => this.onChangeExperience(e, index)}
+                          type="text"
+                          className="a-input"
+                        />
+                      </Col>
+                      <Col sm={6} className="form-group">
+                        <p>Location</p>
+                        <input
+                          name="locationValue"
+                          value={experience.locationValue}
+                          onChange={e => this.onChangeExperience(e, index)}
+                          type="text"
+                          className="a-input"
+                        />
+                      </Col>
+                      <Col sm={3} className="form-group no-wrap">
+                        <p>Duration</p>
+                        <input
+                          type="text"
+                          name="endDuration"
+                          value={experience.endDuration}
+                          onChange={e => this.onChangeExperience(e, index)}
+                          className="a-input half xr"
+                          placeholder="Years"
+                        />
+                        <input
+                          type="text"
+                          name="startDuration"
+                          value={experience.startDuration}
+                          onChange={e => this.onChangeExperience(e, index)}
+                          className="a-input half"
+                          placeholder="Months"
+                        />
+                      </Col>
+                      <Col sm={12} className="form-group">
+                        <p>Additional Information</p>
+                        <textarea
+                          maxLength="200"
+                          rows="4"
+                          value={experience.additionalValue}
+                          name="additionalValue"
+                          onChange={e => this.onChangeExperience(e, index)}
+                          cols="50"
+                          className="a-input full"
+                        />
+                        <span className="help-text pull-right">
+                          {experience.additionalValue &&
+                            experience.additionalValue.length}/200
+                        </span>
+                      </Col>
+                    </div>
+                  )
+                })}
+                <Col sm={12} className="form-group">
+                  <button
+                    onClick={() => this.addExperience()}
+                    className="pull-right a-btn btn-round btn-dark wide-md xxm-xr"
+                  >
+                    + Add Experience
+                  </button>
+                </Col>
+              </Row>
+              {/* Third step */}
+              <button
+                className="pull-right a-btn btn-round btn-dark"
+                onClick={() => this.onSave()}
+              >
+                Save
+              </button>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    )
+  }
+
+  renderSecondStep = () => {
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.handleLocationSelect,
+      name: "preferedLocation",
+      type: "text"
+    }
+    return (
+      <div className="container xem">
+        <div className="content-header">
+          <h1>Job Description</h1>
+        </div>
+        <div className="content-wide">
+          <Row>
+            <Col sm={12} className="form-container-wide">
+              <div className="form-group">
+                <p>Describe yourself in 3 words</p>
+                {this.state.description.map((desc, index) => {
+                  return this.renderDescription(index)
+                })}
+              </div>
+              <div className="form-group">
+                <p>Spoken Languages</p>
+                <select
+                  onChange={this.addLanguage}
+                  value={this.state.defaultLang}
+                >
+                  <option disabled value="">
+                    Select Languages
+                  </option>
+                  {this.state.lang.map((lang, index) => {
+                    return <option key={index}>{lang}</option>
+                  })}
+                </select>
+                <div className="pp-languages v-scroll scroll">
+                  {this.state.languages.map((lang, index) => {
+                    return (
+                      <div key={index} className="pp-language">
+                        <img
+                          alt=""
+                          src={require(`../../../assets/icons/flags/${lang}.png`)}
+                        />
+                        <input
+                          readOnly
+                          value={lang}
+                          type="text"
+                          className="a-input-outline"
+                        />
+                        <a
+                          onClick={() => this.onRemoveLanguage(index)}
+                          className="a-btn-circle"
+                        >
+                          -
+                        </a>
+                      </div>
                     )
                   })}
                 </div>
-                <button
-                  onClick={() => this.addLicense()}
-                  className="pull-right a-btn btn-round btn-dark xxm-xr"
-                >
-                  Add More
-                </button>
-              </div>
-              <div className="form-group xm">
-                <p>Prefered Location</p>
-                <div className="pp-location">
-                  <PlacesAutocomplete
-                    classNames={{ input: "a-input-outline" }}
-                    inputProps={inputProps}
-                  />
-                  <i className="fa fa-map-marker" />
+                <div className="form-group">
+                  <p>Job Description</p>
+                  <div className="h-scroll scroll">
+                    {Object.keys(this.state.positions).map((key, index) => {
+                      if (this.state.positions[key]) {
+                        return (
+                          <div
+                            key={index}
+                            className="vs-service-item-active"
+                            onClick={() => this.onSelectPosition(key)}
+                          >
+                            <a className="vs-service-action">
+                              <img
+                                alt=""
+                                src={require(`../../../assets/icons/staff/white/${key}.png`)}
+                              />
+                            </a>
+                            <p className="xxm">{key.capitalize()}</p>
+                          </div>
+                        )
+                      } else {
+                        return (
+                          <div
+                            key={index}
+                            className="vs-service-item"
+                            onClick={() => this.onSelectPosition(key)}
+                          >
+                            <a className="vs-service-action">
+                              <img
+                                alt=""
+                                src={require(`../../../assets/icons/staff/default/${key}.png`)}
+                              />
+                            </a>
+                            <p className="xxm">{key.capitalize()}</p>
+                          </div>
+                        )
+                      }
+                    })}
+                  </div>
                 </div>
-              </div>
-              <div className="form-group xm">
-                <p>
-                  Distance &nbsp;&nbsp;<span className="dark-text">
-                    {`${this.state.distance}km`}
-                  </span>
-                </p>
-                <input
-                  type="range"
-                  min="1"
-                  max="100"
-                  defaultValue={50}
-                  className="a-slider"
-                  onChange={this.handleChangeDistance}
-                />
+                <div className="form-group xm">
+                  <p>
+                    Hourly Rate &nbsp;&nbsp;<span className="dark-text">
+                      ${this.state.startRate}/hr - ${this.state.endRate}/hr
+                    </span>
+                  </p>
+                  <input
+                    type="range"
+                    min="0"
+                    max="130"
+                    defaultValue={0}
+                    className="a-slider"
+                    onChange={this.handleHourlyRateChange}
+                  />
+                </div>
+                <div className="form-group xm">
+                  <span className="lg-text">Work Type &nbsp;</span>
+                  <select
+                    className="sm pull-right"
+                    name="frequency"
+                    onChange={this.onChangeInput}
+                    value={this.state.frequency}
+                  >
+                    <option value="" disabled>
+                      Select Frequency
+                    </option>
+                    <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Casual</option>
+                  </select>
+                </div>
+                <div className="form-group xm">
+                  <span className="lg-text">Work Eligibility &nbsp;</span>
+                  <select
+                    className="sm pull-right"
+                    name="eligibility"
+                    onChange={this.onChangeInput}
+                    value={this.state.eligibility}
+                  >
+                    <option value="" disabled>
+                      Select Eligibility
+                    </option>
+                    <option>Citizenship</option>
+                    <option>Working Visa</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <p>Licence and Certification</p>
+                  <div className="v-scroll scroll xsh-fixed">
+                    {this.state.licenses.map((license, index) => {
+                      return (
+                        <select
+                          key={index}
+                          defaultValue=""
+                          onChange={e => this.onSelectLicence(e, index)}
+                        >
+                          <option disabled value="">
+                            Select
+                          </option>
+                          {this.state.lacs.map((lac, index) => {
+                            return <option key={index}>{lac}</option>
+                          })}
+                        </select>
+                      )
+                    })}
+                  </div>
+                  <button
+                    onClick={() => this.addLicense()}
+                    className="pull-right a-btn btn-round btn-dark xxm-xr"
+                  >
+                    Add More
+                  </button>
+                </div>
+                <div className="form-group xm">
+                  <p>Prefered Location</p>
+                  <div className="pp-location">
+                    <PlacesAutocomplete
+                      classNames={{ input: "a-input-outline" }}
+                      inputProps={inputProps}
+                    />
+                    <i className="fa fa-map-marker" />
+                  </div>
+                </div>
+                <div className="form-group xm">
+                  <p>
+                    Distance &nbsp;&nbsp;<span className="dark-text">
+                      {`${this.state.distance}km`}
+                    </span>
+                  </p>
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    defaultValue={50}
+                    className="a-slider"
+                    onChange={this.handleChangeDistance}
+                  />
+                </div>
               </div>
             </Col>
           </Row>
