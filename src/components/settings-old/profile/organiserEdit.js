@@ -48,7 +48,7 @@ class OrganiserEdit extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     if (this.props.profile) {
       this.setState({ ...this.props.profile }, () => {
         this.state.eventType.forEach(type => {
@@ -338,13 +338,187 @@ class OrganiserEdit extends Component {
   }
 
   renderContent = () => {
-    switch (this.state.step) {
-      case 1:
-        return this.renderFirstStep()
-      case 2:
-        return this.renderSecondStep()
-      default:
-    }
+    return (
+      <div className="row">
+        <div className="col-sm-12">
+          <h1>Event Organiser Information</h1>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="form-container">
+                <div className="form-group">
+                  <p>Organisers Name</p>
+                  <input
+                    type="text"
+                    className="a-input"
+                    name="name"
+                    onChange={this.onChangeInput}
+                    value={this.state.name}
+                  />
+                </div>
+                <div className="form-group">
+                  <p>Company</p>
+                  <button
+                    onClick={() => this.onChangeCompany(true)}
+                    className={
+                      this.state.isCompany ? "a-btn xs btn-active" : "a-btn xs "
+                    }
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => this.onChangeCompany(false)}
+                    className={
+                      !this.state.isCompany
+                        ? "a-btn xs btn-active"
+                        : "a-btn xs "
+                    }
+                  >
+                    No
+                  </button>
+                </div>
+                {this.state.isCompany && (
+                  <div className="form-group">
+                    <p>Company Name</p>
+                    {this.state.isCompany ? (
+                      <input
+                        type="text"
+                        className="a-input"
+                        placeholder="(Optional)"
+                        name="companyName"
+                        onChange={this.onChangeInput}
+                        value={this.state.companyName}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        className="a-input"
+                        placeholder=""
+                        name="companyName"
+                        onChange={this.onChangeInput}
+                        value={this.state.companyName}
+                        readOnly
+                      />
+                    )}
+                  </div>
+                )}
+                <div className="form-group">
+                  <p>Location</p>
+                  <div className="pp-location">
+                    <input
+                      type="text"
+                      className="a-input"
+                      name="locationName"
+                      onChange={this.onChangeInput}
+                      value={this.state.locationName}
+                    />
+                    <i className="fa fa-map-marker" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-sm-6">
+              <div className="form-container">
+                <div className="form-group">
+                  <p>About you / Company</p>
+                  <textarea
+                    rows="4"
+                    cols="50"
+                    className="a-input"
+                    maxLength="200"
+                    name="about"
+                    onChange={this.onChangeInput}
+                    value={this.state.about}
+                  />
+                  <span className="help-text pull-right">
+                    {this.state.about.length}/200
+                  </span>
+                </div>
+              </div>
+              <p className="vs-title">Type of Venue</p>
+              <div className="a-icon-container xxm">
+                {this.state.types.map((type, index) => {
+                  if (type.on) {
+                    return (
+                      <div key={index} className="a-icon-item-active">
+                        <a
+                          className="a-icon-action"
+                          onClick={() => this.onSelectType(index)}
+                        >
+                          <img
+                            alt=""
+                            src={require(`../../../assets/icons/organiser/event-type/white/${
+                              type.icon
+                            }.png`)}
+                          />
+                        </a>
+                        <p className="xxm">{type.label}</p>
+                      </div>
+                    )
+                  } else {
+                    return (
+                      <div key={index} className="a-icon-item">
+                        <a
+                          className="a-icon-action"
+                          onClick={() => this.onSelectType(index)}
+                        >
+                          <img
+                            alt=""
+                            src={require(`../../../assets/icons/organiser/event-type/default/${
+                              type.icon
+                            }.png`)}
+                          />
+                        </a>
+                        <p className="xxm">{type.label}</p>
+                      </div>
+                    )
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+
+          <h1>Organisers Photo</h1>
+          <div className="col-sm-12">
+            <div className="col-sm-12 vs-p-title xm">
+              <p className="help-text">
+                Here you can upload photos for your Venue
+              </p>
+              <p className="light-text">
+                Click on the upload icon to select photo
+              </p>
+            </div>
+            <div className="vs-p-container xm">
+              <span>Upload</span>
+            </div>
+            <div className="vs-p-uploads-container xxm">
+              <span>Uploaded Photos</span>
+              <div className="vs-p-uploads xxm">
+                <div className="vs-p-photo" />
+                <div className="vs-p-photo" />
+                <div className="vs-p-photo" />
+              </div>
+            </div>
+            <div className="vs-p-uploads-container xxm">
+              <span>Or select some few photos for selection below</span>
+              <div className="vs-p-uploads xxm">
+                <div className="vs-p-photo" />
+                <div className="vs-p-photo" />
+                <div className="vs-p-photo" />
+                <div className="vs-p-photo" />
+              </div>
+            </div>
+          </div>
+
+          <button
+            className="pull-right a-btn btn-round btn-dark"
+            onClick={() => this.onSave()}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    )
   }
 
   render() {
