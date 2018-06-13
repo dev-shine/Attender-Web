@@ -652,9 +652,20 @@ class VenueEdit extends Component {
       type: "text",
       placeholder: "Location"
     }
+    const thumbnails = this.state.venueImages.map((image, index) => (
+      <div key={index} className="vs-p-photo">
+        <img
+          src={image}
+          width="80"
+          height="80"
+          hidden={!(this.state.venueImages.length > 1)}
+          onClick={this.handleImageSelect}
+        />
+      </div>
+    ))
     return (
       <div className="row">
-        <div className="col-sm-5 vs-info">
+        <div className="col-sm-12 vs-info">
           <p className="vs-title">VENUE INFORMATION</p>
           <div className="form-group xxm">
             <input
@@ -725,7 +736,7 @@ class VenueEdit extends Component {
             </div>
           </div>
         </div>
-        <div className="col-sm-7 vs-about">
+        <div className="col-sm-12 vs-about">
           <p className="vs-title">OPENING HOURS</p>
           <div className="oh-container xxm scroll h-scroll">
             {Object.keys(this.state.openingHours).map((key, index) => {
@@ -841,9 +852,9 @@ class VenueEdit extends Component {
               </div>
             </div>
           </div>
-          <div className="row xxm">
-            <p className="vs-title">INTEGRATE SOCIAL MEDIA</p>
-            <div className="col-sm-4 col-sm-offset-4">
+          <div className="row">
+            <p className="col-sm-6 vs-title">INTEGRATE SOCIAL MEDIA</p>
+            <div className="col-sm-6">
               {Object.keys(this.state.socialMedia).map((key, index) => {
                 if (this.state.socialMedia[key]) {
                   return (
@@ -869,6 +880,99 @@ class VenueEdit extends Component {
               })}
             </div>
           </div>
+
+          <div>
+            <h4 className="help-text">UPLOAD PHOTOS TO YOUR VENUE</h4>
+            <div className="vs-p-title xm">
+              <p className="help-text">
+                Here you can upload photos for your Venue
+              </p>
+              <p className="light-text">
+                Click on the upload icon to select photo
+              </p>
+              <div className="vs-p-container xm" onClick={this.onOpenUploader}>
+                <span hidden={!!this.state.selectedImage}>Upload</span>
+                <img
+                  src={this.state.selectedImage}
+                  width="400"
+                  height="288"
+                  hidden={!this.state.selectedImage}
+                  style={{ margin: "auto" }}
+                />
+              </div>
+
+              <input
+                type="file"
+                ref="uploader"
+                onChange={this.onUploadImage}
+                multiple
+                hidden
+              />
+              <div className="vs-p-uploads-container xxm">
+                <span>Uploaded Photos</span>
+                <div className="vs-p-uploads xxm" style={{ overflow: "auto" }}>
+                  {this.state.venueImages.length > 0 ? (
+                    thumbnails
+                  ) : (
+                    <div>
+                      <div className="vs-p-photo" />
+                      <div className="vs-p-photo" />
+                      <div className="vs-p-photo" />
+                      <div className="vs-p-photo" />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="vs-p-uploads-container xxm">
+                <span>Or select some few photos for selection below</span>
+                <div className="vs-p-uploads xxm">
+                  <div className="vs-p-photo">
+                    <img
+                      name="defaultImage"
+                      src="https://picsum.photos/400/288/?image=42"
+                      width="80"
+                      height="80"
+                      onClick={this.handleImageSelect}
+                    />
+                  </div>
+                  <div className="vs-p-photo">
+                    <img
+                      name="defaultImage"
+                      src="https://picsum.photos/400/288/?image=78"
+                      width="80"
+                      height="80"
+                      onClick={this.handleImageSelect}
+                    />
+                  </div>
+                  <div className="vs-p-photo">
+                    <img
+                      name="defaultImage"
+                      src="https://picsum.photos/400/288/?image=192"
+                      width="80"
+                      height="80"
+                      onClick={this.handleImageSelect}
+                    />
+                  </div>
+                  <div className="vs-p-photo">
+                    <img
+                      name="defaultImage"
+                      src="https://picsum.photos/400/288/?image=263"
+                      width="80"
+                      height="80"
+                      onClick={this.handleImageSelect}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            className="pull-right a-btn btn-round btn-dark"
+            onClick={() => this.onSave()}
+          >
+            Save
+          </button>
         </div>
       </div>
     )
