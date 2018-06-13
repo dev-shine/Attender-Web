@@ -658,7 +658,7 @@ class Settings extends Component {
   modal() {
     return (
       <div className="a-modal show">
-        <div className="a-modal-content" style={this.state.customModalStyle}>
+        <div className="a-modal-content" style={{ maxWidth: "850px" }}>
           <span className="a-close" onClick={this.closeModal}>
             &times;
           </span>
