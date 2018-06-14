@@ -107,7 +107,9 @@ class Settings extends Component {
     avatar_temp_preview_url: "",
     avatar_DOM: "",
 
-    persist_modal: ""
+    persist_modal: "",
+
+    myStaffs: {}
   }
   getAllBanks = () => {
     API.get("banks").then(res => {
@@ -204,7 +206,29 @@ class Settings extends Component {
     reader.readAsDataURL(file)
     this.closeModal()
   }
-
+  getMyStaffs = () => {
+    API.get("my-staffs?withTrial=true").then(res => {
+      if (res && res.status) {
+        const allStaff = []
+        let staffMetas = {}
+        Object.keys(res.staffs).forEach(position => {
+          res.staffs[position].forEach(as => {
+            if (
+              allStaff.length === 0 ||
+              !allStaff.find(asf => asf.staff._id === as.staff._id)
+            ) {
+              allStaff.push(as)
+              staffMetas[`staff-${as._id}`] = as
+            }
+          })
+        })
+        this.setState({
+          myStaffs: allStaff
+        })
+        // this.selectStaff()
+      }
+    })
+  }
   triggerInputFile = () => this.fileInput.click()
 
   closeModal() {
@@ -616,6 +640,103 @@ class Settings extends Component {
           </div>
         )
         break
+      case "TRANSFER_MONEY":
+        // GET My STAFFS
+        // name
+        let myStaffs = this.getMyStaffs()
+
+        // API.get("banks").then(res => {
+        //   if (res.status) {
+        //     this.setState({
+        //       bankArray: res.banks,
+        //       accountName: "",
+        //       bankName: "",
+        //       bankBSB: "",
+        //       bankAccount: "",
+        //       isBankLoading: false
+        //     })
+        //   } else {
+        //     alert("Something went wrong")
+        //     this.setState({ isBankLoading: false })
+        //   }
+        // })
+        customModalStyle = { width: "800px", maxWidth: "none" }
+        content = (
+          <div className="transfer-money">
+            <h5>Transfer Money</h5>
+            <p>Bank Transfer</p>
+            <p>For every Transaction 16.5% will go to Attender get.</p>
+
+            <div className="row">
+              <div className="col-md-6">
+                <p>
+                  <label>Amount</label>
+                  <input
+                    onChange={this.onChangeInput}
+                    type="text"
+                    name="amount"
+                  />
+                </p>
+                <p>
+                  <label>Transfer to</label>
+                  <select name="transfer_to">
+                    <option />
+                  </select>
+                </p>
+                <p>
+                  <label>Bank</label>
+                  <select name="bank">
+                    <option />
+                  </select>
+                </p>
+                <div className="row">
+                  <div className="col-md-6">
+                    <label>BSB</label>
+                    <select name="bsb">
+                      <option />
+                    </select>
+                  </div>
+                  <div className="col-md-6">
+                    <label>Account Number</label>
+                    <select name="account_number">
+                      <option />
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <h3>Summary</h3>
+                <div className="row">
+                  <label className="col-md-6 text-left">
+                    Amount to Transfer
+                  </label>
+                  <span className="col-md-6 text-right">-</span>
+                </div>
+                <div className="row">
+                  <span className="col-md-6 text-left">
+                    16.5% Attender fee<br />on top of your Transfer
+                  </span>
+                  <span className="col-md-6 text-right">-</span>
+                </div>
+                <hr />
+                <div className="row">
+                  <h2 className="col-md-6 text-left">Total</h2>
+                  <span className="col-md-6 text-right">-</span>
+                </div>
+                <Button className="btn-info" onClick={this.closeModal}>
+                  Cancel
+                </Button>
+                <Button
+                  className="btn-primary"
+                  onClick={this.saveModal.bind(this, "TRANSFER_MONEY")}
+                >
+                  Transfer
+                </Button>
+              </div>
+            </div>
+          </div>
+        )
+        break
       case "DEACTIVATE_ACCOUNT":
         content = (
           <div className="deactivate-account">
@@ -728,14 +849,19 @@ class Settings extends Component {
           <div className="settings-group">
             <h4>Account Settings </h4>
             <ul>
-              <li>
+              {!this.props.myProfile.isStaff ? (
+                <li>
+                  <label className="col-sm-3">
+                    <span onClick={this.openModal.bind(this, "TRANSFER_MONEY")}>
+                      Transfer Money
+                    </span>
+                  </label>
+                  <span className="col-sm-9">Transfer money to your staff</span>
+                </li>
+              ) : null}
+              <li onClick={this.openModal.bind(this, "DEACTIVATE_ACCOUNT")}>
                 <label className="col-sm-3">
-                  <span
-                    className="redText"
-                    onClick={this.openModal.bind(this, "DEACTIVATE_ACCOUNT")}
-                  >
-                    Deactivate Account
-                  </span>
+                  <span className="redText">Deactivate Account</span>
                 </label>
                 <span className="col-sm-9">&nbsp;</span>
               </li>
