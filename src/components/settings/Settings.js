@@ -107,7 +107,9 @@ class Settings extends Component {
     avatar_temp_preview_url: "",
     avatar_DOM: "",
 
-    persist_modal: ""
+    persist_modal: "",
+
+    myStaffs: {}
   }
   getAllBanks = () => {
     API.get("banks").then(res => {
@@ -204,7 +206,29 @@ class Settings extends Component {
     reader.readAsDataURL(file)
     this.closeModal()
   }
-
+  getMyStaffs = () => {
+    API.get("my-staffs?withTrial=true").then(res => {
+      if (res && res.status) {
+        const allStaff = []
+        let staffMetas = {}
+        Object.keys(res.staffs).forEach(position => {
+          res.staffs[position].forEach(as => {
+            if (
+              allStaff.length === 0 ||
+              !allStaff.find(asf => asf.staff._id === as.staff._id)
+            ) {
+              allStaff.push(as)
+              staffMetas[`staff-${as._id}`] = as
+            }
+          })
+        })
+        this.setState({
+          myStaffs: allStaff
+        })
+        // this.selectStaff()
+      }
+    })
+  }
   triggerInputFile = () => this.fileInput.click()
 
   closeModal() {
@@ -617,6 +641,25 @@ class Settings extends Component {
         )
         break
       case "TRANSFER_MONEY":
+        // GET My STAFFS
+        // name
+        let myStaffs = this.getMyStaffs()
+
+        // API.get("banks").then(res => {
+        //   if (res.status) {
+        //     this.setState({
+        //       bankArray: res.banks,
+        //       accountName: "",
+        //       bankName: "",
+        //       bankBSB: "",
+        //       bankAccount: "",
+        //       isBankLoading: false
+        //     })
+        //   } else {
+        //     alert("Something went wrong")
+        //     this.setState({ isBankLoading: false })
+        //   }
+        // })
         customModalStyle = { width: "800px", maxWidth: "none" }
         content = (
           <div className="transfer-money">
@@ -636,28 +679,26 @@ class Settings extends Component {
                 </p>
                 <p>
                   <label>Transfer to</label>
-                  <input
-                    onChange={this.onChangeInput}
-                    type="text"
-                    name="transfer_to"
-                  />
+                  <select name="transfer_to">
+                    <option />
+                  </select>
                 </p>
                 <p>
                   <label>Bank</label>
-                  <select>
+                  <select name="bank">
                     <option />
                   </select>
                 </p>
                 <div className="row">
                   <div className="col-md-6">
                     <label>BSB</label>
-                    <select>
+                    <select name="bsb">
                       <option />
                     </select>
                   </div>
                   <div className="col-md-6">
                     <label>Account Number</label>
-                    <select>
+                    <select name="account_number">
                       <option />
                     </select>
                   </div>
