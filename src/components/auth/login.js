@@ -133,9 +133,15 @@ class Login extends Component {
 
                 <Col smOffset={2} sm={8} className="social-container">
                   <div>
-                    <Button className="facebook-button" onClick={this.onLogin}>
-                      Login with Facebook
-                    </Button>
+                    <div
+                      class="fb-login-button"
+                      data-max-rows="1"
+                      data-size="large"
+                      data-button-type="login_with"
+                      data-show-faces="false"
+                      data-auto-logout-link="false"
+                      data-use-continue-as="false"
+                    />
                     <Button
                       className="google-button pull-right"
                       onClick={this.onLogin}
