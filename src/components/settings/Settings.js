@@ -109,7 +109,7 @@ class Settings extends Component {
 
     persist_modal: "",
 
-    myStaffs: {}
+    myStaffs: []
   }
   getAllBanks = () => {
     API.get("banks").then(res => {
@@ -148,7 +148,7 @@ class Settings extends Component {
   }
   componentWillMount = async () => {
     API.initRequest()
-
+    this.getMyStaffs()
     let avatar_DOM = <img src={this.props.myProfile.avatar} />
     if (this.props.myProfile && this.props.myProfile.isEmployer) {
       avatar_DOM = <img src={this.props.myProfile.employer.image} />
@@ -643,23 +643,7 @@ class Settings extends Component {
       case "TRANSFER_MONEY":
         // GET My STAFFS
         // name
-        let myStaffs = this.getMyStaffs()
 
-        // API.get("banks").then(res => {
-        //   if (res.status) {
-        //     this.setState({
-        //       bankArray: res.banks,
-        //       accountName: "",
-        //       bankName: "",
-        //       bankBSB: "",
-        //       bankAccount: "",
-        //       isBankLoading: false
-        //     })
-        //   } else {
-        //     alert("Something went wrong")
-        //     this.setState({ isBankLoading: false })
-        //   }
-        // })
         customModalStyle = { width: "800px", maxWidth: "none" }
         content = (
           <div className="transfer-money">
@@ -680,7 +664,11 @@ class Settings extends Component {
                 <p>
                   <label>Transfer to</label>
                   <select name="transfer_to">
-                    <option />
+                    {this.state.myStaffs.map(staff => (
+                      <option value={staff.staff._id}>
+                        {staff.staff.fullname}
+                      </option>
+                    ))}
                   </select>
                 </p>
                 <p>
