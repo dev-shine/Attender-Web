@@ -109,7 +109,13 @@ class Settings extends Component {
 
     persist_modal: "",
 
-    myStaffs: []
+    myStaffs: [],
+    // For Transfer Funds
+    amount: "",
+    transfer_to: "",
+    bank: "",
+    bsb: "",
+    account_id: ""
   }
   getAllBanks = () => {
     API.get("banks").then(res => {
@@ -120,7 +126,8 @@ class Settings extends Component {
           bankName: "",
           bankBSB: "",
           bankAccount: "",
-          isBankLoading: false
+          isBankLoading: false,
+          account_id: res.banks[0].promiseId
         })
       } else {
         alert("Something went wrong")
@@ -183,6 +190,7 @@ class Settings extends Component {
     }
   }
   onChangeInput = e => {
+    console.log(e.target.name, e.target.value)
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -223,7 +231,8 @@ class Settings extends Component {
           })
         })
         this.setState({
-          myStaffs: allStaff
+          myStaffs: allStaff,
+          transfer_to: allStaff[0].staff.user
         })
         // this.selectStaff()
       }
@@ -290,6 +299,16 @@ class Settings extends Component {
         }
         api_url = "add-bank"
         confirm_modal_name = "ADD_BANK_ACCOUNT_CONFIRM"
+        break
+      case "TRANSFER_MONEY":
+        body = {
+          account_id: this.state.account_id,
+          amount: this.state.amount,
+          to_user: this.state.transfer_to,
+          from: "bank"
+        }
+        api_url = "transfer"
+        confirm_modal_name = "TRANSFER_MONEY_CONFIRM"
         break
       case "DEACTIVATE_ACCOUNT":
         body = {
@@ -660,9 +679,13 @@ class Settings extends Component {
                 </p>
                 <p>
                   <label>Transfer to</label>
-                  <select name="transfer_to">
+                  <select
+                    name="transfer_to"
+                    defaultValue={this.state.transfer_to}
+                    onChange={this.onChangeInput}
+                  >
                     {this.state.myStaffs.map(staff => (
-                      <option value={staff.staff._id}>
+                      <option value={staff.staff.user}>
                         {staff.staff.fullname}
                       </option>
                     ))}
@@ -670,7 +693,11 @@ class Settings extends Component {
                 </p>
                 <p>
                   <label>Bank</label>
-                  <select name="bank">
+                  <select
+                    name="bank"
+                    defaultValue={this.state.bank}
+                    onChange={this.onChangeInput}
+                  >
                     {this.state.bankArray.map(bank => (
                       <option value={bank.bank_name}>
                         {bank.bankMeta.bank_name}
@@ -681,15 +708,19 @@ class Settings extends Component {
                 <div className="row">
                   <div className="col-md-6">
                     <label>BSB</label>
-                    <select name="bsb">
+                    <select name="bsb" onChange={this.onChangeInput}>
                       <option />
                     </select>
                   </div>
                   <div className="col-md-6">
                     <label>Account Number</label>
-                    <select name="account_number">
+                    <select
+                      name="account_id"
+                      defaultValue={this.state.account_id}
+                      onChange={this.onChangeInput}
+                    >
                       {this.state.bankArray.map(bank => (
-                        <option value={bank.account_number}>
+                        <option value={bank.promiseId}>
                           {bank.bankMeta.account_number}
                         </option>
                       ))}
@@ -727,6 +758,18 @@ class Settings extends Component {
                 </Button>
               </div>
             </div>
+          </div>
+        )
+        break
+      case "TRANSFER_MONEY_CONFIRM":
+        content = (
+          <div className="transfer-money-confirm">
+            <img src={require("./img/confirm-icon.png")} />
+            <h5>Money Transfered Successfully!</h5>
+            <p>You have successfully transfered the money to your staff.</p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
           </div>
         )
         break
@@ -843,11 +886,9 @@ class Settings extends Component {
             <h4>Account Settings </h4>
             <ul>
               {!this.props.myProfile.isStaff ? (
-                <li>
+                <li onClick={this.openModal.bind(this, "TRANSFER_MONEY")}>
                   <label className="col-sm-3">
-                    <span onClick={this.openModal.bind(this, "TRANSFER_MONEY")}>
-                      Transfer Money
-                    </span>
+                    <span>Transfer Money</span>
                   </label>
                   <span className="col-sm-9">Transfer money to your staff</span>
                 </li>
