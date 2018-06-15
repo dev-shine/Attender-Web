@@ -641,9 +641,6 @@ class Settings extends Component {
         )
         break
       case "TRANSFER_MONEY":
-        // GET My STAFFS
-        // name
-
         customModalStyle = { width: "800px", maxWidth: "none" }
         content = (
           <div className="transfer-money">
@@ -674,7 +671,11 @@ class Settings extends Component {
                 <p>
                   <label>Bank</label>
                   <select name="bank">
-                    <option />
+                    {this.state.bankArray.map(bank => (
+                      <option value={bank.bank_name}>
+                        {bank.bankMeta.bank_name}
+                      </option>
+                    ))}
                   </select>
                 </p>
                 <div className="row">
@@ -687,7 +688,11 @@ class Settings extends Component {
                   <div className="col-md-6">
                     <label>Account Number</label>
                     <select name="account_number">
-                      <option />
+                      {this.state.bankArray.map(bank => (
+                        <option value={bank.account_number}>
+                          {bank.bankMeta.account_number}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
