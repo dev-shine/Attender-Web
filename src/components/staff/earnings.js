@@ -32,20 +32,17 @@ class Earnings extends Component {
       modalContent: "Under construction",
       customModalStyle: {},
 
-      bank_accounts: {
-        0: { _id: 0, bank: "National Aust", number: "4375", selected: true },
-        1: { _id: 1, bank: "Herritage Bank", number: "4375" }
-      }
+      bank_accounts: []
     }
     this.closeModal = this.closeModal.bind(this)
   }
   chooseBank(_id) {
-    let bank_accounts = { ...this.state.bank_accounts }
-    Object.keys(bank_accounts).map(key => {
-      bank_accounts[key].selected = false
+    const bankArray = this.state.bankArray
+    bankArray.forEach(b => {
+      b.selected = false
     })
-    bank_accounts[_id].selected = true
-    this.setState({ bank_accounts })
+    bankArray.find(b => b._id == _id).selected = true
+    this.setState({ bankArray })
     this.openModal("WIDTHRAW_CHOICES")
   }
   openModal(type) {
@@ -58,23 +55,18 @@ class Earnings extends Component {
             <i className="fa fa-check-circle" />
           </span>
         )
-        var listBanks = Object.values(this.state.bank_accounts).map(
-          (item, key) => {
-            return (
-              <div
-                className="row"
-                onClick={this.chooseBank.bind(this, item._id)}
-              >
-                <span className="col-md-5">{item.bank}</span>
-                <span className="col-md-5">
-                  <span>XXXX - XXXX</span>
-                  <span>{item.number}</span>
-                </span>
-                {item.selected ? selected_DOM : null}
-              </div>
-            )
-          }
-        )
+        var listBanks = Object.values(this.state.bankArray).map((item, key) => {
+          return (
+            <div className="row" onClick={this.chooseBank.bind(this, item._id)}>
+              <span className="col-md-5">{item.bankMeta.bank_name}</span>
+              <span className="col-md-5">
+                <span>{item.bankMeta.account_number}</span>
+                <span>{item.number}</span>
+              </span>
+              {item.selected ? selected_DOM : null}
+            </div>
+          )
+        })
         content = (
           <div className="group">
             <p>Choose which Bank Account to use</p>
