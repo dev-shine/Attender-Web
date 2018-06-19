@@ -20,6 +20,7 @@ class Earnings extends Component {
       withdrawTo: "",
       accountNumber: "",
       bankIndex: 0,
+      withdrawAmount: 0,
       transactions: [],
 
       openModal: false,
@@ -96,7 +97,7 @@ class Earnings extends Component {
               </Button>
               <Button
                 className="btn btn-primary"
-                onClick={this.openModal.bind(this, "WIDTHRAW_SUCCESS")}
+                onClick={this.confirmWithdraw}
               >
                 Yes
               </Button>
@@ -171,6 +172,31 @@ class Earnings extends Component {
     })
   }
   // #endregion
+
+  confirmWithdraw = () => {
+    let bank = this.state.bankArray[this.state.bankIndex]
+    API.post("withdraw", {
+      account_id: bank.promiseId,
+      amount: this.state.withdrawAmount
+    }).then(res => {
+      if (res.status) {
+        this.setState(
+          {
+            withdrawMultiple: false,
+            isShowConfirmWithdraw: false,
+            isShowSuccessWithdraw: true
+          },
+          () => {
+            this.getEarnings()
+            this.getAllTransactions()
+            this.openModal.bind(this, "WIDTHRAW_SUCCESS")
+          }
+        )
+      } else {
+        alert("Something went wrong!", res)
+      }
+    })
+  }
 
   // #region Lifecycle Methods
   componentDidMount = () => {
