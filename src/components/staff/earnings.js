@@ -16,6 +16,11 @@ class Earnings extends Component {
       totalAvailBalance: 0,
       totalEarnings: 0,
       bankArray: [],
+      accountName: "",
+      bankName: "",
+      bankBSB: "",
+      bankAccount: "",
+      isBankLoading: false,
       withdrawToId: "",
       withdrawTo: "",
       accountNumber: "",
@@ -138,6 +143,25 @@ class Earnings extends Component {
     )
   }
 
+  getAllBanks = () => {
+    API.get("banks").then(res => {
+      if (res.status) {
+        this.setState({
+          bankArray: res.banks,
+          accountName: "",
+          bankName: "",
+          bankBSB: "",
+          bankAccount: "",
+          isBankLoading: false,
+          account_id: res.banks[0].promiseId
+        })
+      } else {
+        alert("Something went wrong")
+        this.setState({ isBankLoading: false })
+      }
+    })
+  }
+
   // #region Non Render Methods
   getEarnings = () => {
     API.get("earnings").then(res => {
@@ -202,6 +226,7 @@ class Earnings extends Component {
   componentDidMount = () => {
     this.getEarnings()
     this.getAllTransactions()
+    this.getAllBanks()
   }
   // #endregion
 
