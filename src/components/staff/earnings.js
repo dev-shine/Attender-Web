@@ -16,30 +16,33 @@ class Earnings extends Component {
       totalAvailBalance: 0,
       totalEarnings: 0,
       bankArray: [],
+      accountName: "",
+      bankName: "",
+      bankBSB: "",
+      bankAccount: "",
+      isBankLoading: false,
       withdrawToId: "",
       withdrawTo: "",
       accountNumber: "",
       bankIndex: 0,
+      withdrawAmount: 0,
       transactions: [],
 
       openModal: false,
       modalContent: "Under construction",
       customModalStyle: {},
 
-      bank_accounts: {
-        0: { _id: 0, bank: "National Aust", number: "4375", selected: true },
-        1: { _id: 1, bank: "Herritage Bank", number: "4375" }
-      }
+      bank_accounts: []
     }
     this.closeModal = this.closeModal.bind(this)
   }
   chooseBank(_id) {
-    let bank_accounts = { ...this.state.bank_accounts }
-    Object.keys(bank_accounts).map(key => {
-      bank_accounts[key].selected = false
+    const bankArray = this.state.bankArray
+    bankArray.forEach(b => {
+      b.selected = false
     })
-    bank_accounts[_id].selected = true
-    this.setState({ bank_accounts })
+    bankArray.find(b => b._id == _id).selected = true
+    this.setState({ bankArray })
     this.openModal("WIDTHRAW_CHOICES")
   }
   openModal(type) {
@@ -52,23 +55,18 @@ class Earnings extends Component {
             <i className="fa fa-check-circle" />
           </span>
         )
-        var listBanks = Object.values(this.state.bank_accounts).map(
-          (item, key) => {
-            return (
-              <div
-                className="row"
-                onClick={this.chooseBank.bind(this, item._id)}
-              >
-                <span className="col-md-5">{item.bank}</span>
-                <span className="col-md-5">
-                  <span>XXXX - XXXX</span>
-                  <span>{item.number}</span>
-                </span>
-                {item.selected ? selected_DOM : null}
-              </div>
-            )
-          }
-        )
+        var listBanks = Object.values(this.state.bankArray).map((item, key) => {
+          return (
+            <div className="row" onClick={this.chooseBank.bind(this, item._id)}>
+              <span className="col-md-5">{item.bankMeta.bank_name}</span>
+              <span className="col-md-5">
+                <span>{item.bankMeta.account_number}</span>
+                <span>{item.number}</span>
+              </span>
+              {item.selected ? selected_DOM : null}
+            </div>
+          )
+        })
         content = (
           <div className="group">
             <p>Choose which Bank Account to use</p>
@@ -96,7 +94,7 @@ class Earnings extends Component {
               </Button>
               <Button
                 className="btn btn-primary"
-                onClick={this.openModal.bind(this, "WIDTHRAW_SUCCESS")}
+                onClick={this.confirmWithdraw}
               >
                 Yes
               </Button>
@@ -137,6 +135,25 @@ class Earnings extends Component {
     )
   }
 
+  getAllBanks = () => {
+    API.get("banks").then(res => {
+      if (res.status) {
+        this.setState({
+          bankArray: res.banks,
+          accountName: "",
+          bankName: "",
+          bankBSB: "",
+          bankAccount: "",
+          isBankLoading: false,
+          account_id: res.banks[0].promiseId
+        })
+      } else {
+        alert("Something went wrong")
+        this.setState({ isBankLoading: false })
+      }
+    })
+  }
+
   // #region Non Render Methods
   getEarnings = () => {
     API.get("earnings").then(res => {
@@ -172,10 +189,36 @@ class Earnings extends Component {
   }
   // #endregion
 
+  confirmWithdraw = () => {
+    let bank = this.state.bankArray[this.state.bankIndex]
+    API.post("withdraw", {
+      account_id: bank.promiseId,
+      amount: this.state.withdrawAmount
+    }).then(res => {
+      if (res.status) {
+        this.setState(
+          {
+            withdrawMultiple: false,
+            isShowConfirmWithdraw: false,
+            isShowSuccessWithdraw: true
+          },
+          () => {
+            this.getEarnings()
+            this.getAllTransactions()
+            this.openModal.bind(this, "WIDTHRAW_SUCCESS")
+          }
+        )
+      } else {
+        alert("Something went wrong!", res)
+      }
+    })
+  }
+
   // #region Lifecycle Methods
   componentDidMount = () => {
     this.getEarnings()
     this.getAllTransactions()
+    this.getAllBanks()
   }
   // #endregion
 
