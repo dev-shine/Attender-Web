@@ -1,3 +1,17 @@
+.container {
+  width: 1190px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1190px;
+  }
+}
+
+.lem {
+  margin-top: 9em;
+}
+
 .SocialShare {
   text-align: center;
 }
@@ -392,6 +406,106 @@
 .fs-staff-ratings .fa {
   margin: 0 2px;
   color: red;
+}
+
+.my-staff-container {
+  border: none;
+  height: auto;
+  box-shadow: 0 0px 25px 0px rgba(0, 0, 0, 0.1);
+}
+.my-staff-container .my-staff-header {
+  padding-left: 60px;
+  padding-top: 20px;
+  height: auto;
+  font-size: 14px;
+}
+.my-staff-container .my-staff-header .my-staff-header-menu-active {
+  padding: 10px 25px;
+  border-bottom: 2px solid;
+}
+.my-staff-container .my-staff-header .my-staff-header-menu {
+  padding: 10px 18px;
+}
+.my-staff-container .my-staff-header input[type="text"] {
+  font-size: 12px;
+  height: 35px;
+}
+.my-staff-container .my-staff-header .fa-search {
+  left: -45px;
+  position: relative;
+  color: #bbb;
+  font-size: 22px;
+  top: 4px;
+}
+.my-staff-container .my-staff-list {
+  padding-left: 23px;
+  height: auto;
+}
+.my-staff-container .my-staff-list .my-staff {
+  padding: 20px 10px 10px;
+  box-shadow: 0px 0px 7px 0px #eee;
+  border-radius: 3px;
+  width: 150px;
+  margin: 18px 13px;
+  height: auto;
+}
+.my-staff-container .my-staff-list .my-staff.active {
+  background-color: #fff !important;
+}
+.my-staff-container .my-staff-list .my-staff .profile-thumb-md {
+  height: 50px;
+  width: 50px;
+}
+.my-staff-container .my-staff-list .my-staff .icon-calendar {
+  top: 15px;
+  right: 8px;
+}
+.my-staff-container .my-staff-list .my-staff .icon-breafcase {
+  top: 35px;
+  right: 8px;
+}
+.my-staff-container .my-staff-list .my-staff .icon-time {
+  top: 60px;
+  right: 8px;
+}
+.my-staff-container .my-staff-list .my-staff .staff-name {
+  font-weight: 200;
+  color: #444;
+  margin-top: 12px;
+  font-size: 15px;
+  margin-bottom: 0px;
+}
+.my-staff-container .my-staff-list .my-staff .fs-staff-ratings {
+  margin-left: 0;
+  font-size: 10px;
+  top: -5px;
+  position: relative;
+}
+.my-staff-container .my-staff-list .my-staff .fs-staff-ratings .fa {
+  margin: 0 1px;
+}
+.my-staff-container .my-staff-list .my-staff .staff-rate-type {
+  position: relative;
+  top: -10px;
+}
+.my-staff-container .my-staff-list .my-staff .staff-rate-badge {
+  position: relative;
+  top: -12px;
+}
+.my-staff-container .my-staff-list .my-staff .btn-send-message {
+  font-size: 12px;
+  margin-top: -15px;
+}
+.my-staff-container .my-staff-list .my-staff .btn-send-message button {
+  height: 22px;
+  padding: 0;
+}
+.my-staff-container .my-staff-list .my-staff .staff-add-monthly-review {
+  margin-top: 5px;
+  color: #5bb7d6;
+  font-size: 11px;
+  border-bottom: 1px solid #5bb7d6;
+  display: inline-block;
 }
 
 /*# sourceMappingURL=../inline */

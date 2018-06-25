@@ -1,4 +1,5 @@
 // Global
+@import 'lib/global.scss';
 @import 'lib/sbg.scss';
 
 @import 'modules/Messaging/messaging';
@@ -7,3 +8,4 @@
 @import 'modules/Staff/event-modal';
 
 @import 'modules/Venue/find-staffs';
+@import 'modules/Venue/my-staffs';

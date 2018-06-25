@@ -1,0 +1,11 @@
+.container {
+	width:1190px;
+}
+@media (min-width: 1200px) {
+	.container {
+	    max-width: 1190px;
+	}
+}
+.lem {
+    margin-top: 9em;
+}

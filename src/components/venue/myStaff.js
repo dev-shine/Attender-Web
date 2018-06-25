@@ -222,7 +222,21 @@ class MyStaff extends Component {
       }
     })
   }
-
+  invokeStarRatings = k => {
+    if (k.rating === undefined) {
+      return <div className="fs-staff-ratings">No ratings available.</div>
+    } else {
+      let stars = []
+      for (var x = 0; x <= 5; x++) {
+        if (x <= k.rating.star) {
+          stars.push(<i className="fa fa-star" />)
+        } else {
+          stars.push(<i className="fa fa-star-o" />)
+        }
+      }
+      return <div className="fs-staff-ratings">{stars}</div>
+    }
+  }
   renderStaffBox(data, index, col, active) {
     if (data.trial) {
       col += " trial"
@@ -254,15 +268,16 @@ class MyStaff extends Component {
           />
         ) : null}
         <img alt="" className="profile-thumb-md my-staff-img" src={avatar} />
-        <p>{data.staff.fullname}</p>
-        <small>{data.staff.rateType}</small>
-        <small>{data.staff.rateBadge}</small>
-        <Link to={`./messages/${data.staff._id}`}>
+        <p className="staff-name">{data.staff.fullname}</p>
+        {this.invokeStarRatings(data.staff)}
+        <small className="staff-rate-type">{data.staff.rateType}</small>
+        <small className="staff-rate-badge">{data.staff.rateBadge}</small>
+        <Link className="btn-send-message" to={`./messages/${data.staff._id}`}>
           <button className="a-btn btn-dark btn-round">
             <small>Send Message</small>
           </button>
         </Link>
-        <a>Add monthly review</a>
+        <a className="staff-add-monthly-review">Add monthly review</a>
       </div>
     )
   }
@@ -307,8 +322,9 @@ class MyStaff extends Component {
           <input
             type="text"
             className="a-plain-text"
-            placeholder="Enter event name"
+            placeholder="Enter name to find Staff"
           />
+          <i class="fa fa-search" />
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
@@ -322,7 +338,7 @@ class MyStaff extends Component {
                 return this.renderStaffBox(
                   this.state.myStaffs[index],
                   index,
-                  "col-sm-2",
+                  "",
                   false
                 )
               } else if (
@@ -333,7 +349,7 @@ class MyStaff extends Component {
                 return this.renderStaffBox(
                   this.state.myStaffs[index],
                   index,
-                  "col-sm-2",
+                  "",
                   true
                 )
               }
@@ -352,7 +368,7 @@ class MyStaff extends Component {
             <img alt="" className="profile-thumb-md" src={staff.staff.avatar} />
           </div>
           <div className="col-sm-8">
-            <p>{staff.staff.fullname}</p>
+            <p className="staff-name">{staff.staff.fullname}</p>
             <p>
               <small>
                 {staff.staff.position} | {staff.staff.rateType}
