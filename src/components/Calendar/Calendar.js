@@ -13,61 +13,99 @@ const moment = require("moment")
 class Calendar extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      isLoading: false,
-      events: [1, 2, 3, 4, 6, 7, 8],
-      currentEvents: [1, 2, 3, 4, 5, 6],
-      eventStaffs: [2, 4, 5, 7],
-      calendar: [],
-      today: moment(),
-      selectedDate: moment(),
-      openCreateEvent: false,
-      openManageEvent: false,
-      openViewDetails: false,
-      eventDropdown: "init",
-      event: {},
-      profile: {},
-      eventTypesTab: 1,
-      services: {
-        alcohol: false,
-        cocktails: false,
-        drinks: false,
-        food: false,
-        breakfast: false,
-        lunch: false,
-        dinner: false
-      },
-      staffOfInterest: [],
-      staffs: {
-        barista: { on: true, num: 0 },
-        bartender: { on: true, num: 0 },
-        manager: { on: true, num: 0 },
-        waiter: { on: true, num: 0 },
-        chef: { on: true, num: 0 },
-        barback: { on: true, num: 0 },
-        kitchen: { on: true, num: 0 },
-        host: { on: true, num: 0 }
-      },
-      selectedImage: "",
-      eventName: "",
-      eventDescription: "",
-      date: null,
-      startTime: null,
-      variant: "week"
+    if (this.props.myProfile.isStaff) {
+      this.state = {
+        isLoading: false,
+        calendar: [],
+        today: moment(),
+        selectedDate: moment(),
+        schedule: [],
+        itemToLoopBelow: [],
+        itemsToLoopOnList: [],
+
+        // need to remove these later
+        services: {
+          alcohol: false,
+          cocktails: false,
+          drinks: false,
+          food: false,
+          breakfast: false,
+          lunch: false,
+          dinner: false
+        },
+        staffOfInterest: [],
+        eventStaffs: [2, 4, 5, 7]
+      }
+    } else {
+      this.state = {
+        itemToLoopBelow: [],
+        itemsToLoopOnList: [],
+        isLoading: false,
+        events: [1, 2, 3, 4, 6, 7, 8],
+        currentEvents: [1, 2, 3, 4, 5, 6],
+        eventStaffs: [2, 4, 5, 7],
+        calendar: [],
+        today: moment(),
+        selectedDate: moment(),
+        openCreateEvent: false,
+        openManageEvent: false,
+        openViewDetails: false,
+        eventDropdown: "init",
+        event: {},
+        eventTypesTab: 1,
+        services: {
+          alcohol: false,
+          cocktails: false,
+          drinks: false,
+          food: false,
+          breakfast: false,
+          lunch: false,
+          dinner: false
+        },
+        staffOfInterest: [],
+        staffs: {
+          barista: { on: true, num: 0 },
+          bartender: { on: true, num: 0 },
+          manager: { on: true, num: 0 },
+          waiter: { on: true, num: 0 },
+          chef: { on: true, num: 0 },
+          barback: { on: true, num: 0 },
+          kitchen: { on: true, num: 0 },
+          host: { on: true, num: 0 }
+        },
+        selectedImage: "",
+        eventName: "",
+        eventDescription: "",
+        date: null,
+        startTime: null,
+        variant: "week"
+      }
     }
     this.props.onSetSubscribePopUp(true)
   }
 
   componentDidMount = async () => {
     API.initRequest()
-    let profile = await API.getProfile()
-    this.setState({ profile })
     this.loadCalendar(moment())
-    Object.keys(this.state.staffs).forEach(key => {
-      const obj = this.state.staffs[key]
-      obj.key = key
-      this.state.staffOfInterest.push(obj)
-    })
+
+    if (!this.props.myProfile.isStaff) {
+      Object.keys(this.state.staffs).forEach(key => {
+        const obj = this.state.staffs[key]
+        obj.key = key
+        this.state.staffOfInterest.push(obj)
+      })
+      this.setState({
+        itemToLoopBelow: this.state.currentEvents,
+        itemsToLoopOnList: this.state.events
+      })
+    } else {
+      let schedule = await API.get("my-managements")
+      this.setState({
+        schedule,
+        itemToLoopBelow: this.state.schedule,
+        itemsToLoopOnList: this.state.schedule
+      })
+    }
   }
 
   renderStaffBox = (closable, col, active) => {
@@ -188,14 +226,14 @@ class Calendar extends Component {
 
     this.setState({ calendar })
   }
-
   renderCalendar = () => {
     return (
       <div className="calendar-main card">
         <div className="calendar-main-header">
           <p>CALENDAR {this.state.selectedDate.format("YYYY")}</p>
-          {this.state.profile &&
-            (this.state.profile.isVenue || this.state.profile.isEmployer) && (
+          {this.props.myProfile &&
+            (this.props.myProfile.isVenue ||
+              this.props.myProfile.isEmployer) && (
               <div className="add-event pull-right">
                 <a
                   onClick={() => this.onTriggerCreateEventModal()}
@@ -315,7 +353,7 @@ class Calendar extends Component {
             <p>EVENTS ON THIS DATES</p>
           </div>
           <div className="calendar-main-events-body v-scroll scroll">
-            {this.state.currentEvents.map((event, index) => {
+            {this.state.itemToLoopBelow.map((event, index) => {
               return (
                 <div
                   key={index}
@@ -356,9 +394,9 @@ class Calendar extends Component {
                                   : "none"
                             }}
                           >
-                            {this.state.profile &&
-                              (this.state.profile.isVenue ||
-                                this.state.profile.isEmployer) && (
+                            {this.props.myProfile &&
+                              (this.props.myProfile.isVenue ||
+                                this.props.myProfile.isEmployer) && (
                                 <p>Delete Event</p>
                               )}
                             <p
@@ -388,7 +426,7 @@ class Calendar extends Component {
     return (
       <div className="calendar-events">
         <div className="calendar-events-menu">
-          {!this.state.profile.isStaff && (
+          {!this.props.myProfile.isStaff && (
             <div
               className={
                 this.state.eventTypesTab === 1
@@ -412,7 +450,7 @@ class Calendar extends Component {
           </div>
         </div>
         <div className="calendar-events-list scroll">
-          {this.state.events.map((event, index) => {
+          {this.state.itemsToLoopOnList.map((event, index) => {
             return (
               <div key={index} className="event card">
                 <div className="row">
@@ -474,7 +512,7 @@ class Calendar extends Component {
                                   >
                                     View Event
                                   </p>
-                                  {!this.state.profile.isStaff && (
+                                  {!this.props.myProfile.isStaff && (
                                     <p
                                       onClick={() =>
                                         this.onOpenEventManagement(index)
@@ -483,7 +521,7 @@ class Calendar extends Component {
                                       Manage Event
                                     </p>
                                   )}
-                                  {!this.state.profile.isStaff && (
+                                  {!this.props.myProfile.isStaff && (
                                     <p>Delete Event</p>
                                   )}
                                 </div>
