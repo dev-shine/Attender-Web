@@ -3290,7 +3290,6 @@ textarea {
 .calendar-main-event {
   padding: 1em;
   padding-right: 0;
-  height: 7em;
   width: auto;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
 }
