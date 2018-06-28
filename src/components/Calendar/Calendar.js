@@ -13,6 +13,10 @@ const moment = require("moment")
 class Calendar extends Component {
   constructor(props) {
     super(props)
+
+    this.itemToLoopBelow = []
+    this.itemsToLoopOnList = []
+
     if (this.props.myProfile.isStaff) {
       this.state = {
         isLoading: false,
@@ -21,8 +25,6 @@ class Calendar extends Component {
         selectedDate: moment(),
         schedule: [],
         itemToLoopBelow: [],
-        itemsToLoopOnList: [],
-
         // need to remove these later
         services: {
           alcohol: false,
@@ -38,8 +40,6 @@ class Calendar extends Component {
       }
     } else {
       this.state = {
-        itemToLoopBelow: [],
-        itemsToLoopOnList: [],
         isLoading: false,
         events: [1, 2, 3, 4, 6, 7, 8],
         currentEvents: [1, 2, 3, 4, 5, 6],
@@ -100,10 +100,22 @@ class Calendar extends Component {
       })
     } else {
       let schedule = await API.get("my-managements")
+      console.log(schedule)
+      let itemToLoopBelow = []
+      let item_data = []
+      schedule.managements.map(item => {
+        // console.log(item)
+        item_data =
+          item.schedules[this.state.selectedDate.format("dddd").toLowerCase()]
+        itemToLoopBelow.push({
+          title: item.employer.name,
+          schedule: item_data,
+          venue: item.employer.locationName
+        })
+      })
       this.setState({
         schedule,
-        itemToLoopBelow: this.state.schedule,
-        itemsToLoopOnList: this.state.schedule
+        itemToLoopBelow
       })
     }
   }
@@ -227,6 +239,8 @@ class Calendar extends Component {
     this.setState({ calendar })
   }
   renderCalendar = () => {
+    let title = this.props.myProfile.isStaff ? "schedules" : "events"
+
     return (
       <div className="calendar-main card">
         <div className="calendar-main-header">
@@ -350,15 +364,16 @@ class Calendar extends Component {
         </div>
         <div className="calendar-main-events">
           <div className="calendar-main-events-header">
-            <p>EVENTS ON THIS DATES</p>
+            <p>{title.toUpperCase()} ON THIS DATE(S)</p>
           </div>
           <div className="calendar-main-events-body v-scroll scroll">
-            {this.state.itemToLoopBelow.map((event, index) => {
+            {this.state.itemToLoopBelow.map((item, index) => {
+              console.log(item, index)
               return (
                 <div
                   key={index}
                   className={
-                    event === 1
+                    item === 1
                       ? "calendar-main-event selected"
                       : "calendar-main-event"
                   }
@@ -368,14 +383,19 @@ class Calendar extends Component {
                       <img alt="" src="http://via.placeholder.com/99x80" />
                     </div>
                     <div className="col-sm-10">
-                      <p className="title">Staff Meeting for Lumi Bar</p>
+                      <p className="title">{item.title}</p>
                       <p className="date">
-                        <i className="fa fa-clock-o" />&nbsp;10:00 AM - 12:00 PM
+                        {item.schedule.map(i => (
+                          <span>
+                            <i className="fa fa-clock-o" /> {i.startTime} -{" "}
+                            {i.endTime}
+                            <br />
+                          </span>
+                        ))}
                       </p>
                       <p className="venue">
-                        Venue: Oasis Beach{" "}
                         <span className="pull-right">
-                          <i className="fa fa-map-marker" /> Sydney, CBC
+                          <i className="fa fa-map-marker" /> {item.venue}
                         </span>
                       </p>
                       <a>
@@ -450,7 +470,7 @@ class Calendar extends Component {
           </div>
         </div>
         <div className="calendar-events-list scroll">
-          {this.state.itemsToLoopOnList.map((event, index) => {
+          {this.itemsToLoopOnList.map((event, index) => {
             return (
               <div key={index} className="event card">
                 <div className="row">
