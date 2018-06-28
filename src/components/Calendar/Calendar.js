@@ -14,17 +14,16 @@ class Calendar extends Component {
   constructor(props) {
     super(props)
 
-    this.itemToLoopBelow = []
-    this.itemsToLoopOnList = []
-
     if (this.props.myProfile.isStaff) {
       this.state = {
+        title: "schedules",
         isLoading: false,
         calendar: [],
         today: moment(),
         selectedDate: moment(),
         schedule: [],
         itemToLoopBelow: [],
+        itemsToLoopOnList: [1, 2, 3],
         // need to remove these later
         services: {
           alcohol: false,
@@ -40,6 +39,7 @@ class Calendar extends Component {
       }
     } else {
       this.state = {
+        title: "events",
         isLoading: false,
         events: [1, 2, 3, 4, 6, 7, 8],
         currentEvents: [1, 2, 3, 4, 5, 6],
@@ -100,19 +100,53 @@ class Calendar extends Component {
       })
     } else {
       let schedule = await API.get("my-managements")
-      console.log(schedule)
-      let itemToLoopBelow = []
+      let itemToLoopBelow = [],
+        itemsToLoopOnList = []
       let item_data = []
+
+      // populating loops below
       schedule.managements.map(item => {
-        // console.log(item)
         item_data =
           item.schedules[this.state.selectedDate.format("dddd").toLowerCase()]
+
         itemToLoopBelow.push({
           title: item.employer.name,
           schedule: item_data,
           venue: item.employer.locationName
         })
       })
+      let schedule_filter = schedule.managements.filter(item => {
+        return (
+          typeof item.schedules[
+            this.state.selectedDate.format("dddd").toLowerCase()
+          ] !== undefined
+        )
+      })
+      console.log(schedule_filter)
+      // loop upcoming
+      for (let x = 0; x < 7; x++) {
+        itemsToLoopOnList.push({
+          day: moment()
+            .add(x, "days")
+            .format("D"),
+          month: moment()
+            .add(x, "days")
+            .format("MMMM"),
+          avatar: schedule_filter, //need to fix avatar
+          title: schedule_filter.map(item => item.employer.name),
+          schedule: schedule_filter.map(
+            item =>
+              item.schedules[
+                this.state.selectedDate
+                  .add(x, "days")
+                  .format("dddd")
+                  .toLowerCase()
+              ]
+          )
+        })
+      }
+      console.log(itemsToLoopOnList)
+
       this.setState({
         schedule,
         itemToLoopBelow
@@ -239,8 +273,6 @@ class Calendar extends Component {
     this.setState({ calendar })
   }
   renderCalendar = () => {
-    let title = this.props.myProfile.isStaff ? "schedules" : "events"
-
     return (
       <div className="calendar-main card">
         <div className="calendar-main-header">
@@ -364,7 +396,7 @@ class Calendar extends Component {
         </div>
         <div className="calendar-main-events">
           <div className="calendar-main-events-header">
-            <p>{title.toUpperCase()} ON THIS DATE(S)</p>
+            <p>{this.state.title.toUpperCase()} ON THIS DATE(S)</p>
           </div>
           <div className="calendar-main-events-body v-scroll scroll">
             {this.state.itemToLoopBelow.map((item, index) => {
@@ -466,11 +498,11 @@ class Calendar extends Component {
             }
             onClick={() => this.setState({ eventTypesTab: 2 })}
           >
-            <span>UPCOMING EVENTS</span>
+            <span>UPCOMING {this.state.title.toUpperCase()}</span>
           </div>
         </div>
         <div className="calendar-events-list scroll">
-          {this.itemsToLoopOnList.map((event, index) => {
+          {this.state.itemsToLoopOnList.map((event, index) => {
             return (
               <div key={index} className="event card">
                 <div className="row">
