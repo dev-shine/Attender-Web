@@ -41,8 +41,10 @@ class Calendar extends Component {
       this.state = {
         title: "events",
         isLoading: false,
-        events: [1, 2, 3, 4, 6, 7, 8],
-        currentEvents: [1, 2, 3, 4, 5, 6],
+        events: [],
+        itemToLoopBelow: [],
+        itemsToLoopOnList: [],
+        currentEvents: [],
         eventStaffs: [2, 4, 5, 7],
         calendar: [],
         today: moment(),
@@ -87,22 +89,51 @@ class Calendar extends Component {
   componentDidMount = async () => {
     API.initRequest()
     this.loadCalendar(moment())
+    let itemToLoopBelow = [],
+      itemsToLoopOnList = [],
+      item_data = []
 
     if (!this.props.myProfile.isStaff) {
-      Object.keys(this.state.staffs).forEach(key => {
-        const obj = this.state.staffs[key]
-        obj.key = key
-        this.state.staffOfInterest.push(obj)
+      let events = await API.post("my-events")
+
+      // this.state.staffs.map(key => {
+      //   const obj = this.state.staffs[key]
+      //   obj.key = key
+      //   this.state.staffOfInterest.push(obj)
+      // })
+
+      if (events.events.length > 0) {
+        events.events.map(item => {
+          itemToLoopBelow.push({
+            title: item.employer.name,
+            schedule: item_data,
+            venue: item.employer.locationName
+          })
+        })
+      } else {
+        itemToLoopBelow = false
+      }
+
+      itemToLoopBelow.push({
+        title: "a",
+        schedule: [{ startTime: 0, endTime: 1 }],
+        venue: "c"
+      })
+      itemsToLoopOnList.push({
+        day: 1,
+        month: "month",
+        title: "title",
+        schedule: [{ startTime: 0, endTime: 1 }],
+        location: "temp",
+        isToday: false
       })
       this.setState({
-        itemToLoopBelow: this.state.currentEvents,
-        itemsToLoopOnList: this.state.events
+        events,
+        itemToLoopBelow,
+        itemsToLoopOnList
       })
     } else {
       let schedule = await API.get("my-managements")
-      let itemToLoopBelow = [],
-        itemsToLoopOnList = []
-      let item_data = []
 
       // populating loops below
       schedule.managements.map(item => {
@@ -146,7 +177,6 @@ class Calendar extends Component {
           })
         })
       }
-      console.log(itemsToLoopOnList)
       this.setState({
         schedule,
         itemToLoopBelow,
@@ -400,75 +430,78 @@ class Calendar extends Component {
             <p>{this.state.title.toUpperCase()} ON THIS DATE(S)</p>
           </div>
           <div className="calendar-main-events-body v-scroll scroll">
-            {this.state.itemToLoopBelow.map((item, index) => {
-              console.log(item, index)
-              return (
-                <div
-                  key={index}
-                  className={
-                    item === 1
-                      ? "calendar-main-event selected"
-                      : "calendar-main-event"
-                  }
-                >
-                  <div className="row">
-                    <div className="col-sm-2">
-                      <img alt="" src="http://via.placeholder.com/99x80" />
-                    </div>
-                    <div className="col-sm-10">
-                      <p className="title">{item.title}</p>
-                      <p className="date">
-                        {item.schedule.map(i => (
-                          <span>
-                            <i className="fa fa-clock-o" /> {i.startTime} -{" "}
-                            {i.endTime}
-                            <br />
-                          </span>
-                        ))}
-                      </p>
-                      <p className="venue">
-                        <span className="pull-right">
-                          <i className="fa fa-map-marker" /> {item.venue}
-                        </span>
-                      </p>
-                      <a>
-                        <div className="drop-menu">
-                          <img
-                            alt=""
-                            src={require("./../../assets/icons/venue/menu.png")}
-                            onClick={() => this.openDropdown(`c-${index}`)}
-                          />
-                          <div
-                            className="e-dropdown"
-                            style={{
-                              display:
-                                this.state.eventDropdown === `c-${index}`
-                                  ? "block"
-                                  : "none"
-                            }}
-                          >
-                            {this.props.myProfile &&
-                              (this.props.myProfile.isVenue ||
-                                this.props.myProfile.isEmployer) && (
-                                <p>Delete Event</p>
-                              )}
-                            <p
-                              onClick={() =>
-                                this.setState({
-                                  openViewDetails: !this.state.openViewDetails
-                                })
-                              }
-                            >
-                              View Details
-                            </p>
-                          </div>
+            {this.state.itemToLoopBelow
+              ? this.state.itemToLoopBelow.map((item, index) => {
+                  console.log(item, index)
+                  return (
+                    <div
+                      key={index}
+                      className={
+                        item === 1
+                          ? "calendar-main-event selected"
+                          : "calendar-main-event"
+                      }
+                    >
+                      <div className="row">
+                        <div className="col-sm-2">
+                          <img alt="" src="http://via.placeholder.com/99x80" />
                         </div>
-                      </a>
+                        <div className="col-sm-10">
+                          <p className="title">{item.title}</p>
+                          <p className="date">
+                            {item.schedule.map(i => (
+                              <span>
+                                <i className="fa fa-clock-o" /> {i.startTime} -{" "}
+                                {i.endTime}
+                                <br />
+                              </span>
+                            ))}
+                          </p>
+                          <p className="venue">
+                            <span className="pull-right">
+                              <i className="fa fa-map-marker" /> {item.venue}
+                            </span>
+                          </p>
+                          <a>
+                            <div className="drop-menu">
+                              <img
+                                alt=""
+                                src={require("./../../assets/icons/venue/menu.png")}
+                                onClick={() => this.openDropdown(`c-${index}`)}
+                              />
+                              <div
+                                className="e-dropdown"
+                                style={{
+                                  display:
+                                    this.state.eventDropdown === `c-${index}`
+                                      ? "block"
+                                      : "none"
+                                }}
+                              >
+                                {this.props.myProfile &&
+                                  (this.props.myProfile.isVenue ||
+                                    this.props.myProfile.isEmployer) && (
+                                    <p>Delete Event</p>
+                                  )}
+                                <p
+                                  onClick={() =>
+                                    this.setState({
+                                      openViewDetails: !this.state
+                                        .openViewDetails
+                                    })
+                                  }
+                                >
+                                  View Details
+                                </p>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )
-            })}
+                  )
+                })
+              : null}
           </div>
         </div>
       </div>
