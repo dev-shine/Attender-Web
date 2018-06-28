@@ -23,7 +23,7 @@ class Calendar extends Component {
         selectedDate: moment(),
         schedule: [],
         itemToLoopBelow: [],
-        itemsToLoopOnList: [1, 2, 3],
+        itemsToLoopOnList: [],
         // need to remove these later
         services: {
           alcohol: false,
@@ -122,34 +122,35 @@ class Calendar extends Component {
           ] !== undefined
         )
       })
-      console.log(schedule_filter)
-      // loop upcoming
-      for (let x = 0; x < 7; x++) {
-        itemsToLoopOnList.push({
-          day: moment()
-            .add(x, "days")
-            .format("D"),
-          month: moment()
-            .add(x, "days")
-            .format("MMMM"),
-          avatar: schedule_filter, //need to fix avatar
-          title: schedule_filter.map(item => item.employer.name),
-          schedule: schedule_filter.map(
-            item =>
+
+      // populate loops beside
+      for (let x = 0; x < 5; x++) {
+        schedule_filter.map(item => {
+          itemsToLoopOnList.push({
+            day: moment()
+              .add(x, "days")
+              .format("D"),
+            month: moment()
+              .add(x, "days")
+              .format("MMMM"),
+            title: item.employer.name,
+            schedule:
               item.schedules[
                 this.state.selectedDate
                   .add(x, "days")
                   .format("dddd")
                   .toLowerCase()
-              ]
-          )
+              ],
+            location: item.employer.locationName,
+            isToday: x == 0
+          })
         })
       }
       console.log(itemsToLoopOnList)
-
       this.setState({
         schedule,
-        itemToLoopBelow
+        itemToLoopBelow,
+        itemsToLoopOnList
       })
     }
   }
@@ -502,20 +503,19 @@ class Calendar extends Component {
           </div>
         </div>
         <div className="calendar-events-list scroll">
-          {this.state.itemsToLoopOnList.map((event, index) => {
+          {this.state.itemsToLoopOnList.map((item, index) => {
+            console.log(item)
             return (
               <div key={index} className="event card">
                 <div className="row">
                   <div className="col-sm-3">
-                    {event === 1 ? (
-                      <div>
-                        <p className="today">TODAY</p>
-                        <p className="xl-text">{event}</p>
-                      </div>
-                    ) : (
-                      <p className="xl-text xsem">{event}</p>
-                    )}
-                    <p>August {index}</p>
+                    <div>
+                      {item.isToday ? <p className="today">TODAY</p> : null}
+                      <p className="xl-text">{item.day}</p>
+                    </div>
+                    <p>
+                      {item.month} {item.day}
+                    </p>
                   </div>
                   <div className="col-sm-9">
                     <div className="event-item">
@@ -528,14 +528,18 @@ class Calendar extends Component {
                           />
                         </div>
                         <div className="item">
-                          <p className="title">Zark's Burger Challenge</p>
+                          <p className="title">{item.title}</p>
                           <p className="date">
-                            <i className="fa fa-clock-o" />&nbsp;10:00 AM -
-                            12:00 PM
+                            {item.schedule.map(i => (
+                              <span>
+                                <i className="fa fa-clock-o" /> {i.startTime} -{" "}
+                                {i.endTime}
+                                <br />
+                              </span>
+                            ))}
                           </p>
-                          <p className="venue">Venue: Oasis Beach </p>
                           <p className="region">
-                            <i className="fa fa-map-marker" /> Sydney, CBC
+                            <i className="fa fa-map-marker" /> {item.location}
                           </p>
                           <a className="drop-nav">
                             <div className="drop-menu">
