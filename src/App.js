@@ -34,6 +34,9 @@ import VenueProfile from "./components/VenueProfile/VenueProfile"
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy"
 import StaffProfile from "./components/StaffProfile/StaffProfile"
 
+// Venue/Event Organizer Routes
+import StaffGroupSchedule from "./components/StaffGroupSchedule/StaffGroupSchedule"
+
 import "./style.min.css"
 
 class App extends Component {
@@ -117,6 +120,7 @@ class App extends Component {
             path="/staff/profile/:staff_id"
             component={StaffProfile}
           />
+          <Route exact path="/staffs-schedule" component={StaffGroupSchedule} />
         </main>
       </div>
     )

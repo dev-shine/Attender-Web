@@ -508,4 +508,98 @@
   display: inline-block;
 }
 
+.StaffGroupSchedule {
+  text-align: center;
+}
+.StaffGroupSchedule h3 {
+  text-transform: uppercase;
+}
+.StaffGroupSchedule .week-navigator {
+  text-transform: uppercase;
+  color: #acacac;
+}
+.StaffGroupSchedule .week-navigator .fa {
+  background: #03c297;
+  border-radius: 100%;
+  color: #fff;
+  margin: 10px;
+  padding: 3px;
+  font-size: 14px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.StaffGroupSchedule .save {
+  float: right;
+  margin: 20px;
+}
+.StaffGroupSchedule .calendar-table {
+  width: 100%;
+  color: #acacac;
+  font-size: 14px;
+  border-color: #d2d3d5;
+  border-style: none;
+}
+.StaffGroupSchedule .calendar-table tr {
+  border-color: #d2d3d5;
+}
+.StaffGroupSchedule .calendar-table td {
+  padding: 5px;
+  border-color: #d2d3d5;
+}
+.StaffGroupSchedule .calendar-table .load-active-staffs {
+  text-transform: uppercase;
+  color: #c0fdfe;
+  margin: 10px;
+}
+.StaffGroupSchedule .calendar-table .load-trial-staffs {
+  text-transform: uppercase;
+  margin: 10px;
+}
+.StaffGroupSchedule .calendar-table .calendar-day {
+  background: #c2fcfd;
+}
+.StaffGroupSchedule .calendar-table .day {
+  color: #3f5457;
+  text-transform: uppercase;
+}
+.StaffGroupSchedule .calendar-table .date {
+  display: block;
+}
+.StaffGroupSchedule .calendar-table .edit-toggle {
+  font-size: 16px;
+  background: #5ee4ed;
+  color: #fff;
+  border-radius: 3px;
+  padding: 15px 5px;
+  float: left;
+}
+.StaffGroupSchedule .calendar-table .week-data {
+  font-size: 10px;
+  line-height: 1.4;
+}
+.StaffGroupSchedule .calendar-table .staff-name {
+  border-radius: 3px;
+  background: #57e4ed;
+  color: #fff;
+}
+.StaffGroupSchedule .calendar-table .staff-name .remove {
+  float: right;
+  margin-right: 5px;
+}
+.StaffGroupSchedule .calendar-table .buttons .fa {
+  width: 15px;
+  height: 15px;
+  color: #fff;
+  border-radius: 3px;
+  display: inline-block;
+}
+.StaffGroupSchedule .calendar-table .add {
+  width: 20px;
+  height: 20px;
+  color: #57e6ec;
+  font-size: 25px;
+  text-align: center;
+}
+
 /*# sourceMappingURL=../inline */

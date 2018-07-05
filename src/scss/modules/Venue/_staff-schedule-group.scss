@@ -1,0 +1,85 @@
+.StaffGroupSchedule {
+	text-align:center;
+	h3 {
+		text-transform:uppercase;
+	}
+	.week-navigator {
+		text-transform:uppercase;	
+		color:#acacac;
+		.fa {
+			background:#03c297;
+			border-radius:100%;
+			color:#fff;
+			margin:10px;
+			padding:3px;
+			font-size:14px;
+			display:inline-block;
+			width:20px;
+			height:20px;
+		}
+	}
+
+	.save{
+		float:right;
+		margin:20px;
+		
+	}
+	.calendar-table {
+		width:100%;
+		color:#acacac;
+		font-size:14px;
+		border-color:#d2d3d5;
+		border-style:none;
+		tr{
+			border-color:#d2d3d5;
+		}
+		td {
+			padding:5px;
+			border-color:#d2d3d5;
+		}
+		.load-active-staffs{
+			text-transform:uppercase;	
+			color:#c0fdfe;
+			margin:10px;
+		}
+		.load-trial-staffs{
+			text-transform:uppercase;	
+			margin:10px;
+		}
+		.calendar-day{
+
+			background:#c2fcfd;
+		}
+		.day{color:#3f5457;text-transform:uppercase;	}
+		.date{display:block;}
+		.edit-toggle {font-size:16px; background:#5ee4ed; color:#fff; border-radius:3px; padding:15px 5px; float:left;}
+		.week-data {font-size:10px; line-height:1.4;}
+		.staff-name{
+			border-radius:3px;
+			background:#57e4ed;
+			color:#fff;
+			.remove{
+				float:right;
+				margin-right:5px;
+			}
+		}
+		.schedule-time{}
+		.buttons{
+			.fa{
+				width:15px;
+				height:15px;
+				color:#fff;
+				border-radius:3px;
+				display:inline-block;
+			}
+		}
+		.add{
+			width:20px;
+			height:20px;
+			color:#57e6ec;
+			font-size: 25px;
+			text-align:center;
+		}
+	}
+
+}
