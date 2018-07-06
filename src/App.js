@@ -42,28 +42,40 @@ import "./style.min.css"
 class App extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      profile: {}
+    }
   }
-  componentWillUpdate() {}
-  renderSubscriptionSettingsPage() {
+  componentWillMount() {
+    console.log("GOOOO")
     const profile = loadState("com.attender.pty.ltd.profile")
-    if (profile !== undefined) {
-      if (profile.isSubscribed) {
-        return (
-          <Route
-            exact
-            path="/subscription-settings"
-            component={SubscriptionSettings}
-          />
-        )
-      } else {
-        return (
-          <Route
-            exact
-            path="/subscription-settings"
-            component={SubscriptionOffer}
-          />
-        )
-      }
+    this.setState({ profile })
+  }
+
+  renderSubscriptionSettingsPage() {
+    if (this.state.profile.isSubscribed) {
+      return (
+        <Route
+          exact
+          path="/subscription-settings"
+          component={SubscriptionSettings}
+        />
+      )
+    } else {
+      return (
+        <Route
+          exact
+          path="/subscription-settings"
+          component={SubscriptionOffer}
+        />
+      )
+    }
+  }
+  renderStaffPage() {
+    if (this.state.profile.isVenue || this.state.profile.isOrganizer) {
+      return <Route exact path="/staffs" component={StaffGroupSchedule} />
+    } else {
+      return <Route exact path="/staffs" component={MyStaff} />
     }
   }
   render() {
@@ -81,7 +93,7 @@ class App extends Component {
           <Route exact path="/employer" component={employerSetup} />
           <Route exact path="/organiser-setup" component={OrganiserSetup} />
           <Route exact path="/find-staff" component={FindStaff} />
-          <Route exact path="/staffs" component={MyStaff} />
+          {this.renderStaffPage()}
           <Route exact path="/success" component={SignSuccess} />
           <Route
             exact
@@ -120,7 +132,6 @@ class App extends Component {
             path="/staff/profile/:staff_id"
             component={StaffProfile}
           />
-          <Route exact path="/staffs-schedule" component={StaffGroupSchedule} />
         </main>
       </div>
     )
