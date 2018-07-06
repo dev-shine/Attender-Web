@@ -36,8 +36,7 @@ export default function myProfileReducer(state = "", { type, payload }) {
       saveState("com.attender.pty.ltd.profile", data)
       return data
     }
-    default:
-      return state
   }
+  console.log("profile", state)
   return state
 }

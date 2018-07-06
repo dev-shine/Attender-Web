@@ -5,21 +5,52 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./services/api"
 import { setProfileDetails } from "./actions/myProfile-actions"
+import { setMyStaffs } from "./actions/myStaffs-actions"
 import { loadState } from "./localStorage"
 
 class Navigator extends Component {
+  state = {
+    profile: {}
+  }
   async componentWillMount() {
     let token = localStorage.getItem("com.attender.pty.ltd.token")
     if (token) {
       API.REQUEST_TOKEN = token
       await this.getProfile()
+      await this.getStaffs()
     } else {
       this.props.goLogin()
     }
   }
 
+  getStaffs = async () => {
+    if (!this.state.profile.isStaff) {
+      API.get("my-staffs?withTrial=true").then(res => {
+        if (res && res.status) {
+          const allStaff = []
+          let staffMetas = {}
+          Object.keys(res.staffs).forEach(position => {
+            res.staffs[position].forEach(as => {
+              if (
+                allStaff.length === 0 ||
+                !allStaff.find(asf => asf.staff._id === as.staff._id)
+              ) {
+                allStaff.push(as)
+                staffMetas[`staff-${as._id}`] = as
+              }
+            })
+          })
+          this.props.onSetStaffs(allStaff)
+          // console.log(allStaff)
+          this.props.goFindStaff()
+        }
+      })
+    }
+  }
+
   getProfile = async () => {
     let profile = await API.get("auth/current")
+    this.setState({ profile })
     let isSubscribed = await API.get("subscription/check")
 
     if (profile) {
@@ -35,8 +66,6 @@ class Navigator extends Component {
           if (profile.data.hasProfile) {
             if (profile.data.isStaff) {
               this.props.goSearchVenues()
-            } else {
-              this.props.goFindStaff()
             }
           } else {
             this.props.goLookingFor()
@@ -84,7 +113,8 @@ const mapDispatchToProps = dispatch =>
       goSchedules: () => push("/schedules"),
       goCalendar: () => push("/calendar"),
 
-      onSetProfileDetails: setProfileDetails
+      onSetProfileDetails: setProfileDetails,
+      onSetStaffs: setMyStaffs
     },
     dispatch,
     persistedState

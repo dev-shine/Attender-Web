@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
+import _ from "lodash"
 
 import NavBar from "./../layouts/NavBar"
 import API from "./../../services/api"
@@ -12,6 +13,16 @@ import API from "./../../services/api"
 // import "./VenueProfile.css"
 
 class StaffGroupSchedule extends React.Component {
+  // renderWeek(obj) {
+  //   obj.map((i) => {
+  //     console.log(i)
+  //     return (
+  //     <tr>
+  //       <td>{i}</td>
+  //     </tr>
+  //     )
+  //   })
+  // }
   render() {
     return (
       <div>
@@ -63,118 +74,91 @@ class StaffGroupSchedule extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <span className="edit-toggle">
-                      <i class="fa fa-edit" />
-                    </span>
-                    <p className="week-data">
-                      Rostered : 09 : 00hrs | 4 Shifts <br />
-                      Venue : Lumi Bar & Cafe <br />
-                      Manager : Michael Barks
-                    </p>
-                  </td>
-                  <td>
-                    <div className="staff-name">
-                      <span className="remove">X</span>
-                      Andrew O.
-                    </div>
-                    <p className="schedule-time">
-                      <i class="far fa-clock" /> 1:00PM - 7:00PM
-                    </p>
-                    <div className="buttons">
-                      <span className="pull-left">
-                        <i class="fa fa-clone" />
-                      </span>
-                      <span className="pull-left">
-                        <i class="fa fa-expand-arrows-alt" />
-                      </span>
-                      <span className="pull-right">
-                        <i class="fa fa-edit" />
-                      </span>
-                      <span className="pull-right">
-                        <i class="fa fa-envelope" />
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="edit-toggle">
-                      <i class="fa fa-edit" />
-                    </span>
-                    <p className="week-data">
-                      Rostered : 09 : 00hrs | 4 Shifts <br />
-                      Venue : Lumi Bar & Cafe <br />
-                      Manager : Michael Barks
-                    </p>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="add">
-                      <i class="fa fa-plus-circle" />
-                    </span>
-                  </td>
-                </tr>
+                {Object.keys(this.props.myStaffs).map(i => {
+                  let day = [
+                    "monday",
+                    "tuesday",
+                    "wednesday",
+                    "thursday",
+                    "friday",
+                    "saturday",
+                    "sunday"
+                  ]
+                  return (
+                    <tr>
+                      <td>
+                        <span className="edit-toggle">
+                          <i class="fa fa-edit" />
+                        </span>
+                        <p className="week-data">
+                          Rostered : 09 : 00hrs | 4 Shifts <br />
+                          Venue : Lumi Bar & Cafe <br />
+                          Manager : Michael Barks
+                        </p>
+                      </td>
+                      {day.map(val => {
+                        if (
+                          this.props.myStaffs[i].schedules[val][0].startTime ===
+                          ""
+                        ) {
+                          return (
+                            <td>
+                              <span className="add">
+                                <i class="fa fa-plus-circle" />
+                              </span>
+                            </td>
+                          )
+                        } else {
+                          return (
+                            <td>
+                              <div className="staff-name">
+                                <span className="remove">X</span>
+                                {this.props.myStaffs[i].staff.fullname}
+                              </div>
+                              <p className="schedule-time">
+                                <i class="fa fa-clock" />{" "}
+                                {
+                                  this.props.myStaffs[i].schedules[val][0]
+                                    .startTime
+                                }{" "}
+                                -{" "}
+                                {
+                                  this.props.myStaffs[i].schedules[val][0]
+                                    .endTime
+                                }{" "}
+                                <br />
+                                <i class="fa fa-clock" />{" "}
+                                {
+                                  this.props.myStaffs[i].schedules[val][1]
+                                    .startTime
+                                }{" "}
+                                -{" "}
+                                {
+                                  this.props.myStaffs[i].schedules[val][1]
+                                    .endTime
+                                }
+                              </p>
+                              <div className="buttons">
+                                <span className="pull-left">
+                                  <i class="fa fa-clone" />
+                                </span>
+                                <span className="pull-left">
+                                  <i class="fa fa-arrows" />
+                                </span>
+                                <span className="pull-right">
+                                  <i class="fa fa-edit" />
+                                </span>
+                                <span className="pull-right">
+                                  <i class="fa fa-envelope" />
+                                </span>
+                              </div>
+                            </td>
+                          )
+                        }
+                      })}
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
             <Button className="save">Save</Button>
@@ -188,8 +172,7 @@ class StaffGroupSchedule extends React.Component {
     super(props)
   }
   state = {
-    staff: {},
-    profile: {}
+    staff: {}
   }
   fetch = async () => {}
   componentWillMount() {

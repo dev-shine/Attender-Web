@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
+import _ from "lodash"
 import Navigator from "./navigator"
 
 import SignSuccess from "./components/auth/signSuccess"
@@ -53,29 +54,33 @@ class App extends Component {
   }
 
   renderSubscriptionSettingsPage() {
-    if (this.state.profile.isSubscribed) {
-      return (
-        <Route
-          exact
-          path="/subscription-settings"
-          component={SubscriptionSettings}
-        />
-      )
-    } else {
-      return (
-        <Route
-          exact
-          path="/subscription-settings"
-          component={SubscriptionOffer}
-        />
-      )
+    if (!_.isEmpty(this.state.profile)) {
+      if (this.state.profile.isSubscribed) {
+        return (
+          <Route
+            exact
+            path="/subscription-settings"
+            component={SubscriptionSettings}
+          />
+        )
+      } else {
+        return (
+          <Route
+            exact
+            path="/subscription-settings"
+            component={SubscriptionOffer}
+          />
+        )
+      }
     }
   }
   renderStaffPage() {
-    if (this.state.profile.isVenue || this.state.profile.isOrganizer) {
-      return <Route exact path="/staffs" component={StaffGroupSchedule} />
-    } else {
-      return <Route exact path="/staffs" component={MyStaff} />
+    if (!_.isEmpty(this.state.profile)) {
+      if (this.state.profile.isVenue || this.state.profile.isOrganizer) {
+        return <Route exact path="/staffs" component={StaffGroupSchedule} />
+      } else {
+        return <Route exact path="/staffs" component={MyStaff} />
+      }
     }
   }
   render() {

@@ -588,11 +588,13 @@
   margin-right: 5px;
 }
 .StaffGroupSchedule .calendar-table .buttons .fa {
-  width: 15px;
-  height: 15px;
   color: #fff;
   border-radius: 3px;
+  background: #5ee4ed;
   display: inline-block;
+  font-size: 11px;
+  padding: 3px;
+  margin: 1px;
 }
 .StaffGroupSchedule .calendar-table .add {
   width: 20px;
