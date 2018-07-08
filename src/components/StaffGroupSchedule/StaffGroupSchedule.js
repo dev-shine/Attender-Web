@@ -58,7 +58,7 @@ class StaffGroupSchedule extends React.Component {
       new_sched = {}
     let body = {}
     switch (type) {
-      case "ADD_ENTRY":
+      case "SAVE_ENTRY":
         new_sched = this.props.myStaffs[this.state.selected_row].schedules
         new_sched[this.state.selected_day] = [
           {
@@ -134,13 +134,12 @@ class StaffGroupSchedule extends React.Component {
             </p>
             <Button
               className="btn-primary"
-              onClick={this.saveModal.bind(this, "ADD_ENTRY", row_index)}
+              onClick={this.saveModal.bind(this, "SAVE_ENTRY", row_index)}
             >
               Ok
             </Button>
           </div>
         )
-
         break
       case "CLONE_TO_DAY":
         content = (
@@ -198,6 +197,44 @@ class StaffGroupSchedule extends React.Component {
               {this.props.myStaffs[row_index].schedules[day][1].endTime} <br />
             </p>
             <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
+      case "EDIT_ENTRY":
+        content = (
+          <div className="have-header form-content">
+            <h5>Edit Schedule</h5>
+            <p>
+              <label>Start Time A</label>
+              <select name="time_start_a" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <p>
+              <label>End Time A</label>
+              <select name="time_end_a" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <hr />
+            <p>
+              <label>Start Time B</label>
+              <select name="time_start_b" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <p>
+              <label>End Time B</label>
+              <select name="time_end_b" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <Button
+              className="btn-primary"
+              onClick={this.saveModal.bind(this, "SAVE_ENTRY", row_index)}
+            >
               Ok
             </Button>
           </div>
@@ -413,7 +450,15 @@ class StaffGroupSchedule extends React.Component {
                                   />
                                 </span>
                                 <span className="pull-right">
-                                  <i class="fa fa-edit" />
+                                  <i
+                                    class="fa fa-edit"
+                                    onClick={this.openModal.bind(
+                                      this,
+                                      "EDIT_ENTRY",
+                                      index,
+                                      val
+                                    )}
+                                  />
                                 </span>
                                 <span className="pull-right">
                                   <i class="fa fa-envelope" />
