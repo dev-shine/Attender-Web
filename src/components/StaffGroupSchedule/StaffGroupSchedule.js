@@ -461,7 +461,13 @@ class StaffGroupSchedule extends React.Component {
                                   />
                                 </span>
                                 <span className="pull-right">
-                                  <i class="fa fa-envelope" />
+                                  <Link
+                                    to={`./messages/${
+                                      this.props.myStaffs[i].staff._id
+                                    }`}
+                                  >
+                                    <i class="fa fa-envelope" />
+                                  </Link>
                                 </span>
                               </div>
                             </td>
