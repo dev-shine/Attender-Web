@@ -23,6 +23,15 @@ class StaffGroupSchedule extends React.Component {
     modalContent: "Under construction",
     customModalStyle: {},
 
+    day: [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday"
+    ],
     staff: {},
 
     time_start_a: "",
@@ -30,7 +39,9 @@ class StaffGroupSchedule extends React.Component {
     time_start_b: "",
     time_end_b: "",
     selected_row: "",
-    selected_day: ""
+    selected_day: "",
+
+    to_day: ""
   }
   onChangeInput = e => {
     console.log(e.target.name, e.target.value)
@@ -43,11 +54,12 @@ class StaffGroupSchedule extends React.Component {
   }
   saveModal(type) {
     let api_url = "",
-      confirm_modal_name = ""
+      confirm_modal_name = "",
+      new_sched = {}
     let body = {}
     switch (type) {
       case "ADD_ENTRY":
-        let new_sched = this.props.myStaffs[this.state.selected_row].schedules
+        new_sched = this.props.myStaffs[this.state.selected_row].schedules
         new_sched[this.state.selected_day] = [
           {
             startTime: this.state.time_start_a,
@@ -58,7 +70,17 @@ class StaffGroupSchedule extends React.Component {
             endTime: this.state.time_end_b
           }
         ]
-        console.log(new_sched)
+        body = {
+          schedules: JSON.stringify(new_sched)
+        }
+        api_url = `save-staff-sched/${
+          this.props.myStaffs[this.state.selected_row]._id
+        }`
+        confirm_modal_name = "CONFIRM"
+        break
+      case "CLONE_TO_DAY":
+        new_sched = this.props.myStaffs[this.state.selected_row].schedules
+        new_sched[this.state.to_day] = new_sched[this.state.selected_day]
         body = {
           schedules: JSON.stringify(new_sched)
         }
@@ -113,6 +135,34 @@ class StaffGroupSchedule extends React.Component {
             <Button
               className="btn-primary"
               onClick={this.saveModal.bind(this, "ADD_ENTRY", row_index)}
+            >
+              Ok
+            </Button>
+          </div>
+        )
+
+        break
+      case "CLONE_TO_DAY":
+        content = (
+          <div className="have-header form-content">
+            <h5>Clone to Day</h5>
+            <p>
+              <label>Enter Day</label>
+              <select name="to_day" onChange={this.onChangeInput}>
+                <optgroup>
+                  {Object.keys(this.state.day).map(key => {
+                    return (
+                      <option key={this.state.day[key]}>
+                        {this.state.day[key]}
+                      </option>
+                    )
+                  })}
+                </optgroup>
+              </select>
+            </p>
+            <Button
+              className="btn-primary"
+              onClick={this.saveModal.bind(this, "CLONE_TO_DAY", row_index)}
             >
               Ok
             </Button>
@@ -243,15 +293,6 @@ class StaffGroupSchedule extends React.Component {
               </thead>
               <tbody>
                 {Object.keys(this.props.myStaffs).map((i, index) => {
-                  let day = [
-                    "monday",
-                    "tuesday",
-                    "wednesday",
-                    "thursday",
-                    "friday",
-                    "saturday",
-                    "sunday"
-                  ]
                   return (
                     <tr key={index}>
                       <td>
@@ -264,7 +305,7 @@ class StaffGroupSchedule extends React.Component {
                           Manager : Michael Barks
                         </p>
                       </td>
-                      {day.map(val => {
+                      {this.state.day.map(val => {
                         if (
                           this.props.myStaffs[i].schedules[val][0].startTime ===
                           ""
@@ -316,7 +357,15 @@ class StaffGroupSchedule extends React.Component {
                               </p>
                               <div className="buttons">
                                 <span className="pull-left">
-                                  <i class="fa fa-clone" />
+                                  <i
+                                    class="fa fa-clone"
+                                    onClick={this.openModal.bind(
+                                      this,
+                                      "CLONE_TO_DAY",
+                                      index,
+                                      val
+                                    )}
+                                  />
                                 </span>
                                 <span className="pull-left">
                                   <i class="fa fa-arrows" />
