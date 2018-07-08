@@ -169,9 +169,43 @@ class StaffGroupSchedule extends React.Component {
           </div>
         )
         break
+      case "MAXIMIZE":
+        content = (
+          <div className="have-header form-content">
+            <h5>Details</h5>
+            <p>
+              <label>Staff : </label>
+              {this.props.myStaffs[row_index].staff.fullname}
+            </p>
+            <p>
+              <label>Day : </label>
+              {this.state.selected_day}
+            </p>
+            <p>
+              <label>Schedule A: </label>
+              Start Time :{" "}
+              {this.props.myStaffs[row_index].schedules[day][0].startTime}{" "}
+              <br />
+              End Time :{" "}
+              {this.props.myStaffs[row_index].schedules[day][0].endTime} <br />
+            </p>
+            <p>
+              <label>Schedule B: </label>
+              Start Time :{" "}
+              {this.props.myStaffs[row_index].schedules[day][1].startTime}{" "}
+              <br />
+              End Time :{" "}
+              {this.props.myStaffs[row_index].schedules[day][1].endTime} <br />
+            </p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
       case "CONFIRM":
         content = (
-          <div className="transfer-money-confirm">
+          <div className="confirm">
             <h5>Success!</h5>
             <p>Please proceed below.</p>
             <Button className="btn-primary" onClick={this.closeModal}>
@@ -368,7 +402,15 @@ class StaffGroupSchedule extends React.Component {
                                   />
                                 </span>
                                 <span className="pull-left">
-                                  <i class="fa fa-arrows" />
+                                  <i
+                                    class="fa fa-arrows"
+                                    onClick={this.openModal.bind(
+                                      this,
+                                      "MAXIMIZE",
+                                      index,
+                                      val
+                                    )}
+                                  />
                                 </span>
                                 <span className="pull-right">
                                   <i class="fa fa-edit" />
