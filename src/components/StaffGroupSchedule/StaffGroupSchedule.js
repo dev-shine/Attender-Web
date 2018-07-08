@@ -13,19 +13,187 @@ import API from "./../../services/api"
 // import "./VenueProfile.css"
 
 class StaffGroupSchedule extends React.Component {
-  // renderWeek(obj) {
-  //   obj.map((i) => {
-  //     console.log(i)
-  //     return (
-  //     <tr>
-  //       <td>{i}</td>
-  //     </tr>
-  //     )
-  //   })
-  // }
+  constructor(props) {
+    super(props)
+    this.closeModal = this.closeModal.bind(this)
+    this.onChangeInput = this.onChangeInput.bind(this)
+  }
+  state = {
+    openModal: false,
+    modalContent: "Under construction",
+    customModalStyle: {},
+
+    staff: {},
+
+    time_start_a: "",
+    time_end_a: "",
+    time_start_b: "",
+    time_end_b: "",
+    selected_row: "",
+    selected_day: ""
+  }
+  onChangeInput = e => {
+    console.log(e.target.name, e.target.value)
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  closeModal() {
+    this.setState({ openModal: false })
+  }
+  saveModal(type) {
+    let api_url = "",
+      confirm_modal_name = ""
+    let body = {}
+    switch (type) {
+      case "ADD_ENTRY":
+        let new_sched = this.props.myStaffs[this.state.selected_row].schedules
+        new_sched[this.state.selected_day] = [
+          {
+            startTime: this.state.time_start_a,
+            endTime: this.state.time_end_a
+          },
+          {
+            startTime: this.state.time_start_b,
+            endTime: this.state.time_end_b
+          }
+        ]
+        console.log(new_sched)
+        body = {
+          schedules: JSON.stringify(new_sched)
+        }
+        api_url = `save-staff-sched/${
+          this.props.myStaffs[this.state.selected_row]._id
+        }`
+        confirm_modal_name = "CONFIRM"
+        break
+    }
+    API.post(api_url, body).then(res => {
+      if (!res.status) {
+        alert(JSON.stringify(res))
+      }
+      if (res.status) {
+        this.openModal(confirm_modal_name)
+      }
+    })
+  }
+  openModal(type, row_index, day) {
+    let content = "",
+      customModalStyle = {}
+    switch (type) {
+      case "ADD_ENTRY":
+        content = (
+          <div className="have-header form-content">
+            <h5>Add Schedule</h5>
+            <p>
+              <label>Start Time A</label>
+              <select name="time_start_a" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <p>
+              <label>End Time A</label>
+              <select name="time_end_a" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <hr />
+            <p>
+              <label>Start Time B</label>
+              <select name="time_start_b" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <p>
+              <label>End Time B</label>
+              <select name="time_end_b" onChange={this.onChangeInput}>
+                <optgroup>{this.renderTimeDom()}</optgroup>
+              </select>
+            </p>
+            <Button
+              className="btn-primary"
+              onClick={this.saveModal.bind(this, "ADD_ENTRY", row_index)}
+            >
+              Ok
+            </Button>
+          </div>
+        )
+        break
+      case "CONFIRM":
+        content = (
+          <div className="transfer-money-confirm">
+            <h5>Success!</h5>
+            <p>Please proceed below.</p>
+            <Button className="btn-primary" onClick={this.closeModal}>
+              Ok
+            </Button>
+          </div>
+        )
+        break
+    }
+    this.setState({
+      selected_row: row_index,
+      selected_day: day,
+      modalContent: content,
+      openModal: true
+    })
+  }
+  modal() {
+    return (
+      <div className="a-modal show">
+        <div className="a-modal-content" style={{ maxWidth: "850px" }}>
+          <span className="a-close" onClick={this.closeModal}>
+            &times;
+          </span>
+          {this.state.modalContent}
+        </div>
+      </div>
+    )
+  }
+  renderTimeDom() {
+    const time = [
+      "[Select]",
+      "06 AM",
+      "07 AM",
+      "08 AM",
+      "09 AM",
+      "10 AM",
+      "11 AM",
+      "12 NN",
+      "01 PM",
+      "02 PM",
+      "03 PM",
+      "04 PM",
+      "05 PM",
+      "06 PM",
+      "07 PM",
+      "08 PM",
+      "09 PM",
+      "10 PM",
+      "11 PM",
+      "12 MN",
+      "01 AM",
+      "02 AM",
+      "03 AM",
+      "04 AM",
+      "05 AM"
+    ]
+    return Object.keys(time).map(key => {
+      if (time[key] == "[Select]") {
+        return (
+          <option key={key} value="">
+            {time[key]}
+          </option>
+        )
+      } else {
+        return <option key={key}>{time[key]}</option>
+      }
+    })
+  }
   render() {
     return (
       <div>
+        {this.state.openModal ? this.modal() : null}
         <NavBar />
         <div className="container xem app-body">
           <div className="container StaffGroupSchedule">
@@ -74,7 +242,7 @@ class StaffGroupSchedule extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(this.props.myStaffs).map(i => {
+                {Object.keys(this.props.myStaffs).map((i, index) => {
                   let day = [
                     "monday",
                     "tuesday",
@@ -85,7 +253,7 @@ class StaffGroupSchedule extends React.Component {
                     "sunday"
                   ]
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>
                         <span className="edit-toggle">
                           <i class="fa fa-edit" />
@@ -102,8 +270,16 @@ class StaffGroupSchedule extends React.Component {
                           ""
                         ) {
                           return (
-                            <td>
-                              <span className="add">
+                            <td key={val}>
+                              <span
+                                className="add"
+                                onClick={this.openModal.bind(
+                                  this,
+                                  "ADD_ENTRY",
+                                  index,
+                                  val
+                                )}
+                              >
                                 <i class="fa fa-plus-circle" />
                               </span>
                             </td>
@@ -166,13 +342,6 @@ class StaffGroupSchedule extends React.Component {
         </div>
       </div>
     )
-  }
-
-  constructor(props) {
-    super(props)
-  }
-  state = {
-    staff: {}
   }
   fetch = async () => {}
   componentWillMount() {

@@ -137,6 +137,8 @@ class App extends Component {
             path="/staff/profile/:staff_id"
             component={StaffProfile}
           />
+          <Route exact path="/staffs-group" component={StaffGroupSchedule} />
+          <Route exact path="/staffs-my" component={MyStaff} />
         </main>
       </div>
     )
