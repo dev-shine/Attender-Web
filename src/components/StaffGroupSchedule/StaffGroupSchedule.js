@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
+import { setProfileDetails } from "./../../actions/myProfile-actions"
 import _ from "lodash"
 
 import NavBar from "./../layouts/NavBar"
@@ -41,7 +42,10 @@ class StaffGroupSchedule extends React.Component {
     selected_row: "",
     selected_day: "",
 
-    to_day: ""
+    to_day: "",
+
+    venueName: "",
+    manager: ""
   }
   onChangeInput = e => {
     console.log(e.target.name, e.target.value)
@@ -52,7 +56,19 @@ class StaffGroupSchedule extends React.Component {
   closeModal() {
     this.setState({ openModal: false })
   }
-  saveModal(type) {
+  refresh_store_my_profile = async () => {
+    let profile = await API.get("auth/current")
+    if (profile) {
+      if (profile.status) {
+        profile.data = Object.assign({}, profile.data)
+        console.log(profile.data)
+        this.props.onSetProfileDetails(profile.data)
+      }
+    }
+  }
+  saveModal(type, refreshProfile) {
+    refreshProfile =
+      typeof refreshProfile !== "undefined" ? refreshProfile : false
     let api_url = "",
       confirm_modal_name = "",
       new_sched = {}
@@ -89,6 +105,15 @@ class StaffGroupSchedule extends React.Component {
         }`
         confirm_modal_name = "CONFIRM"
         break
+      case "EDIT_DETAILS":
+        body = {
+          name: this.state.venueName,
+          managerName: this.state.manager
+        }
+        api_url = `user/profile/venue`
+        confirm_modal_name = "CONFIRM"
+
+        break
     }
     API.post(api_url, body).then(res => {
       if (!res.status) {
@@ -96,6 +121,9 @@ class StaffGroupSchedule extends React.Component {
       }
       if (res.status) {
         this.openModal(confirm_modal_name)
+        if (refreshProfile) {
+          this.refresh_store_my_profile()
+        }
       }
     })
   }
@@ -240,6 +268,45 @@ class StaffGroupSchedule extends React.Component {
           </div>
         )
         break
+      case "EDIT_DETAILS":
+        content = (
+          <div className="have-header form-content">
+            <h5>Edit Details</h5>
+            <p>
+              <label>Venue Name</label>
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="venueName"
+                required
+                defaultValue={this.props.myProfile.employer.name}
+              />
+            </p>
+            <p>
+              <label>Manager</label>
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="manager"
+                required
+                defaultValue={this.props.myProfile.employer.managerName}
+              />
+            </p>
+            <hr />
+            <Button
+              className="btn-primary"
+              onClick={this.saveModal.bind(
+                this,
+                "EDIT_DETAILS",
+                row_index,
+                true
+              )}
+            >
+              Ok
+            </Button>
+          </div>
+        )
+        break
       case "CONFIRM":
         content = (
           <div className="confirm">
@@ -320,10 +387,10 @@ class StaffGroupSchedule extends React.Component {
           <div className="container StaffGroupSchedule">
             <h3>Your Weekly Staff Schedule For Venue</h3>
             <div className="week-navigator">
-              <i class="fa fa-arrow-left" />
+              <i className="fa fa-arrow-left" />
               <span className="from">Monday,August 14 2017</span> -
               <span className="to">Sunday,August 20 2017</span>
-              <i class="fa fa-arrow-right" />
+              <i className="fa fa-arrow-right" />
             </div>
             <table border="1" className="calendar-table">
               <thead>
@@ -368,12 +435,20 @@ class StaffGroupSchedule extends React.Component {
                     <tr key={index}>
                       <td>
                         <span className="edit-toggle">
-                          <i class="fa fa-edit" />
+                          <i
+                            className="fa fa-edit"
+                            onClick={this.openModal.bind(
+                              this,
+                              "EDIT_DETAILS",
+                              index,
+                              null
+                            )}
+                          />
                         </span>
                         <p className="week-data">
                           Rostered : 09 : 00hrs | 4 Shifts <br />
-                          Venue : Lumi Bar & Cafe <br />
-                          Manager : Michael Barks
+                          Venue : {this.props.myProfile.employer.name} <br />
+                          Manager : {this.props.myProfile.employer.managerName}
                         </p>
                       </td>
                       {this.state.day.map(val => {
@@ -392,7 +467,7 @@ class StaffGroupSchedule extends React.Component {
                                   val
                                 )}
                               >
-                                <i class="fa fa-plus-circle" />
+                                <i className="fa fa-plus-circle" />
                               </span>
                             </td>
                           )
@@ -404,7 +479,7 @@ class StaffGroupSchedule extends React.Component {
                                 {this.props.myStaffs[i].staff.fullname}
                               </div>
                               <p className="schedule-time">
-                                <i class="fa fa-clock" />{" "}
+                                <i className="fa fa-clock" />{" "}
                                 {
                                   this.props.myStaffs[i].schedules[val][0]
                                     .startTime
@@ -415,7 +490,7 @@ class StaffGroupSchedule extends React.Component {
                                     .endTime
                                 }{" "}
                                 <br />
-                                <i class="fa fa-clock" />{" "}
+                                <i className="fa fa-clock" />{" "}
                                 {
                                   this.props.myStaffs[i].schedules[val][1]
                                     .startTime
@@ -429,7 +504,7 @@ class StaffGroupSchedule extends React.Component {
                               <div className="buttons">
                                 <span className="pull-left">
                                   <i
-                                    class="fa fa-clone"
+                                    className="fa fa-clone"
                                     onClick={this.openModal.bind(
                                       this,
                                       "CLONE_TO_DAY",
@@ -440,7 +515,7 @@ class StaffGroupSchedule extends React.Component {
                                 </span>
                                 <span className="pull-left">
                                   <i
-                                    class="fa fa-arrows"
+                                    className="fa fa-arrows"
                                     onClick={this.openModal.bind(
                                       this,
                                       "MAXIMIZE",
@@ -451,7 +526,7 @@ class StaffGroupSchedule extends React.Component {
                                 </span>
                                 <span className="pull-right">
                                   <i
-                                    class="fa fa-edit"
+                                    className="fa fa-edit"
                                     onClick={this.openModal.bind(
                                       this,
                                       "EDIT_ENTRY",
@@ -466,7 +541,7 @@ class StaffGroupSchedule extends React.Component {
                                       this.props.myStaffs[i].staff._id
                                     }`}
                                   >
-                                    <i class="fa fa-envelope" />
+                                    <i className="fa fa-envelope" />
                                   </Link>
                                 </span>
                               </div>
@@ -495,5 +570,11 @@ const mapStateToProps = state => {
   return state
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onSetProfileDetails: setProfileDetails
+    },
+    dispatch
+  )
 export default connect(mapStateToProps, mapDispatchToProps)(StaffGroupSchedule)
