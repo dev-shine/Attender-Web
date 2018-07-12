@@ -37,14 +37,12 @@
 			padding:5px;
 			border-color:#d2d3d5;
 		}
-		.load-active-staffs{
-			text-transform:uppercase;	
-			color:#c0fdfe;
-			margin:10px;
-		}
-		.load-trial-staffs{
+		.load-staffs-details{
 			text-transform:uppercase;	
 			margin:10px;
+			&.active-tab {
+				color:#c0fdfe;
+			}
 		}
 		.calendar-day{
 

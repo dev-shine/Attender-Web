@@ -547,14 +547,12 @@
   padding: 5px;
   border-color: #d2d3d5;
 }
-.StaffGroupSchedule .calendar-table .load-active-staffs {
+.StaffGroupSchedule .calendar-table .load-staffs-details {
   text-transform: uppercase;
-  color: #c0fdfe;
   margin: 10px;
 }
-.StaffGroupSchedule .calendar-table .load-trial-staffs {
-  text-transform: uppercase;
-  margin: 10px;
+.StaffGroupSchedule .calendar-table .load-staffs-details.active-tab {
+  color: #c0fdfe;
 }
 .StaffGroupSchedule .calendar-table .calendar-day {
   background: #c2fcfd;

@@ -45,13 +45,17 @@ class StaffGroupSchedule extends React.Component {
     to_day: "",
 
     venueName: "",
-    manager: ""
+    manager: "",
+    hideTrial: false
   }
   onChangeInput = e => {
     console.log(e.target.name, e.target.value)
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+  hideTrial(hideTrial) {
+    this.setState({ hideTrial })
   }
   closeModal() {
     this.setState({ openModal: false })
@@ -396,8 +400,24 @@ class StaffGroupSchedule extends React.Component {
               <thead>
                 <tr>
                   <td>
-                    <span className="load-active-staffs">Active Staff</span>
-                    <span className="load-trial-staffs">Trial Period</span>
+                    <span
+                      className={
+                        "load-staffs-details " +
+                        (!this.state.hideTrial ? "active-tab" : "")
+                      }
+                      onClick={this.hideTrial.bind(this, false)}
+                    >
+                      Active Staff
+                    </span>
+                    <span
+                      className={
+                        "load-staffs-details " +
+                        (this.state.hideTrial ? "active-tab" : "")
+                      }
+                      onClick={this.hideTrial.bind(this, true)}
+                    >
+                      Trial Period
+                    </span>
                   </td>
                   <td className="calendar-day">
                     <span className="day">Monday</span>
@@ -431,6 +451,8 @@ class StaffGroupSchedule extends React.Component {
               </thead>
               <tbody>
                 {Object.keys(this.props.myStaffs).map((i, index) => {
+                  if (this.state.hideTrial && this.props.myStaffs[i].trial)
+                    return null
                   return (
                     <tr key={index}>
                       <td>
