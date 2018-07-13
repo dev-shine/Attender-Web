@@ -330,7 +330,9 @@ class Earnings extends Component {
   // #endregion
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => {
+  return state
+}
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
