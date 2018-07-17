@@ -55,7 +55,7 @@ class Messages extends Component {
     }
   }
   componentWillMount = async () => {
-    // API.initRequest()
+    API.initRequest()
     // let profile = await API.getProfile()
 
     const profile = loadState("com.attender.pty.ltd.profile")
@@ -92,6 +92,18 @@ class Messages extends Component {
         )
       }
     })
+
+    // get staff staff/this.props.match.staff/show
+    console.log("componentwillmount", this.props.match.params.staff)
+    if (this.props.match.params.staff) {
+      let stranger_staff = API.get(
+        `staff/${this.props.match.params.staff}/show`
+      ).then(res => {
+        console.log(res)
+        let threads = this.state.threads
+      })
+      /* if have value add on threads */
+    }
   }
 
   getStaffMessages = () => {
@@ -174,7 +186,8 @@ class Messages extends Component {
   }
 
   getConversation = () => {
-    API.get(`conversation/${this.state.thread._id}`).then(res => {
+    let thread_id = this.state.thread._id ? this.state.thread._id : ""
+    API.get(`conversation/${thread_id}`).then(res => {
       if (res.status) {
         let formatMessages = []
         let date = null
@@ -246,7 +259,10 @@ class Messages extends Component {
     var thread = this.state.thread
 
     var body = {
-      receiver: thread ? thread.usid : this.state.selectedStaff.user,
+      receiver:
+        typeof thread.usid === "undefined"
+          ? thread.usid
+          : this.props.match.params.staff,
       message: this.state.inputMessage
     }
 
@@ -254,7 +270,7 @@ class Messages extends Component {
     body[this.state.profile.isStaff ? "venue" : "staff"] = thread
       ? thread.uselect
       : this.state.selectedStaff._id
-
+    console.log(body)
     API.post(
       this.state.profile.isStaff
         ? "new-venue-message"
