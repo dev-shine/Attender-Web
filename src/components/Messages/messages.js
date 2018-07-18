@@ -96,13 +96,48 @@ class Messages extends Component {
     // get staff staff/this.props.match.staff/show
     console.log("componentwillmount", this.props.match.params.staff)
     if (this.props.match.params.staff) {
-      let stranger_staff = API.get(
-        `staff/${this.props.match.params.staff}/show`
+      // SEND BLANK MESSAGE
+      var self = this
+
+      var thread = this.state.thread
+
+      var body = {
+        receiver: this.props.match.params.staff,
+        message: this.state.inputMessage
+      }
+
+      API.post(
+        this.props.myProfile.isStaff
+          ? "new-venue-message"
+          : thread
+            ? "new-staff-message"
+            : "new-initial-message",
+        body
       ).then(res => {
-        console.log(res)
-        let threads = this.state.threads
+        if (res.status) {
+          self.setState({ inputMessage: "" }, function() {
+            if (res.thread) {
+              self.setState({ renderMessagesLoading: true }, () => {
+                const thread = res.thread
+                client.joinRoom(thread._id, {}, (err, message) => {
+                  self.setState(
+                    {
+                      threads: [...self.state.threads, thread],
+                      thread,
+                      renderMessagesLoading: false
+                    },
+                    () => {
+                      console.log("newthreads", this.state.threads)
+                      self.getConversation()
+                    }
+                  )
+                })
+              })
+            }
+            self.inputMessageRef.focus()
+          })
+        }
       })
-      /* if have value add on threads */
     }
   }
 
