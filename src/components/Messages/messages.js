@@ -466,22 +466,26 @@ class Messages extends Component {
                 </div>
                 <div className="col-sm-9">
                   <span>{thread.uname}</span>
-                  <span className="pull-right">
-                    <FontAwesome
-                      name="trash"
-                      onClick={this.handleDeleteConversation.bind(this, thread)}
-                    />
+                  <div className="pull-right">
                     {this.state.thread._id === thread._id &&
                     this.props.myProfile.isStaff === false ? (
                       <div className="drop-menu gear">
-                        <img
-                          alt=""
-                          src={require("./../../assets/icons/messages/gear.png")}
+                        <span
                           onClick={this.showGearOption.bind(this, thread._id)}
-                        />
+                        >
+                          <i class="fa fa-cog" />
+                        </span>
                         {this.state.eventDropdown === thread._id ? (
                           <div className="e-dropdown">
                             <div className="e-dropdown-content">
+                              <p
+                                to={this.handleDeleteConversation.bind(
+                                  this,
+                                  thread
+                                )}
+                              >
+                                Delete Conversation
+                              </p>
                               <Link to={`/staff/profile/${thread.staff._id}`}>
                                 View Profile
                               </Link>
@@ -492,12 +496,11 @@ class Messages extends Component {
                           </div>
                         ) : null}
                       </div>
-                    ) : null}
-                  </span>
-                  <div className="m-thread-msg">
-                    {!thread.seen ? (
+                    ) : !thread.seen ? (
                       <span className="a-badge pull-right" />
                     ) : null}
+                  </div>
+                  <div className="m-thread-msg">
                     <TextTruncate
                       line={1}
                       truncateText="…"

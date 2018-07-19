@@ -2019,7 +2019,6 @@ textarea {
 .m-contacts {
   border-right: 0.5px solid rgba(0, 0, 0, 0.2);
   height: 36em;
-  padding-left: 3em;
   padding-right: 3em;
   overflow-x: auto;
 }
@@ -2056,10 +2055,8 @@ textarea {
 }
 
 .m-thread {
-  padding-left: 1em;
   padding-top: 1em;
   padding-bottom: 1em;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
