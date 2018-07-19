@@ -1,3 +1,13 @@
+.messages-page {
+    margin-top: 20px;
+        width: 1290px;
+    max-width: none;
+}
+.content-messages {
+	margin-top: 130px;
+	    width: auto;
+	    margin-bottom: 50px;
+}
 .messages-body {
 	.m-thread {
 		.gear {
@@ -6,4 +16,24 @@
 			}
 		}
 	}
+}
+.messages-header {
+	.m-head {
+		.pull-right {
+			width: 85px;
+		}
+	}
+	 span {
+	    margin-left: 20px;
+	}
+
+}
+.m-messages {
+	    width: 845px;
+}
+.m-composer {
+	 width: 845px;
+}
+.m-contacts-menu {
+	    width: 100%;
 }

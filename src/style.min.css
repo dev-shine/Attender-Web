@@ -76,8 +76,40 @@
   padding-top: 0.44em;
 }
 
+.messages-page {
+  margin-top: 20px;
+  width: 1290px;
+  max-width: none;
+}
+
+.content-messages {
+  margin-top: 130px;
+  width: auto;
+  margin-bottom: 50px;
+}
+
 .messages-body .m-thread .gear img {
   width: 20px;
+}
+
+.messages-header .m-head .pull-right {
+  width: 85px;
+}
+
+.messages-header span {
+  margin-left: 20px;
+}
+
+.m-messages {
+  width: 845px;
+}
+
+.m-composer {
+  width: 845px;
+}
+
+.m-contacts-menu {
+  width: 100%;
 }
 
 .m-search-venues button {

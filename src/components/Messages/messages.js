@@ -696,7 +696,7 @@ class Messages extends Component {
           </span>
           <div className="row">
             <div className="col-sm-12">
-              <div className="container xem center navigator">
+              <div className="xem center navigator">
                 <div className="m-composer">
                   <div>
                     <button onClick={this.onPressStartTrial}>OK</button>
@@ -778,7 +778,7 @@ class Messages extends Component {
 			) : null
 		  */}
         <NavBar />
-        <div className="container xxem">
+        <div className="container xxem messages-page">
           <div className="content-messages">
             <div className="messages-header">
               <div className="row">
@@ -831,7 +831,7 @@ class Messages extends Component {
                   {this.state.tab === "staff" ? this.renderMyStaff() : null}
                 </div>
 
-                <div className="col-sm-8 m-messages">
+                <div className="m-messages">
                   {this.renderEventModal()}
                   {this.renderMessages()}
                   {this.renderComposer()}
