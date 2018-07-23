@@ -41,8 +41,12 @@ class Navigator extends Component {
             })
           })
           this.props.onSetStaffs(allStaff)
-          // console.log(allStaff)
-          this.props.goFindStaff()
+
+          if (this.state.profile.data.isVenue) {
+            this.props.goVenueProfile()
+          } else {
+            this.props.goFindStaff()
+          }
         }
       })
     }
@@ -112,7 +116,7 @@ const mapDispatchToProps = dispatch =>
       goConfirm: () => push("/confirm/token"),
       goSchedules: () => push("/schedules"),
       goCalendar: () => push("/calendar"),
-
+      goVenueProfile: () => push("/my-profile"),
       onSetProfileDetails: setProfileDetails,
       onSetStaffs: setMyStaffs
     },

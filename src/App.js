@@ -132,6 +132,8 @@ class App extends Component {
             path="/venue/profile/:venue_id"
             component={VenueProfile}
           />
+          <Route exact path="/my-profile" component={VenueProfile} />
+
           <Route
             exact
             path="/staff/profile/:staff_id"

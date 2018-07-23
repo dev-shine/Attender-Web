@@ -24,8 +24,14 @@ class VenueProfile extends React.Component {
     const {
       match: { params }
     } = this.props
-    let venue_id = params.venue_id
+    // let venue_id = '5a3b7775edf7bf7540214240'
+    let venue_id = this.props.myProfile.employer._id
+    if (params.venue_id) {
+      venue_id = params.venue_id
+    }
+
     const data = await API.get("venues/" + venue_id)
+    console.log(data)
     this.setState({ venue: data.venue })
   }
   componentWillMount() {
@@ -56,7 +62,7 @@ class VenueProfile extends React.Component {
                   <span className="venue-avatar-overlay" />
                   <img src={this.state.venue.image} />
                 </div>
-                <div className="venue-details-container container">
+                <div className="venue-details-container">
                   <span className="venue-edit-toggle" />
                   <div className="venue-detail venue-name row">
                     <label className="col-md-5">Venue Name</label>
