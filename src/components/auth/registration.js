@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import API from "./../../services/api"
+import constant from "./../../configs/constant"
+import helper from "./../../helper/ZHelper"
 
 class Registration extends Component {
   constructor(props) {
@@ -15,6 +17,7 @@ class Registration extends Component {
       password: "",
       confirm: false
     }
+    this.onRegister = this.onRegister.bind(this)
   }
 
   onChangeInput = e => {
@@ -27,21 +30,30 @@ class Registration extends Component {
     this.setState(prevState => ({ confirm: !prevState.confirm }))
   }
 
-  onRegister = async () => {
+  async onRegister() {
     if (this.state.confirm) {
-      let response = await API.post("auth/register", {
-        fullname: this.state.name,
-        email: this.state.email,
-        mobile: this.state.mobile,
-        password: this.state.password
+      const that = this
+      fetch(constant.API_URL + "auth/register", {
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-request-token": this.REQUEST_TOKEN || ""
+        },
+        body: helper.createParam({
+          fullname: this.state.name,
+          email: this.state.email,
+          mobile: this.state.mobile,
+          password: this.state.password
+        })
+      }).then(function(response) {
+        if (response.status) {
+          API.setToken(response.token)
+          that.props.onSuccess()
+        } else {
+          alert(response.messageCode)
+        }
       })
-
-      if (response.status) {
-        API.setToken(response.token)
-        this.props.onSuccess()
-      } else {
-        alert(response.messageCode)
-      }
     } else {
       alert("You need to confirm to Terms and Conditions")
     }
@@ -118,7 +130,7 @@ class Registration extends Component {
         <div className="reg-action">
           <button
             className="a-btn btn-round btn-outline-dark"
-            onClick={() => this.onRegister()}
+            onClick={this.onRegister}
           >
             Confirm
           </button>
