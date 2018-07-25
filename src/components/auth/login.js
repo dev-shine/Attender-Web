@@ -134,7 +134,7 @@ class Login extends Component {
                 <Col smOffset={2} sm={8} className="social-container">
                   <div>
                     <div
-                      class="fb-login-button"
+                      className="fb-login-button"
                       data-max-rows="1"
                       data-size="large"
                       data-button-type="login_with"
