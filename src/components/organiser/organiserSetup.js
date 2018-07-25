@@ -7,6 +7,9 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import API from "./../../services/api"
 
+import constant from "./../../configs/constant"
+import helper from "./../../helper/ZHelper"
+
 class OrganiserSetup extends Component {
   constructor(props) {
     super(props)
@@ -97,21 +100,34 @@ class OrganiserSetup extends Component {
     })
 
     API.initRequest()
-    let response = await API.post("user/profile/organizer", {
-      name,
-      isCompany,
-      companyName,
-      locationName,
-      location: location.join(),
-      bio,
-      eventType: eventType.join()
+    const that = this
+    fetch(constant.API_URL + "user/profile/organizer", {
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-request-token": localStorage.getItem(
+          "com.attender.pty.ltd.token",
+          ""
+        )
+      },
+      body: helper.createParam({
+        name,
+        isCompany,
+        companyName,
+        locationName,
+        location: location.join(),
+        bio,
+        eventType: eventType.join()
+      })
+    }).then(function(response) {
+      that.setState({ isLoading: false })
+      if (response.status) {
+        that.props.goMain()
+      } else {
+        alert("Something Went Wrong")
+      }
     })
-    this.setState({ isLoading: false })
-    if (response.status) {
-      this.props.goMain()
-    } else {
-      alert("Something Went Wrong")
-    }
   }
 
   renderFirstStep = () => {
@@ -315,7 +331,7 @@ class OrganiserSetup extends Component {
         <div className="content-vs-footer">
           <button
             className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onSave()}
+            onClick={this.onSave.bind(this)}
           >
             Save
           </button>

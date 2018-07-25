@@ -12,6 +12,9 @@ import { connect } from "react-redux"
 import API, { cloudinary } from "./../../services/api"
 import TimePicker from "./staffTimePicker"
 
+import constant from "./../../configs/constant"
+import helper from "./../../helper/ZHelper"
+
 class VenueSetup extends Component {
   constructor(props) {
     super(props)
@@ -229,27 +232,36 @@ class VenueSetup extends Component {
       file: this.state.selectedImage,
       preset: "aepowkth"
     })
-
+    const that = this
     API.initRequest()
-    let response = await API.post("user/profile/venue", {
-      name,
-      managerName,
-      image,
-      locationName,
-      openingHours,
-      numberEmployees,
-      services: services.join(),
-      type: type.join(),
-      location: location.join(),
-      socialMedia: socialMedia.join(),
-      staffOfInterest: JSON.stringify(staffOfInterest)
+    fetch(constant.API_URL + "user/profile/venue", {
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-request-token": this.REQUEST_TOKEN || ""
+      },
+      body: helper.createParam({
+        name,
+        managerName,
+        image,
+        locationName,
+        openingHours,
+        numberEmployees,
+        services: services.join(),
+        type: type.join(),
+        location: location.join(),
+        socialMedia: socialMedia.join(),
+        staffOfInterest: JSON.stringify(staffOfInterest)
+      })
+    }).then(function(response) {
+      that.setState({ isLoading: false })
+      if (response.status) {
+        that.props.goMain()
+      } else {
+        alert("Something Went Wrong")
+      }
     })
-    this.setState({ isLoading: false })
-    if (response.status) {
-      this.props.goMain()
-    } else {
-      alert("Something Went Wrong")
-    }
   }
 
   onSelectOption = (key, obj) => {
@@ -884,7 +896,7 @@ class VenueSetup extends Component {
         <div className="content-sm-footer">
           <button
             className="pull-right a-btn btn-round btn-dark"
-            onClick={() => this.onSave()}
+            onClick={this.onSave.bind(this)}
           >
             Search
           </button>
