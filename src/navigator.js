@@ -59,11 +59,12 @@ class Navigator extends Component {
 
     if (profile) {
       if (profile.status) {
-        if (!profile.data.isStaff) {
-          isSubscribed = await API.get("subscription/check")
-        }
+        // if (!profile.data.isStaff) {
+        // isSubscribed = await API.get("subscription/check")
+        // }
         profile.data = Object.assign({}, profile.data, {
-          isSubscribed: isSubscribed.status
+          // isSubscribed: isSubscribed.status
+          isSubscribed: false
         })
         this.props.onSetProfileDetails(profile.data)
 
