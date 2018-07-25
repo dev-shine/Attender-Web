@@ -24,7 +24,7 @@ class Navigator extends Component {
   }
 
   getStaffs = async () => {
-    if (!this.state.profile.isStaff) {
+    if (!this.state.profile.data.isStaff) {
       API.get("my-staffs?withTrial=true").then(res => {
         if (res && res.status) {
           const allStaff = []
@@ -54,11 +54,14 @@ class Navigator extends Component {
 
   getProfile = async () => {
     let profile = await API.get("auth/current")
+    let isSubscribed = false
     this.setState({ profile })
-    let isSubscribed = await API.get("subscription/check")
 
     if (profile) {
       if (profile.status) {
+        if (!profile.data.isStaff) {
+          isSubscribed = await API.get("subscription/check")
+        }
         profile.data = Object.assign({}, profile.data, {
           isSubscribed: isSubscribed.status
         })

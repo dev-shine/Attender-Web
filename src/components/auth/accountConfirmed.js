@@ -18,7 +18,7 @@ class AccountConfirmed extends Component {
     } = this.props
     let verification = params.verification
     let token = params.token
-    let response = await API.post(`verify/${verification}/${token}`)
+    let response = await API.get(`verify/${verification}/${token}`)
     if (response.status) {
       API.setToken(response.token)
       let profile = await API.get("auth/current")

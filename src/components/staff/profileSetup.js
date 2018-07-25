@@ -332,7 +332,7 @@ class ProfileSetup extends Component {
       preset: "aepowkth"
     })
 
-    let response = await API.post("user/profile/staff", {
+    let response = await API.get("user/profile/staff", {
       fullname,
       bio,
       gender,
@@ -352,7 +352,6 @@ class ProfileSetup extends Component {
       preferredLocation,
       preferredDistance
     })
-
     this.setState({ isLoading: false })
     if (response.status) {
       this.props.goMain()
@@ -571,7 +570,7 @@ class ProfileSetup extends Component {
                     this.state.gender === "male" ? "a-btn btn-active" : "a-btn"
                   }
                 >
-                  <FontAwesome name="mars" size="1x" />&nbsp;&nbsp;Male
+                  <FontAwesome name="mars" size="lg" />&nbsp;&nbsp;Male
                 </button>
                 <button
                   onClick={() => this.changeGender("female")}
