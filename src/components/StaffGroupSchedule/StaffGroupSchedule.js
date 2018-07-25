@@ -49,7 +49,6 @@ class StaffGroupSchedule extends React.Component {
     hideTrial: false
   }
   onChangeInput = e => {
-    console.log(e.target.name, e.target.value)
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -65,7 +64,6 @@ class StaffGroupSchedule extends React.Component {
     if (profile) {
       if (profile.status) {
         profile.data = Object.assign({}, profile.data)
-        console.log(profile.data)
         this.props.onSetProfileDetails(profile.data)
       }
     }

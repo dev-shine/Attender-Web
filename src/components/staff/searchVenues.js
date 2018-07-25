@@ -83,7 +83,6 @@ class SearchVenues extends Component {
     API.initRequest()
     const resultVenues = await API.get("venues")
     const resultEvents = await API.get("events")
-    console.log("events", resultEvents)
     this.setState({
       defaultVenues: resultVenues.venues,
       venues: resultVenues.venues,
@@ -187,13 +186,7 @@ class SearchVenues extends Component {
       events = this.state.defaultEvents
     } else {
       events = events.filter(function(event) {
-        console.log(event, eventTypesFilters)
         return Object.keys(eventTypesFilters).some(value => {
-          console.log(
-            event.type.includes(value),
-            eventTypesFilters[value] === true,
-            value
-          )
           if (event.type.includes(value) && eventTypesFilters[value] === true) {
             return true
           }
@@ -214,7 +207,7 @@ class SearchVenues extends Component {
         return { filterTypes: filters }
       },
       () => {
-        console.log("the state filter by", this.state.filterTypes)
+        // console.log("the state filter by", this.state.filterTypes)
       }
     )
   }
@@ -290,13 +283,11 @@ class SearchVenues extends Component {
 
   // end Handle modal actions
   openModal(type, index) {
-    console.log(index)
     let content = "",
       customModalStyle = {}
     switch (type) {
       case "EVENT_PROFILE":
         let events = this.state.events
-        console.log(events[index])
         content = (
           <div>
             <div className="header">

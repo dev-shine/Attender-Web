@@ -26,7 +26,7 @@ class SubscribeSettings extends React.Component {
       subscriptionType: "ACCOUNT_PREMIUM"
     }
     API.post("subscription/cancel", data).then(res => {
-      console.log(res)
+      // console.log(res)
     })
     this.props.onUnsubscribeMe()
     this.closeModal()

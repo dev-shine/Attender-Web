@@ -190,7 +190,6 @@ class StaffEdit extends Component {
   }
 
   componentDidMount() {
-    console.log("the props", this.props.profile)
     if (this.props.profile) {
       this.props.profile.birthdate = moment(
         this.props.profile.birthdate
@@ -201,7 +200,7 @@ class StaffEdit extends Component {
       })
       this.props.profile.positions = positions
       this.setState({ ...this.props.profile }, () => {
-        console.log("theprofile destructured", this.state)
+        // console.log("theprofile destructured", this.state)
       })
     }
   }

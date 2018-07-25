@@ -10,7 +10,6 @@ class NewSuggestionField extends Component {
     this.save = this.save.bind(this)
   }
   handleDescChange(e) {
-    console.log(e)
     this.setState({ description: e.target.value })
   }
   save(event) {

@@ -137,7 +137,6 @@ class Settings extends Component {
   }
   getAllCards = () => {
     API.get("cards").then(res => {
-      console.log(res)
       if (res.status) {
         this.setState({
           cardArray: res.cards,
@@ -190,7 +189,6 @@ class Settings extends Component {
     }
   }
   onChangeInput = e => {
-    console.log(e.target.name, e.target.value)
     this.setState({
       [e.target.name]: e.target.value
     })

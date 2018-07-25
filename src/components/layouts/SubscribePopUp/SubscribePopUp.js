@@ -34,12 +34,10 @@ class SubscribePopUp extends React.Component {
     }
   }
   SubscribeNow() {
-    console.log("here")
     const data = {
       subscriptionType: "ACCOUNT_PREMIUM"
     }
     API.post("subscription/subscribe", data).then(res => {
-      console.log(res)
       this.props.onSubscribeMe()
       this.closeModal()
       this.props.close()
@@ -240,7 +238,6 @@ class SubscribePopUp extends React.Component {
           ) {
             return obj.selected == true
           })
-          console.log(item[0])
           DOM = (
             <div className="row">
               <span className="col-md-5">{item[0].card}</span>

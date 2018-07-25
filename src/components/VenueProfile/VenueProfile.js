@@ -31,7 +31,6 @@ class VenueProfile extends React.Component {
     }
 
     const data = await API.get("venues/" + venue_id)
-    console.log(data)
     this.setState({ venue: data.venue })
   }
   componentWillMount() {

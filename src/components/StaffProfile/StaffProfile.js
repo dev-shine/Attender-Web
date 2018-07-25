@@ -56,7 +56,6 @@ class StaffProfile extends React.Component {
               <div className="text-left">
                 <pre>
                   {Object.keys(this.state.staff).map(function(key) {
-                    console.log(key, staff[key])
                     return <p>{`${key}:${staff[key]}`}</p>
                   })}
                 </pre>

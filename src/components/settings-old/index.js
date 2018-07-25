@@ -69,7 +69,6 @@ class Settings extends Component {
 
   getAllCards = () => {
     API.get("cards").then(res => {
-      console.log(res)
       if (res.status) {
         this.setState({
           cardArray: res.cards,
@@ -107,7 +106,6 @@ class Settings extends Component {
 
   onAddCard = cardDetails => {
     API.post("add-card", cardDetails).then(res => {
-      console.log("status", res)
       if (res.status) {
         this.getAllCards()
       } else {
@@ -225,7 +223,6 @@ class Settings extends Component {
     }
 
     API.post("add-bank", accountDetails).then(res => {
-      console.log("status", res)
       if (res.status) {
         API.post("transfer", {
           account_id: res.bank.promiseId,
@@ -233,7 +230,6 @@ class Settings extends Component {
           to_user: this.state.transferToId,
           from: "bank"
         }).then(resPay => {
-          console.log("pay", resPay)
           if (resPay.status) {
             this.handleOpenModal()
             this.getAllBanks()
@@ -264,7 +260,6 @@ class Settings extends Component {
     }
 
     // Should validate if it is a valid email and not empty
-    console.log("the body", body)
 
     API.post("user/profile/change-email", body).then(res => {
       if (!res.status) {
@@ -284,8 +279,6 @@ class Settings extends Component {
       newPassword: this.state.newPassword,
       newPasswordConfirm: this.state.newPasswordConfirm
     }
-
-    console.log("the body", body)
 
     API.post("user/profile/change-password", body).then(res => {
       if (!res.status) {

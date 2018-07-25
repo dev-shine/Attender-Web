@@ -58,7 +58,6 @@ class VenueEdit extends Component {
   }
 
   componentDidMount() {
-    console.log("the props", this.props.profile)
     if (this.props.profile) {
       const services = this.state.services
       this.props.profile.services.forEach(key => {
@@ -71,7 +70,7 @@ class VenueEdit extends Component {
       })
       this.props.profile.types = types
       this.setState({ ...this.props.profile }, () => {
-        console.log("theprofile destructured", this.state)
+        // console.log("theprofile destructured", this.state)
       })
     }
   }

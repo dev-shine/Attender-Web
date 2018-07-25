@@ -26,8 +26,8 @@ class venueEvent extends Component {
   }
 
   onLogin = () => {
-    console.log("email", this.state.email)
-    console.log("password", this.state.password)
+    // console.log("email", this.state.email)
+    // console.log("password", this.state.password)
   }
 
   render() {

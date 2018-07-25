@@ -67,7 +67,7 @@ class MyStaff extends Component {
       schedules: JSON.stringify(sched)
     }
     API.post("save-staff-sched/" + staffid, staffSchedule).then(res => {
-      console.log(res)
+      // console.log(res)
     })
   }
   selectStaff = () => {
@@ -79,7 +79,6 @@ class MyStaff extends Component {
 
   getAllBanks = () => {
     API.get("banks").then(res => {
-      console.log(res)
       if (res.status) {
         this.setState({
           banksArray: res.banks
@@ -198,7 +197,6 @@ class MyStaff extends Component {
           alert(`There is no total amount to be paid.`)
           // this.setState({isLoadingPayment: false});
         }
-        console.log("Pay staff", res)
       })
     } else {
       alert("Please add atleast (1) bank account")
@@ -210,7 +208,6 @@ class MyStaff extends Component {
     API.get(
       `management/${this.state.selectedPaymentStaff._id}/timesheet/current`
     ).then(res => {
-      console.log("result ts", res)
       if (res.status) {
         this.setState({
           startRate: this.state.selectedPaymentStaff.staff.startRate,
@@ -460,7 +457,7 @@ class MyStaff extends Component {
       "save-staff-assignment/" + this.state.selectedStaff._id,
       $assignments
     ).then(res => {
-      console.log(res)
+      // console.log(res)
     })
     this.setState({ isLoading: false })
   }
@@ -478,7 +475,7 @@ class MyStaff extends Component {
       "save-staff-assignment/" + this.state.selectedStaff._id,
       $assignments
     ).then(res => {
-      console.log(res)
+      // console.log(res)
     })
     this.setState({ isLoading: false })
   }
@@ -568,7 +565,6 @@ class MyStaff extends Component {
 
   getNextOrPreviousTimeSheet = id => {
     API.get(`timesheet/${id}`).then(res => {
-      console.log("timesheet", res)
       if (res.status) {
         this.setState({
           timesheet: res.timesheet,

@@ -13,7 +13,6 @@ class SignSuccess extends Component {
 
   onResend = async () => {
     let response = await API.post("auth/resend", {})
-    console.log(response)
   }
 
   render() {

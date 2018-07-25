@@ -157,7 +157,6 @@ class Earnings extends Component {
   // #region Non Render Methods
   getEarnings = () => {
     API.get("earnings").then(res => {
-      console.log("the earnings", res)
       if (res.status) {
         this.setState({
           totalAvailBalanceLabel: res.wallet.label,

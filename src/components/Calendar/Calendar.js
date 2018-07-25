@@ -424,7 +424,6 @@ class Calendar extends Component {
           <div className="calendar-main-events-body v-scroll scroll">
             {this.state.itemToLoopBelow ? (
               this.state.itemToLoopBelow.map((item, index) => {
-                console.log(item, index)
                 return (
                   <div
                     key={index}
@@ -533,7 +532,6 @@ class Calendar extends Component {
         <div className="calendar-events-list scroll">
           {this.state.itemsToLoopOnList ? (
             this.state.itemsToLoopOnList.map((item, index) => {
-              console.log(item)
               return (
                 <div key={index} className="event card">
                   <div className="row">

@@ -55,7 +55,7 @@ class OrganiserEdit extends Component {
           const types = this.state.types
           types.forEach(t => t.label == type && (t.on = true))
           this.setState({ types }, () => {
-            console.log("theprofile destructured", this.state)
+            // console.log("theprofile destructured", this.state)
           })
         })
       })

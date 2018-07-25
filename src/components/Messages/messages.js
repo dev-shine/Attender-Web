@@ -94,7 +94,6 @@ class Messages extends Component {
     })
 
     // get staff staff/this.props.match.staff/show
-    console.log("componentwillmount", this.props.match.params.staff)
     if (this.props.match.params.staff) {
       // SEND BLANK MESSAGE
       var self = this
@@ -127,7 +126,6 @@ class Messages extends Component {
                       renderMessagesLoading: false
                     },
                     () => {
-                      console.log("newthreads", this.state.threads)
                       self.getConversation()
                     }
                   )
@@ -279,7 +277,7 @@ class Messages extends Component {
 
   leaveSocketRoom = id => {
     client.leaveRoom(id, {}, (err, message) => {
-      console.log(err, message)
+      // console.log(err, message)
     })
   }
 
@@ -305,7 +303,6 @@ class Messages extends Component {
     body[this.state.profile.isStaff ? "venue" : "staff"] = thread
       ? thread.uselect
       : this.state.selectedStaff._id
-    console.log(body)
     API.post(
       this.state.profile.isStaff
         ? "new-venue-message"
@@ -327,7 +324,6 @@ class Messages extends Component {
                     renderMessagesLoading: false
                   },
                   () => {
-                    console.log("newthreads", this.state.threads)
                     self.getConversation()
                   }
                 )
@@ -622,13 +618,11 @@ class Messages extends Component {
                 ? staff.staff.avatar
                 : "http://via.placeholder.com/150x150"
             let classVal = "m-thread"
-            console.log(this.state.selectedStaff._id, staff.staff._id)
             if (this.state.thread !== null) {
               if (this.state.thread.staffId._id === staff.staff._id) {
                 classVal += " active"
               }
             } else {
-              console.log("hey")
               if (this.state.selectedStaff._id == staff.staff._id) {
                 classVal += " active"
               }

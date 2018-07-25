@@ -229,7 +229,7 @@ class EmployerMessage extends Component {
 
   leaveSocketRoom = id => {
     client.leaveRoom(id, {}, (err, message) => {
-      console.log(err, message)
+      // console.log(err, message)
     })
   }
 
@@ -256,7 +256,9 @@ class EmployerMessage extends Component {
     API.post(
       this.state.profile.isStaff
         ? "new-venue-message"
-        : thread ? "new-staff-message" : "new-initial-message",
+        : thread
+          ? "new-staff-message"
+          : "new-initial-message",
       body
     ).then(res => {
       if (res.status) {
@@ -272,7 +274,6 @@ class EmployerMessage extends Component {
                     renderMessagesLoading: false
                   },
                   () => {
-                    console.log("newthreads", this.state.threads)
                     self.getConversation()
                   }
                 )
