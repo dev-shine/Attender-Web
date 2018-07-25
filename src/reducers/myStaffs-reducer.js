@@ -11,15 +11,12 @@ export default function myStaffsReducer(state = "", { type, payload }) {
   switch (type) {
     case SET_STAFFS: {
       const data = Object.assign({}, payload)
-      console.log("reducer", data)
       saveState("com.attender.pty.ltd.mystaffs", data)
       return data
     }
     case GET_STAFFS: {
       const x = loadState("com.attender.pty.ltd.mystaffs")
-      console.log("x", x)
     }
   }
-  console.log("up to here", state)
   return state
 }

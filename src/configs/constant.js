@@ -1,4 +1,3 @@
-console.log("hostname : " + window.location.hostname)
 var config = {}
 if (window.location.hostname === "localhost") {
   config = {

@@ -7,8 +7,6 @@ import createHistory from "history/createBrowserHistory"
 import myProfileReducer from "./reducers/myProfile-reducer"
 import myStaffsReducer from "./reducers/myStaffs-reducer"
 
-console.log(myStaffsReducer)
-
 let myProfile =
   myProfileReducer !== ""
     ? myProfileReducer
@@ -17,9 +15,6 @@ let myStaffs =
   myStaffsReducer !== ""
     ? myStaffsReducer
     : localStorage.getItem("com.attender.pty.ltd.mystaffs")
-
-console.log(myProfile)
-console.log(myStaffs)
 
 const rootReducer = combineReducers({
   myProfile,

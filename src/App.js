@@ -48,7 +48,6 @@ class App extends Component {
     }
   }
   componentWillMount() {
-    console.log("GOOOO")
     const profile = loadState("com.attender.pty.ltd.profile")
     this.setState({ profile })
   }

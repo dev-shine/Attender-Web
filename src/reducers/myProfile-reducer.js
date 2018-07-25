@@ -37,6 +37,5 @@ export default function myProfileReducer(state = "", { type, payload }) {
       return data
     }
   }
-  console.log("profile", state)
   return state
 }

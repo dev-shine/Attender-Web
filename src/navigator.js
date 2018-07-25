@@ -59,11 +59,9 @@ class Navigator extends Component {
 
     if (profile) {
       if (profile.status) {
-        console.log(isSubscribed)
         profile.data = Object.assign({}, profile.data, {
           isSubscribed: isSubscribed.status
         })
-        console.log(profile.data)
         this.props.onSetProfileDetails(profile.data)
 
         if (profile.data.verified) {

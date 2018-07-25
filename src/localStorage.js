@@ -7,7 +7,6 @@ export const loadState = key => {
     }
     return JSON.parse(serializedState)
   } catch (err) {
-    console.log("loadState Error : ", err)
     return undefined
   }
 }
@@ -18,7 +17,6 @@ export const saveState = (key, val) => {
     // console.log(key, serializedState)
     localStorage.setItem(key, serializedState)
   } catch (err) {
-    console.log("saveState Error : ", err)
     // ignore write errors.
   }
 }
