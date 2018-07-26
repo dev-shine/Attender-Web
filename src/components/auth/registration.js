@@ -49,7 +49,9 @@ class Registration extends Component {
       }).then(function(response) {
         if (response.status) {
           API.setToken(response.token)
-          that.props.onSuccess()
+          that.props.history.push(
+            `/success/${that.state.email}/${that.state.mobile}`
+          )
         } else {
           alert(response.messageCode)
         }
@@ -176,8 +178,7 @@ class Registration extends Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      onBack: () => push("/"),
-      onSuccess: () => push("/success")
+      onBack: () => push("/")
     },
     dispatch
   )

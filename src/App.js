@@ -98,7 +98,7 @@ class App extends Component {
           <Route exact path="/organiser-setup" component={OrganiserSetup} />
           <Route exact path="/find-staff" component={FindStaff} />
           {this.renderStaffPage()}
-          <Route exact path="/success" component={SignSuccess} />
+          <Route exact path="/success/:email/:mobile" component={SignSuccess} />
           <Route
             exact
             path="/confirm/:verification/:token"

@@ -13,7 +13,11 @@ class SignSuccess extends Component {
   }
 
   onResend = async () => {
-    let response = await API.post("auth/resend", {})
+    API.initRequest()
+    let response = await API.post("auth/resend", {
+      email: this.props.match.params.email,
+      mobile: this.props.match.params.mobile
+    })
     alert(
       "We have re-sent the confirmation link to your email. Please check your inbox (or spam) and click the link to confirm your account."
     )
@@ -47,6 +51,10 @@ class SignSuccess extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return state
+}
+
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
-export default connect(null, mapDispatchToProps)(SignSuccess)
+export default connect(mapStateToProps, mapDispatchToProps)(SignSuccess)
