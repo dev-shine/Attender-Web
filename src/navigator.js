@@ -12,13 +12,24 @@ class Navigator extends Component {
   state = {
     profile: {}
   }
+  constructor(props) {
+    super(props)
+  }
+
   async componentWillMount() {
     let token = localStorage.getItem("com.attender.pty.ltd.token")
-    if (token) {
+    let profile = localStorage.getItem("com.attender.pty.ltd.profile")
+
+    if (
+      token !== "undefined" &&
+      token !== null &&
+      (profile !== "undefined" && profile !== null)
+    ) {
       API.REQUEST_TOKEN = token
       await this.getProfile()
       await this.getStaffs()
     } else {
+      API.logout()
       this.props.goLogin()
     }
   }
