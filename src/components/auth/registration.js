@@ -46,16 +46,20 @@ class Registration extends Component {
           mobile: this.state.mobile,
           password: this.state.password
         })
-      }).then(function(response) {
-        if (response.status) {
-          API.setToken(response.token)
-          that.props.history.push(
-            `/success/${that.state.email}/${that.state.mobile}`
-          )
-        } else {
-          alert(response.messageCode)
-        }
       })
+        .then(function(response) {
+          return response.json()
+        })
+        .then(function(data) {
+          if (data.status) {
+            API.setToken(data.token)
+            that.props.history.push(
+              `/success/${that.state.email}/${that.state.mobile}`
+            )
+          } else {
+            alert(data.messageCode)
+          }
+        })
     } else {
       alert("You need to confirm to Terms and Conditions")
     }
