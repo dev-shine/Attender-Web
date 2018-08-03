@@ -24,8 +24,8 @@ class lookingFor extends Component {
     this.props.goMain()
   }
 
-  onProfileSetup = () => {
-    this.props.goProfileSetup()
+  goDownloadApp = () => {
+    this.props.goDownloadApp()
   }
 
   onEmployerSetup = () => {
@@ -93,7 +93,7 @@ class lookingFor extends Component {
                         <div className="btn-margin">
                           <Button
                             className="btn-looking accent"
-                            onClick={this.onProfileSetup}
+                            onClick={this.goDownloadApp}
                           >
                             Looking for work
                           </Button>
@@ -122,7 +122,8 @@ class lookingFor extends Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goProfileSetup: () => push("/profile-setup"),
+      goDownloadApp: () => push("/signup-staff"),
+      // goProfileSetup: () => push("/profile-setup"),
       goEmployerSetup: () => push("/employer"),
       goMain: () => push("/")
     },

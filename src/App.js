@@ -35,6 +35,8 @@ import VenueProfile from "./components/VenueProfile/VenueProfile"
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy"
 import StaffProfile from "./components/StaffProfile/StaffProfile"
 
+import SignUpDownloadApp from "./components/SignUpDownloadApp/SignUpDownloadApp"
+
 // Venue/Event Organizer Routes
 import StaffGroupSchedule from "./components/StaffGroupSchedule/StaffGroupSchedule"
 
@@ -89,6 +91,7 @@ class App extends Component {
           <Route exact path="/" component={Navigator} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Registration} />
+          <Route exact path="/signup-staff" component={SignUpDownloadApp} />
           <Route exact path="/looking-for" component={LookingFor} />
           <Route exact path="/profile-setup" component={StaffProfileSetup} />
           <Route exact path="/search-venues" component={SearchVenues} />

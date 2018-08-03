@@ -162,6 +162,17 @@
   width: 355px;
 }
 
+.SignUpDownloadApp #phones-top-wrap {
+  float: left;
+  margin-right: 20px;
+}
+
+.SignUpDownloadApp .buttons img {
+  height: 86px;
+  float: left;
+  padding: 10px;
+}
+
 .m-search-venues button {
   cursor: pointer;
   border: 1px solid transparent;
