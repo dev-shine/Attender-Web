@@ -140,6 +140,20 @@ class NavBar extends Component {
           {this.state.profile &&
             !this.state.profile.isStaff && (
               <li>
+                <Link to="/staff-schedule">
+                  <div>
+                    <img
+                      alt=""
+                      src={require("./../../assets/icons/nav/calendar.png")}
+                    />
+                  </div>
+                  <span>Schedules</span>
+                </Link>
+              </li>
+            )}
+          {this.state.profile &&
+            !this.state.profile.isStaff && (
+              <li>
                 <Link to="/find-staff">
                   <div>
                     <img

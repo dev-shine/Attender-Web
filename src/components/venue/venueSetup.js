@@ -233,13 +233,15 @@ class VenueSetup extends Component {
       preset: "aepowkth"
     })
     const that = this
-    API.initRequest()
     fetch(constant.API_URL + "user/profile/venue", {
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/x-www-form-urlencoded",
-        "X-request-token": this.REQUEST_TOKEN || ""
+        "X-request-token": localStorage.getItem(
+          "com.attender.pty.ltd.token",
+          ""
+        )
       },
       body: helper.createParam({
         name,
@@ -254,14 +256,18 @@ class VenueSetup extends Component {
         socialMedia: socialMedia.join(),
         staffOfInterest: JSON.stringify(staffOfInterest)
       })
-    }).then(function(response) {
-      that.setState({ isLoading: false })
-      if (response.status) {
-        that.props.goMain()
-      } else {
-        alert("Something Went Wrong")
-      }
     })
+      .then(function(response) {
+        return response.json()
+      })
+      .then(function(data) {
+        that.setState({ isLoading: false })
+        if (data.status) {
+          that.props.goMain()
+        } else {
+          alert("Something Went Wrong")
+        }
+      })
   }
 
   onSelectOption = (key, obj) => {

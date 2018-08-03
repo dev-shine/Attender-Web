@@ -75,15 +75,6 @@ class App extends Component {
       }
     }
   }
-  renderStaffPage() {
-    if (!_.isEmpty(this.state.profile)) {
-      if (this.state.profile.isVenue || this.state.profile.isOrganizer) {
-        return <Route exact path="/staffs" component={StaffGroupSchedule} />
-      } else {
-        return <Route exact path="/staffs" component={MyStaff} />
-      }
-    }
-  }
   render() {
     return (
       <div>
@@ -100,7 +91,8 @@ class App extends Component {
           <Route exact path="/employer" component={employerSetup} />
           <Route exact path="/organiser-setup" component={OrganiserSetup} />
           <Route exact path="/find-staff" component={FindStaff} />
-          {this.renderStaffPage()}
+          <Route exact path="/staff-schedule" component={StaffGroupSchedule} />
+          <Route exact path="/staffs" component={MyStaff} />
           <Route exact path="/success/:email/:mobile" component={SignSuccess} />
           <Route
             exact
