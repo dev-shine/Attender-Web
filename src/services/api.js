@@ -134,6 +134,7 @@ var API = {
 
   logout() {
     localStorage.removeItem("com.attender.pty.ltd.token")
+    localStorage.removeItem("com.attender.pty.ltd.mystaffs")
     localStorage.removeItem("com.attender.pty.ltd.profile")
     this.REQUEST_TOKEN = ""
   }

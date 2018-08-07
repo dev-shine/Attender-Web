@@ -30,31 +30,33 @@ class Navigator extends Component {
   }
 
   getStaffs = async () => {
-    if (!this.state.profile.data.isStaff) {
-      API.get("my-staffs?withTrial=true").then(res => {
-        if (res && res.status) {
-          const allStaff = []
-          let staffMetas = {}
-          Object.keys(res.staffs).forEach(position => {
-            res.staffs[position].forEach(as => {
-              if (
-                allStaff.length === 0 ||
-                !allStaff.find(asf => asf.staff._id === as.staff._id)
-              ) {
-                allStaff.push(as)
-                staffMetas[`staff-${as._id}`] = as
-              }
+    if (typeof this.state.profile.data.isStaff !== "undefined") {
+      if (!this.state.profile.data.isStaff) {
+        API.get("my-staffs?withTrial=true").then(res => {
+          if (res && res.status) {
+            const allStaff = []
+            let staffMetas = {}
+            Object.keys(res.staffs).forEach(position => {
+              res.staffs[position].forEach(as => {
+                if (
+                  allStaff.length === 0 ||
+                  !allStaff.find(asf => asf.staff._id === as.staff._id)
+                ) {
+                  allStaff.push(as)
+                  staffMetas[`staff-${as._id}`] = as
+                }
+              })
             })
-          })
-          this.props.onSetStaffs(allStaff)
+            this.props.onSetStaffs(allStaff)
 
-          if (this.state.profile.data.isVenue) {
-            this.props.goVenueProfile()
-          } else {
-            this.props.goFindStaff()
+            if (this.state.profile.data.isVenue) {
+              this.props.goVenueProfile()
+            } else {
+              this.props.goFindStaff()
+            }
           }
-        }
-      })
+        })
+      }
     }
   }
 
@@ -86,9 +88,11 @@ class Navigator extends Component {
           this.props.goSignUpSuccess()
         }
       } else {
+        API.logout()
         this.props.goLogin()
       }
     } else {
+      API.logout()
       this.props.goLogin()
     }
   }
