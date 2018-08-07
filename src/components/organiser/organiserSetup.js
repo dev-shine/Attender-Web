@@ -49,7 +49,9 @@ class OrganiserSetup extends Component {
           icon: "family-events",
           on: false
         }
-      ]
+      ],
+      orgImages: [],
+      selectedImage: ""
     }
   }
 
@@ -79,7 +81,40 @@ class OrganiserSetup extends Component {
     types[index].on = !types[index].on
     this.setState(prevState => ({ types }))
   }
+  onOpenUploader = event => {
+    const uploader = this.refs.uploader
+    uploader.click()
+  }
+  handleImageSelect = event => {
+    const src = event.target.src
+    const name = event.target.name
+    this.setState(prev => {
+      let payload = { selectedImage: src }
+      if (name === "defaultImage") {
+        payload.orgImages = prev.orgImages.concat(src)
+      }
+      return payload
+    })
+  }
+  onUploadImage = event => {
+    const images = event.target.files
+    const uploader = this.refs.uploader
 
+    Object.values(images).forEach((image, index) => {
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        const imageBase64 = reader.result
+        if (index === 0) {
+          this.setState({ selectedImage: imageBase64 })
+        }
+        this.setState(prev => ({
+          orgImages: prev.orgImages.concat(imageBase64)
+        }))
+      }
+      reader.readAsDataURL(image)
+    })
+    uploader.value = ""
+  }
   handleLocationChange = locationName => {
     this.setState({ locationName })
   }
@@ -91,6 +126,8 @@ class OrganiserSetup extends Component {
   onSave = async () => {
     this.setState({ isLoading: true })
     let name = this.state.name,
+      about = this.state.about,
+      image = this.state.selectedImage,
       isCompany = this.state.isCompany ? "1" : "0",
       companyName = this.state.companyName,
       locationName = this.state.locationName,
@@ -123,6 +160,8 @@ class OrganiserSetup extends Component {
         locationName,
         location: location.join(),
         bio,
+        about,
+        image,
         eventType: eventType.join()
       })
     }).then(function(response) {
@@ -302,6 +341,20 @@ class OrganiserSetup extends Component {
   }
 
   renderSecondStep = () => {
+    const thumbnails = this.state.orgImages.map((image, index) => (
+      <div
+        key={index}
+        className="vs-p-photo"
+        style={{ width: "80px", height: "80px" }}
+      >
+        <img
+          src={image}
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
+          hidden={!(this.state.orgImages.length > 1)}
+          onClick={this.handleImageSelect}
+        />
+      </div>
+    ))
     return (
       <div className="container xem">
         <div className="content-header">
@@ -310,30 +363,84 @@ class OrganiserSetup extends Component {
         <div className="content-vs xxm">
           <div className="vs-p-title xm">
             <p className="help-text">
-              Here you can upload photos for your Venue
+              Here you can upload photos for your Organization
             </p>
             <p className="light-text">
               Click on the upload icon to select photo
             </p>
           </div>
-          <div className="vs-p-container xm">
-            <span>Upload</span>
+          <div className="vs-p-container xm" onClick={this.onOpenUploader}>
+            <span hidden={!!this.state.selectedImage}>Upload</span>
+            <div style={{ width: "400px", height: "288px" }}>
+              <img
+                src={this.state.selectedImage}
+                style={{ maxWidth: "100%", maxHeight: "100%", margin: "auto" }}
+                hidden={!this.state.selectedImage}
+              />
+            </div>
           </div>
+
+          <input
+            type="file"
+            ref="uploader"
+            onChange={this.onUploadImage}
+            multiple
+            hidden
+          />
           <div className="vs-p-uploads-container xxm">
             <span>Uploaded Photos</span>
-            <div className="vs-p-uploads xxm">
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
+            <div className="vs-p-uploads xxm" style={{ overflow: "auto" }}>
+              {this.state.orgImages.length > 0 ? (
+                thumbnails
+              ) : (
+                <div>
+                  <div className="vs-p-photo" />
+                  <div className="vs-p-photo" />
+                  <div className="vs-p-photo" />
+                  <div className="vs-p-photo" />
+                </div>
+              )}
             </div>
           </div>
           <div className="vs-p-uploads-container xxm">
             <span>Or select some few photos for selection below</span>
             <div className="vs-p-uploads xxm">
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
-              <div className="vs-p-photo" />
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=42"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=78"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=192"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
+              <div className="vs-p-photo">
+                <img
+                  name="defaultImage"
+                  src="https://picsum.photos/400/288/?image=263"
+                  width="80"
+                  height="80"
+                  onClick={this.handleImageSelect}
+                />
+              </div>
             </div>
           </div>
         </div>
