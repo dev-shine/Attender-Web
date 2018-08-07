@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import NavBar from "./../layouts/NavBar"
+import PlacesAutocomplete from "react-places-autocomplete"
 import "./../.././styles/global.css"
 import "./../.././styles/style.css"
 import { push } from "react-router-redux"
@@ -79,6 +80,10 @@ class OrganiserSetup extends Component {
     this.setState(prevState => ({ types }))
   }
 
+  handleLocationChange = locationName => {
+    this.setState({ locationName })
+  }
+
   onStep = value => {
     this.setState({ step: value })
   }
@@ -131,6 +136,13 @@ class OrganiserSetup extends Component {
   }
 
   renderFirstStep = () => {
+    const inputProps = {
+      value: this.state.locationName,
+      onChange: this.handleLocationChange,
+      name: "locationName",
+      type: "text",
+      placeholder: "Location"
+    }
     return (
       <div className="container xem">
         <div className="content-header">
@@ -200,12 +212,9 @@ class OrganiserSetup extends Component {
                 <div className="form-group">
                   <p>Location</p>
                   <div className="pp-location">
-                    <input
-                      type="text"
-                      className="a-input"
-                      name="locationName"
-                      onChange={this.onChangeInput}
-                      value={this.state.locationName}
+                    <PlacesAutocomplete
+                      classNames={{ input: "a-input" }}
+                      inputProps={inputProps}
                     />
                     <i className="fa fa-map-marker" />
                   </div>
@@ -231,7 +240,7 @@ class OrganiserSetup extends Component {
                   </span>
                 </div>
               </div>
-              <p className="vs-title">Type of Venue</p>
+              <p className="vs-title">Type of Organizer</p>
               <div className="a-icon-container xxm">
                 {this.state.types.map((type, index) => {
                   if (type.on) {
