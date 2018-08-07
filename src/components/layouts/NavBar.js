@@ -6,6 +6,7 @@ import { connect } from "react-redux"
 import API from "./../../services/api"
 import QuickLinks from "./QuickLinks/QuickLinks"
 import Notification from "./Notification/Notification"
+import _ from "lodash"
 import "./NavBar.css"
 
 class NavBar extends Component {
@@ -24,8 +25,12 @@ class NavBar extends Component {
     this.QLtimer
     this.NotiTimer
   }
+  componentWillMount() {
+    API.initRequest()
+  }
   async componentDidMount() {
     let profile = await API.getProfile()
+    console.log(profile)
     this.setState({ profile })
   }
   onLogout = () => {
@@ -193,15 +198,20 @@ class NavBar extends Component {
   }
 
   renderNavBar = () => {
+    if (_.isEmpty(this.state.profile)) {
+      return false
+    }
     let img = "http://via.placeholder.com/150x150"
+
     let name = this.state.profile.fullname || "Attender User"
-    if (this.state.profile.isEmployer) {
+    console.log(this.state.profile.employer)
+    if (this.props.myProfile.isEmployer) {
       img = this.state.profile.employer.image || img
       name = this.state.profile.employer.name || name
     } else if (this.state.profile.isStaff) {
-      const { avatar } = this.state.profile.staffId
+      const { avatar } = this.state.profile
       img = avatar.includes("undefined") ? img : avatar
-      name = this.state.profile.staffId.fullname || name
+      name = this.state.profile.fullname || name
     }
     return (
       <div className="nav nav-default">
@@ -261,6 +271,9 @@ class NavBar extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return state
+}
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
@@ -269,4 +282,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(null, mapDispatchToProps)(NavBar)
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

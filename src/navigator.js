@@ -30,7 +30,7 @@ class Navigator extends Component {
   }
 
   getStaffs = async () => {
-    if (typeof this.state.profile.data.isStaff !== "undefined") {
+    try {
       if (!this.state.profile.data.isStaff) {
         API.get("my-staffs?withTrial=true").then(res => {
           if (res && res.status) {
@@ -57,11 +57,15 @@ class Navigator extends Component {
           }
         })
       }
+    } catch (e) {
+      console.log(e)
     }
   }
 
   getProfile = async () => {
+    API.initRequest()
     let profile = await API.get("auth/current")
+    console.log(profile)
     let isSubscribed = false
     this.setState({ profile })
 
