@@ -196,6 +196,20 @@ class Messages extends Component {
       }
     })
   }
+  handleArchiveThread = thread => {
+    API.post(`conversation/${thread._id}/archive`, {}).then(res => {
+      if (res.status) {
+        this.setState(
+          { renderContactsLoading: true, renderMessagesLoading: true },
+          () => {
+            alert("Message archived successfully!")
+            this.getStaffMessages()
+            this.getConversation()
+          }
+        )
+      }
+    })
+  }
 
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
@@ -468,20 +482,31 @@ class Messages extends Component {
                     this.props.myProfile.isStaff === false ? (
                       <div className="drop-menu gear">
                         <span
-                          onClick={this.showGearOption.bind(this, thread._id)}
+                          onMouseOver={this.showGearOption.bind(
+                            this,
+                            thread._id
+                          )}
                         >
-                          <i class="fa fa-cog" />
+                          <i className="fa fa-cog" />
                         </span>
                         {this.state.eventDropdown === thread._id ? (
                           <div className="e-dropdown">
                             <div className="e-dropdown-content">
                               <p
-                                to={this.handleDeleteConversation.bind(
+                                onClick={this.handleDeleteConversation.bind(
                                   this,
                                   thread
                                 )}
                               >
                                 Delete Conversation
+                              </p>
+                              <p
+                                onClick={this.handleArchiveThread.bind(
+                                  this,
+                                  thread
+                                )}
+                              >
+                                Archived
                               </p>
                               <Link to={`/staff/profile/${thread.staff._id}`}>
                                 View Profile
