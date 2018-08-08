@@ -22,12 +22,12 @@ export default class QuickLinks extends React.Component {
         onMouseOver={this.Stay}
         onMouseOut={this.Out}
       >
-        <Link to="/">Weekly Schedule</Link>
+        <Link to="/staff-schedule">Weekly Schedule</Link>
         {this.profile &&
           (this.profile.isVenue || this.profile.isEmployer) && (
             <Link to="/subscription-settings">Subscription</Link>
           )}
-        <Link to="/">Settings</Link>
+        <Link to="/settings">Settings</Link>
       </div>
     )
   }
