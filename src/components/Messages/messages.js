@@ -9,6 +9,7 @@ import API from "./../../services/api"
 import constant from "./../../configs/constant"
 import { push } from "react-router-redux"
 import { Link } from "react-router-dom"
+import _ from "lodash/core"
 
 // import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
 // import { setSubscribePopUp } from "./../../actions/myProfile-actions"
@@ -95,20 +96,20 @@ class Messages extends Component {
 
     // get staff staff/this.props.match.staff/show
     if (this.props.match.params.staff) {
-      // SEND BLANK MESSAGE
+      // SEND Initial MESSAGE
       var self = this
-
       var thread = this.state.thread
 
       var body = {
+        staff: this.props.match.params.staff,
         receiver: this.props.match.params.staff,
-        message: this.state.inputMessage
+        message: "Hi, I would like to connect with you."
       }
 
       API.post(
         this.props.myProfile.isStaff
           ? "new-venue-message"
-          : thread
+          : !_.isEmpty(thread)
             ? "new-staff-message"
             : "new-initial-message",
         body
