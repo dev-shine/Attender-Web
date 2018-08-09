@@ -18,8 +18,6 @@ yarn-debug.log*
 yarn-error.log*
 /package-lock.json
 
-
-/gulpfile.js
 /Gruntfile.js
 /yarn.lock
 /package.json
