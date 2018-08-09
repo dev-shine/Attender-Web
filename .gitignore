@@ -16,9 +16,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
+/package-lock.json
 
-/yarn.lock
+
 /gulpfile.js
-/gruntfile.js
+/Gruntfile.js
+/yarn.lock
 /package.json
