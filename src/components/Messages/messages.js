@@ -365,8 +365,8 @@ class Messages extends Component {
         {!this.state.thread ? (
           <div className="container xem center navigator">
             <a href="javascript:void(0)" className="nav-brand">
-              <FontAwesome name="comments" size="2x" />&nbsp;&nbsp;Start
-              Conversation
+              <FontAwesome name="comments" size="2x" />
+              &nbsp;&nbsp;Start Conversation
             </a>
           </div>
         ) : (
@@ -375,7 +375,7 @@ class Messages extends Component {
             .reverse()
             .map((message, index) => {
               return (
-                <div key={index}>
+                <div className="m-message" key={index}>
                   {message.setDateBar ? (
                     <div className="m-line">
                       <div className="a-line" />
@@ -428,6 +428,36 @@ class Messages extends Component {
           >
             <span>CHAT</span>
           </div>
+          <div
+            className={
+              this.state.tab === "contacts"
+                ? "m-contacts-menu-item-active"
+                : "m-contacts-menu-item"
+            }
+            onClick={this.handleTabClick.bind(this, "contacts")}
+          >
+            <span>CONTACTS</span>
+          </div>
+          <div
+            className={
+              this.state.tab === "online"
+                ? "m-contacts-menu-item-active"
+                : "m-contacts-menu-item"
+            }
+            onClick={this.handleTabClick.bind(this, "online")}
+          >
+            <span>ONLINE</span>
+          </div>
+          <div
+            className={
+              this.state.tab === "staff"
+                ? "m-contacts-menu-item-active"
+                : "m-contacts-menu-item"
+            }
+            onClick={this.handleTabClick.bind(this, "staff")}
+          >
+            <span>STAFF</span>
+          </div>
           {this.state.profile.isEmployer || this.state.profile.isVenue ? (
             <div
               className={
@@ -471,12 +501,13 @@ class Messages extends Component {
               }
               onClick={this.handleThreadClick.bind(this, thread)}
             >
-              <div className="row">
-                <div className="col-sm-3">
+              <div className="profile">
+                <div className="profile-thumb-wrapper">
+                  <span className="status" />
                   <img alt="" className="profile-thumb" src={uavatar} />
                 </div>
-                <div className="col-sm-9">
-                  <span>{thread.uname}</span>
+                <div className="profile-details">
+                  <span className="name">{thread.uname}</span>
                   <div className="pull-right">
                     {this.state.thread._id === thread._id &&
                     this.props.myProfile.isStaff === false ? (
@@ -528,6 +559,7 @@ class Messages extends Component {
                       truncateText="…"
                       text={thread.message}
                     />
+                    <span className="m-msg-count pull-right"> 2 </span>
                   </div>
                 </div>
               </div>
@@ -805,13 +837,19 @@ class Messages extends Component {
           <div className="content-messages">
             <div className="messages-header">
               <div className="row">
-                <div className="col-sm-4 m-head">
+                <div className="col-sm-4 m-head left">
                   <span>My Conversations</span>
                   <div className="pull-right">
                     <a className="m-icon">
                       <img
                         alt=""
                         src={require("./../../assets/icons/messages/edit.png")}
+                      />
+                    </a>
+                    <a className="m-icon no-margin">
+                      <img
+                        alt=""
+                        src={require("./../../assets/icons/messages/gear.png")}
                       />
                     </a>
                     {Object.keys(this.state.thread).length !== 0 ? (
@@ -843,6 +881,44 @@ class Messages extends Component {
                     ) : null}
                   </div>
                 </div>
+                <div className="col-sm-8 m-head right">
+                  <div className="msg-search-wrapper">
+                    <form className="msg-search rounded">
+                      <input
+                        type="search"
+                        value=""
+                        placeholder="Type to search"
+                      />
+                      <input type="submit" value="&#xf002;" />
+                    </form>
+                  </div>
+                  <div
+                    className="eb pull-right drop-menu"
+                    onClick={() => this.openDropdown(`msg-eb-dropdown`)}
+                  >
+                    <span className="rounded2">eb</span>{" "}
+                    <i className="fa fa-caret-down" />
+                    <div
+                      className="e-dropdown top"
+                      style={{
+                        display:
+                          this.state.eventDropdown === `msg-eb-dropdown`
+                            ? "block"
+                            : "none"
+                      }}
+                    >
+                      <a href="#" className="">
+                        Delete Conversation
+                      </a>
+                      <a href="#" className="">
+                        View Profile
+                      </a>
+                      <a href="#" className="">
+                        Hire Options
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="messages-body">
@@ -853,7 +929,6 @@ class Messages extends Component {
                   {this.state.tab === "staff" ? this.renderStaff() : null}
                   {this.state.tab === "staff" ? this.renderMyStaff() : null}
                 </div>
-
                 <div className="m-messages">
                   {this.renderEventModal()}
                   {this.renderMessages()}
@@ -881,4 +956,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Messages)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Messages)

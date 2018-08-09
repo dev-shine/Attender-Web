@@ -1,6 +1,9 @@
 // Global
-@import 'lib/global.scss';
-@import 'lib/sbg.scss';
+@import 'lib/global';
+@import 'lib/sbg';
+
+//elements
+@import 'elements/elements';
 
 @import 'modules/Messaging/messaging';
 
