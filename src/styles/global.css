@@ -1985,10 +1985,6 @@ textarea {
   vertical-align: top;
 }
 
-.messages-header .e-dropdown {
-  margin-right: 1em;
-}
-
 .messages-header span {
   color: rgb(168, 168, 168);
   font-size: 15px;
@@ -2003,10 +1999,6 @@ textarea {
 .m-composer img {
   width: 25px;
   height: auto;
-}
-
-.m-composer button i {
-  font-size: 18px;
 }
 
 .m-icon {
@@ -2065,13 +2057,6 @@ textarea {
   width: 95%;
 }
 
-.m-messages {
-  background-color: #f1f5f8;
-  height: 36em;
-  width: 53.7em;
-  position: relative;
-}
-
 .m-composer {
   position: absolute;
   bottom: 0;
@@ -2089,7 +2074,6 @@ textarea {
   margin-right: 15px;
   border: 0.5px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  width: 43em;
   outline: none;
   padding-left: 1em;
   padding-right: 1em;
@@ -2129,41 +2113,6 @@ textarea {
   margin-right: 15px;
   float: right;
   text-align: right;
-}
-
-.m-message-left {
-  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
-  display: inline-block;
-  max-width: 70%;
-  min-height: 3em;
-  line-height: 1.5em;
-  border-radius: 1.5em;
-  font-size: 13px;
-  width: auto;
-  float: left;
-  color: rgb(144, 144, 144);
-  background-color: white;
-  padding: 1em;
-  padding-left: 1.5em;
-  padding-right: 1.5em;
-  margin-bottom: 5px;
-}
-
-.m-message-right {
-  display: inline-block;
-  max-width: 70%;
-  min-height: 3em;
-  line-height: 1.5em;
-  border-radius: 1.5em;
-  font-size: 13px;
-  width: auto;
-  float: right;
-  color: white;
-  background-color: #5e5cbd;
-  padding: 1em;
-  padding-left: 1.5em;
-  padding-right: 1.5em;
-  margin-bottom: 5px;
 }
 
 .m-line {
