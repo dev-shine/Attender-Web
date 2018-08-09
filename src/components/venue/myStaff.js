@@ -9,7 +9,7 @@ import NewSuggestionField from "./NewSuggestionField"
 import PropTypes from "prop-types"
 import moment from "moment"
 import { Button } from "react-bootstrap"
-
+import _ from "lodash/core"
 import { Link } from "react-router-dom"
 
 import StaffTimePicker from "./staffTimePicker"
@@ -58,7 +58,15 @@ class MyStaff extends Component {
       this.getMyStaffs()
     }
   }
-
+  componentDidMount = () => {
+    console.log(this.props.match.params.tab === undefined)
+    const currentTab =
+      this.props.match.params.tab !== undefined
+        ? this.props.match.params.tab
+        : "active"
+    console.log(currentTab)
+    this.setState({ currentTab })
+  }
   setSchedules(sched, staffid) {
     let staffMetas = this.state.staffMetas
     staffMetas[`staff-${staffid}`].schedules = sched
@@ -321,7 +329,7 @@ class MyStaff extends Component {
             className="a-plain-text"
             placeholder="Enter name to find Staff"
           />
-          <i class="fa fa-search" />
+          <i className="fa fa-search" />
         </div>
         <div className="my-staff-list v-scroll scroll">
           <div className="row">
@@ -412,9 +420,9 @@ class MyStaff extends Component {
                       <small>S-SU (12PM-10PM)</small>
                     </p>
                     <p>
-                      <i className="fa fa-map-marker" />&nbsp;&nbsp;<small>
-                        Surry Hills, CBD Sydney
-                      </small>
+                      <i className="fa fa-map-marker" />
+                      &nbsp;&nbsp;
+                      <small>Surry Hills, CBD Sydney</small>
                     </p>
                     <a>&times;</a>
                   </div>
@@ -505,7 +513,8 @@ class MyStaff extends Component {
                   className="pull-right"
                   onClick={() => this.setState({ showNewTaskField: true })}
                 >
-                  Add Task&nbsp;&nbsp;&nbsp;<a className="a-btn-circle">+</a>
+                  Add Task&nbsp;&nbsp;&nbsp;
+                  <a className="a-btn-circle">+</a>
                 </span>
               </div>
               <div className="col-sm-6">
@@ -516,9 +525,8 @@ class MyStaff extends Component {
                     this.setState({ showNewSuggestionField: true })
                   }
                 >
-                  Add Suggestion&nbsp;&nbsp;&nbsp;<a className="a-btn-circle">
-                    +
-                  </a>
+                  Add Suggestion&nbsp;&nbsp;&nbsp;
+                  <a className="a-btn-circle">+</a>
                 </span>
               </div>
             </div>
@@ -789,7 +797,8 @@ class MyStaff extends Component {
                                     )}
                                   />
                                   <br />
-                                  to<br />
+                                  to
+                                  <br />
                                   <StaffTimePicker
                                     selectedTime={moment(s.endTime, [
                                       "hh:mm A",
@@ -827,7 +836,11 @@ class MyStaff extends Component {
                             )
                         )}
                       </td>
-                      <td>{res.schedules.map(s => <p>8.5</p>)}</td>
+                      <td>
+                        {res.schedules.map(s => (
+                          <p>8.5</p>
+                        ))}
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -882,7 +895,10 @@ class MyStaff extends Component {
                 </button>
               </div>
               {this.state.isShowEditRate ? (
-                <div className="pull-right">${this.state.startRate}/Hr</div>
+                <div className="pull-right">
+                  ${this.state.startRate}
+                  /Hr
+                </div>
               ) : (
                 <input
                   type="text"
@@ -959,11 +975,14 @@ class MyStaff extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => state
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
 MyStaff.contextTypes = {
   router: PropTypes.object
 }
-export default connect(mapStateToProps, mapDispatchToProps)(MyStaff)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyStaff)

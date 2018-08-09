@@ -677,7 +677,7 @@ class Messages extends Component {
                 : "http://via.placeholder.com/150x150"
             let classVal = "m-thread"
             if (this.state.thread !== null) {
-              if (this.state.thread.staffId._id === staff.staff._id) {
+              if (this.state.thread.usid === staff.staff._id) {
                 classVal += " active"
               }
             } else {
@@ -725,6 +725,7 @@ class Messages extends Component {
       this.setState({ renderStaffsLoading: true, tab: "staff" }, () => {
         this.getMyStaffs()
         this.handleOpenModal()
+        this.props.goToTrial()
       })
     })
   }
@@ -734,6 +735,7 @@ class Messages extends Component {
       this.setState({ renderStaffsLoading: true }, () => {
         this.getMyStaffs()
         this.handleOpenModal()
+        this.props.goToActive()
       })
     })
   }
@@ -950,6 +952,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      goToTrial: () => push(`/staffs/trial`),
+      goToActive: () => push(`/staffs`),
       goToStaff: staffId => push(`/find-staff/${staffId}`)
       // onSetSubscribePopUp: setSubscribePopUp
     },
