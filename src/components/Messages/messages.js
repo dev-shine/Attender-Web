@@ -508,7 +508,7 @@ class Messages extends Component {
                               >
                                 Archived
                               </p>
-                              <Link to={`/staff/profile/${thread.staff._id}`}>
+                              <Link to={`/staff/profile/${thread.usid}`}>
                                 View Profile
                               </Link>
                               <p onClick={this.handleOpenModal}>
