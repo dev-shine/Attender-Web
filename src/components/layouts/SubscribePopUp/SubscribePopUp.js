@@ -181,22 +181,15 @@ class SubscribePopUp extends React.Component {
           var listCards = Object.values(this.state.credit_cards).map(
             (item, key) => {
               return (
-                <div
-                  className="row"
-                  onClick={this.chooseCard.bind(this, item._id)}
-                >
+                <div className="row" onClick={this.chooseCard.bind(this, key)}>
                   <span className="col-md-2">
                     <img
                       src={require("./../../settings/img/" +
-                        item.card +
+                        item.cardMeta.type +
                         "-logo.png")}
                     />
                   </span>
-                  <span className="col-md-6">
-                    <span>&#9679;&#9679;&#9679;&#9679;</span>
-                    <span>&#9679;&#9679;&#9679;&#9679;</span>
-                    <span>{item.number}</span>
-                  </span>
+                  <span className="col-md-6">{item.cardMeta.number}</span>
                   <small className="primary col-md-2">&nbsp;</small>
                   {item.selected ? selected_DOM : null}
                 </div>
@@ -212,15 +205,12 @@ class SubscribePopUp extends React.Component {
         } else {
           var listBanks = Object.values(this.state.bank_accounts).map(
             (item, key) => {
+              console.log(item)
               return (
-                <div
-                  className="row"
-                  onClick={this.chooseBank.bind(this, item._id)}
-                >
-                  <span className="col-md-5">{item.bank}</span>
+                <div className="row" onClick={this.chooseBank.bind(this, key)}>
+                  <span className="col-md-5">{item.bankMeta.bank_name}</span>
                   <span className="col-md-5">
-                    <span>XXXX - XXXX</span>
-                    <span>{item.number}</span>
+                    <span>{item.bankMeta.account_number}</span>
                   </span>
                   {item.selected ? selected_DOM : null}
                 </div>
@@ -266,10 +256,9 @@ class SubscribePopUp extends React.Component {
           })
           DOM = (
             <div className="row">
-              <span className="col-md-5">{item[0].card}</span>
+              <span className="col-md-5">{item[0].cardMeta.type}</span>
               <span className="col-md-5">
-                <span>XXXX - XXXX</span>
-                <span>{item[0].number}</span>
+                <span>{item[0].cardMeta.number}</span>
               </span>
             </div>
           )
@@ -281,10 +270,10 @@ class SubscribePopUp extends React.Component {
           })
           DOM = (
             <div className="row">
-              <span className="col-md-5">{item[0].bank}</span>
+              <span className="col-md-5">{item[0].bankMeta.bank_name}</span>
               <span className="col-md-5">
                 <span>XXXX - XXXX</span>
-                <span>{item[0].number}</span>
+                <span>{item[0].bankMeta.account_number}</span>
               </span>
             </div>
           )
