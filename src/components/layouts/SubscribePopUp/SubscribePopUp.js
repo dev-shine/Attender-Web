@@ -57,10 +57,20 @@ class SubscribePopUp extends React.Component {
     })
   }
   SubscribeNow() {
+    let account_id
+    if (this.state.use_bank) {
+      account_id = Object.values(this.state.bank_accounts).filter(
+        obj => obj.selected == true
+      )[0].bankMeta.account_number
+    } else {
+      account_id = Object.values(this.state.credit_cards).filter(
+        obj => obj.selected == true
+      )[0].cardMeta.number
+    }
     const data = {
-      subscriptionType: "ACCOUNT_PREMIUM"
-      // account_id : this.props.,
-      // staffId : this.props.myProfile._id
+      subscriptionType: "ACCOUNT_PREMIUM",
+      account_id: account_id,
+      staffId: this.props.myProfile._id
     }
     API.post("subscription/subscribe", data).then(res => {
       this.props.onSubscribeMe()
