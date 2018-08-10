@@ -33,9 +33,34 @@ class SubscribePopUp extends React.Component {
       1: { _id: 1, card: "visa", number: "4375" }
     }
   }
+  componentDidMount = async () => {
+    API.initRequest()
+    this.getAllBanks()
+    this.getAllCards()
+  }
+  getAllBanks() {
+    API.get("banks").then(res => {
+      if (res.status) {
+        this.setState({ bank_accounts: res.banks })
+      } else {
+        alert("Fetching bank details. Something went wrong")
+      }
+    })
+  }
+  getAllCards = () => {
+    API.get("cards").then(res => {
+      if (res.status) {
+        this.setState({ credit_cards: res.cards })
+      } else {
+        alert("Fetching credit card details. Something went wrong")
+      }
+    })
+  }
   SubscribeNow() {
     const data = {
       subscriptionType: "ACCOUNT_PREMIUM"
+      // account_id : this.props.,
+      // staffId : this.props.myProfile._id
     }
     API.post("subscription/subscribe", data).then(res => {
       this.props.onSubscribeMe()
@@ -117,7 +142,8 @@ class SubscribePopUp extends React.Component {
         content = (
           <div className="step-2 have-header">
             <h5>
-              Which payment type <br />would you like to add?
+              Which payment type <br />
+              would you like to add?
             </h5>
             <p
               onClick={this.Use_Card}
@@ -348,4 +374,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubscribePopUp)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubscribePopUp)
