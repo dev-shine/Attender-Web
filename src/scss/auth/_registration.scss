@@ -1,0 +1,121 @@
+.reg-container {
+	display: flex;
+}
+
+.reg-bg {
+	flex-grow: 1;
+	width: 40%;
+	display: inline-block;
+	height: 100vh;
+	background-size: 100%;
+	position: relative;
+}
+
+.reg-logo {
+	width: 25em;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 50%;
+	align-items: center;
+	text-align: center;
+}
+
+.reg-content {
+	flex-grow: 2;
+	display: inline-block;
+	height: 100vh;
+	width: 60%;
+	padding: 1.5em;
+	font-size: 17px;
+	color: #838383;
+	a {
+		font-size: 17px;
+		font-weight: 200;
+		color: #838383;
+		cursor: pointer;
+		text-decoration: none !important;
+		&:hover {
+			text-decoration: none !important;
+		}
+		i {}
+	}
+}
+
+.reg-social {
+	margin-top: 5em;
+	font-size: 15px;
+	color: #838383;
+	p {
+		color: #838383;
+	}
+	a {
+		color: #3fd6fe;
+		cursor: pointer;
+		&.hover {
+			color: #3fd6fe;
+			text-decoration: none;
+		}
+	}
+}
+
+.reg-social-btns {
+	margin-top: 1.5em;
+}
+
+.reg-form {
+	width: 25em;
+	margin-top: 3em;
+	display: inline-block;
+	input {
+		font-size: 15px;
+		&[type="password"] {
+			letter-spacing: 3px;
+			font-size: 12px;
+		}
+	}
+}
+
+.reg-confirmation {
+	display: flex;
+	width: 25em;
+	margin-top: 2.5em;
+	align-items: baseline;
+
+	input[type="checkbox"] {
+		flex-grow: 1;
+		display: inline-block;
+	}
+
+	p {
+		flex-grow: 2;
+		width: 23em;
+		text-align: left;
+		display: inline-block;
+		line-height: 20px;
+		font-size: 14px;
+		margin-bottom: 0;
+
+		a {
+			margin-left: 10px;
+			font-size: 14px;
+		}
+	}
+}
+
+.reg-action {
+	font-size: 13px;
+	align-items: center;
+	text-align: center;
+	margin-top: 2.5em;
+}
+
+.reg-foot {
+	width: 25em;
+	display: inline-block;
+}
+
+.reg-action button:hover {
+	background-color: #5d5bbc;
+	color: white;
+	border-color: white;
+}
