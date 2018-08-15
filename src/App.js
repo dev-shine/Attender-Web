@@ -92,7 +92,7 @@ class App extends Component {
           <Route exact path="/organiser-setup" component={OrganiserSetup} />
           <Route exact path="/find-staff" component={FindStaff} />
           <Route exact path="/staff-schedule" component={StaffGroupSchedule} />
-          <Route exact path="/staffs" component={MyStaff} />
+          <Route exact path="/staffs/:tab?" component={MyStaff} />
           <Route exact path="/success/:email/:mobile" component={SignSuccess} />
           <Route
             exact

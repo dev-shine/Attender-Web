@@ -11,8 +11,8 @@ import { push } from "react-router-redux"
 import { Link } from "react-router-dom"
 import _ from "lodash/core"
 
-// import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
-// import { setSubscribePopUp } from "./../../actions/myProfile-actions"
+import SubscribePopUp from "./.././layouts/SubscribePopUp/SubscribePopUp"
+import { setSubscribePopUp } from "./../../actions/myProfile-actions"
 import { loadState, saveState } from "./../../localStorage"
 var moment = require("moment")
 const ws = require("adonis-websocket-client")
@@ -51,19 +51,14 @@ class Messages extends Component {
         host: { on: false }
       },
       staffFilters: [],
-      selectedStaff: {}
-      // showSubscribeNowOffer: true
+      selectedStaff: {},
+      showSubscribeNowOffer: false
     }
   }
   componentWillMount = async () => {
     API.initRequest()
-    // let profile = await API.getProfile()
 
-    const profile = loadState("com.attender.pty.ltd.profile")
-
-    // if (profile.isSubscribed) {
-    //   this.setState({ showSubscribeNowOffer: false })
-    // }
+    const profile = this.props.myProfile
 
     this.setState({ profile })
 
@@ -677,7 +672,7 @@ class Messages extends Component {
                 : "http://via.placeholder.com/150x150"
             let classVal = "m-thread"
             if (this.state.thread !== null) {
-              if (this.state.thread.staffId._id === staff.staff._id) {
+              if (this.state.thread.usid === staff.staff._id) {
                 classVal += " active"
               }
             } else {
@@ -715,62 +710,79 @@ class Messages extends Component {
   }
 
   handleOpenModal = () => {
-    this.setState({
-      openHiringOptionsModal: !this.state.openHiringOptionsModal
-    })
+    const openHiringOptionsModal = !this.state.openHiringOptionsModal
+    console.log(
+      this.props.myProfile.isVenue,
+      !this.props.myProfile.isSubscribed,
+      openHiringOptionsModal
+    )
+    if (
+      this.props.myProfile.isVenue &&
+      !this.props.myProfile.isSubscribed &&
+      openHiringOptionsModal
+    ) {
+      this.setState({ showSubscribeNowOffer: true })
+    }
+    this.setState({ openHiringOptionsModal })
   }
 
   onPressStartTrial = () => {
-    API.post(`trial/${this.props.match.params.staff}`, {}).then(res => {
+    API.post(`trial/${this.state.thread.staff._id}`, {}).then(res => {
       this.setState({ renderStaffsLoading: true, tab: "staff" }, () => {
         this.getMyStaffs()
         this.handleOpenModal()
+        this.props.goToTrial()
       })
     })
   }
 
   onPressSkipTrial = () => {
-    API.post(`direct-hire/${this.props.match.params.staff}`, {}).then(res => {
+    API.post(`direct-hire/${this.state.thread.staff._id}`, {}).then(res => {
       this.setState({ renderStaffsLoading: true }, () => {
         this.getMyStaffs()
         this.handleOpenModal()
+        this.props.goToActive()
       })
     })
   }
 
   renderEventModal = () => {
-    return (
-      <div
-        className={
-          this.state.openHiringOptionsModal ? "a-modal show" : "a-modal"
-        }
-      >
-        <div className="a-modal-content">
-          <span onClick={() => this.handleOpenModal()} className="a-close">
-            &times;
-          </span>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="xem center navigator">
-                <div className="m-composer">
-                  <div>
-                    <button onClick={this.onPressStartTrial}>OK</button>
-                    Start Trial
-                  </div>
-                  or
-                  <div>
-                    <button onClick={this.onPressSkipTrial}>
-                      <i className="fa fa-arrow-right" />
-                    </button>
-                    Skip Trial
+    if (
+      !this.props.myProfile.isVenue ||
+      (this.props.myProfile.isVenue && this.props.myProfile.isSubscribed)
+    )
+      return (
+        <div
+          className={
+            this.state.openHiringOptionsModal ? "a-modal show" : "a-modal"
+          }
+        >
+          <div className="a-modal-content">
+            <span onClick={() => this.handleOpenModal()} className="a-close">
+              &times;
+            </span>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="xem center navigator">
+                  <div className="m-composer">
+                    <div>
+                      <button onClick={this.onPressStartTrial}>OK</button>
+                      Start Trial
+                    </div>
+                    or
+                    <div>
+                      <button onClick={this.onPressSkipTrial}>
+                        <i className="fa fa-arrow-right" />
+                      </button>
+                      Skip Trial
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    )
+      )
   }
 
   renderComposer = () => {
@@ -824,14 +836,14 @@ class Messages extends Component {
   render() {
     return (
       <div>
-        {/*this.state.showSubscribeNowOffer ? (
-			  <SubscribePopUp
-				close={() => {
-				  this.setState({ showSubscribeNowOffer: false })
-				}}
-			  />
-			) : null
-		  */}
+        {this.state.showSubscribeNowOffer ? (
+          <SubscribePopUp
+            close={() => {
+              this.setState({ showSubscribeNowOffer: false })
+              this.handleOpenModal()
+            }}
+          />
+        ) : null}
         <NavBar />
         <div className="container xxem messages-page">
           <div className="content-messages">
@@ -950,8 +962,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      goToStaff: staffId => push(`/find-staff/${staffId}`)
-      // onSetSubscribePopUp: setSubscribePopUp
+      goToTrial: () => push(`/staffs/trial`),
+      goToActive: () => push(`/staffs`),
+      goToStaff: staffId => push(`/find-staff/${staffId}`),
+      onSetSubscribePopUp: setSubscribePopUp
     },
     dispatch
   )

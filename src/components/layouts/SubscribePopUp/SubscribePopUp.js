@@ -33,9 +33,44 @@ class SubscribePopUp extends React.Component {
       1: { _id: 1, card: "visa", number: "4375" }
     }
   }
+  componentDidMount = async () => {
+    API.initRequest()
+    this.getAllBanks()
+    this.getAllCards()
+  }
+  getAllBanks() {
+    API.get("banks").then(res => {
+      if (res.status) {
+        this.setState({ bank_accounts: res.banks })
+      } else {
+        alert("Fetching bank details. Something went wrong")
+      }
+    })
+  }
+  getAllCards = () => {
+    API.get("cards").then(res => {
+      if (res.status) {
+        this.setState({ credit_cards: res.cards })
+      } else {
+        alert("Fetching credit card details. Something went wrong")
+      }
+    })
+  }
   SubscribeNow() {
+    let account_id
+    if (this.state.use_bank) {
+      account_id = Object.values(this.state.bank_accounts).filter(
+        obj => obj.selected == true
+      )[0].bankMeta.account_number
+    } else {
+      account_id = Object.values(this.state.credit_cards).filter(
+        obj => obj.selected == true
+      )[0].cardMeta.number
+    }
     const data = {
-      subscriptionType: "ACCOUNT_PREMIUM"
+      subscriptionType: "ACCOUNT_PREMIUM",
+      account_id: account_id,
+      staffId: this.props.myProfile._id
     }
     API.post("subscription/subscribe", data).then(res => {
       this.props.onSubscribeMe()
@@ -117,7 +152,8 @@ class SubscribePopUp extends React.Component {
         content = (
           <div className="step-2 have-header">
             <h5>
-              Which payment type <br />would you like to add?
+              Which payment type <br />
+              would you like to add?
             </h5>
             <p
               onClick={this.Use_Card}
@@ -155,22 +191,15 @@ class SubscribePopUp extends React.Component {
           var listCards = Object.values(this.state.credit_cards).map(
             (item, key) => {
               return (
-                <div
-                  className="row"
-                  onClick={this.chooseCard.bind(this, item._id)}
-                >
+                <div className="row" onClick={this.chooseCard.bind(this, key)}>
                   <span className="col-md-2">
                     <img
                       src={require("./../../settings/img/" +
-                        item.card +
+                        item.cardMeta.type +
                         "-logo.png")}
                     />
                   </span>
-                  <span className="col-md-6">
-                    <span>&#9679;&#9679;&#9679;&#9679;</span>
-                    <span>&#9679;&#9679;&#9679;&#9679;</span>
-                    <span>{item.number}</span>
-                  </span>
+                  <span className="col-md-6">{item.cardMeta.number}</span>
                   <small className="primary col-md-2">&nbsp;</small>
                   {item.selected ? selected_DOM : null}
                 </div>
@@ -186,15 +215,12 @@ class SubscribePopUp extends React.Component {
         } else {
           var listBanks = Object.values(this.state.bank_accounts).map(
             (item, key) => {
+              console.log(item)
               return (
-                <div
-                  className="row"
-                  onClick={this.chooseBank.bind(this, item._id)}
-                >
-                  <span className="col-md-5">{item.bank}</span>
+                <div className="row" onClick={this.chooseBank.bind(this, key)}>
+                  <span className="col-md-5">{item.bankMeta.bank_name}</span>
                   <span className="col-md-5">
-                    <span>XXXX - XXXX</span>
-                    <span>{item.number}</span>
+                    <span>{item.bankMeta.account_number}</span>
                   </span>
                   {item.selected ? selected_DOM : null}
                 </div>
@@ -240,10 +266,9 @@ class SubscribePopUp extends React.Component {
           })
           DOM = (
             <div className="row">
-              <span className="col-md-5">{item[0].card}</span>
+              <span className="col-md-5">{item[0].cardMeta.type}</span>
               <span className="col-md-5">
-                <span>XXXX - XXXX</span>
-                <span>{item[0].number}</span>
+                <span>{item[0].cardMeta.number}</span>
               </span>
             </div>
           )
@@ -255,10 +280,10 @@ class SubscribePopUp extends React.Component {
           })
           DOM = (
             <div className="row">
-              <span className="col-md-5">{item[0].bank}</span>
+              <span className="col-md-5">{item[0].bankMeta.bank_name}</span>
               <span className="col-md-5">
                 <span>XXXX - XXXX</span>
-                <span>{item[0].number}</span>
+                <span>{item[0].bankMeta.account_number}</span>
               </span>
             </div>
           )
@@ -348,4 +373,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubscribePopUp)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubscribePopUp)
