@@ -98,11 +98,11 @@ class Calendar extends Component {
 
       if (events.events.length > 0) {
         events.events.map(item => {
-          // itemToLoopBelow.push({
-          //   title: item.employer.name,
-          //   schedule: item_data,
-          //   venue: item.employer.locationName
-          // })
+          itemToLoopBelow.push({
+            title: item.employer.name,
+            schedule: item_data,
+            venue: item.employer.locationName
+          })
           itemsToLoopOnList.push({
             day: moment(item.date).format("D"),
             month: moment(item.date).format("MMMM"),
@@ -688,7 +688,7 @@ class Calendar extends Component {
 
     API.post("events", eventData).then(res => {
       if (res.status) {
-        let itemToLoopOnList = [...this.state.itemToLoopBelow]
+        let itemToLoopBelow = [...this.state.itemToLoopBelow]
         itemToLoopBelow.push({
           title: eventData.name,
           schedule: {
