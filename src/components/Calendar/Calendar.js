@@ -78,7 +78,7 @@ class Calendar extends Component {
         selectedImage: "",
         eventName: "",
         eventDescription: "",
-        date: null,
+        date: moment(),
         startTime: null,
         variant: "week"
       }
@@ -685,6 +685,8 @@ class Calendar extends Component {
     API.post("events", eventData).then(res => {
       if (res.status) {
         alert("Save successful")
+        this.onCloseEventManagement()
+
         //  this.props.navigation.dispatch({type: 'Navigation/RESET', index: 0, actions: [{ type: 'Navigate', routeName:'HomeEmployer'}]});
       } else {
         alert("Something wrong")
@@ -1063,4 +1065,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calendar)
