@@ -19,24 +19,24 @@ class SignUpDownloadApp extends React.Component {
         <NavBar />
         <div className="container xem">
           <div className="content-header">
-            <h1>PROFILE SETUP</h1>
+            <h1>PROFILE SET UP</h1>
             <p className="help-text">
-              To continue signing up as staff, please download our BETA App.
+              We need just a few details to get you started
             </p>
           </div>
           <div className="content">
-            <div class="phones-top">
-              <div id="phones-top-wrap">
-                <img src="https://uploads-ssl.webflow.com/592c6987318fb11080a289aa/592c810777d1db4322b676c2_hero-phones.png" />
-              </div>
-            </div>
-            <div className="buttons">
-              <p>
-                We have just launched our beta <br /> apps and are now available
-                to download. <br />
-                <br />Get the Attender app now.
-              </p>
-              <br />
+            <h2>Download the app</h2>
+            <p>
+              Thanks for signing up to Attender. We look forward to providing
+              you with a platform to find hospitality work.
+            </p>
+            <p>
+              Your experience will continue on our mobile app. Please click one
+              of the links below to download and finish registering your
+              Attender profile.
+            </p>
+
+            <div className="buttons clearfix">
               <a href="https://itunes.apple.com/us/app/attender-find-work-or-staff/id1268565437?ls=1&mt=8">
                 <img src="https://uploads-ssl.webflow.com/592c6987318fb11080a289aa/5b10ac35f2733bb2fbe54cc0_download-iOS-h104.png" />
               </a>
@@ -55,4 +55,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpDownloadApp)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUpDownloadApp)
