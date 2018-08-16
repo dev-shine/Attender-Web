@@ -688,7 +688,7 @@ class Calendar extends Component {
 
     API.post("events", eventData).then(res => {
       if (res.status) {
-        let itemToLoopOnList = [...this.state.itemToLoopBelow]
+        let itemToLoopBelow = [...this.state.itemToLoopBelow]
         itemToLoopBelow.push({
           title: eventData.name,
           schedule: {
