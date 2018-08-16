@@ -78,7 +78,7 @@ class Calendar extends Component {
         selectedImage: "",
         eventName: "",
         eventDescription: "",
-        date: null,
+        date: moment(),
         startTime: null,
         variant: "week"
       }
@@ -98,11 +98,11 @@ class Calendar extends Component {
 
       if (events.events.length > 0) {
         events.events.map(item => {
-          itemToLoopBelow.push({
-            title: item.employer.name,
-            schedule: item_data,
-            venue: item.employer.locationName
-          })
+          // itemToLoopBelow.push({
+          //   title: item.employer.name,
+          //   schedule: item_data,
+          //   venue: item.employer.locationName
+          // })
           itemsToLoopOnList.push({
             day: moment(item.date).format("D"),
             month: moment(item.date).format("MMMM"),
@@ -169,6 +169,7 @@ class Calendar extends Component {
           })
         })
       }
+      console.log(itemsToLoopOnList, itemToLoopBelow)
       this.setState({
         schedule,
         itemToLoopBelow,
@@ -177,9 +178,9 @@ class Calendar extends Component {
     }
   }
 
-  renderStaffBox = (closable, col, active) => {
+  renderStaffBox = (closable, col, active, key) => {
     return (
-      <div className={"my-staff " + col}>
+      <div key={key} className={"my-staff " + col}>
         <div className="item">
           <img
             alt=""
@@ -422,8 +423,8 @@ class Calendar extends Component {
             <p>{this.state.title.toUpperCase()} ON THIS DATE(S)</p>
           </div>
           <div className="calendar-main-events-body v-scroll scroll">
-            {this.state.itemToLoopBelow ? (
-              this.state.itemToLoopBelow.map((item, index) => {
+            {this.state.events.events ? (
+              this.state.events.events.map((item, index) => {
                 return (
                   <div
                     key={index}
@@ -438,21 +439,25 @@ class Calendar extends Component {
                         <img alt="" src="http://via.placeholder.com/99x80" />
                       </div>
                       <div className="col-sm-10">
-                        <p className="title">{item.title}</p>
+                        <p className="title">{item.description}</p>
                         <p className="date">
-                          {item.schedule.map(i => (
+                          {item.date} - {item.time.start}
+                          {/* for staff item.schedule.map(i => (
                             <span>
                               <i className="fa fa-clock-o" /> {i.startTime} -{" "}
                               {i.endTime}
                               <br />
                             </span>
-                          ))}
+                          ))*/}
                         </p>
-                        <p className="venue">
-                          <span className="pull-right">
-                            <i className="fa fa-map-marker" /> {item.venue}
-                          </span>
-                        </p>
+                        {item.isVenue ? (
+                          <p className="venue">
+                            <span className="pull-right">
+                              <i className="fa fa-map-marker" /> {item.venue}
+                            </span>
+                          </p>
+                        ) : null}
+
                         <a>
                           <div className="drop-menu">
                             <img
@@ -540,9 +545,7 @@ class Calendar extends Component {
                         {item.isToday ? <p className="today">TODAY</p> : null}
                         <p className="xl-text">{item.day}</p>
                       </div>
-                      <p>
-                        {item.month} {item.day}
-                      </p>
+                      <p>{/*item.month} {item.day*/}</p>
                     </div>
                     <div className="col-sm-9">
                       <div className="event-item">
@@ -557,13 +560,13 @@ class Calendar extends Component {
                           <div className="item">
                             <p className="title">{item.title}</p>
                             <p className="date">
-                              {item.schedule.map(i => (
-                                <span>
-                                  <i className="fa fa-clock-o" /> {i.startTime}{" "}
-                                  - {i.endTime}
-                                  <br />
-                                </span>
-                              ))}
+                              {/*item.date} - {item.time.start*/}
+                              <span>
+                                <i className="fa fa-clock-o" />{" "}
+                                {item.schedule.startTime} -{" "}
+                                {item.schedule.endTime}
+                                <br />
+                              </span>
                             </p>
                             <p className="region">
                               <i className="fa fa-map-marker" /> {item.location}
@@ -677,15 +680,26 @@ class Calendar extends Component {
       description: this.state.eventDescription,
       date: this.state.date.toString(),
       startTime: moment(this.state.startTime).format("hh:mm A"),
-      endTime: null,
+      endTime: moment(this.state.endTime).format("hh:mm A"),
       interest: JSON.stringify([]),
-      image: null
+      isOrganizer: this.props.myProfile.isOrganizer,
+      isVenue: this.props.myProfile.isVenue
     }
 
     API.post("events", eventData).then(res => {
       if (res.status) {
+        let itemToLoopOnList = [...this.state.itemToLoopBelow]
+        itemToLoopBelow.push({
+          title: eventData.name,
+          schedule: {
+            startTime: eventData.startTime,
+            endTime: eventData.endTime
+          },
+          venue: eventData.date
+        })
+        this.setState({ itemToLoopBelow })
         alert("Save successful")
-        //  this.props.navigation.dispatch({type: 'Navigation/RESET', index: 0, actions: [{ type: 'Navigate', routeName:'HomeEmployer'}]});
+        this.onCloseEventManagement()
       } else {
         alert("Something wrong")
       }
@@ -727,6 +741,7 @@ class Calendar extends Component {
                   cols="50"
                   className="a-input"
                   name="eventDescription"
+                  defaultValue=""
                   onChange={this.onChangeInput}
                 />
               </div>
@@ -963,9 +978,12 @@ class Calendar extends Component {
                 </div>
                 <div className="form-group">
                   <p>Event Description</p>
-                  <textarea rows="2" cols="50" className="a-input">
-                    {" "}
-                  </textarea>
+                  <textarea
+                    rows="2"
+                    cols="50"
+                    className="a-input"
+                    defaultValue=""
+                  />
                 </div>
                 <div className="row">
                   <div className="col-sm-6">
@@ -1005,8 +1023,8 @@ class Calendar extends Component {
               </div>
               <div className="staff-list v-scroll scroll">
                 <div className="row">
-                  {this.state.eventStaffs.map(staff => {
-                    return this.renderStaffBox(false, "col-sm-4", staff)
+                  {this.state.eventStaffs.map((staff, key) => {
+                    return this.renderStaffBox(false, "col-sm-4", staff, key)
                   })}
                 </div>
               </div>
@@ -1063,4 +1081,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calendar)
