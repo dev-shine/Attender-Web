@@ -1,11 +1,26 @@
 .SignUpDownloadApp {
+    .content-header {
+        padding-top: 50px;
+    }
+    .content {
 
+      width: 550px;
+    text-align: center;
+    padding: 48px;
+    height:auto;
+    margin-bottom:100px;
+        h2 {
+            font-size: 1.7rem;
+                margin-bottom: 40px;
+        }
+    }
     .phones-top {}
     #phones-top-wrap {
         float: left;
         margin-right: 20px;
     }
     .buttons {
+        margin-top: 70px;
         img {
                 height: 86px;
             float: left;
