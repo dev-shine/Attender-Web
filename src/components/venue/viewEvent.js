@@ -76,8 +76,8 @@ class ViewEvent extends Component {
               </div>
               <div className="staff-list v-scroll scroll view-event-modal-description-staff-list">
                 <div className="row">
-                  {this.state.eventStaffs.map(staff => {
-                    return this.renderStaffBox(false, "col-sm-4", staff)
+                  {this.state.eventStaffs.map((staff, key) => {
+                    return this.renderStaffBox(false, "col-sm-4", staff, key)
                   })}
                 </div>
               </div>
@@ -88,9 +88,9 @@ class ViewEvent extends Component {
     )
   }
 
-  renderStaffBox = (closable, col, active) => {
+  renderStaffBox = (closable, col, active, key) => {
     return (
-      <div className={"my-staff " + col}>
+      <div key={key} className={"my-staff " + col}>
         <div className="item">
           <img
             alt=""
