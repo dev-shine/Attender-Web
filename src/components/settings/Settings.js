@@ -904,10 +904,14 @@ class Settings extends Component {
                 </label>
                 <span className="col-sm-9">&nbsp;</span>
               </li>
-              <li>
-                Deactivating your account will disable your profile and remove
-                your listed events and hired staff.
-              </li>
+              {this.props.myProfile.isStaff ? (
+                <li>Deactivating your account will disable your profile.</li>
+              ) : (
+                <li>
+                  Deactivating your account will disable your profile and remove
+                  your listed events and hired staff.
+                </li>
+              )}
             </ul>
           </div>
         </div>
