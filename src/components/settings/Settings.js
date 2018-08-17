@@ -171,8 +171,10 @@ class Settings extends Component {
             : null
       },
       () => {
-        this.getAllBanks()
-        this.getAllCards()
+        if (this.props.myProfile.isVenue) {
+          this.getAllBanks()
+          this.getAllCards()
+        }
       }
     )
   }
@@ -477,7 +479,8 @@ class Settings extends Component {
         content = (
           <div className="add-bank-choices have-header">
             <h5>
-              Which payment type <br />would you like to add?
+              Which payment type <br />
+              would you like to add?
             </h5>
             <p onClick={this.openModal.bind(this, "ADD_BANK_CARD")}>
               <img src={require("./img/credit-card.png")} />
@@ -736,7 +739,9 @@ class Settings extends Component {
                 </div>
                 <div className="row">
                   <span className="col-md-6 text-left">
-                    16.5% Attender fee<br />on top of your Transfer
+                    16.5% Attender fee
+                    <br />
+                    on top of your Transfer
                   </span>
                   <span className="col-md-6 text-right">-</span>
                 </div>
@@ -866,18 +871,20 @@ class Settings extends Component {
                   account.
                 </span>
               </li>
-              <li>
-                <label
-                  className="col-sm-3"
-                  onClick={this.openModal.bind(this, "PAYMENT_METHOD")}
-                >
-                  Payment Method
-                </label>
-                <span className="col-sm-9">
-                  You can select which primary bank account will be used when
-                  paying staff.
-                </span>
-              </li>
+              {this.props.myProfile.isVenue ? (
+                <li>
+                  <label
+                    className="col-sm-3"
+                    onClick={this.openModal.bind(this, "PAYMENT_METHOD")}
+                  >
+                    Payment Method
+                  </label>
+                  <span className="col-sm-9">
+                    You can select which primary bank account will be used when
+                    paying staff.
+                  </span>
+                </li>
+              ) : null}
             </ul>
           </div>
           <div className="settings-group">
@@ -914,4 +921,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Settings)
