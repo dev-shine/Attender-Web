@@ -138,7 +138,7 @@ class NavBar extends Component {
                       src={require("./../../assets/icons/nav/staff.png")}
                     />
                   </div>
-                  <span>Staffs</span>
+                  <span>Staff</span>
                 </Link>
               </li>
             )}
@@ -221,7 +221,8 @@ class NavBar extends Component {
             className="nav-brand"
             onClick={() => this.openSideNav()}
           >
-            <img alt="" src={require("./../../assets/logo.png")} />&nbsp;&nbsp;Attender
+            <img alt="" src={require("./../../assets/logo.png")} />
+            &nbsp;&nbsp;Attender
           </a>
           <ul className="nav-menu list-inline">
             <li>
@@ -282,4 +283,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar)
