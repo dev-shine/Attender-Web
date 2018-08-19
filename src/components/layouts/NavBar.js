@@ -29,8 +29,10 @@ class NavBar extends Component {
     API.initRequest()
   }
   async componentDidMount() {
+    console.log(this.props.myProfile)
     let profile = await API.getProfile()
     console.log(profile)
+
     this.setState({ profile })
   }
   onLogout = () => {
@@ -209,7 +211,7 @@ class NavBar extends Component {
       img = this.state.profile.employer.image || img
       name = this.state.profile.employer.name || name
     } else if (this.state.profile.isStaff) {
-      const { avatar } = this.state.profile
+      const { avatar } = this.props.myProfile
       img = avatar.includes("undefined") ? img : avatar
       name = this.state.profile.fullname || name
     }

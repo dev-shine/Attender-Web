@@ -7,9 +7,9 @@ import "./settings.css"
 import API from "./../../services/api"
 import NavBar from "./../layouts/NavBar"
 import MaskedInput from "react-text-mask"
-import VenueEdit from "./../settings-old/profile/venueEdit"
-import OrganiserEdit from "./../settings-old/profile/organiserEdit"
-import StaffEdit from "./../settings-old/profile/staffEdit"
+import VenueEdit from "./profile/venueEdit"
+import OrganiserEdit from "./profile/organiserEdit"
+import StaffEdit from "./profile/staffEdit"
 
 const cardIconStyle = {
   width: 50,
@@ -154,7 +154,9 @@ class Settings extends Component {
   }
   componentWillMount = async () => {
     API.initRequest()
-    this.getMyStaffs()
+    if (!this.props.myProfile.isStaff) {
+      this.getMyStaffs()
+    }
     let avatar_DOM = <img src={this.props.myProfile.avatar} />
     if (this.props.myProfile && this.props.myProfile.isEmployer) {
       avatar_DOM = <img src={this.props.myProfile.employer.image} />
@@ -340,7 +342,12 @@ class Settings extends Component {
     }
 
     if (this.state.profile && this.state.profile.isStaff) {
-      return <StaffEdit profile={this.state.profile.staffId} />
+      return (
+        <StaffEdit
+          profile={this.state.profile.staffId}
+          close={this.closeModal}
+        />
+      )
     }
   }
 
