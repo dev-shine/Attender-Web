@@ -337,6 +337,7 @@ class Calendar extends Component {
               </div>
               <div className="calendar-main-settings">
                 <p>{this.state.selectedDate.format("dddd")}</p>
+                {/* Temporarily Hide | for future use
                 <div className="btn-group text-center">
                   <a
                     className={`a-btn ${this.state.variant === "month" &&
@@ -359,7 +360,7 @@ class Calendar extends Component {
                   >
                     Day
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="calendar-main-date-full col-sm-7">
