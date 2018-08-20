@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 
 import API from "./../../services/api"
 import moment from "moment"
+import _ from "lodash"
 
 const FontAwesome = require("react-fontawesome")
 
@@ -469,7 +470,9 @@ class SearchVenues extends Component {
         </div>
         <div className="venue-action">
           <p className="venue-address">
-            <FontAwesome name="map-marker" />&nbsp;&nbsp;{venue.locationName}
+            <FontAwesome name="map-marker" />
+            &nbsp;&nbsp;
+            {venue.locationName}
           </p>
           <button
             className={`btn-round ${
@@ -496,95 +499,106 @@ class SearchVenues extends Component {
         return true
       }
     })[0]
-    switch (filterEvents) {
-      case "upcoming":
-        events = events.filter(function(e, v) {
-          var start = moment(e.date, "YYYY-MM-DD")
-          var end = moment(new Date())
-          var dur = moment.duration(start.diff(end))._data.days
+    console.log(events)
+    events = events.filter(function(e, v) {
+      var start = moment(e.date, "YYYY-MM-DD")
+      var end = moment(new Date())
+      var dur = moment.duration(start.diff(end))._data.days
 
-          if (dur < 2 && dur >= 0) {
-            return true
-          }
-        })
+      if (dur < 2 && dur >= 0) {
+        return true
+      }
+    })
+    switch (filterEvents) {
+      case "near":
+        /* API can't handle yet */
         break
     }
-    return events.map((evnt, index) => (
-      <div key={evnt._id} className="event-box row">
-        <div className="event-date">
-          <p className="e-day">{moment(evnt.date).day()}</p>
-          <p className="e-month">{moment(evnt.date).format("MMMM")}</p>
-        </div>
-        <div className="event-data">
-          <div className="event-img">
-            <img
-              alt=""
-              src={
-                evnt.image !== "undefined"
-                  ? evnt.image
-                  : "https://dummyimage.com/150x150/000/fff"
-              }
-            />
+    return _.isEmpty(events) ? (
+      <div>
+        <p>No future events yet.</p>
+      </div>
+    ) : (
+      events.map((evnt, index) => (
+        <div key={evnt._id} className="event-box row">
+          <div className="event-date">
+            <p className="e-day">{moment(evnt.date).day()}</p>
+            <p className="e-month">{moment(evnt.date).format("MMMM")}</p>
           </div>
-          <div className="event-meta">
-            <label
-              className="event-title"
-              onClick={this.openModal.bind(this, "EVENT_PROFILE", index)}
-            >
-              {evnt.name}
-            </label>
-            <p>
-              <small>
-                <FontAwesome name="clock-o" />
-                {`${moment(evnt.time.start).format("h:m A")} - ${moment(
-                  evnt.time.end
-                ).format("h:m A")}`}
-              </small>
-            </p>
-            <p>
-              <small>Venue: {evnt.employer && evnt.employer.name}</small>
-            </p>
-            <p>
-              <small>
-                <FontAwesome name="map-marker" />
-                {evnt.employer && evnt.employer.locationName}
-              </small>
-            </p>
-            <div className="event-action">
-              {/* TODO Identify correct logic on the lines below */}
+          <div className="event-data">
+            <div className="event-img">
+              <img
+                alt=""
+                src={
+                  evnt.image !== "undefined"
+                    ? evnt.image
+                    : "https://dummyimage.com/150x150/000/fff"
+                }
+              />
+            </div>
+            <div className="event-meta">
+              <label
+                className="event-title"
+                onClick={this.openModal.bind(this, "EVENT_PROFILE", index)}
+              >
+                {evnt.name}
+              </label>
+              <p>
+                <small>
+                  <FontAwesome name="clock-o" />
+                  {`${moment(evnt.time.start).format("h:m A")} - ${moment(
+                    evnt.time.end
+                  ).format("h:m A")}`}
+                </small>
+              </p>
+              <p>
+                <small>Venue: {evnt.employer && evnt.employer.name}</small>
+              </p>
+              <p>
+                <small>
+                  <FontAwesome name="map-marker" />
+                  {evnt.employer && evnt.employer.locationName}
+                </small>
+              </p>
+              <div className="event-action">
+                {/* TODO Identify correct logic on the lines below */}
 
-              {this.state.showEventOptionsForID == evnt._id ? (
-                <div
-                  className="event-options"
-                  onMouseOver={this.stayEventOptions.bind(this, evnt._id)}
-                  onMouseOut={this.closeEventOptions}
+                {this.state.showEventOptionsForID == evnt._id ? (
+                  <div
+                    className="event-options"
+                    onMouseOver={this.stayEventOptions.bind(this, evnt._id)}
+                    onMouseOut={this.closeEventOptions}
+                  >
+                    <ul>
+                      <li>
+                        <Link to="/">Bookmark Event</Link>
+                      </li>
+                      <li>
+                        <a
+                          onClick={this.openModal.bind(
+                            this,
+                            "EVENT_PROFILE",
+                            index
+                          )}
+                        >
+                          View Details
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                ) : null}
+                <a
+                  href="#"
+                  onClick={this.openEventOptions.bind(this, evnt._id)}
                 >
-                  <ul>
-                    <li>
-                      <Link to="/">Bookmark Event</Link>
-                    </li>
-                    <li>
-                      <a
-                        onClick={this.openModal.bind(
-                          this,
-                          "EVENT_PROFILE",
-                          index
-                        )}
-                      >
-                        View Details
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              ) : null}
-              <a href="#" onClick={this.openEventOptions.bind(this, evnt._id)}>
-                <FontAwesome name="ellipsis-v" size="2x" />
-              </a>
+                  <FontAwesome name="ellipsis-v" size="2x" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ))
+      ))
+    )
   }
 
   renderFilterButtons = () => {
@@ -720,4 +734,7 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchVenues)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchVenues)
