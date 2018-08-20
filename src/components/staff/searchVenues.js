@@ -500,13 +500,18 @@ class SearchVenues extends Component {
       }
     })[0]
     console.log(events)
+    let resultCounter = 0
     events = events.filter(function(e, v) {
-      var start = moment(e.date, "YYYY-MM-DD")
-      var end = moment(new Date())
-      var dur = moment.duration(start.diff(end))._data.days
-
-      if (dur < 2 && dur >= 0) {
-        return true
+      if (resultCounter < 10) {
+        // limit result to 10 only
+        var start = moment(e.date, "YYYY-MM-DD")
+        var end = moment(new Date())
+        var dur = start.diff(end, "days") + 1
+        console.log("CAL", start, end, dur, e.date)
+        if (dur < 365 && dur >= 0) {
+          resultCounter++
+          return true
+        }
       }
     })
     switch (filterEvents) {
