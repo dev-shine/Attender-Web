@@ -66,15 +66,15 @@ class lookingFor extends Component {
                         className="back-title pull-left"
                         onClick={() => this.onLogin()}
                       >
-                        <i className="fa fa-long-arrow-left" />&nbsp;&nbsp;Back
-                        to Login
+                        <i className="fa fa-long-arrow-left" />
+                        &nbsp;&nbsp;Back to Login
                       </h1>
                     </Col>
                   </Row>
                 </header>
 
                 <Row>
-                  <Col smOffset={5} sm={8}>
+                  <Col smOffset={5} sm={12}>
                     <div align="center">
                       <h1 className="title-style">Getting started</h1>
                       <div className="text-container">
@@ -87,7 +87,11 @@ class lookingFor extends Component {
                       </div>
                     </div>
                   </Col>
-                  <Col smOffset={5} sm={8} className="col-inner-container-left">
+                  <Col
+                    smOffset={5}
+                    sm={12}
+                    className="col-inner-container-left"
+                  >
                     <div>
                       <div className="btn-margin-top" align="center">
                         <div className="btn-margin">
@@ -130,4 +134,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(null, mapDispatchToProps)(lookingFor)
+export default connect(
+  null,
+  mapDispatchToProps
+)(lookingFor)

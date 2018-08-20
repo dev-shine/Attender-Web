@@ -1,7 +1,7 @@
 var config = {}
 if (window.location.hostname === "localhost") {
   config = {
-    API_URL: "http://localhost:3333/api/"
+    API_URL: "https://staging.attender.com.au/api/"
   }
 } else {
   config = {
