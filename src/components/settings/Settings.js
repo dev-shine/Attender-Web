@@ -11,6 +11,8 @@ import VenueEdit from "./profile/venueEdit"
 import OrganiserEdit from "./profile/organiserEdit"
 import StaffEdit from "./profile/staffEdit"
 
+import _ from "lodash"
+
 const cardIconStyle = {
   width: 50,
   height: 45
@@ -218,7 +220,7 @@ class Settings extends Component {
   }
   getMyStaffs = () => {
     API.get("my-staffs?withTrial=true").then(res => {
-      if (res && res.status) {
+      if (res && res.status && res.total > 0) {
         const allStaff = []
         let staffMetas = {}
         Object.keys(res.staffs).forEach(position => {
@@ -236,7 +238,6 @@ class Settings extends Component {
           myStaffs: allStaff,
           transfer_to: allStaff[0].staff.user
         })
-        // this.selectStaff()
       }
     })
   }
