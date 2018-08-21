@@ -10,6 +10,7 @@ import API from "./../../services/api"
 
 import constant from "./../../configs/constant"
 import helper from "./../../helper/ZHelper"
+import _ from "lodash"
 
 class OrganiserSetup extends Component {
   constructor(props) {
@@ -257,6 +258,22 @@ class OrganiserSetup extends Component {
                     />
                     <i className="fa fa-map-marker" />
                   </div>
+                  <br />
+                  <br />
+                  {!_.isEmpty(this.state.locationName) ? (
+                    <iframe
+                      width="600"
+                      height="200"
+                      id="gmap_canvas"
+                      src={`https://maps.google.com/maps?q=${
+                        this.state.locationName
+                      }&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -275,7 +292,8 @@ class OrganiserSetup extends Component {
                     value={this.state.bio}
                   />
                   <span className="help-text pull-right">
-                    {this.state.about.length}/200
+                    {this.state.about.length}
+                    /200
                   </span>
                 </div>
               </div>
@@ -496,4 +514,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrganiserSetup)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OrganiserSetup)
