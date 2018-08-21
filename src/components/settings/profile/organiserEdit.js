@@ -4,7 +4,10 @@ import "./../../.././styles/style.css"
 import { push } from "react-router-redux"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import PlacesAutocomplete from "react-places-autocomplete"
 import API from "./../../../services/api"
+
+import _ from "lodash"
 
 class OrganiserEdit extends Component {
   constructor(props) {
@@ -44,23 +47,41 @@ class OrganiserEdit extends Component {
           icon: "family-events",
           on: false
         }
-      ]
+      ],
+      orgImages: [],
+      selectedImage: ""
     }
   }
-
-  componentDidUpdate() {
+  componentDidMount() {
     if (this.props.profile) {
-      this.setState({ ...this.props.profile }, () => {
-        this.state.eventType.forEach(type => {
-          const types = this.state.types
-          types.forEach(t => t.label == type && (t.on = true))
-          this.setState({ types }, () => {
-            // console.log("theprofile destructured", this.state)
-          })
-        })
+      let _types = _.isEmpty(this.props.profile.types)
+        ? this.state.types
+        : _.isEmpty(this.props.profile.types)
+      this.setState({
+        isCompany: this.props.profile.isCompany,
+        name: this.props.profile.name,
+        companyName: this.props.profile.companyName,
+        locationName: this.props.profile.locationName,
+        about: this.props.profile.about,
+        location: this.props.profile.location,
+        types: _types,
+        selectedImage: this.props.profile.image
       })
     }
   }
+  // componentDidUpdate() {
+  //   if (this.props.profile) {
+  //     this.setState({ ...this.props.myProfile }, () => {
+  //       this.state.eventType.forEach(type => {
+  //         const types = this.state.types
+  //         types.forEach(t => t.label == type && (t.on = true))
+  //         this.setState({ types }, () => {
+  //           // console.log("theprofile destructured", this.state)
+  //         })
+  //       })
+  //     })
+  //   }
+  // }
 
   onChangeCompany = bool => {
     // TODO Understand the logic here
@@ -79,7 +100,40 @@ class OrganiserEdit extends Component {
     types[index].on = !types[index].on
     this.setState(prevState => ({ types }))
   }
+  onOpenUploader = event => {
+    const uploader = this.refs.uploader
+    uploader.click()
+  }
+  handleImageSelect = event => {
+    const src = event.target.src
+    const name = event.target.name
+    this.setState(prev => {
+      let payload = { selectedImage: src }
+      if (name === "defaultImage") {
+        payload.orgImages = prev.orgImages.concat(src)
+      }
+      return payload
+    })
+  }
+  onUploadImage = event => {
+    const images = event.target.files
+    const uploader = this.refs.uploader
 
+    Object.values(images).forEach((image, index) => {
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        const imageBase64 = reader.result
+        if (index === 0) {
+          this.setState({ selectedImage: imageBase64 })
+        }
+        this.setState(prev => ({
+          orgImages: prev.orgImages.concat(imageBase64)
+        }))
+      }
+      reader.readAsDataURL(image)
+    })
+    uploader.value = ""
+  }
   onStep = value => {
     this.setState({ step: value })
   }
@@ -127,8 +181,17 @@ class OrganiserEdit extends Component {
       alert("Something Went Wrong")
     }
   }
-
+  handleLocationChange = locationName => {
+    this.setState({ locationName })
+  }
   renderFirstStep = () => {
+    const inputProps = {
+      value: this.state.locationName,
+      onChange: this.handleLocationChange,
+      name: "locationName",
+      type: "text",
+      placeholder: "Location"
+    }
     return (
       <div className="container xem">
         <div className="content-header">
@@ -197,15 +260,28 @@ class OrganiserEdit extends Component {
                 <div className="form-group">
                   <p>Location</p>
                   <div className="pp-location">
-                    <input
-                      type="text"
-                      className="a-input"
-                      name="locationName"
-                      onChange={this.onChangeInput}
-                      value={this.state.locationName}
+                    <PlacesAutocomplete
+                      classNames={{ input: "a-input" }}
+                      inputProps={inputProps}
                     />
                     <i className="fa fa-map-marker" />
                   </div>
+                  <br />
+                  <br />
+                  {!_.isEmpty(this.state.locationName) ? (
+                    <iframe
+                      width="600"
+                      height="200"
+                      id="gmap_canvas"
+                      src={`https://maps.google.com/maps?q=${
+                        this.state.locationName
+                      }&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -293,7 +369,7 @@ class OrganiserEdit extends Component {
         <div className="content-vs xxm">
           <div className="vs-p-title xm">
             <p className="help-text">
-              Here you can upload photos for your Venue
+              Here you can upload photos for your Organiser
             </p>
             <p className="light-text">
               Click on the upload icon to select photo
@@ -339,6 +415,27 @@ class OrganiserEdit extends Component {
   }
 
   renderContent = () => {
+    const inputProps = {
+      value: this.state.locationName,
+      onChange: this.handleLocationChange,
+      name: "locationName",
+      type: "text",
+      placeholder: "Location"
+    }
+    const thumbnails = this.state.orgImages.map((image, index) => (
+      <div
+        key={index}
+        className="vs-p-photo"
+        style={{ width: "80px", height: "80px" }}
+      >
+        <img
+          src={image}
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
+          hidden={!(this.state.orgImages.length > 1)}
+          onClick={this.handleImageSelect}
+        />
+      </div>
+    ))
     return (
       <div className="row">
         <div className="col-sm-12">
@@ -405,15 +502,28 @@ class OrganiserEdit extends Component {
                 <div className="form-group">
                   <p>Location</p>
                   <div className="pp-location">
-                    <input
-                      type="text"
-                      className="a-input"
-                      name="locationName"
-                      onChange={this.onChangeInput}
-                      value={this.state.locationName}
+                    <PlacesAutocomplete
+                      classNames={{ input: "a-input" }}
+                      inputProps={inputProps}
                     />
                     <i className="fa fa-map-marker" />
                   </div>
+                  <br />
+                  <br />
+                  {!_.isEmpty(this.state.locationName) ? (
+                    <iframe
+                      width="600"
+                      height="200"
+                      id="gmap_canvas"
+                      src={`https://maps.google.com/maps?q=${
+                        this.state.locationName
+                      }&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -484,30 +594,87 @@ class OrganiserEdit extends Component {
           <div className="col-sm-12">
             <div className="col-sm-12 vs-p-title xm">
               <p className="help-text">
-                Here you can upload photos for your Venue
+                Here you can upload photos for your Organiser
               </p>
               <p className="light-text">
                 Click on the upload icon to select photo
               </p>
             </div>
-            <div className="vs-p-container xm">
-              <span>Upload</span>
+            <div className="vs-p-container xm" onClick={this.onOpenUploader}>
+              <span hidden={!!this.state.selectedImage}>Upload</span>
+              <div style={{ width: "400px", height: "288px" }}>
+                <img
+                  src={this.state.selectedImage}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    margin: "auto"
+                  }}
+                  hidden={!this.state.selectedImage}
+                />
+              </div>
             </div>
+            <input
+              type="file"
+              ref="uploader"
+              onChange={this.onUploadImage}
+              multiple
+              hidden
+            />
             <div className="vs-p-uploads-container xxm">
               <span>Uploaded Photos</span>
-              <div className="vs-p-uploads xxm">
-                <div className="vs-p-photo" />
-                <div className="vs-p-photo" />
-                <div className="vs-p-photo" />
+              <div className="vs-p-uploads xxm" style={{ overflow: "auto" }}>
+                {this.state.orgImages.length > 0 ? (
+                  thumbnails
+                ) : (
+                  <div>
+                    <div className="vs-p-photo" />
+                    <div className="vs-p-photo" />
+                    <div className="vs-p-photo" />
+                    <div className="vs-p-photo" />
+                  </div>
+                )}
               </div>
             </div>
             <div className="vs-p-uploads-container xxm">
               <span>Or select some few photos for selection below</span>
               <div className="vs-p-uploads xxm">
-                <div className="vs-p-photo" />
-                <div className="vs-p-photo" />
-                <div className="vs-p-photo" />
-                <div className="vs-p-photo" />
+                <div className="vs-p-photo">
+                  <img
+                    name="defaultImage"
+                    src="https://picsum.photos/400/288/?image=42"
+                    width="80"
+                    height="80"
+                    onClick={this.handleImageSelect}
+                  />
+                </div>
+                <div className="vs-p-photo">
+                  <img
+                    name="defaultImage"
+                    src="https://picsum.photos/400/288/?image=78"
+                    width="80"
+                    height="80"
+                    onClick={this.handleImageSelect}
+                  />
+                </div>
+                <div className="vs-p-photo">
+                  <img
+                    name="defaultImage"
+                    src="https://picsum.photos/400/288/?image=192"
+                    width="80"
+                    height="80"
+                    onClick={this.handleImageSelect}
+                  />
+                </div>
+                <div className="vs-p-photo">
+                  <img
+                    name="defaultImage"
+                    src="https://picsum.photos/400/288/?image=263"
+                    width="80"
+                    height="80"
+                    onClick={this.handleImageSelect}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -528,7 +695,7 @@ class OrganiserEdit extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => state
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
